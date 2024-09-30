@@ -1,0 +1,125 @@
+.gradient-div-card1 {
+  background-image: linear-gradient(to right bottom, #ffb900, #ff7730),
+    url(../../images/thiasil-5.webp);
+}
+
+.gradient-div-card2 {
+  background-image: linear-gradient(to right bottom, #7ed56f, #28b485),
+    url(../../images/thiasil-6.webp);
+}
+
+.gradient-div-card3 {
+  background-image: linear-gradient(to right bottom, #2998ff, #5643fa),
+    url(../../images/thiasil-7.webp);
+}
+
+.card__picture {
+  background-size: cover;
+  height: 14rem;
+  background-blend-mode: screen;
+  -webkit-clip-path: polygon(0 0, 100% 0, 100% 85%, 0 100%);
+  clip-path: polygon(0 0, 100% 0, 100% 85%, 0 100%);
+  border-top-left-radius: 3px;
+  border-top-right-radius: 3px;
+}
+
+.card-heading-1, .card-heading-1_1, .card-cta-1  {
+  background-image: linear-gradient(
+    to right bottom,
+    rgba(255, 185, 0, 0.85),
+    rgba(255, 119, 48, 0.85)
+  );
+  padding: 0.6rem;
+}
+.card-heading-2 , .card-heading-2_1 ,.card-cta-2{
+  background-image: linear-gradient(
+    to right bottom,
+    rgba(126, 213, 111, 0.85),
+    rgba(40, 180, 133, 0.85)
+  );
+  padding: 0.6rem 1rem;
+}
+.card-heading-3 , .card-heading-3_1 , .card-cta-3{
+  background-image: linear-gradient(
+    to right bottom,
+    rgba(41, 152, 255, 0.85),
+    rgba(86, 67, 250, 0.85)
+  );
+  padding: 0.6rem 1rem;
+}
+
+
+.perspective {
+  perspective: 1000px;
+}
+
+.transform-style-preserve-3d {
+  transform-style: preserve-3d;
+}
+
+.backface-hidden {
+  backface-visibility: hidden;
+}
+
+.rotate-y-180 {
+  transform: rotateY(180deg);
+}
+
+.group:hover .group-hover\:rotate-y-180 {
+  transform: rotateY(180deg);
+}
+
+
+
+/* Back side */
+.card1-backSide{
+  background-image: linear-gradient(
+    to right bottom,
+    rgba(255, 185, 0, 0.85),
+    rgba(255, 119, 48, 0.85)
+  );
+}
+.card2-backSide {
+  background-image: linear-gradient(
+    to right bottom,
+    rgba(126, 213, 111, 0.85),
+    rgba(40, 180, 133, 0.85)
+  );
+}
+.card3-backSide
+{
+  background-image: linear-gradient(
+    to right bottom,
+    rgba(41, 152, 255, 0.85),
+    rgba(86, 67, 250, 0.85)
+  );
+}
+
+/* Default: Hide the CTA on larger screens */
+.card-cta-mobile {
+  display: none;
+}
+
+/* Show CTA only on mobile screens */
+@media (max-width: 767px) {
+  .card-cta-mobile {
+    display: block;
+  }
+  .card__picture{
+    height: 12rem;
+  }
+}
+
+/* Default: No flip effect on mobile */
+@media (max-width: 767px) {
+  .group .group-hover\:rotate-y-180 {
+    transform: none !important;
+  }
+}
+
+/* Flip effect for larger screens */
+@media (min-width: 768px) {
+  .group:hover .group-hover\:rotate-y-180 {
+    transform: rotateY(180deg);
+  }
+}

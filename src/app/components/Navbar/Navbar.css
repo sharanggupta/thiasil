@@ -1,0 +1,61 @@
+/* Fullscreen menu animation */
+.menu-open {
+  clip-path: circle(200% at calc(100% - 7rem) 7rem);
+  transition: clip-path 0.6s ease-in-out;
+}
+
+.menu-closed {
+  clip-path: circle(0px at calc(100% - 5rem) 6rem);
+  transition: clip-path 0.6s ease-in-out;
+}
+
+/* Ensure smooth transition */
+.fixed {
+  transition: clip-path 0.6s ease-in-out; /* Smooth transition for clip-path */
+}
+
+/* Custom Hover Effect for Navbar Items */
+.navbar-link {
+  position: relative;
+  color: #fff;
+  z-index: 1;
+  overflow: hidden;
+  padding: 1rem;
+  transition: color 0.5s ease-in-out;
+}
+
+.navbar-link:before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: white;
+  z-index: 0;
+  clip-path: polygon(100% 100%, 100% 100%, 125% 0, 100% 0);
+  transition: clip-path 0.5s cubic-bezier(0.165, 0.84, 0.44, 1);
+}
+
+.navbar-link:hover:before {
+  clip-path: polygon(100% 100%, 0 100%, 0 0, 100% 0);
+}
+
+.navbar-link:hover {
+  color: #2196f3;
+}
+
+.navbar-link span {
+  position: relative;
+  z-index: 1;
+}
+
+@media only screen and (max-width: 720px) {
+  .menu-open {
+    clip-path: circle(200% at calc(100% - 3rem) 4rem);
+  }
+  
+  .menu-closed {
+    clip-path: circle(0px at calc(100% - 3rem) 4rem);
+  }
+}
