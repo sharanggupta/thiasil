@@ -1,0 +1,75 @@
+.contact-form-container{
+    background: linear-gradient(
+    to right bottom,
+    rgba(0, 159, 253, 0.75),
+    rgba(42, 42, 114, 0.75)
+  );
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+/* Container for the form with the background image */
+.contact-form-bg-image{
+    background-image: url('../../images/thiasil-10.webp'); /* Replace with your image path */
+    background-size: cover;
+    background-position: center;
+    z-index: 10;
+    position: absolute;
+    width: 90%;
+    height: 80%;
+    margin: 5rem;
+  }
+  
+  /* Contact form container */
+  .contact-form {
+    background-color: rgba(255, 255, 255, 0.85); /* Semi-transparent white background */
+    padding: 2rem;
+    clip-path: polygon(0 0, 100% 0, 62% 100%, 0% 100%);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    max-width: 60%;
+    width: 100%;
+    height: 100%;
+    text-align: left;
+  }
+  
+  
+  /* Form fields */
+  .input-field {
+    width: 70%;
+    padding: 0.8rem;
+    margin-top: 1rem;
+    margin-bottom: 0.6rem;
+    border-radius: 2px;
+    font-size: 1rem;
+  }
+  .form{
+    display: flex;
+    flex-direction: column;
+    margin-top: 1rem;
+  }
+  
+   
+  /* Contact info text */
+  .contact-info {
+    font-size: 0.9rem;
+    color: #777;
+    margin-top: 1.3rem;
+    text-align: left;
+    font-weight: bold;
+  }
+  
+  
+  /* Responsive design */
+  @media (max-width: 768px) {
+    .contact-form {
+      clip-path: none;
+      border-radius: 0;
+      max-width: 100%;
+    }
+    .input-field{
+        width: 100%;
+    }
+  
+  }
+  

@@ -1,0 +1,54 @@
+.letter-spacing {
+  letter-spacing: 35px;
+}
+.letter-spacing_subheading {
+  letter-spacing: 17.5px;
+}
+.bg-image-clippath {
+  clip-path: polygon(0 0, 100% 0, 100% 75vh, 0 100%);
+}
+.bg-gradient-clip-path {
+  background: linear-gradient(
+    to right bottom,
+    rgba(0, 159, 253, 0.75),
+    rgba(42, 42, 114, 0.75)
+  );
+  opacity: 1;
+  clip-path: polygon(0 0, 100% 0, 100% 75vh, 0 100%);
+}
+@media only screen and (max-width: 430px) {
+  .letter-spacing {
+    letter-spacing: 10px;
+  }
+  .letter-spacing_subheading {
+    letter-spacing: 5px;
+  }
+  .bg-image-clippath {
+    clip-path: polygon(0 0, 100% 0, 100% 90vh, 0 100%);
+  }
+  .bg-gradient-clip-path {
+    background: linear-gradient(
+      to right bottom,
+      rgba(0, 159, 253, 0.75),
+      rgba(42, 42, 114, 0.75)
+    );
+    opacity: 1;
+    clip-path: polygon(0 0, 100% 0, 100% 90vh, 0 100%);
+  }
+}
+
+@media only screen and (max-width: 360px) {
+  
+  .bg-image-clippath {
+    clip-path: polygon(0 0, 100% 0, 100% 85vh, 0 100%);
+  }
+  .bg-gradient-clip-path {
+    background: linear-gradient(
+      to right bottom,
+      rgba(0, 159, 253, 0.75),
+      rgba(42, 42, 114, 0.75)
+    );
+    opacity: 1;
+    clip-path: polygon(0 0, 100% 0, 100% 85vh, 0 100%);
+  }
+}
