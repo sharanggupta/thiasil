@@ -52,3 +52,59 @@
     clip-path: polygon(0 0, 100% 0, 100% 85vh, 0 100%);
   }
 }
+
+
+/* animations */
+/* Hero.css */
+@keyframes slideFromLeft {
+  0% {
+    transform: translateX(-40%);
+    opacity: 0;
+  }
+  100% {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+@keyframes slideFromRight {
+  0% {
+    transform: translateX(40%);
+    opacity: 0;
+  }
+  100% {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+@keyframes slideFromBottom {
+  0% {
+    transform: translateY(90%);
+    opacity: 0;
+  }
+  100% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+/* Animation timing */
+.hero-animation {
+  animation-duration: 1s;
+  animation-fill-mode: forwards;
+  animation-timing-function: ease;
+}
+
+.text-animate-left {
+  animation-name: slideFromLeft;
+}
+
+.text-animate-right {
+  animation-name: slideFromRight;
+}
+
+.button-animate-bottom {
+  animation-name: slideFromBottom;
+}
+

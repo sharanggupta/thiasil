@@ -59,3 +59,50 @@
     clip-path: circle(0px at calc(100% - 3rem) 4rem);
   }
 }
+
+
+/* Navbar.css */
+@keyframes slideInWithBounce {
+  0% {
+    transform: translateX(-100%);
+    opacity: 0;
+  }
+  80% {
+    transform: translateX(25%); /* Slight overshoot */
+    opacity: 1;
+  }
+  100% {
+    transform: translateX(0); /* Back to original position */
+    opacity: 1;
+  }
+}
+
+@keyframes bounceAndClose {
+  0% {
+    transform: translateX(0); /* Start at original position */
+    opacity: 1;
+  }
+  30% {
+    transform: translateX(20%); /* Move slightly to the right */
+    opacity: 1;
+  }
+  100% {
+    transform: translateX(-100%); /* Move fully left to close */
+    opacity: 0; /* Fade out */
+  }
+}
+
+.menu-item {
+  opacity: 0;
+  transform: translateX(-100%);
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+.menu-item-open {
+  animation: slideInWithBounce 0.5s ease-out forwards;
+}
+
+.menu-item-close {
+  animation: bounceAndClose 0.7s ease-in-out forwards; /* Ensure smooth closing */
+}
+

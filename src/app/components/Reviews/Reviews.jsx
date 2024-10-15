@@ -30,28 +30,36 @@ export default function Reviews() {
         {/* Review Card 1 */}
         <div className="review-card">
           <div className="image-container">
-            <Image src={img1} alt="Laboratory" className="review-image " />
+            <Image src={img1} alt="Laboratory" className="review-image" />
+            {/* Add the overlay */}
+            <div className="overlay">
+              <p>LABORATORY</p>
+            </div>
           </div>
           <div className="review-text">
             <h3>HIGH QUALITY OF CRUCIBLES</h3>
             <p>
               Top-notch craftsmanship and scientific technique involved,
-              crucibles are highly resistant to chemicals and heat, it's a
+              crucibles are highly resistant to chemicals and heat. It's a
               must-have for any experimental work.
             </p>
           </div>
         </div>
 
-        {/* Review Card 2 */}
+{/* Review Card 2 */}
         <div className="review-card">
           <div className="image-container">
             <Image src={img2} alt="Cost Effective" className="review-image" />
+            {/* Add the overlay */}
+            <div className="overlay">
+              <p>RESELLER</p>
+            </div>
           </div>
           <div className="review-text">
             <h3>VERY COST EFFECTIVE!</h3>
             <p>
-              Beats every other manufacturer in the price, without any compromise
-              on quality. Highly recommended to order.
+              Beats every other manufacturer in the price, without any
+              compromise on quality. Highly recommended to order.
             </p>
           </div>
         </div>

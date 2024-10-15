@@ -14,8 +14,8 @@
   height: 66px;
   margin-bottom: 0.5rem;
   display: inline-block;
-  position: relative; /* Ensure it affects the icon's ::before */
-  color: transparent; /* Ensure the icon is transparent to show the gradient */
+  position: relative;
+  color: transparent;
   background-image: linear-gradient(to right, #009ffd, #2a2a72);
   -webkit-background-clip: text;
   background-clip: text;
@@ -34,8 +34,8 @@
 }
 @media (max-width: 438px) {
   .feature-box__icon {
-    width: 40px; /* Mobile width */
-    height: 40px; /* Mobile height */
+    width: 40px; 
+    height: 40px; 
   }
   .bg-image-clip-path {
     clip-path: polygon(0 4%, 100% 0, 100% 96%, 0% 100%);
@@ -49,3 +49,5 @@
     clip-path: polygon(0 4%, 100% 0, 100% 96%, 0% 100%);
   }
 }
+
+
