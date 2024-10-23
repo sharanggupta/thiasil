@@ -14,6 +14,9 @@ module.exports = {
       padding: {
         "btn-large": "15px 40px",
       },
+      screens:{
+        "custom-mobile": "899px",
+      }
     },
   },
   plugins: [],

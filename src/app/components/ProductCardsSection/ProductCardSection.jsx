@@ -9,7 +9,7 @@ const ProductCardSection = () => {
   return (
     <div className="flex flex-col justify-center gap-8 px-10 h-auto my-24">
       <h2 className="text-center heading mb-10">Most Popular Products</h2>
-      <div className="flex flex-col md:flex-row items-center justify-center gap-16">
+      <div className="flex flex-col custom-mobile:flex-row items-center justify-center gap-16">
         {/* Card 1 */}
         <div className="group w-[339px] h-[540px] perspective">
           <div className="relative w-full h-full transition-transform duration-700 transform-style-preserve-3d group-hover:rotate-y-180">
