@@ -11,9 +11,9 @@ const HiTechSection = () => {
         HI-TECH RANGE FOR EVERY APPLICATION
       </h2>
 
-      <div className="flex flex-col md:flex-row items-start justify-between w-full text-custom-gray gap-10">
+      <div className="flex flex-col lg:flex-row items-center lg:items-start justify-between w-full text-custom-gray gap-10">
         {/* Left Side - Text */}
-        <div className="w-full md:w-1/2 pr-0 md:pr-10  md:px-0">
+        <div className="w-full lg:w-1/2 pr-0 md:pr-10  md:px-0">
           <h3 className="font-bold text-sm md:text-base mb-4">
             QUALITY RIVALLING INTERNATIONAL STANDARDS
           </h3>
