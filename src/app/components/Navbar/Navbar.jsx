@@ -54,22 +54,24 @@ const Navbar = () => {
       >
         <ul className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-center list-none">
           {[
-            "01 ABOUT THIASIL",
-            "02 THIASIL BENEFITS",
-            "03 POPULAR PRODUCTS",
-            "04 TESTIMONY",
-            "05 ORDER NOW",
-            "06 PRICELIST",
-            "+919820576045",
+            { label: "01 ABOUT THIASIL", href: "#about-thiasil" },
+            { label: "02 THIASIL BENEFITS", href: "#thiasil-benefits" },
+            { label: "03 POPULAR PRODUCTS", href: "#popular-products" },
+            { label: "04 TESTIMONY", href: "#testimony" },
+            { label: "05 ORDER NOW", href: "#order-now" },
+            { label: "06 PRICELIST", href: "/catalog.pdf", external: true },
+            { label: "+919820576045", href: "tel:+919820576045", external: true },
           ].map((item, index) => (
             <li className="my-1" key={index}>
               <a
-                href="#"
+                href={item.href}
+                target={item.external ? "_blank" : "_self"}
+                rel={item.external ? "noopener noreferrer" : ""}
                 className={`navbar-link relative text-white text-nowrap text-xl md:text-4xl font-light py-2 px-3 md:px-6 inline-block transition-all duration-300 ease-in-out ${
                   active && !closing ? "menu-item-open" : closing ? "menu-item-close" : ""
                 }`}
               >
-                <span>{item}</span>
+                <span>{item.label}</span>
               </a>
             </li>
           ))}
