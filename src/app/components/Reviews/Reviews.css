@@ -73,7 +73,7 @@
 /* On hover, zoom out and blur the image */
 .review-card:hover .review-image {
   transform: scale(1);
-  filter: blur(5px);
+  filter: blur(5px) brightness(0.7);
 }
 
 /* Review text outside image */
@@ -112,5 +112,16 @@
   .review-text {
     padding-left: 0; /* Remove padding for mobile */
     text-align: center;
+  }
+  
+  .review-card h3 {
+    font-size: 1rem;
+    /* margin-bottom: 0.5rem; */
+  }
+  
+  .review-card p {
+    font-size: 14px;
+    display: flex;
+    line-height: 1.2;
   }
 }
