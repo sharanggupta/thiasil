@@ -106,6 +106,7 @@
   .image-container {
     max-width: 100%; /* Image takes full width */
     margin-bottom: 1rem; /* Space between image and text */
+    margin-left: 0;
   }
 
   .review-text {
