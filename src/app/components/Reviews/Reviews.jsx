@@ -5,7 +5,7 @@ import "./Reviews.css";
 
 export default function Reviews() {
   return (
-    <div className="relative h-[70rem] md:h-[60rem] pb-10">
+    <div className="relative h-[70rem]  pb-10">
       {/* Background Video */}
       <video
         autoPlay
@@ -23,7 +23,7 @@ export default function Reviews() {
 
       {/* Review Cards */}
       <div className="relative h-full flex flex-col items-center justify-center text-custom-gray">
-        <h2 className="text-center heading mb-10">
+        <h2 className="text-center heading md:mt-0 mt-15 px-5 mb-5">
           We make our clients genuinely happy
         </h2>
 
