@@ -7,7 +7,7 @@ import Button from "../MainButton/Button";
 
 const ProductCardSection = () => {
   return (
-    <div className="flex flex-col justify-center gap-8 px-10 h-auto my-24">
+    <div className="flex flex-col justify-center gap-8 px-10 h-auto my-24" id="popular-products">
       <h2 className="text-center heading mb-10">Most Popular Products</h2>
       <div className="flex flex-col custom-mobile:flex-row items-center justify-center gap-16">
         {/* Card 1 */}
@@ -55,7 +55,7 @@ const ProductCardSection = () => {
                   bgColor="#ffffff"
                   textSize="text-[10px] md:text-base"
                   padding="px-7 md:px-10 py-3 md:py-5"
-                  link="#"
+                  link="#order-now"
                 />
               </div>
             </div>
@@ -76,7 +76,7 @@ const ProductCardSection = () => {
                   bgColor="#ffffff"
                   textSize="text-sm md:text-base"
                   padding="px-7 md:px-10 py-3 md:py-5"
-                  link="#"
+                  link="#order-now"
                 />
               </div>
             </div>
@@ -128,7 +128,7 @@ const ProductCardSection = () => {
                   bgColor="#ffffff"
                   textSize="text-[10px] md:text-base"
                   padding="px-7 md:px-10 py-3 md:py-5"
-                  link="#"
+                  link="#order-now"
                 />
               </div>
             </div>
@@ -149,7 +149,7 @@ const ProductCardSection = () => {
                   bgColor="#ffffff"
                   textSize="text-sm md:text-base"
                   padding="px-7 md:px-10 py-3 md:py-5"
-                  link="#"
+                  link="#order-now"
                 />
               </div>
             </div>
@@ -200,7 +200,7 @@ const ProductCardSection = () => {
                   bgColor="#ffffff"
                   textSize="text-[10px] md:text-base"
                   padding="px-7 md:px-10 py-3 md:py-5"
-                  link="#"
+                  link="#order-now"
                 />
               </div>
             </div>
@@ -220,7 +220,7 @@ const ProductCardSection = () => {
                   bgColor="#ffffff"
                   textSize="text-sm md:text-base"
                   padding="px-7 md:px-10 py-3 md:py-5"
-                  link="#"
+                  link="#order-now"
                 />
               </div>
             </div>
@@ -235,7 +235,7 @@ const ProductCardSection = () => {
           bgColor="#2196f3"
           textSize="text-sm md:text-base"
           padding="px-8 md:px-10 py-4 md:py-5"
-          link="#"
+          link="/catalog.pdf"
           className="mt-14"
         />
       </div>

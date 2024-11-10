@@ -5,7 +5,7 @@ import "./Reviews.css";
 
 export default function Reviews() {
   return (
-    <div className="relative h-[70rem]  pb-10">
+    <div className="relative h-[70rem]  pb-10" id="reviews">
       {/* Background Video */}
       <video
         autoPlay
