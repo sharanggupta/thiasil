@@ -41,7 +41,7 @@ const HiTechSection = () => {
         </div>
 
         {/* Right Side - Images with Hover Effect */}
-        <div className="flex md:flex-col justify-center w-full md:w-1/2 space-y-6 relative ">
+        <div className="flex md:flex-col justify-center w-full md:w-1/2 space-y-6 relative " id="thiasil-benefits">
           <Image
             src={scientistImage}
             alt="Scientist Image"
