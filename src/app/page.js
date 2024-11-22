@@ -6,24 +6,17 @@ import ProductCardSection from "./components/ProductCardsSection/ProductCardSect
 import ReviewSection from "./components/Reviews/Reviews";
 import ContactForm from "./components/ContactForm/ContactForm";
 import Footer from "./components/Footer/Footer";
-import Head from 'next/head';
+import { Metadata } from 'next'
 
+export const metadata: Metadata = {
+  title: 'Thiasil | Individually oxy-fired laboratory glassware',
+  description: 'Manufacturers of individually oxy-fired laboratory glassware including crucibles, lids, basin',
+  keywords: ['crucible', 'lid', 'gooch crucible', 'quartz', 'silica', 'volatile matter', 'circular capsule', 'muffle stand', 'boats combustion', 'triangles on nichrome wire', 'glass']
+};
 
 export default function Home() {
   return (
     <div className="main-margin bg-[#f7f7f7] ">
-      <Head>
-        <title>Thiasil | Individually oxy-fired laboratory glassware</title>
-        <meta
-          name="description"
-          content="Manufacturers of individually oxy-fired laboratory glassware including crucibles, lids, basin"
-          key="desc"
-        />
-        <meta 
-            name="keywords" 
-              content="crucible, lid, quartz, silica, gooch crucible, muffle stand, volatile matter, circular capsule, boats combustion, triangles on nichrome wire" 
-        />
-      </Head>
       <Navbar />
       <HeroSection />
       <HiTechSection />
