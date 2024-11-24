@@ -1,5 +1,5 @@
-import img1 from "../../images/nat-8.jpg";
-import img2 from "../../images/nat-9.jpg";
+import img1 from "../../images/thiasil-10.jpg";
+import img2 from "../../images/thiasil-11.jpg";
 import Image from "next/image";
 import "./Reviews.css";
 

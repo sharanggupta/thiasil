@@ -1,5 +1,5 @@
 import React from "react";
-import backgroundImage from "../../images/service-bg.webp";
+import backgroundImage from "../../images/thiasil-6.webp";
 import Image from "next/image";
 import "./FeatureSection.css";
 

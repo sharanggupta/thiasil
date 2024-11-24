@@ -1,13 +1,24 @@
-import image1 from "../../images/thiasil5.png";
-import image2 from "../../images/thiasil6.png";
-import image3 from "../../images/thiasil7.png";
-import Image from "next/image";
+'use client'
 import "./ProductCardSection.css";
 import Button from "../MainButton/Button";
+import Modal from "../../components/Modals/Modal";
+import { useState } from "react";
 
 const ProductCardSection = () => {
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const openModal = () => {
+    setIsModalOpen(true);
+  };
+
+  const closeModal = () => {
+    setIsModalOpen(false);
+  };
   return (
-    <div className="flex flex-col justify-center gap-8 px-10 h-auto my-24" id="popular-products">
+    <div
+      className="flex flex-col justify-center gap-8 px-10 h-auto my-24"
+      id="popular-products"
+    >
       <h2 className="text-center heading mb-10">Most Popular Products</h2>
       <div className="flex flex-col custom-mobile:flex-row items-center justify-center gap-16">
         {/* Card 1 */}
@@ -55,7 +66,7 @@ const ProductCardSection = () => {
                   bgColor="#ffffff"
                   textSize="text-[10px] md:text-base"
                   padding="px-7 md:px-10 py-3 md:py-5"
-                  link="#order-now"
+                  onClick={openModal}
                 />
               </div>
             </div>
@@ -76,7 +87,7 @@ const ProductCardSection = () => {
                   bgColor="#ffffff"
                   textSize="text-sm md:text-base"
                   padding="px-7 md:px-10 py-3 md:py-5"
-                  link="#order-now"
+                  onClick={openModal}
                 />
               </div>
             </div>
@@ -128,7 +139,7 @@ const ProductCardSection = () => {
                   bgColor="#ffffff"
                   textSize="text-[10px] md:text-base"
                   padding="px-7 md:px-10 py-3 md:py-5"
-                  link="#order-now"
+                  onClick={openModal}
                 />
               </div>
             </div>
@@ -149,7 +160,7 @@ const ProductCardSection = () => {
                   bgColor="#ffffff"
                   textSize="text-sm md:text-base"
                   padding="px-7 md:px-10 py-3 md:py-5"
-                  link="#order-now"
+                  onClick={openModal}
                 />
               </div>
             </div>
@@ -200,7 +211,7 @@ const ProductCardSection = () => {
                   bgColor="#ffffff"
                   textSize="text-[10px] md:text-base"
                   padding="px-7 md:px-10 py-3 md:py-5"
-                  link="#order-now"
+                  onClick={openModal}
                 />
               </div>
             </div>
@@ -220,7 +231,7 @@ const ProductCardSection = () => {
                   bgColor="#ffffff"
                   textSize="text-sm md:text-base"
                   padding="px-7 md:px-10 py-3 md:py-5"
-                  link="#order-now"
+                  onClick={openModal}
                 />
               </div>
             </div>
@@ -239,6 +250,7 @@ const ProductCardSection = () => {
           className="mt-14"
         />
       </div>
+      <Modal isOpen={isModalOpen} onClose={closeModal} />
     </div>
   );
 };
