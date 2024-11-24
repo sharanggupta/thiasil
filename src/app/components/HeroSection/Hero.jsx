@@ -1,6 +1,6 @@
 import Image from "next/image";
-import backgroundImage from "../../images/hero.webp"; // Correct path to background image
-import logoImage from "../../images/white_thiasil.webp"; // Correct path to your uploaded logo
+import backgroundImage from "../../images/thiasil-2.webp"; 
+import logoImage from "../../images/thiasil-1.webp"; 
 import "./Hero.css";
 import Button from "../MainButton/Button";
 

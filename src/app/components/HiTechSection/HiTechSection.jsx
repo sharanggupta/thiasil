@@ -1,7 +1,7 @@
 import Image from "next/image";
-import scientistImage from "../../images/nat-1.webp";
-import labEquipmentImage from "../../images/nat-2.webp";
-import industryWorkerImage from "../../images/nat-3.webp";
+import scientistImage from "../../images/thiasil-3.webp";
+import labEquipmentImage from "../../images/thiasil-4.webp";
+import industryWorkerImage from "../../images/thiasil-5.webp";
 import "./HiTechSection.css"; // Hover effects and z-index styles
 
 const HiTechSection = () => {

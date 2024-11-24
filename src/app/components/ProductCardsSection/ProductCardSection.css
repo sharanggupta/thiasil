@@ -1,16 +1,16 @@
 .gradient-div-card1 {
   background-image: linear-gradient(to right bottom, #ffb900, #ff7730),
-    url(../../images/thiasil-5.webp);
+    url(../../images/thiasil-7.webp);
 }
 
 .gradient-div-card2 {
   background-image: linear-gradient(to right bottom, #7ed56f, #28b485),
-    url(../../images/thiasil-6.webp);
+    url(../../images/thiasil-8.webp);
 }
 
 .gradient-div-card3 {
   background-image: linear-gradient(to right bottom, #2998ff, #5643fa),
-    url(../../images/thiasil-7.webp);
+    url(../../images/thiasil-9.webp);
 }
 
 .card__picture {

@@ -8,14 +8,22 @@ const Navbar = () => {
 
   const handleClick = () => {
     if (active) {
-      setClosing(true);
-      setTimeout(() => {
-        setActive(false);
-        setClosing(false); // Reset closing state after animation ends
-      }, 700); // Duration of the closing animation (matches the CSS duration)
+      handleCloseMenu();
     } else {
       setActive(true);
     }
+  };
+
+  const handleCloseMenu = () => {
+    setClosing(true);
+    setTimeout(() => {
+      setActive(false);
+      setClosing(false); // Reset closing state after animation ends
+    }, 700); // Duration of the closing animation (matches the CSS duration)
+  };
+
+  const handleNavItemClick = () => {
+    handleCloseMenu();
   };
 
   return (
@@ -68,8 +76,13 @@ const Navbar = () => {
                 target={item.external ? "_blank" : "_self"}
                 rel={item.external ? "noopener noreferrer" : ""}
                 className={`navbar-link relative text-white text-nowrap text-xl md:text-4xl font-light py-2 px-3 md:px-6 inline-block transition-all duration-300 ease-in-out ${
-                  active && !closing ? "menu-item-open" : closing ? "menu-item-close" : ""
+                  active && !closing
+                    ? "menu-item-open"
+                    : closing
+                    ? "menu-item-close"
+                    : ""
                 }`}
+                onClick={handleNavItemClick}
               >
                 <span>{item.label}</span>
               </a>

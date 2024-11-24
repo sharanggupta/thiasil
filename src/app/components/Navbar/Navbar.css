@@ -1,17 +1,14 @@
 /* Fullscreen menu animation */
 .menu-open {
+  -webkit-clip-path: circle(200% at calc(100% - 7rem) 7rem); /* Safari */
   clip-path: circle(200% at calc(100% - 7rem) 7rem);
-  transition: clip-path 0.6s ease-in-out;
+  transition: clip-path 0.6s ease-in-out, -webkit-clip-path 0.6s ease-in-out;
 }
 
 .menu-closed {
+  -webkit-clip-path: circle(0px at calc(100% - 5rem) 6rem); /* Safari */
   clip-path: circle(0px at calc(100% - 5rem) 6rem);
-  transition: clip-path 0.6s ease-in-out;
-}
-
-/* Ensure smooth transition */
-.fixed {
-  transition: clip-path 0.6s ease-in-out; /* Smooth transition for clip-path */
+  transition: clip-path 0.6s ease-in-out, -webkit-clip-path 0.6s ease-in-out;
 }
 
 /* Custom Hover Effect for Navbar Items */
@@ -50,52 +47,77 @@
   z-index: 1;
 }
 
-@media only screen and (max-width: 720px) {
-  .menu-open {
-    clip-path: circle(200% at calc(100% - 3rem) 4rem);
-  }
-  
-  .menu-closed {
-    clip-path: circle(0px at calc(100% - 3rem) 4rem);
-  }
-}
-
-
-/* Navbar.css */
-@keyframes slideInWithBounce {
+/* Keyframes for Animations */
+@-webkit-keyframes slideInWithBounce {
   0% {
+    -webkit-transform: translateX(-100%);
     transform: translateX(-100%);
     opacity: 0;
   }
   80% {
-    transform: translateX(25%); /* Slight overshoot */
+    -webkit-transform: translateX(25%);
+    transform: translateX(25%);
     opacity: 1;
   }
   100% {
-    transform: translateX(0); /* Back to original position */
+    -webkit-transform: translateX(0);
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+@-webkit-keyframes bounceAndClose {
+  0% {
+    -webkit-transform: translateX(0);
+    transform: translateX(0);
+    opacity: 1;
+  }
+  30% {
+    -webkit-transform: translateX(20%);
+    transform: translateX(20%);
+    opacity: 1;
+  }
+  100% {
+    -webkit-transform: translateX(-100%);
+    transform: translateX(-100%);
+    opacity: 0;
+  }
+}
+
+@keyframes slideInWithBounce {
+  0% {
+    -webkit-transform: translateX(-100%);
+    transform: translateX(-100%);
+    opacity: 0;
+  }
+  80% {
+    -webkit-transform: translateX(25%);
+    transform: translateX(25%);
+    opacity: 1;
+  }
+  100% {
+    -webkit-transform: translateX(0);
+    transform: translateX(0);
     opacity: 1;
   }
 }
 
 @keyframes bounceAndClose {
   0% {
-    transform: translateX(0); /* Start at original position */
+    -webkit-transform: translateX(0);
+    transform: translateX(0);
     opacity: 1;
   }
   30% {
-    transform: translateX(20%); /* Move slightly to the right */
+    -webkit-transform: translateX(20%);
+    transform: translateX(20%);
     opacity: 1;
   }
   100% {
-    transform: translateX(-100%); /* Move fully left to close */
-    opacity: 0; /* Fade out */
+    -webkit-transform: translateX(-100%);
+    transform: translateX(-100%);
+    opacity: 0;
   }
-}
-
-.menu-item {
-  opacity: 0;
-  transform: translateX(-100%);
-  transition: opacity 0.3s ease, transform 0.3s ease;
 }
 
 .menu-item-open {
@@ -103,6 +125,5 @@
 }
 
 .menu-item-close {
-  animation: bounceAndClose 0.7s ease-in-out forwards; /* Ensure smooth closing */
+  animation: bounceAndClose 0.7s ease-in-out forwards;
 }
-
