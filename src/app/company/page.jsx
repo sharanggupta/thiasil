@@ -1,21 +1,34 @@
 import React from "react";
-
+import logoImage from "../images/favicon.png";
+import Image from "next/image";
+import Link from "next/link";
 export default function Company() {
   return (
     <div className="bg-gray-100 min-h-screen py-10 px-5 md:px-20">
+      {/* Logo in the top-left */}
+
       <div className="bg-white shadow-lg rounded-lg p-6 md:p-10 flex flex-col">
-        {/* Company Overview Section */}
-        <h1 className="text-center text-4xl  heading  mb-8">
-          About THIASIL
-        </h1>
+        <div className="flex items-center justify-between mb-8">
+          {/* Company Overview Section */}
+          <div className="">
+            <Link href= {"/"}>
+              <Image className="w-20" src={logoImage} alt="Logo" />
+            </Link>
+          </div>
+
+          <h1 className="text-center text-4xl heading  flex-grow">
+            About THIASIL
+          </h1>
+        </div>
+
         <p className="text-gray-700 leading-relaxed text-justify mb-6">
           THIASIL fused silica laboratory wares are made from pure selected
           Indian raw material by a unique process developed in India. Since its
-          inception, THIASIL has constantly endeavored to achieve optimum
-          levels of capability and quality at par with international standards.
-          This is attributed to strong research development and timely
-          upgradation of technology, benefiting the customer in quality, cost,
-          purity, and performance.
+          inception, THIASIL has constantly endeavored to achieve optimum levels
+          of capability and quality at par with international standards. This is
+          attributed to strong research development and timely upgradation of
+          technology, benefiting the customer in quality, cost, purity, and
+          performance.
         </p>
         <p className="text-gray-700 leading-relaxed text-justify mb-6">
           THIASIL products are widely used in research institutions, quality
@@ -44,16 +57,12 @@ export default function Company() {
 
         {/* Factsheet Section */}
         <div className="mt-10">
-          <h2 className="text-3xl heading font-semibold  mb-4">
-            Factsheet
-          </h2>
+          <h2 className="text-3xl heading font-semibold  mb-4">Factsheet</h2>
           <div className="overflow-x-auto">
             <table className="w-full border border-gray-300 text-left text-sm md:text-base">
               <thead>
                 <tr className="bg-blue-100 text-black uppercase">
-                  <th className="py-3 px-4 border-b border-gray-300">
-                    Field
-                  </th>
+                  <th className="py-3 px-4 border-b border-gray-300">Field</th>
                   <th className="py-3 px-4 border-b border-gray-300">
                     Details
                   </th>
@@ -80,7 +89,9 @@ export default function Company() {
                 </tr>
                 <tr>
                   <td className="py-3 px-4 border-b">Legal Status of Firm</td>
-                  <td className="py-3 px-4 border-b">Individual - Proprietor</td>
+                  <td className="py-3 px-4 border-b">
+                    Individual - Proprietor
+                  </td>
                 </tr>
               </tbody>
             </table>

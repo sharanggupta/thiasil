@@ -1,19 +1,12 @@
-'use client'
+"use client";
 import "./ProductCardSection.css";
 import Button from "../MainButton/Button";
 import Modal from "../../components/Modals/Modal";
 import { useState } from "react";
+import Link from "next/link";
 
 const ProductCardSection = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
-
-  const openModal = () => {
-    setIsModalOpen(true);
-  };
-
-  const closeModal = () => {
-    setIsModalOpen(false);
-  };
   return (
     <div
       className="flex flex-col justify-center gap-8 px-10 h-auto my-24"
@@ -66,7 +59,7 @@ const ProductCardSection = () => {
                   bgColor="#ffffff"
                   textSize="text-[10px] md:text-base"
                   padding="px-7 md:px-10 py-3 md:py-5"
-                  onClick={openModal}
+                  onClick={() => setIsModalOpen(true)} 
                 />
               </div>
             </div>
@@ -87,7 +80,7 @@ const ProductCardSection = () => {
                   bgColor="#ffffff"
                   textSize="text-sm md:text-base"
                   padding="px-7 md:px-10 py-3 md:py-5"
-                  onClick={openModal}
+                  onClick={() => setIsModalOpen(true)} 
                 />
               </div>
             </div>
@@ -139,7 +132,7 @@ const ProductCardSection = () => {
                   bgColor="#ffffff"
                   textSize="text-[10px] md:text-base"
                   padding="px-7 md:px-10 py-3 md:py-5"
-                  onClick={openModal}
+                  onClick={() => setIsModalOpen(true)} 
                 />
               </div>
             </div>
@@ -160,7 +153,7 @@ const ProductCardSection = () => {
                   bgColor="#ffffff"
                   textSize="text-sm md:text-base"
                   padding="px-7 md:px-10 py-3 md:py-5"
-                  onClick={openModal}
+                  onClick={() => setIsModalOpen(true)} 
                 />
               </div>
             </div>
@@ -211,7 +204,7 @@ const ProductCardSection = () => {
                   bgColor="#ffffff"
                   textSize="text-[10px] md:text-base"
                   padding="px-7 md:px-10 py-3 md:py-5"
-                  onClick={openModal}
+                  onClick={() => setIsModalOpen(true)} 
                 />
               </div>
             </div>
@@ -229,9 +222,9 @@ const ProductCardSection = () => {
                   name="Buy Now!"
                   color="#777777"
                   bgColor="#ffffff"
-                  textSize="text-sm md:text-base"
+                  textSize="text-[10px] md:text-base"
                   padding="px-7 md:px-10 py-3 md:py-5"
-                  onClick={openModal}
+                  onClick={() => setIsModalOpen(true)} 
                 />
               </div>
             </div>
@@ -240,17 +233,19 @@ const ProductCardSection = () => {
       </div>
 
       <div className="flex items-center justify-center">
-        <Button
-          name="Discover our products"
-          color="#ffff"
-          bgColor="#2196f3"
-          textSize="text-sm md:text-base"
-          padding="px-8 md:px-10 py-4 md:py-5"
-          link="/catalog.pdf"
-          className="mt-14"
-        />
+        <Link href="/catalog.pdf">
+          <Button
+            name="Discover our products"
+            color="#ffff"
+            bgColor="#2196f3"
+            textSize="text-sm md:text-base"
+            padding="px-8 md:px-10 py-4 md:py-5"
+            className="mt-14"
+          />
+        </Link>
       </div>
-      <Modal isOpen={isModalOpen} onClose={closeModal} />
+      {/* Modal Component */}
+      <Modal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />
     </div>
   );
 };
