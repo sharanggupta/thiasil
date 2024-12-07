@@ -51,7 +51,7 @@ export default function Footer() {
             <p>
               Built by{" "}
               <Link
-                href="#"
+                href="https://www.sharanggupta.dev"
                 className="inline-block hover:rotate-6 hover:text-custom-blue hover:scale-125 hover:bg-[#333333] hover:shadow-md  transition-transform duration-300 ease-in-out relative"
               >
                 SHARANG GUPTA
