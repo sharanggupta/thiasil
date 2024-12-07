@@ -1,8 +1,9 @@
 import Image from "next/image";
-import backgroundImage from "../../images/thiasil-2.webp"; 
-import logoImage from "../../images/thiasil-1.webp"; 
+import backgroundImage from "../../images/thiasil-2.webp";
+import logoImage from "../../images/thiasil-1.webp";
 import "./Hero.css";
 import Button from "../MainButton/Button";
+import Link from "next/link";
 
 const HeroSection = () => {
   return (
@@ -35,14 +36,15 @@ const HeroSection = () => {
         </p>
 
         <div className="hero-animation button-animate-bottom">
-          <Button
-            name="Discover our products"
-            color="#777777"
-            bgColor="#ffffff"
-            textSize="text-sm md:text-base"
-            padding="px-7 md:px-10 py-3 md:py-5"
-            link="#popular-products"
-          />
+          <Link href="#popular-products">
+            <Button
+              name="Discover our products"
+              color="#777777"
+              bgColor="#ffffff"
+              textSize="text-sm md:text-base"
+              padding="px-7 md:px-10 py-3 md:py-5"
+            />
+          </Link>
         </div>
       </div>
     </div>

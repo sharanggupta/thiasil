@@ -6,12 +6,25 @@ import ProductCardSection from "./components/ProductCardsSection/ProductCardSect
 import ReviewSection from "./components/Reviews/Reviews";
 import ContactForm from "./components/ContactForm/ContactForm";
 import Footer from "./components/Footer/Footer";
-import { Metadata } from 'next'
+import { Metadata } from "next";
 
 export const metadata = {
-  title: 'Thiasil | Individually oxy-fired laboratory glassware',
-  description: 'Manufacturers of individually oxy-fired laboratory glassware including crucibles, lids, basin',
-  keywords: ['crucible', 'lid', 'gooch crucible', 'quartz', 'silica', 'volatile matter', 'circular capsule', 'muffle stand', 'boats combustion', 'triangles on nichrome wire', 'glass']
+  title: "Thiasil | Individually oxy-fired laboratory glassware",
+  description:
+    "Manufacturers of individually oxy-fired laboratory glassware including crucibles, lids, basin",
+  keywords: [
+    "crucible",
+    "lid",
+    "gooch crucible",
+    "quartz",
+    "silica",
+    "volatile matter",
+    "circular capsule",
+    "muffle stand",
+    "boats combustion",
+    "triangles on nichrome wire",
+    "glass",
+  ],
 };
 
 export default function Home() {

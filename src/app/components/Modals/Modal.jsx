@@ -1,57 +1,56 @@
-'use client'
-import { useState } from "react";
+"use client";
 import Image from "next/image";
 import image1 from "../../images/thiasil-10.jpg";
 import image2 from "../../images/thiasil-11.jpg";
+import Button from "../MainButton/Button";
+import Link from "next/link";
 
 export default function Modal({ isOpen, onClose }) {
   if (!isOpen) return null;
 
   return (
     <div
-      className={`fixed inset-0 flex items-center justify-center bg-gray-900 bg-opacity-50 ${
-        isOpen ? "block" : "hidden"
-      }`}
+      className="fixed inset-0 flex items-center justify-center bg-gray-900 bg-opacity-50 z-50"
+      aria-hidden={!isOpen}
+      aria-modal="true"
+      role="dialog"
     >
-      <div className="bg-white rounded-lg shadow-lg w-[90%] max-w-xl">
+      <div className="bg-white rounded-lg shadow-lg w-full max-w-4xl mx-4 md:mx-6 overflow-hidden">
         {/* Close Button */}
         <div className="flex justify-end p-4">
           <button
-           onClick={onClose}
-            className="text-gray-500 hover:text-gray-900"
+            onClick={onClose}
+            className="text-gray-500 hover:text-gray-900 focus:outline-none"
+            aria-label="Close modal"
           >
             ✕
           </button>
         </div>
 
         {/* Modal Content */}
-        <div className="px-6 pb-6">
-          <div className="flex flex-col md:flex-row items-center gap-6">
+        <div className="">
+          <div className="flex flex-col md:flex-row md:gap-6 gap-4 items-center md:items-start ">
             {/* Images */}
-            <div className="flex flex-col items-center gap-4">
-              <div className="relative w-[120px] h-[120px] rounded-md overflow-hidden">
+            <div className="flex md:flex-col md:items-center  md:w-1/3 md:space-y-0  ">
+              <div className="">
                 <Image
-                  src={image1} // Replace with your image path
+                  src={image1}
                   alt="Scientist"
-                  layout="fill"
-                  objectFit="cover"
-                  quality={100}
+                  className=" w-full"
                 />
               </div>
-              <div className="relative w-[120px] h-[120px] rounded-md overflow-hidden">
+              <div className="">
                 <Image
-                  src={image2} // Replace with your image path
+                  src={image2}
                   alt="Smiling Man"
-                  layout="fill"
-                  objectFit="cover"
-                  quality={100}
+                  className=" w-full md:rounded-bl-md"
                 />
               </div>
             </div>
 
             {/* Text Content */}
-            <div className="text-center md:text-left">
-              <h2 className="text-xl font-bold text-blue-600">
+            <div className="text-left w-full md:w-2/3 p-6">
+              <h2 className="text-lg md:text-xl font-bold heading">
                 PLACE ORDER NOW
               </h2>
               <p className="text-sm text-gray-700 mt-4 font-medium">
@@ -68,14 +67,23 @@ export default function Modal({ isOpen, onClose }) {
                 <li>6) Insurances to be arranged by buyer.</li>
                 <li>7) Capacity mentioned is maximum overflow capacity.</li>
               </ul>
-            </div>
-          </div>
 
-          {/* Button */}
-          <div className="flex justify-center mt-6">
-            <button className="px-6 py-2 text-white bg-blue-600 rounded-md shadow-md hover:bg-blue-700">
-              BOOK NOW
-            </button>
+              <div className="flex justify-center md:justify-start mt-6">
+                <Link
+                  href="#order-now"
+                  scroll={true}
+                  onClick={() => onClose()} // Close modal on click
+                >
+                  <Button
+                    name="Book Now!"
+                    color="#ffff"
+                    bgColor="#2196f3"
+                    textSize="text-[10px] md:text-base"
+                    padding="px-7 md:px-6 py-3 md:py-4"
+                  />
+                </Link>
+              </div>
+            </div>
           </div>
         </div>
       </div>
