@@ -10,7 +10,7 @@ export default function Modal({ isOpen, onClose }) {
 
   return (
     <div
-      className="fixed inset-0 flex items-center justify-center bg-gray-900 bg-opacity-50 z-50"
+      className="fixed inset-0 flex items-center justify-center bg-gray-900 bg-opacity-50 z-50 "
       aria-hidden={!isOpen}
       aria-modal="true"
       role="dialog"
@@ -31,19 +31,19 @@ export default function Modal({ isOpen, onClose }) {
         <div className="">
           <div className="flex flex-col md:flex-row md:gap-6 gap-4 items-center md:items-start ">
             {/* Images */}
-            <div className="flex md:flex-col md:items-center  md:w-1/3 md:space-y-0  ">
-              <div className="">
+            <div className="flex flex-row md:flex-col md:items-center md:w-1/3 md:space-y-0">
+              <div className=" w-[10rem] h-[10rem] md:w-full md:h-auto flex-shrink-0">
                 <Image
                   src={image1}
                   alt="Scientist"
-                  className=" w-full"
+                  className="w-full h-full object-cover"
                 />
               </div>
-              <div className="">
+              <div className=" w-[10rem] h-[10rem] md:w-full md:h-auto flex-shrink-0">
                 <Image
                   src={image2}
                   alt="Smiling Man"
-                  className=" w-full md:rounded-bl-md"
+                  className="w-full h-full object-cover"
                 />
               </div>
             </div>
