@@ -11,7 +11,7 @@ const lato = Lato({
 export const metadata = {
   title: "Thiasil | Quality Silica",
   keywords: ["Thiasil", "Individually OXY-GAS fired", "Silica", "Quartz", "crucibles" "glass", "cheap", "india"],
-  description: "Individually OXY-GAS fired laboratory glass with quality rivalling international standards and cheapest price made in India",
+  description: "Individually OXY-GAS fired laboratory glass with quality rivalling international standards and cheapest price made in India"
 };
 
 export default function RootLayout({ children }) {
