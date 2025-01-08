@@ -71,7 +71,7 @@ const ProductCardSection = () => {
                   Starts From
                 </p>
                 <h1 className="text-white text-7xl flex flex-col font-extralight text-center mb-24">
-                  240 per <br /> <span className="mt-10"> piece</span>{" "}
+                  300 per <br /> <span className="mt-10"> piece</span>{" "}
                 </h1>
 
                 <Button
@@ -144,7 +144,7 @@ const ProductCardSection = () => {
                   Starts From
                 </p>
                 <h1 className="text-white text-7xl flex flex-col font-extralight text-center mb-24">
-                  240 per <br /> <span className="mt-10"> piece</span>{" "}
+                  300 per <br /> <span className="mt-10"> piece</span>{" "}
                 </h1>
 
                 <Button
@@ -215,7 +215,7 @@ const ProductCardSection = () => {
                   Starts From
                 </p>
                 <h1 className="text-white text-7xl flex flex-col font-extralight text-center mb-24">
-                  240 per <br /> <span className="mt-10"> piece</span>{" "}
+                  350 per <br /> <span className="mt-10"> piece</span>{" "}
                 </h1>
 
                 <Button
