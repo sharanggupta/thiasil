@@ -1,9 +1,14 @@
+"use client";
+
 import Image from "next/image";
 import Link from "next/link";
 import logo from "../../images/thiasil-13.webp"; // Replace with your logo image path
-
+import Modal from "../Modals/Modal";
+import { useState } from "react";
 
 export default function Footer() {
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
   return (
     <footer className="bg-[#333333] text-white px-5 md:px-10 py-10 h-[32rem]">
       <div className="flex flex-col items-center justify-between ">
@@ -21,7 +26,7 @@ export default function Footer() {
           {/* Navigation Links */}
           <div className="flex flex-wrap text-center items-center justify-center text-nowrap space-x-4 text-sm uppercase border-t-2 pt-4">
             <Link
-              href='/company'
+              href="/company"
               className="hover:rotate-6 hover:text-custom-blue hover:scale-125 hover:bg-[#333333] hover:shadow-md transition-transform duration-300 ease-in-out relative"
             >
               Company
@@ -33,17 +38,17 @@ export default function Footer() {
               Contact Us
             </Link>
             <Link
-              href="/privacy-policy"
+              href="/policy"
               className="hover:rotate-6 hover:text-custom-blue hover:scale-125 hover:bg-[#333333] hover:shadow-md transition-transform duration-300 ease-in-out relative"
             >
               Privacy Policy
             </Link>
-            <Link
-              href="/terms"
-              className="hover:rotate-6 hover:text-custom-blue hover:scale-125 hover:bg-[#333333] hover:shadow-md transition-transform duration-300 ease-in-out relative"
+            <button
+              onClick={() => setIsModalOpen(true)}
+              className="hover:rotate-6 uppercase hover:text-custom-blue hover:scale-125 hover:bg-[#333333] hover:shadow-md transition-transform duration-300 ease-in-out relative"
             >
               Terms
-            </Link>
+            </button>
           </div>
 
           {/* Footer Info Section */}
@@ -70,6 +75,7 @@ export default function Footer() {
           </div>
         </div>
       </div>
+      <Modal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />
     </footer>
   );
 }
