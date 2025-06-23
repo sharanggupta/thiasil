@@ -1,5 +1,4 @@
 import Image from "next/image";
-import Link from "next/link";
 import logoImage from "../../images/thiasil-1.webp";
 import backgroundImage from "../../images/thiasil-2.webp";
 import Button from "../MainButton/Button";
@@ -36,15 +35,14 @@ const HeroSection = () => {
         </p>
 
         <div className="hero-animation button-animate-bottom">
-          <Link href="#popular-products">
-            <Button
-              name="Discover our products"
-              color="#777777"
-              bgColor="#ffffff"
-              textSize="text-sm md:text-base"
-              padding="px-7 md:px-10 py-3 md:py-5"
-            />
-          </Link>
+          <Button
+            name="Discover our products"
+            color="#777777"
+            bgColor="#ffffff"
+            textSize="text-sm md:text-base"
+            padding="px-7 md:px-10 py-3 md:py-5"
+            href="#popular-products"
+          />
         </div>
       </div>
     </div>
