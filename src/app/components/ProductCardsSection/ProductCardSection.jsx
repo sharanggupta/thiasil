@@ -1,9 +1,8 @@
 "use client";
-import "./ProductCardSection.css";
-import Button from "../MainButton/Button";
-import Modal from "../../components/Modals/Modal";
 import { useState } from "react";
-import Link from "next/link";
+import Modal from "../../components/Modals/Modal";
+import Button from "../MainButton/Button";
+import "./ProductCardSection.css";
 
 const ProductCardSection = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -233,16 +232,15 @@ const ProductCardSection = () => {
       </div>
 
       <div className="flex items-center justify-center">
-        <Link href="/catalog.pdf">
-          <Button
-            name="Discover our products"
-            color="#ffff"
-            bgColor="#2196f3"
-            textSize="text-sm md:text-base"
-            padding="px-8 md:px-10 py-4 md:py-5"
-            className="mt-14"
-          />
-        </Link>
+        <Button
+          name="Discover our products"
+          color="#ffff"
+          bgColor="#2196f3"
+          textSize="text-sm md:text-base"
+          padding="px-8 md:px-10 py-4 md:py-5"
+          className="mt-14"
+          href="/catalog.pdf"
+        />
       </div>
       {/* Modal Component */}
       <Modal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />

@@ -3,7 +3,6 @@ import Image from "next/image";
 import image1 from "../../images/thiasil-10.jpg";
 import image2 from "../../images/thiasil-11.jpg";
 import Button from "../MainButton/Button";
-import Link from "next/link";
 
 export default function Modal({ isOpen, onClose }) {
   if (!isOpen) return null;
@@ -69,19 +68,15 @@ export default function Modal({ isOpen, onClose }) {
               </ul>
 
               <div className="flex justify-center md:justify-start mt-6">
-                <Link
+                <Button
+                  name="Book Now!"
+                  color="#ffff"
+                  bgColor="#2196f3"
+                  textSize="text-[10px] md:text-base"
+                  padding="px-7 md:px-6 py-3 md:py-4"
                   href="#order-now"
-                  scroll={true}
                   onClick={() => onClose()} // Close modal on click
-                >
-                  <Button
-                    name="Book Now!"
-                    color="#ffff"
-                    bgColor="#2196f3"
-                    textSize="text-[10px] md:text-base"
-                    padding="px-7 md:px-6 py-3 md:py-4"
-                  />
-                </Link>
+                />
               </div>
             </div>
           </div>
