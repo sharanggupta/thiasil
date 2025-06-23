@@ -1,12 +1,11 @@
-import Navbar from "./components/Navbar/Navbar";
+import ContactForm from "./components/ContactForm/ContactForm";
+import FeaturesSection from "./components/FeatureSection/FeatureSection";
+import Footer from "./components/Footer/Footer";
 import HeroSection from "./components/HeroSection/Hero";
 import HiTechSection from "./components/HiTechSection/HiTechSection";
-import FeaturesSection from "./components/FeatureSection/FeatureSection";
+import Navbar from "./components/Navbar/Navbar";
 import ProductCardSection from "./components/ProductCardsSection/ProductCardSection";
 import ReviewSection from "./components/Reviews/Reviews";
-import ContactForm from "./components/ContactForm/ContactForm";
-import Footer from "./components/Footer/Footer";
-import { Metadata } from "next";
 
 export const metadata = {
   title: "Thiasil | Individually oxy-fired laboratory glassware",

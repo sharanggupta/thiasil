@@ -1,6 +1,5 @@
-import React from "react";
-import backgroundImage from "../../images/thiasil-6.webp";
 import Image from "next/image";
+import backgroundImage from "../../images/thiasil-6.webp";
 import "./FeatureSection.css";
 
 const FeatureSection = () => {
@@ -12,8 +11,8 @@ const FeatureSection = () => {
           <Image
             src={backgroundImage}
             alt="Lab Background"
-            layout="fill"
-            objectFit="cover"
+            fill
+            className="object-cover"
             quality={100}
           />
           {/* Gradient overlay with clip-path */}
