@@ -1,9 +1,9 @@
 import Image from "next/image";
-import backgroundImage from "../../images/thiasil-2.webp";
-import logoImage from "../../images/thiasil-1.webp";
-import "./Hero.css";
-import Button from "../MainButton/Button";
 import Link from "next/link";
+import logoImage from "../../images/thiasil-1.webp";
+import backgroundImage from "../../images/thiasil-2.webp";
+import Button from "../MainButton/Button";
+import "./Hero.css";
 
 const HeroSection = () => {
   return (
@@ -13,8 +13,8 @@ const HeroSection = () => {
         <Image
           src={backgroundImage}
           alt="Lab Background"
-          layout="fill"
-          objectFit="cover"
+          fill
+          className="object-cover"
           quality={100}
         />
         {/* Gradient overlay with clip-path */}
