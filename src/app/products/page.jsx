@@ -1,10 +1,8 @@
 "use client";
-import Image from "next/image";
-import Link from "next/link";
 import { useMemo, useState } from "react";
 import productsData from "../../data/products.json";
-import { GlassButton, GlassCard, GlassIcon, NeonBubblesBackground } from "../components/Glassmorphism";
-import favicon from "../images/favicon.png";
+import { NeonBubblesBackground } from "../components/Glassmorphism";
+import Navbar from "../components/Navbar/Navbar";
 
 const sidebarNav = [
   { icon: "🏠", label: "Home", href: "/" },
@@ -71,18 +69,16 @@ export default function Products() {
     ...new Set(products.map((p) => p.packaging).filter(Boolean))
   ], [products]);
 
-  // Stock status options
-  const stockOptions = [
+  // Only two stock status filters: All and Out of Stock
+  const stockStatusFilters = [
     { value: '', label: 'All' },
-    { value: 'in_stock', label: 'In Stock' },
     { value: 'out_of_stock', label: 'Out of Stock' },
-    { value: 'made_to_order', label: 'Made to Order' },
-    { value: 'limited_stock', label: 'Limited Stock' },
   ];
+  const [stockStatusIndex, setStockStatusIndex] = useState(0);
+  const selectedStock = stockStatusFilters[stockStatusIndex].value;
 
   // Filter state
   const [selectedCategory, setSelectedCategory] = useState('');
-  const [selectedStock, setSelectedStock] = useState('');
   const [selectedPackaging, setSelectedPackaging] = useState('');
   const [minPrice, setMinPrice] = useState('');
   const [maxPrice, setMaxPrice] = useState('');
@@ -153,370 +149,222 @@ export default function Products() {
   };
 
   return (
-    <div className="relative min-h-screen bg-gradient-to-br from-[#2e026d] via-[#15162c] to-[#0a0a23] overflow-x-hidden">
+    <div className="min-h-screen w-full bg-gradient-to-br from-[#f8fafc] to-[#e5eaf1] flex flex-col items-center pt-32 relative overflow-x-hidden">
+      <Navbar theme="products" />
       <NeonBubblesBackground />
-      <div className="absolute inset-0 bg-gradient-to-br from-[#3a8fff]/30 via-[#a259ff]/20 to-[#0a0a23]/80 pointer-events-none z-0" />
-
-      {/* Sidebar Navigation */}
-      <aside className="fixed top-6 left-6 z-30 flex flex-col items-center gap-6 bg-white/10 backdrop-blur-xl border border-white/20 rounded-3xl shadow-2xl p-4 w-20 h-[80vh] min-h-[400px] max-h-[90vh] justify-between">
-        <div className="flex flex-col items-center gap-2">
-          <div className="w-10 h-10 rounded-full bg-white/20 flex items-center justify-center shadow-lg mb-2 overflow-hidden">
-            <Image src={favicon} alt="Thiasil Logo" width={40} height={40} className="object-contain w-8 h-8" />
-          </div>
-        </div>
-        <nav className="flex flex-col gap-6 items-center mt-4">
-          {sidebarNav.map((item, i) => (
-            <a
-              key={item.label}
-              href={item.href}
-              className="flex flex-col items-center group"
-              title={item.label}
-            >
-              <div className="w-10 h-10 flex items-center justify-center rounded-2xl bg-white/10 border border-white/20 shadow-md group-hover:bg-gradient-to-br group-hover:from-[#3a8fff]/60 group-hover:to-[#a259ff]/60 transition-all">
-                <span className="text-2xl text-white drop-shadow-lg">{item.icon}</span>
-              </div>
-              <span className="text-xs text-white/60 mt-1 group-hover:text-white transition-all">{item.label}</span>
-            </a>
-          ))}
-        </nav>
-        <div />
-      </aside>
-
-      <main className="relative z-10 max-w-7xl mx-auto px-4 pb-24 flex flex-col gap-20 ml-0 md:ml-32">
-        {/* Breadcrumb Navigation */}
-        <nav className="pt-32 pb-4">
-          <div className="flex items-center space-x-2 text-sm text-white/60">
-            <Link href="/" className="hover:text-white transition-colors">
-              Home
-            </Link>
-            <span>/</span>
-            <span className="text-white font-medium">
-              Products
+      <div className="flex z-10 gap-4 justify-center items-center mb-10">
+        <div className="relative group">
+          <a
+            href="/api/generate-catalog"
+            download
+            aria-label="Download Price List (PDF)"
+            title="Download Price List (PDF)"
+            className="flex flex-col justify-center items-center rounded-full focus:outline-none focus:ring-2 focus:ring-blue-400"
+            style={{ width: 56, height: 56, lineHeight: 0, boxShadow: '0 4px 24px 0 rgba(58,143,255,0.18)' }}
+          >
+            <span className="flex relative justify-center items-center w-14 h-14">
+              <svg width="56" height="56" viewBox="0 0 56 56" fill="none" xmlns="http://www.w3.org/2000/svg" className="block">
+                {/* Blue ring */}
+                <circle cx="28" cy="28" r="26" fill="#fff" stroke="#3a8fff" strokeWidth="4" />
+                {/* White glassy center */}
+                <circle cx="28" cy="28" r="20" fill="#fff" filter="url(#glassShadow)" />
+                {/* Arrow */}
+                <path d="M28 18v13" stroke="#374151" strokeWidth="3.5" strokeLinecap="round" />
+                <path d="M22.5 27.5L28 33l5.5-5.5" stroke="#374151" strokeWidth="3.5" strokeLinecap="round" strokeLinejoin="round" />
+                {/* Tray */}
+                <rect x="20" y="36" width="16" height="4" rx="2" fill="#374151" />
+                <defs>
+                  <filter id="glassShadow" x="6" y="6" width="44" height="44" filterUnits="userSpaceOnUse" colorInterpolationFilters="sRGB">
+                    <feDropShadow dx="0" dy="2" stdDeviation="2" floodColor="#3a8fff" floodOpacity="0.10" />
+                  </filter>
+                </defs>
+              </svg>
             </span>
+            {/* Label below icon, only on desktop */}
+            <span className="hidden mt-1 text-xs font-semibold text-blue-700 md:block">Price List</span>
+          </a>
+          {/* Tooltip */}
+          <span className="absolute left-1/2 z-20 px-3 py-1 mt-2 text-xs text-white whitespace-nowrap bg-blue-900 rounded-lg shadow-lg opacity-0 transition-opacity duration-200 -translate-x-1/2 pointer-events-none group-hover:opacity-100">
+            Download Price List (PDF)
+          </span>
+        </div>
+        <h1
+          className="heading"
+          style={{
+            backgroundImage: 'linear-gradient(to right, #009ffd, #2a2a72)',
+            WebkitBackgroundClip: 'text',
+            color: 'transparent',
+            letterSpacing: '0.2rem',
+            fontWeight: 700,
+            fontSize: '2.5rem',
+            margin: 0,
+            display: 'inline-block',
+            textTransform: 'uppercase',
+          }}
+        >
+          Explore Premium Labware
+        </h1>
+      </div>
+      {/* Filters and Coupon as cards */}
+      <div className="flex z-10 flex-wrap gap-8 justify-center mb-12">
+        {/* Filters Card */}
+        <div className="bg-white/90 backdrop-blur-lg border border-blue-100 rounded-3xl shadow-2xl p-6 flex flex-wrap gap-4 items-center min-w-[340px]">
+          <select
+            className="px-4 py-2 text-gray-800 rounded-xl border border-blue-100 shadow-sm bg-white/90 focus:outline-none"
+            value={selectedCategory}
+            onChange={e => setSelectedCategory(e.target.value)}
+          >
+            <option value="">Category: All</option>
+            {categories.map(category => (
+              <option key={category} value={category}>{category}</option>
+            ))}
+          </select>
+          {/* Availability Toggle */}
+          <button
+            type="button"
+            className="px-4 py-2 font-semibold text-gray-800 rounded-xl border border-blue-100 shadow-sm transition bg-white/90 focus:outline-none hover:bg-blue-50"
+            onClick={() => setStockStatusIndex((stockStatusIndex + 1) % stockStatusFilters.length)}
+          >
+            Availability: {stockStatusFilters[stockStatusIndex].label}
+          </button>
+          <select
+            className="px-4 py-2 text-gray-800 rounded-xl border border-blue-100 shadow-sm bg-white/90 focus:outline-none"
+            value={selectedPackaging}
+            onChange={e => setSelectedPackaging(e.target.value)}
+          >
+            <option value="">Packaging: All</option>
+            {packagingOptions.map(opt => (
+              <option key={opt} value={opt}>{opt}</option>
+            ))}
+          </select>
+          <input
+            type="number"
+            className="px-4 py-2 w-28 text-gray-800 rounded-xl border border-blue-100 shadow-sm bg-white/90 focus:outline-none"
+            placeholder="Min Price"
+            value={minPrice}
+            onChange={e => setMinPrice(e.target.value)}
+            min={0}
+          />
+          <input
+            type="number"
+            className="px-4 py-2 w-28 text-gray-800 rounded-xl border border-blue-100 shadow-sm bg-white/90 focus:outline-none"
+            placeholder="Max Price"
+            value={maxPrice}
+            onChange={e => setMaxPrice(e.target.value)}
+            min={0}
+          />
+        </div>
+        {/* Coupon Card */}
+        <div className="bg-white/90 backdrop-blur-lg border border-blue-100 rounded-3xl shadow-2xl p-6 flex flex-col gap-4 min-w-[340px] relative">
+          <label className="text-lg font-bold text-blue-900">Coupon Code</label>
+          <div className="flex gap-2 items-center">
+            <input
+              type="text"
+              className="px-4 py-2 w-40 text-gray-800 rounded-xl border border-blue-100 shadow-sm bg-white/90 focus:outline-none"
+              placeholder="Coupon code"
+              value={couponCode}
+              onChange={e => setCouponCode(e.target.value)}
+              disabled={!!activeCoupon}
+            />
+            <button
+              className="relative px-6 py-2 font-bold text-white bg-gradient-to-r from-cyan-400 to-blue-700 rounded-full border border-blue-200 shadow transition hover:from-cyan-500 hover:to-blue-800 disabled:opacity-60"
+              onClick={activeCoupon ? clearCoupon : applyCoupon}
+              disabled={isApplyingCoupon}
+            >
+              {activeCoupon ? "Clear" : isApplyingCoupon ? "Applying..." : "Apply"}
+              <span className="absolute right-2 top-1/2 -translate-y-1/2 w-3 h-3 bg-white/60 rounded-full blur-[2px]" />
+            </button>
           </div>
-        </nav>
-
-        {/* Hero Glass Card */}
-        <section className="flex flex-col items-center justify-center pb-10">
-          <GlassCard variant="primary" padding="large" className="w-full max-w-4xl flex flex-col items-center text-center">
-            <h1 className="text-4xl md:text-5xl font-extrabold text-white tracking-wide mb-4 drop-shadow-[0_2px_16px_rgba(58,143,255,0.7)]">
-              Product Catalog
-            </h1>
-            <p className="text-lg text-white/80 mb-8 max-w-2xl mx-auto">
-              Discover our complete range of high-quality fused silica laboratory ware. Each product is individually oxy-gas fired for maximum purity and performance.
-            </p>
-            
-            {/* Coupon Section */}
-            <div className="w-full max-w-md mb-8">
-              <div className="bg-white/5 rounded-xl p-4 border border-white/20">
-                <h3 className="text-lg font-semibold text-white mb-3 flex items-center gap-2">
-                  <span>🎫</span>
-                  Apply Coupon
-                </h3>
-                
-                {!activeCoupon ? (
-                  <div className="flex gap-2">
-                    <input
-                      type="text"
-                      value={couponCode}
-                      onChange={(e) => setCouponCode(e.target.value.toUpperCase())}
-                      placeholder="Enter coupon code"
-                      className="flex-1 px-4 py-2 bg-white/10 border border-white/20 rounded-lg text-white placeholder-white/50 focus:outline-none focus:border-[#3a8fff] transition-colors"
-                      maxLength={20}
-                    />
-                    <GlassButton
-                      onClick={applyCoupon}
-                      variant="accent"
-                      size="small"
-                      disabled={isApplyingCoupon}
-                    >
-                      {isApplyingCoupon ? "Applying..." : "Apply"}
-                    </GlassButton>
-                  </div>
-                ) : (
-                  <div className="flex items-center justify-between bg-green-500/20 rounded-lg p-3 border border-green-500/30">
-                    <div>
-                      <div className="text-green-300 font-medium">{activeCoupon.code}</div>
-                      <div className="text-green-300/80 text-sm">{activeCoupon.discountPercent}% discount active</div>
-                    </div>
-                    <GlassButton
-                      onClick={clearCoupon}
-                      variant="secondary"
-                      size="small"
-                    >
-                      <span>✕</span>
-                    </GlassButton>
-                  </div>
-                )}
-                
-                {couponMessage && (
-                  <div className={`mt-3 p-2 rounded-lg text-sm ${
-                    couponMessage.includes('applied') || couponMessage.includes('active') 
-                      ? 'bg-green-500/20 text-green-300' 
-                      : 'bg-red-500/20 text-red-300'
-                  }`}>
-                    {couponMessage}
-                  </div>
-                )}
+          {couponMessage && (
+            <span className="px-3 py-1 text-sm text-blue-900 bg-blue-100 rounded shadow">{couponMessage}</span>
+          )}
+        </div>
+      </div>
+      {/* Product Grid */}
+      <div className="grid z-10 grid-cols-1 gap-16 mt-16 sm:grid-cols-2 md:grid-cols-3">
+        {filteredProducts.length === 0 && (
+          <div className="col-span-full py-12 text-lg text-center text-blue-900/80">No products found.</div>
+        )}
+        {filteredProducts.map((product, index) => (
+          <div
+            key={product.catNo || (product.name + '-' + index)}
+            className="relative bg-white/90 backdrop-blur-lg rounded-[2.5rem] shadow-2xl p-6 flex flex-col items-center w-80 h-96 group overflow-visible transition-transform duration-300 ease-out hover:scale-105"
+            style={{
+              boxShadow: '0 0 24px 6px rgba(58,240,252,0.18), 0 8px 40px 0 rgba(31,38,135,0.10)'
+            }}
+          >
+            {/* Glowing gradient border using pseudo-element */}
+            <span className="pointer-events-none absolute inset-0 rounded-[2.5rem] z-10 transition-all duration-300 ease-out group-hover:opacity-100 group-hover:blur-[10px] group-hover:brightness-125" aria-hidden="true" style={{
+              boxShadow: '0 0 0 6px rgba(58,240,252,0.10), 0 0 32px 0 rgba(58,240,252,0.18)',
+              border: 'none',
+              background: 'linear-gradient(135deg,rgba(58,240,252,0.18) 0%,rgba(30,58,138,0.10) 100%)',
+              filter: 'blur(6px)',
+              opacity: 0.7
+            }} />
+            {/* Catalog Number badge at top left */}
+            <div className="absolute top-5 left-7 z-20 px-3 py-1 text-xs font-semibold text-blue-700 rounded-full border border-blue-100 shadow-sm bg-white/70">Cat No: {product.catNo}</div>
+            {/* Product Image with soft glow */}
+            <div className="flex flex-col justify-center items-center mt-6 mb-4">
+              <div className="absolute top-16 left-1/2 w-20 h-6 bg-gradient-to-r from-cyan-300 to-blue-200 rounded-full opacity-40 blur-2xl -translate-x-1/2 -z-10" />
+              <img
+                src={`/images/products/${getBaseCatalogNumber(product.catNo)}.png`}
+                alt={product.name}
+                className="object-contain w-20 h-20 drop-shadow-xl"
+                onError={e => {
+                  e.target.onerror = null;
+                  e.target.src = 'data:image/svg+xml;utf8,<svg width=\"80\" height=\"80\" xmlns=\"http://www.w3.org/2000/svg\"><rect width=\"100%\" height=\"100%\" rx=\"20\" fill=\"%23e0e7ef\"/><text x=\"50%\" y=\"54%\" text-anchor=\"middle\" fill=\"%2399aabb\" font-size=\"12\" font-family=\"Arial\" dy=\".3em\">No Image</text></svg>';
+                }}
+              />
+            </div>
+            {/* Product Name */}
+            <div className="mb-1 w-full text-lg font-extrabold text-center text-blue-900 truncate" title={product.name}>{product.name}</div>
+            {/* Stock Badge */}
+            <div className="flex gap-2 justify-center items-center mb-1">
+              <span className="inline-block px-3 py-0.5 rounded-full text-xs font-semibold border border-blue-700 text-blue-700 bg-white/80">{getStockStatusDisplay(product.stockStatus).props.children}</span>
+            </div>
+            {/* Packaging */}
+            {product.packaging && (
+              <div className="mb-1 text-xs text-center text-blue-800">Packaging: {product.packaging}</div>
+            )}
+            {/* Capacity */}
+            {product.capacity && (
+              <div className="mb-1 text-xs text-center text-blue-800">Capacity: {product.capacity}</div>
+            )}
+            {/* Dimensions */}
+            {product.dimensions && (
+              <div className="mb-1 text-xs text-center text-blue-800">Dimensions: {product.dimensions}</div>
+            )}
+            {/* Description */}
+            {product.description && (
+              <div className="mb-2 text-xs text-center text-gray-500 line-clamp-2">{product.description}</div>
+            )}
+            {/* Price at the bottom, prominent */}
+            <div className="absolute bottom-6 left-1/2 -translate-x-1/2 w-[90%] flex justify-center z-20">
+              <div className="px-6 py-2 w-full text-xl font-bold text-center text-blue-900 rounded-full border border-blue-100 shadow bg-white/90">
+                {activeCoupon ? applyDiscountToPriceRange(product.price, activeCoupon.discountPercent) : product.price}
               </div>
             </div>
-            
-            <div className="flex flex-col sm:flex-row gap-4">
-              <Link href="/catalog.pdf" target="_blank">
-                <GlassButton
-                  variant="accent"
-                  size="large"
-                  className="min-w-[200px]"
-                >
-                  <div className="flex items-center gap-2">
-                    <span>📄</span>
-                    <span>Download PDF Catalog</span>
-                  </div>
-                </GlassButton>
-              </Link>
-            </div>
-          </GlassCard>
-        </section>
-
-        {/* Page Header */}
-        <div className="text-center mb-8">
-          <h1 className="text-4xl font-bold text-white mb-4">Our Products</h1>
-          <p className="text-white/80 text-lg max-w-2xl mx-auto">
-            Discover our comprehensive range of premium laboratory equipment and supplies
-          </p>
-          
-          {/* Generate PDF Button */}
-          <div className="mt-6">
-            <GlassButton
-              onClick={() => window.open('/api/generate-catalog', '_blank')}
-              variant="accent"
-              size="large"
-              className="mx-auto"
-            >
-              <span>📄 Generate PDF Catalog</span>
-              <span>⬇️</span>
-            </GlassButton>
           </div>
-        </div>
-
-        {/* Filters */}
-        <div className="flex flex-col md:flex-row md:items-end gap-4 mb-8 bg-white/10 rounded-xl p-4 shadow-lg backdrop-blur-md">
-          {/* Category Filter */}
-          <div className="flex-1">
-            <label className="block text-white/80 mb-1 text-sm font-medium">Category</label>
-            <select
-              className="w-full rounded-lg px-3 py-2 bg-white/20 text-white focus:outline-none focus:ring-2 focus:ring-blue-400"
-              value={selectedCategory}
-              onChange={e => setSelectedCategory(e.target.value)}
-            >
-              <option value="">All</option>
-              {categories.map((cat) => (
-                <option key={cat} value={cat}>{cat}</option>
-              ))}
-            </select>
-          </div>
-          {/* Stock Status Filter */}
-          <div className="flex-1">
-            <label className="block text-white/80 mb-1 text-sm font-medium">Stock Status</label>
-            <select
-              className="w-full rounded-lg px-3 py-2 bg-white/20 text-white focus:outline-none focus:ring-2 focus:ring-blue-400"
-              value={selectedStock}
-              onChange={e => setSelectedStock(e.target.value)}
-            >
-              {stockOptions.map(opt => (
-                <option key={opt.value} value={opt.value}>{opt.label}</option>
-              ))}
-            </select>
-          </div>
-          {/* Packaging Filter */}
-          <div className="flex-1">
-            <label className="block text-white/80 mb-1 text-sm font-medium">Packaging</label>
-            <select
-              className="w-full rounded-lg px-3 py-2 bg-white/20 text-white focus:outline-none focus:ring-2 focus:ring-blue-400"
-              value={selectedPackaging}
-              onChange={e => setSelectedPackaging(e.target.value)}
-            >
-              <option value="">All</option>
-              {packagingOptions.map((pkg) => (
-                <option key={pkg} value={pkg}>{pkg}</option>
-              ))}
-            </select>
-          </div>
-          {/* Price Range Filter */}
-          <div className="flex-1 flex gap-2 items-end">
-            <div className="flex-1">
-              <label className="block text-white/80 mb-1 text-sm font-medium">Min Price (₹)</label>
-              <input
-                type="number"
-                className="w-full rounded-lg px-3 py-2 bg-white/20 text-white focus:outline-none focus:ring-2 focus:ring-blue-400"
-                value={minPrice}
-                min={0}
-                onChange={e => setMinPrice(e.target.value)}
-                placeholder="0"
-              />
-            </div>
-            <div className="flex-1">
-              <label className="block text-white/80 mb-1 text-sm font-medium">Max Price (₹)</label>
-              <input
-                type="number"
-                className="w-full rounded-lg px-3 py-2 bg-white/20 text-white focus:outline-none focus:ring-2 focus:ring-blue-400"
-                value={maxPrice}
-                min={0}
-                onChange={e => setMaxPrice(e.target.value)}
-                placeholder=""
-              />
-            </div>
-          </div>
-        </div>
-
-        {/* Products Grid */}
-        <section className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 items-stretch">
-          {filteredProducts.map((product) => (
-            <a
-              key={product.id}
-              href={`/products/${product.categorySlug}`}
-              className="block group h-full"
-            >
-              <GlassCard variant="secondary" padding="default" className="group hover:scale-105 transition-transform duration-300 cursor-pointer h-full flex flex-col">
-                <div className="flex flex-col h-full">
-                  {/* Product Image */}
-                  {product.catNo && (
-                    <div className="mb-4 relative">
-                      <div className="aspect-square w-full h-32 overflow-hidden rounded-xl border border-white/20 shadow-lg bg-gradient-to-br from-white/10 to-white/5">
-                        <Image
-                          src={`/images/products/${getBaseCatalogNumber(product.catNo).replace(/[^\d]+/g, "")}.png`}
-                          alt={product.name}
-                          width={200}
-                          height={200}
-                          className="w-full h-full object-cover object-center"
-                        />
-                        {/* Light overlay */}
-                        <div className="absolute inset-0 bg-gradient-to-t from-black/20 via-transparent to-transparent rounded-xl pointer-events-none"></div>
-                        <div className="absolute inset-0 bg-gradient-to-br from-[#3a8fff]/5 to-[#a259ff]/5 rounded-xl pointer-events-none"></div>
-                      </div>
-                    </div>
-                  )}
-                  
-                  {/* Product Header */}
-                  <div className="mb-4">
-                    <div className="flex items-center justify-between mb-2">
-                      <span className="text-xs font-medium text-white/60 uppercase tracking-wider bg-white/10 px-2 py-1 rounded-full">
-                        {product.category}
-                      </span>
-                      <GlassIcon icon="🧪" variant="primary" size="small" />
-                    </div>
-                    <h3 className="text-xl font-bold text-white mb-2 group-hover:text-[#3a8fff] transition-colors">
-                      {product.name}
-                    </h3>
-                    <p className="text-sm text-white/70 leading-relaxed">
-                      {product.description}
-                    </p>
-                    {product.catNo && (
-                      <div className="mt-2 flex items-center gap-2 text-sm">
-                        <GlassIcon icon="🏷️" variant="accent" size="small" />
-                        <span className="text-white/80">CAT. NO.: <span className="text-white font-mono font-medium">{product.catNo}</span></span>
-                      </div>
-                    )}
-                  </div>
-
-                  {/* Product Details */}
-                  <div className="space-y-3 mb-6 flex-grow">
-                    <div className="flex items-center gap-2 text-sm">
-                      <GlassIcon icon="📏" variant="accent" size="small" />
-                      <span className="text-white/80">Capacity: <span className="text-white font-medium">{product.capacity}</span></span>
-                    </div>
-                    <div className="flex items-center gap-2 text-sm">
-                      <GlassIcon icon="📦" variant="accent" size="small" />
-                      <span className="text-white/80">Packaging: <span className="text-white font-medium">{product.packaging}</span></span>
-                    </div>
-                    <div className="flex items-center gap-2 text-sm">
-                      <GlassIcon icon="💰" variant="accent" size="small" />
-                      <div className="flex flex-col">
-                        <span className="text-white/80">Price Range:</span>
-                        <span className="text-white font-medium">
-                          {activeCoupon 
-                            ? applyDiscountToPriceRange(product.priceRange, activeCoupon.discountPercent)
-                            : product.priceRange
-                          }
-                        </span>
-                        {activeCoupon && (
-                          <span className="text-green-400 text-xs">
-                            {activeCoupon.discountPercent}% off with {activeCoupon.code}
-                          </span>
-                        )}
-                      </div>
-                    </div>
-                  </div>
-
-                  {/* Features */}
-                  <div className="mb-6">
-                    <h4 className="text-sm font-semibold text-white/90 mb-2">Key Features:</h4>
-                    <div className="grid grid-cols-2 gap-1">
-                      {product.features && product.features.length > 0 ? (
-                        product.features.map((feature, index) => (
-                          <div key={`${product.id}-feature-${index}`} className="flex items-center gap-1 text-xs">
-                            <div className="w-1 h-1 bg-[#3a8fff] rounded-full"></div>
-                            <span className="text-white/70">{feature}</span>
-                          </div>
-                        ))
-                      ) : (
-                        <div className="text-xs text-white/50 italic">
-                          Features not specified
-                        </div>
-                      )}
-                    </div>
-                  </div>
-
-                  {/* Stock Status */}
-                  <div className="mb-4">
-                    {getStockStatusDisplay(product.stockStatus || 'in_stock')}
-                    {product.quantity !== undefined && product.quantity !== null && (
-                      <span className="ml-2 text-sm text-white/60">
-                        Qty: {product.quantity}
-                      </span>
-                    )}
-                  </div>
-
-                  {/* Action Button */}
-                  <div className="mt-auto">
-                    <div className="w-full px-4 py-3 bg-gradient-to-r from-[#3a8fff]/20 to-[#a259ff]/20 rounded-xl border border-white/20 text-center group-hover:from-[#3a8fff]/30 group-hover:to-[#a259ff]/30 transition-all">
-                      <span className="text-white font-medium">View Variants & Pricing</span>
-                      <span className="text-white ml-2">→</span>
-                    </div>
-                  </div>
-                </div>
-              </GlassCard>
-            </a>
-          ))}
-        </section>
-
-        {/* Call to Action */}
-        <section className="text-center">
-          <GlassCard variant="accent" padding="large" className="max-w-2xl mx-auto">
-            <h2 className="text-3xl font-bold text-white mb-4">
-              Ready to Order?
-            </h2>
-            <p className="text-lg text-white/80 mb-8">
-              Contact us for bulk orders, custom specifications, or any questions about our products.
-            </p>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <GlassButton href="/contact" variant="primary" size="large">
-                <span>Contact Us</span>
-                <span>→</span>
-              </GlassButton>
-              <Link href="/catalog.pdf" target="_blank">
-                <GlassButton
-                  variant="secondary"
-                  size="large"
-                >
-                  <span>📄</span>
-                  <span>Download Full Catalog</span>
-                </GlassButton>
-              </Link>
-            </div>
-          </GlassCard>
-        </section>
-      </main>
+        ))}
+      </div>
+      <style jsx>{`
+        .glassmorphic-card {
+          background: rgba(255,255,255,0.90);
+          border-radius: 1.5rem;
+          box-shadow: 0 8px 40px 0 rgba(31,38,135,0.10), 0 0 0 4px rgba(58,240,252,0.08);
+          border: 4px solid transparent;
+          backdrop-filter: blur(18px);
+        }
+        .glass-fab-download {
+          box-shadow: 0 2px 16px 0 rgba(58,143,255,0.12), 0 0 0 2px rgba(58,143,255,0.10);
+          background: linear-gradient(135deg, rgba(255,255,255,0.85) 60%, rgba(58,143,255,0.08) 100%);
+          transition: box-shadow 0.2s, background 0.2s;
+        }
+        .glass-fab-download:hover, .glass-fab-download:focus {
+          box-shadow: 0 4px 32px 0 rgba(58,143,255,0.22), 0 0 0 4px rgba(58,143,255,0.18);
+          background: linear-gradient(135deg, rgba(255,255,255,0.95) 60%, rgba(58,143,255,0.16) 100%);
+        }
+      `}</style>
     </div>
   );
 } 

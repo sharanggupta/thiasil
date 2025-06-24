@@ -3,7 +3,8 @@ import Image from "next/image";
 import Link from 'next/link';
 import { useEffect, useState } from "react";
 import { GlassButton, GlassCard, GlassIcon, NeonBubblesBackground } from "../../components/Glassmorphism";
-import favicon from "../../images/favicon.png";
+import Navbar from "../../components/Navbar/Navbar";
+import Heading from "../../components/common/Heading";
 
 const sidebarNav = [
   { icon: "🏠", label: "Home", href: "/" },
@@ -143,10 +144,12 @@ export default function CategoryPage({ params }) {
         <NeonBubblesBackground />
         <div className="relative z-10 container mx-auto px-4 py-16">
           <div className="text-center">
-            <h1 className="text-4xl font-bold text-white mb-4">Category Not Found</h1>
+            <Heading as="h1" gradient="linear-gradient(to right, #009ffd, #2a2a72)" className="mb-4" size="primary">
+              Category Not Found
+            </Heading>
             <p className="text-gray-300 mb-8">The requested category could not be found.</p>
             <Link href="/products">
-              <GlassButton>Back to Products</GlassButton>
+              <GlassButton variant="primary">Back to Products</GlassButton>
             </Link>
           </div>
         </div>
@@ -155,34 +158,10 @@ export default function CategoryPage({ params }) {
   }
 
   return (
-    <div className="relative min-h-screen bg-gradient-to-br from-[#2e026d] via-[#15162c] to-[#0a0a23] overflow-x-hidden">
+    <div className="relative min-h-screen bg-gradient-to-br from-[#009ffd] via-[#3a8fff] to-[#2a2a72] overflow-x-hidden">
+      <Navbar />
       <NeonBubblesBackground />
-      <div className="absolute inset-0 bg-gradient-to-br from-[#3a8fff]/30 via-[#a259ff]/20 to-[#0a0a23]/80 pointer-events-none z-0" />
-
-      {/* Sidebar Navigation */}
-      <aside className="fixed top-6 left-6 z-30 flex flex-col items-center gap-6 bg-white/10 backdrop-blur-xl border border-white/20 rounded-3xl shadow-2xl p-4 w-20 h-[80vh] min-h-[400px] max-h-[90vh] justify-between">
-        <div className="flex flex-col items-center gap-2">
-          <div className="w-10 h-10 rounded-full bg-white/20 flex items-center justify-center shadow-lg mb-2 overflow-hidden">
-            <Image src={favicon} alt="Thiasil Logo" width={40} height={40} className="object-contain w-8 h-8" />
-          </div>
-        </div>
-        <nav className="flex flex-col gap-6 items-center mt-4">
-          {sidebarNav.map((item, i) => (
-            <a
-              key={item.label}
-              href={item.href}
-              className="flex flex-col items-center group"
-              title={item.label}
-            >
-              <div className="w-10 h-10 flex items-center justify-center rounded-2xl bg-white/10 border border-white/20 shadow-md group-hover:bg-gradient-to-br group-hover:from-[#3a8fff]/60 group-hover:to-[#a259ff]/60 transition-all">
-                <span className="text-2xl text-white drop-shadow-lg">{item.icon}</span>
-              </div>
-              <span className="text-xs text-white/60 mt-1 group-hover:text-white transition-all">{item.label}</span>
-            </a>
-          ))}
-        </nav>
-        <div />
-      </aside>
+      <div className="absolute inset-0 bg-gradient-to-br from-[#009ffd]/30 via-[#3a8fff]/20 to-[#2a2a72]/80 pointer-events-none z-0" />
 
       <main className="relative z-10 max-w-7xl mx-auto px-4 pb-24 flex flex-col gap-20 ml-0 md:ml-32">
         {/* Breadcrumb Navigation */}
@@ -207,9 +186,9 @@ export default function CategoryPage({ params }) {
           <GlassCard variant="primary" padding="large" className="w-full max-w-4xl flex flex-col items-center text-center">
             <div className="flex items-center gap-4 mb-6">
               <GlassIcon icon={categoryData.icon || "🧪"} variant="primary" size="large" />
-              <h1 className="text-4xl md:text-5xl font-extrabold text-white tracking-wide drop-shadow-[0_2px_16px_rgba(58,143,255,0.7)]">
+              <Heading as="h1" gradient="linear-gradient(to right, #009ffd, #2a2a72)" className="mb-4" size="primary">
                 {categoryData.title || categoryData.name || "Product Category"}
-              </h1>
+              </Heading>
             </div>
             <p className="text-lg text-white/80 mb-8 max-w-2xl mx-auto">
               {categoryData.description}

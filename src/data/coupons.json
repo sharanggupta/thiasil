@@ -1,0 +1,11 @@
+[
+  {
+    "code": "SAVE20",
+    "discountPercent": 20,
+    "expiryDate": "2025-06-25",
+    "maxUses": 1,
+    "isActive": true,
+    "currentUses": 1,
+    "createdAt": "2025-06-24T12:06:09.027Z"
+  }
+]

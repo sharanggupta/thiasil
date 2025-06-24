@@ -1,7 +1,7 @@
 "use client";
-import Image from "next/image";
 import { useEffect, useState } from "react";
 import productsData from '../../data/products.json';
+import { STOCK_STATUSES } from '../../lib/constants';
 import { useAdminBackups } from '../../lib/hooks/useAdminBackups';
 import { useAdminCoupons } from '../../lib/hooks/useAdminCoupons';
 import { useAdminProducts } from '../../lib/hooks/useAdminProducts';
@@ -12,7 +12,8 @@ import {
     GlassIcon,
     NeonBubblesBackground
 } from "../components/Glassmorphism";
-import favicon from "../images/favicon.png";
+import Navbar from "../components/Navbar/Navbar";
+import Heading from "../components/common/Heading";
 
 const sidebarNav = [
   { icon: "🏠", label: "Home", href: "/" },
@@ -23,14 +24,6 @@ const sidebarNav = [
 
 // Session timeout (30 minutes)
 const SESSION_TIMEOUT = 30 * 60 * 1000;
-
-// Stock status options
-const STOCK_STATUSES = [
-  { value: 'in_stock', label: 'In Stock', color: 'text-green-400', bg: 'bg-green-500/20' },
-  { value: 'out_of_stock', label: 'Out of Stock', color: 'text-red-400', bg: 'bg-red-500/20' },
-  { value: 'made_to_order', label: 'Made to Order', color: 'text-blue-400', bg: 'bg-blue-500/20' },
-  { value: 'limited_stock', label: 'Limited Stock', color: 'text-yellow-400', bg: 'bg-yellow-500/20' }
-];
 
 // Admin tabs configuration
 const ADMIN_TABS = [
@@ -252,7 +245,7 @@ export default function AdminPage() {
   };
 
   const getStockStatusDisplay = (status) => {
-    const statusConfig = STOCK_STATUSES.find(s => s.value === status) || STOCK_STATUSES[0];
+    const statusConfig = Object.values(STOCK_STATUSES).find(s => s.value === status) || Object.values(STOCK_STATUSES)[0];
     return (
       <span className={`inline-block px-3 py-1 rounded-full text-xs font-medium ${statusConfig.bg} ${statusConfig.color} min-w-[100px] text-center`}>
         {statusConfig.label}
@@ -294,41 +287,19 @@ export default function AdminPage() {
 
   if (!isAuthenticated) {
     return (
-      <div className="relative min-h-screen bg-gradient-to-br from-[#2e026d] via-[#15162c] to-[#0a0a23] overflow-x-hidden">
+      <div className="relative min-h-screen bg-gradient-to-br from-[#3a8fff] via-[#009ffd] to-[#2a2a72] overflow-x-hidden">
+        <Navbar />
         <NeonBubblesBackground />
-        <div className="absolute inset-0 bg-gradient-to-br from-[#3a8fff]/30 via-[#a259ff]/20 to-[#0a0a23]/80 pointer-events-none z-0" />
-
-        {/* Sidebar Navigation */}
-        <aside className="fixed top-6 left-6 z-30 flex flex-col items-center gap-6 bg-white/10 backdrop-blur-xl border border-white/20 rounded-3xl shadow-2xl p-4 w-20 h-[80vh] min-h-[400px] max-h-[90vh] justify-between">
-          <div className="flex flex-col items-center gap-2">
-            <div className="w-10 h-10 rounded-full bg-white/20 flex items-center justify-center shadow-lg mb-2 overflow-hidden">
-              <Image src={favicon} alt="Thiasil Logo" width={40} height={40} className="object-contain w-8 h-8" />
-            </div>
-          </div>
-          <nav className="flex flex-col gap-6 items-center mt-4">
-            {sidebarNav.map((item, i) => (
-              <a
-                key={item.label}
-                href={item.href}
-                className="flex flex-col items-center group"
-                title={item.label}
-              >
-                <div className="w-10 h-10 flex items-center justify-center rounded-2xl bg-white/10 border border-white/20 shadow-md group-hover:bg-gradient-to-br group-hover:from-[#3a8fff]/60 group-hover:to-[#a259ff]/60 transition-all">
-                  <span className="text-2xl text-white drop-shadow-lg">{item.icon}</span>
-                </div>
-                <span className="text-xs text-white/60 mt-1 group-hover:text-white transition-all">{item.label}</span>
-              </a>
-            ))}
-          </nav>
-          <div />
-        </aside>
+        <div className="absolute inset-0 bg-gradient-to-br from-[#009ffd]/30 via-[#3a8fff]/20 to-[#2a2a72]/80 pointer-events-none z-0" />
 
         <main className="relative z-10 max-w-4xl mx-auto px-4 pb-24 flex flex-col gap-20 ml-0 md:ml-32">
           <section className="flex flex-col items-center justify-center pt-32 pb-10">
-            <GlassCard variant="primary" padding="large" className="w-full max-w-md">
+            <GlassCard variant="primary" padding="large" className="w-full max-w-md flex flex-col items-center text-center bg-white/20 text-white/95 shadow-2xl">
               <div className="text-center mb-8">
                 <GlassIcon icon="🔐" variant="primary" size="large" />
-                <h1 className="text-3xl font-bold text-white mt-4 mb-2">Admin Access</h1>
+                <Heading as="h1" gradient="linear-gradient(to right, #009ffd, #2a2a72)" className="mt-4 mb-2" size="secondary">
+                  Admin Access
+                </Heading>
                 <p className="text-white/80">Enter credentials to access admin panel</p>
               </div>
 
@@ -400,44 +371,25 @@ export default function AdminPage() {
   }
 
   return (
-    <div className="relative min-h-screen bg-gradient-to-br from-[#2e026d] via-[#15162c] to-[#0a0a23] overflow-x-hidden">
+    <div className="relative min-h-screen bg-gradient-to-br from-[#3a8fff] via-[#009ffd] to-[#2a2a72] overflow-x-hidden">
+      <Navbar theme="products" />
       <NeonBubblesBackground />
-      <div className="absolute inset-0 bg-gradient-to-br from-[#3a8fff]/30 via-[#a259ff]/20 to-[#0a0a23]/80 pointer-events-none z-0" />
-
-      {/* Sidebar Navigation */}
-      <aside className="fixed top-6 left-6 z-30 flex flex-col items-center gap-6 bg-white/10 backdrop-blur-xl border border-white/20 rounded-3xl shadow-2xl p-4 w-20 h-[80vh] min-h-[400px] max-h-[90vh] justify-between">
-        <div className="flex flex-col items-center gap-2">
-          <div className="w-10 h-10 rounded-full bg-white/20 flex items-center justify-center shadow-lg mb-2 overflow-hidden">
-            <Image src={favicon} alt="Thiasil Logo" width={40} height={40} className="object-contain w-8 h-8" />
-          </div>
-        </div>
-        <nav className="flex flex-col gap-6 items-center mt-4">
-          {sidebarNav.map((item, i) => (
-            <a
-              key={item.label}
-              href={item.href}
-              className="flex flex-col items-center group"
-              title={item.label}
-            >
-              <div className="w-10 h-10 flex items-center justify-center rounded-2xl bg-white/10 border border-white/20 shadow-md group-hover:bg-gradient-to-br group-hover:from-[#3a8fff]/60 group-hover:to-[#a259ff]/60 transition-all">
-                <span className="text-2xl text-white drop-shadow-lg">{item.icon}</span>
-              </div>
-              <span className="text-xs text-white/60 mt-1 group-hover:text-white transition-all">{item.label}</span>
-            </a>
-          ))}
-        </nav>
-        <div />
-      </aside>
+      <div className="absolute inset-0 bg-gradient-to-br from-[#009ffd]/30 via-[#3a8fff]/20 to-[#2a2a72]/80 pointer-events-none z-0" />
 
       <main className="relative z-10 max-w-7xl mx-auto px-4 pb-24 flex flex-col gap-8 ml-0 md:ml-32">
-        {/* Header */}
-        <section className="flex flex-col items-center justify-center pt-32 pb-8">
-          <GlassCard variant="primary" padding="large" className="w-full max-w-4xl flex flex-col items-center text-center">
+        {/* Hero Glass Card */}
+        <section className="flex flex-col items-center justify-center pt-32 pb-10">
+          <GlassCard variant="primary" padding="large" className="w-full max-w-4xl flex flex-col items-center text-center bg-white/20 text-white/95 shadow-2xl">
             <div className="flex items-center gap-4 mb-6">
               <GlassIcon icon="⚙️" variant="primary" size="large" />
-              <h1 className="text-4xl md:text-5xl font-extrabold text-white tracking-wide drop-shadow-[0_2px_16px_rgba(58,143,255,0.7)]">
-                Admin Panel
-              </h1>
+              <Heading
+                as="h1"
+                gradient="linear-gradient(90deg, #fff, #009ffd 60%, #2a2a72 100%)"
+                className="mb-4 drop-shadow-lg font-extrabold text-4xl md:text-5xl text-transparent bg-clip-text"
+                size="primary"
+              >
+                ADMIN PANEL
+              </Heading>
             </div>
             <p className="text-lg text-white/80 mb-8 max-w-2xl mx-auto">
               Manage product prices, inventory, and backups in one unified interface
@@ -453,29 +405,25 @@ export default function AdminPage() {
             </div>
           </GlassCard>
         </section>
-
         {/* Tab Navigation */}
         <section className="w-full">
           <GlassCard variant="secondary" padding="medium" className="w-full">
-            <div className="flex flex-wrap gap-2 justify-center md:justify-start">
+            <div className="flex gap-1 md:gap-2 overflow-x-auto whitespace-nowrap scrollbar-thin scrollbar-thumb-blue-300 scrollbar-track-transparent px-1 md:px-0 justify-center md:justify-start">
               {ADMIN_TABS.map((tab) => (
-                <button
+                <GlassButton
                   key={tab.id}
                   onClick={() => setActiveTab(tab.id)}
-                  className={`flex items-center gap-2 px-4 py-3 rounded-xl text-sm font-medium transition-all ${
-                    activeTab === tab.id
-                      ? 'bg-gradient-to-r from-[#3a8fff] to-[#a259ff] text-white shadow-lg'
-                      : 'bg-white/10 text-white/80 hover:bg-white/20 hover:text-white'
-                  }`}
+                  variant={activeTab === tab.id ? "primary" : "secondary"}
+                  size="medium"
+                  className={`flex items-center gap-2 uppercase font-bold tracking-wide px-3 py-2 md:px-5 md:py-2 rounded-2xl transition-all duration-200 min-w-[120px] ${activeTab === tab.id ? "shadow-lg shadow-blue-400/30" : ""}`}
                 >
-                  <span className="text-lg">{tab.icon}</span>
-                  <span className="hidden sm:inline">{tab.label}</span>
-                </button>
+                  <span className="flex items-center text-lg md:text-xl">{tab.icon}</span>
+                  <span className="text-sm md:text-base">{tab.label}</span>
+                </GlassButton>
               ))}
             </div>
           </GlassCard>
         </section>
-
         {/* Tab Content */}
         <section className="w-full">
           <GlassCard variant="secondary" padding="large" className="w-full">
@@ -488,26 +436,34 @@ export default function AdminPage() {
                 </h2>
                 
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-                  <div className="bg-white/5 rounded-xl p-6 text-center">
-                    <div className="text-3xl mb-2">📦</div>
+                  <GlassCard variant="primary" padding="default" className="w-full max-w-xs flex flex-col items-center text-center bg-white/20 text-white/95">
+                    <GlassIcon icon="📦" variant="primary" size="medium" className="mb-2" />
+                    <Heading as="h2" gradient="linear-gradient(to right, #009ffd, #2a2a72)" className="mb-1 text-base md:text-lg" size="secondary">
+                      Total Products
+                    </Heading>
                     <div className="text-2xl font-bold text-white">{products.length}</div>
-                    <div className="text-sm text-white/60">Total Products</div>
-                  </div>
-                  <div className="bg-white/5 rounded-xl p-6 text-center">
-                    <div className="text-3xl mb-2">🏷️</div>
+                  </GlassCard>
+                  <GlassCard variant="primary" padding="default" className="w-full max-w-xs flex flex-col items-center text-center bg-white/20 text-white/95">
+                    <GlassIcon icon="🏷️" variant="primary" size="medium" className="mb-2" />
+                    <Heading as="h2" gradient="linear-gradient(to right, #009ffd, #2a2a72)" className="mb-1 text-base md:text-lg" size="secondary">
+                      Categories
+                    </Heading>
                     <div className="text-2xl font-bold text-white">{categories.length}</div>
-                    <div className="text-sm text-white/60">Categories</div>
-                  </div>
-                  <div className="bg-white/5 rounded-xl p-6 text-center">
-                    <div className="text-3xl mb-2">💾</div>
+                  </GlassCard>
+                  <GlassCard variant="primary" padding="default" className="w-full max-w-xs flex flex-col items-center text-center bg-white/20 text-white/95">
+                    <GlassIcon icon="💾" variant="primary" size="medium" className="mb-2" />
+                    <Heading as="h2" gradient="linear-gradient(to right, #009ffd, #2a2a72)" className="mb-1 text-base md:text-lg" size="secondary">
+                      Backups
+                    </Heading>
                     <div className="text-2xl font-bold text-white">{backups.length}</div>
-                    <div className="text-sm text-white/60">Backups</div>
-                  </div>
-                  <div className="bg-white/5 rounded-xl p-6 text-center">
-                    <div className="text-3xl mb-2">🎫</div>
+                  </GlassCard>
+                  <GlassCard variant="primary" padding="default" className="w-full max-w-xs flex flex-col items-center text-center bg-white/20 text-white/95">
+                    <GlassIcon icon="🎫" variant="primary" size="medium" className="mb-2" />
+                    <Heading as="h2" gradient="linear-gradient(to right, #009ffd, #2a2a72)" className="mb-1 text-base md:text-lg" size="secondary">
+                      Active Coupons
+                    </Heading>
                     <div className="text-2xl font-bold text-white">{coupons.length}</div>
-                    <div className="text-sm text-white/60">Active Coupons</div>
-                  </div>
+                  </GlassCard>
                 </div>
 
                 <div className="bg-white/5 rounded-xl p-6">
@@ -560,7 +516,7 @@ export default function AdminPage() {
                     <select
                       value={selectedCategory}
                       onChange={(e) => setSelectedCategory(e.target.value)}
-                      className="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-xl text-white focus:outline-none focus:border-[#3a8fff] transition-colors"
+                      className="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-xl text-white placeholder-white/80 focus:outline-none focus:border-[#3a8fff] transition-colors"
                     >
                       <option value="all">All Categories</option>
                       {categories.map((category) => (
@@ -578,7 +534,7 @@ export default function AdminPage() {
                       <select
                         value={selectedProductId}
                         onChange={(e) => setSelectedProductId(e.target.value)}
-                        className="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-xl text-white focus:outline-none focus:border-[#3a8fff] transition-colors"
+                        className="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-xl text-white placeholder-white/80 focus:outline-none focus:border-[#3a8fff] transition-colors"
                       >
                         <option value="all">All in Category</option>
                         {categoryProducts.map((prod) => (
@@ -600,7 +556,7 @@ export default function AdminPage() {
                         type="number"
                         value={priceChangePercent}
                         onChange={(e) => setPriceChangePercent(e.target.value)}
-                        className="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-xl text-white focus:outline-none focus:border-[#3a8fff] transition-colors"
+                        className="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-xl text-white placeholder-white/80 focus:outline-none focus:border-[#3a8fff] transition-colors"
                         placeholder="10"
                         min="-50"
                         max="100"
@@ -647,7 +603,7 @@ export default function AdminPage() {
                     <select
                       value={selectedCategory}
                       onChange={(e) => setSelectedCategory(e.target.value)}
-                      className="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-xl text-white focus:outline-none focus:border-[#3a8fff] transition-colors"
+                      className="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-xl text-white placeholder-white/80 focus:outline-none focus:border-[#3a8fff] transition-colors"
                     >
                       <option value="all">All Categories</option>
                       {categories.map((category) => (
@@ -665,7 +621,7 @@ export default function AdminPage() {
                       <select
                         value={selectedProductId}
                         onChange={(e) => setSelectedProductId(e.target.value)}
-                        className="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-xl text-white focus:outline-none focus:border-[#3a8fff] transition-colors"
+                        className="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-xl text-white placeholder-white/80 focus:outline-none focus:border-[#3a8fff] transition-colors"
                       >
                         <option value="all">All in Category</option>
                         {categoryProducts.map((prod) => (
@@ -686,9 +642,9 @@ export default function AdminPage() {
                       <select
                         value={stockStatus}
                         onChange={(e) => setStockStatus(e.target.value)}
-                        className="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-xl text-white focus:outline-none focus:border-[#3a8fff] transition-colors"
+                        className="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-xl text-white placeholder-white/80 focus:outline-none focus:border-[#3a8fff] transition-colors"
                       >
-                        {STOCK_STATUSES.map((status) => (
+                        {Object.values(STOCK_STATUSES).map((status) => (
                           <option key={status.value} value={status.value}>
                             {status.label}
                           </option>
@@ -702,7 +658,7 @@ export default function AdminPage() {
                         type="number"
                         value={quantity}
                         onChange={(e) => setQuantity(e.target.value)}
-                        className="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-xl text-white focus:outline-none focus:border-[#3a8fff] transition-colors"
+                        className="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-xl text-white placeholder-white/80 focus:outline-none focus:border-[#3a8fff] transition-colors"
                         placeholder="Leave empty for made-to-order"
                         min="0"
                       />
@@ -733,7 +689,7 @@ export default function AdminPage() {
                   <div className="bg-white/5 rounded-xl p-4">
                     <h4 className="text-lg font-semibold text-white mb-3">Stock Status Guide</h4>
                     <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-                      {STOCK_STATUSES.map((status) => (
+                      {Object.values(STOCK_STATUSES).map((status) => (
                         <div key={status.value} className="flex items-center gap-2">
                           <span className={`inline-block px-3 py-1 rounded-full text-xs font-medium ${status.bg} ${status.color} min-w-[100px] text-center`}>
                             {status.label}
@@ -765,7 +721,7 @@ export default function AdminPage() {
                         type="text"
                         value={categoryForm.name}
                         onChange={(e) => setCategoryForm({...categoryForm, name: e.target.value})}
-                        className="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-xl text-white focus:outline-none focus:border-[#3a8fff] transition-colors"
+                        className="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-xl text-white placeholder-white/80 focus:outline-none focus:border-[#3a8fff] transition-colors"
                         placeholder="e.g., Test Tubes"
                         maxLength={50}
                       />
@@ -777,7 +733,7 @@ export default function AdminPage() {
                         type="text"
                         value={categoryForm.slug}
                         onChange={(e) => setCategoryForm({...categoryForm, slug: e.target.value.toLowerCase().replace(/\s+/g, '-')})}
-                        className="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-xl text-white focus:outline-none focus:border-[#3a8fff] transition-colors"
+                        className="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-xl text-white placeholder-white/80 focus:outline-none focus:border-[#3a8fff] transition-colors"
                         placeholder="e.g., test-tubes"
                         maxLength={30}
                       />
@@ -790,7 +746,7 @@ export default function AdminPage() {
                     <textarea
                       value={categoryForm.description}
                       onChange={(e) => setCategoryForm({...categoryForm, description: e.target.value})}
-                      className="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-xl text-white focus:outline-none focus:border-[#3a8fff] transition-colors"
+                      className="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-xl text-white placeholder-white/80 focus:outline-none focus:border-[#3a8fff] transition-colors"
                       placeholder="Category description..."
                       rows="3"
                       maxLength={200}
@@ -806,7 +762,7 @@ export default function AdminPage() {
                           type="text"
                           value={newDimensionField.name}
                           onChange={(e) => setNewDimensionField({...newDimensionField, name: e.target.value})}
-                          className="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-xl text-white focus:outline-none focus:border-[#3a8fff] transition-colors"
+                          className="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-xl text-white placeholder-white/80 focus:outline-none focus:border-[#3a8fff] transition-colors"
                           placeholder="Field name (e.g., Length)"
                           maxLength={20}
                         />
@@ -816,7 +772,7 @@ export default function AdminPage() {
                           type="text"
                           value={newDimensionField.unit}
                           onChange={(e) => setNewDimensionField({...newDimensionField, unit: e.target.value})}
-                          className="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-xl text-white focus:outline-none focus:border-[#3a8fff] transition-colors"
+                          className="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-xl text-white placeholder-white/80 focus:outline-none focus:border-[#3a8fff] transition-colors"
                           placeholder="Unit (e.g., mm)"
                           maxLength={10}
                         />
@@ -824,9 +780,9 @@ export default function AdminPage() {
                       <div className="flex items-end">
                         <GlassButton
                           onClick={addDimensionField}
-                          variant="secondary"
+                          variant="primary"
                           size="large"
-                          className="w-full"
+                          className="w-full bg-gradient-to-r from-[#009ffd] to-[#3a8fff] text-white font-bold shadow-lg shadow-blue-400/30 border border-white/30 rounded-xl hover:from-[#3a8fff] hover:to-[#009ffd] transition-all"
                         >
                           <span>Add Field</span>
                         </GlassButton>
@@ -886,7 +842,7 @@ export default function AdminPage() {
                         type="text"
                         value={productForm.name}
                         onChange={(e) => setProductForm({...productForm, name: e.target.value})}
-                        className="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-xl text-white focus:outline-none focus:border-[#3a8fff] transition-colors"
+                        className="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-xl text-white placeholder-white/80 focus:outline-none focus:border-[#3a8fff] transition-colors"
                         placeholder="e.g., 15ml Test Tube"
                         maxLength={100}
                       />
@@ -897,7 +853,7 @@ export default function AdminPage() {
                       <select
                         value={productForm.category}
                         onChange={(e) => setProductForm({...productForm, category: e.target.value})}
-                        className="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-xl text-white focus:outline-none focus:border-[#3a8fff] transition-colors"
+                        className="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-xl text-white placeholder-white/80 focus:outline-none focus:border-[#3a8fff] transition-colors"
                       >
                         <option value="">Select a category</option>
                         {Object.keys(productsData.productVariants || {}).map((category) => (
@@ -916,7 +872,7 @@ export default function AdminPage() {
                         type="number"
                         value={productForm.price}
                         onChange={(e) => setProductForm({...productForm, price: e.target.value})}
-                        className="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-xl text-white focus:outline-none focus:border-[#3a8fff] transition-colors"
+                        className="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-xl text-white placeholder-white/80 focus:outline-none focus:border-[#3a8fff] transition-colors"
                         placeholder="0.00"
                         min="0"
                         step="0.01"
@@ -928,9 +884,9 @@ export default function AdminPage() {
                       <select
                         value={productForm.stockStatus}
                         onChange={(e) => setProductForm({...productForm, stockStatus: e.target.value})}
-                        className="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-xl text-white focus:outline-none focus:border-[#3a8fff] transition-colors"
+                        className="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-xl text-white placeholder-white/80 focus:outline-none focus:border-[#3a8fff] transition-colors"
                       >
-                        {STOCK_STATUSES.map((status) => (
+                        {Object.values(STOCK_STATUSES).map((status) => (
                           <option key={status.value} value={status.value}>
                             {status.label}
                           </option>
@@ -944,7 +900,7 @@ export default function AdminPage() {
                         type="number"
                         value={productForm.quantity}
                         onChange={(e) => setProductForm({...productForm, quantity: e.target.value})}
-                        className="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-xl text-white focus:outline-none focus:border-[#3a8fff] transition-colors"
+                        className="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-xl text-white placeholder-white/80 focus:outline-none focus:border-[#3a8fff] transition-colors"
                         placeholder="Leave empty for made-to-order"
                         min="0"
                       />
@@ -969,7 +925,7 @@ export default function AdminPage() {
                                   [field.name]: e.target.value
                                 }
                               })}
-                              className="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-xl text-white focus:outline-none focus:border-[#3a8fff] transition-colors"
+                              className="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-xl text-white placeholder-white/80 focus:outline-none focus:border-[#3a8fff] transition-colors"
                               placeholder={`Enter ${field.name.toLowerCase()}`}
                             />
                           </div>
@@ -986,7 +942,7 @@ export default function AdminPage() {
                         type="text"
                         value={newFeature}
                         onChange={e => setNewFeature(e.target.value)}
-                        className="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-xl text-white focus:outline-none focus:border-[#3a8fff] transition-colors"
+                        className="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-xl text-white placeholder-white/80 focus:outline-none focus:border-[#3a8fff] transition-colors"
                         placeholder="Enter a feature and click Add"
                         maxLength={100}
                       />
@@ -1033,18 +989,40 @@ export default function AdminPage() {
                   {/* Image Upload */}
                   <div className="mb-4">
                     <label className="block text-sm font-medium text-white/80 mb-2">Product Image</label>
-                    <div className="flex gap-2">
+                    <div className="flex gap-2 items-center">
                       <input
+                        id="product-image-upload"
                         type="file"
                         accept="image/*"
                         onChange={handleImageSelect}
-                        className="flex-1 px-4 py-3 bg-white/10 border border-white/20 rounded-xl text-white focus:outline-none focus:border-[#3a8fff] transition-colors"
+                        className="hidden"
                         disabled={isUploading}
                       />
+                      <GlassButton
+                        as="label"
+                        htmlFor="product-image-upload"
+                        variant="secondary"
+                        size="medium"
+                        className="cursor-pointer flex items-center gap-2"
+                        tabIndex={0}
+                        aria-label="Upload product image"
+                      >
+                        <span>Upload</span>
+                        <span aria-hidden="true">
+                          {/* Upload icon: arrow up, glassmorphic style */}
+                          <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M10 16V4" stroke="#3a8fff" strokeWidth="2.2" strokeLinecap="round"/>
+                            <path d="M6 8l4-4 4 4" stroke="#3a8fff" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round"/>
+                          </svg>
+                        </span>
+                      </GlassButton>
+                      <span className="text-white/80 text-sm truncate max-w-xs">
+                        {selectedImage ? selectedImage.name : "No file chosen"}
+                      </span>
                       {selectedImage && (
                         <GlassButton
                           onClick={() => handleImageUpload(selectedImage)}
-                          variant="secondary"
+                          variant="accent"
                           size="small"
                           disabled={isUploading}
                         >
@@ -1053,7 +1031,12 @@ export default function AdminPage() {
                           ) : (
                             <>
                               <span>Upload</span>
-                              <span>📤</span>
+                              <span>
+                                <svg width="18" height="18" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                  <path d="M10 16V4" stroke="#fff" strokeWidth="2" strokeLinecap="round"/>
+                                  <path d="M6 8l4-4 4 4" stroke="#fff" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                                </svg>
+                              </span>
                             </>
                           )}
                         </GlassButton>
@@ -1256,7 +1239,7 @@ export default function AdminPage() {
                           type="text"
                           value={couponForm.code}
                           onChange={(e) => setCouponForm({...couponForm, code: e.target.value.toUpperCase()})}
-                          className="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-xl text-white focus:outline-none focus:border-[#3a8fff] transition-colors"
+                          className="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-xl text-white placeholder-white/80 focus:outline-none focus:border-[#3a8fff] transition-colors"
                           placeholder="e.g., SAVE20"
                           maxLength={20}
                         />
@@ -1268,7 +1251,7 @@ export default function AdminPage() {
                           type="number"
                           value={couponForm.discountPercent}
                           onChange={(e) => setCouponForm({...couponForm, discountPercent: e.target.value})}
-                          className="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-xl text-white focus:outline-none focus:border-[#3a8fff] transition-colors"
+                          className="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-xl text-white placeholder-white/80 focus:outline-none focus:border-[#3a8fff] transition-colors"
                           placeholder="20"
                           min="1"
                           max="100"
@@ -1281,7 +1264,7 @@ export default function AdminPage() {
                           type="date"
                           value={couponForm.expiryDate}
                           onChange={(e) => setCouponForm({...couponForm, expiryDate: e.target.value})}
-                          className="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-xl text-white focus:outline-none focus:border-[#3a8fff] transition-colors"
+                          className="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-xl text-white placeholder-white/80 focus:outline-none focus:border-[#3a8fff] transition-colors"
                         />
                       </div>
 
@@ -1291,7 +1274,7 @@ export default function AdminPage() {
                           type="number"
                           value={couponForm.maxUses}
                           onChange={(e) => setCouponForm({...couponForm, maxUses: e.target.value})}
-                          className="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-xl text-white focus:outline-none focus:border-[#3a8fff] transition-colors"
+                          className="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-xl text-white placeholder-white/80 focus:outline-none focus:border-[#3a8fff] transition-colors"
                           placeholder="Leave empty for unlimited"
                           min="1"
                         />
@@ -1407,7 +1390,7 @@ export default function AdminPage() {
         {/* Products Preview */}
         <section className="w-full">
           <GlassCard variant="secondary" padding="large" className="w-full">
-            <h2 className="text-3xl font-bold text-white mb-6">Current Products</h2>
+            <Heading as="h2" gradient="linear-gradient(to right, #009ffd, #2a2a72)" className="mb-6" size="secondary">Current Products</Heading>
             
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
               {products.map((product) => (
