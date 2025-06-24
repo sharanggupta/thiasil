@@ -1,0 +1,262 @@
+.glassCard {
+  background: rgba(255,255,255,0.60);
+  box-shadow: 0 12px 48px 0 rgba(31,38,135,0.20), 0 0 0 8px rgba(58,240,252,0.12);
+  border-radius: 2.5rem;
+  border: 2.5px solid transparent;
+  background-clip: padding-box;
+  position: relative;
+  transition: box-shadow 0.3s, transform 0.2s;
+  overflow: visible;
+  backdrop-filter: blur(32px);
+  padding: 3.5rem 3rem;
+  gap: 4rem;
+  min-height: 540px;
+}
+.glassCard::before {
+  content: '';
+  position: absolute;
+  inset: -6px;
+  border-radius: 2.7rem;
+  z-index: 0;
+  background: linear-gradient(135deg, #3af0fc 0%, #2a2a72 100%);
+  opacity: 0.25;
+  pointer-events: none;
+}
+.glassCard:hover {
+  box-shadow: 0 20px 64px 0 rgba(31,38,135,0.25), 0 0 0 16px rgba(58,240,252,0.20);
+  transform: translateY(-8px) scale(1.03);
+}
+
+.heroImage {
+  position: relative;
+  width: 420px;
+  height: 100%;
+  min-width: 320px;
+  min-height: 320px;
+  max-width: 480px;
+  max-height: 480px;
+  border-radius: 2.5rem;
+  overflow: hidden;
+  z-index: 2;
+  box-shadow: 0 12px 48px 0 rgba(58,143,255,0.20);
+  background: linear-gradient(135deg, #e0f7fa 0%, #b3e5fc 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 2rem;
+  border: 3px solid transparent;
+  background-clip: padding-box;
+}
+.heroImage::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 2.5rem;
+  pointer-events: none;
+  z-index: 2;
+  border: 3px solid;
+  border-image: linear-gradient(135deg, #3af0fc 0%, #2a2a72 100%) 1;
+  opacity: 0.18;
+}
+.heroOverlay {
+  position: absolute;
+  inset: 0;
+  border-radius: 2.5rem;
+  background: radial-gradient(circle at 60% 40%, #3af0fc55 0%, #2a2a7210 100%);
+  z-index: 1;
+  pointer-events: none;
+}
+.accentBlob {
+  position: absolute;
+  width: 220px;
+  height: 220px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #3af0fc 0%, #2a2a72 100%);
+  opacity: 0.16;
+  filter: blur(40px);
+  z-index: 0;
+}
+.heroImageBg {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 340px;
+  height: 340px;
+  transform: translate(-50%, -50%);
+  border-radius: 50%;
+  background: radial-gradient(circle at 60% 40%, #3af0fc33 0%, #2a2a7211 100%);
+  filter: blur(32px);
+  z-index: 0;
+  opacity: 0.5;
+}
+.heroImage img, .heroImage .next-image {
+  position: relative;
+  z-index: 2;
+  max-height: 420px;
+  max-width: 100%;
+  object-fit: contain;
+  margin: auto;
+}
+.variantGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 2.5rem;
+  margin-top: 2.5rem;
+  width: 100%;
+  background: linear-gradient(120deg, #f0f9ff 60%, #e0f2fe 100%);
+  border-radius: 1.5rem;
+  box-shadow: 0 2px 24px 0 rgba(58,143,255,0.07);
+  padding: 2rem 1rem;
+}
+.variantCard {
+  background: rgba(255,255,255,0.8);
+  border-radius: 1.7rem;
+  box-shadow: 0 6px 32px 0 rgba(58,143,255,0.13), 0 2px 12px 0 rgba(58,240,252,0.07);
+  border: 1.7px solid #e0e7ef;
+  padding: 2rem 1.5rem 1.5rem 1.5rem;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 1rem;
+  position: relative;
+  transition: box-shadow 0.22s, transform 0.18s, border-color 0.18s;
+  backdrop-filter: blur(16px);
+  cursor: pointer;
+  min-height: 220px;
+  max-width: 340px;
+}
+.variantCard:hover {
+  box-shadow: 0 16px 48px 0 rgba(58,143,255,0.22), 0 0 0 8px #3af0fc33;
+  transform: translateY(-6px) scale(1.045);
+  border-color: #3af0fc;
+  background: rgba(236,254,255,0.92);
+}
+.variantIcon {
+  width: 1.1em;
+  height: 1.1em;
+  margin-right: 0.35em;
+  color: #0ea5e9;
+  filter: drop-shadow(0 2px 8px #3af0fc22);
+  vertical-align: middle;
+  display: inline-block;
+}
+.variantLabel {
+  font-size: 1.13em;
+  font-weight: 700;
+  color: #2563eb;
+  display: flex;
+  align-items: center;
+  gap: 0.6em;
+}
+.variantValue {
+  font-size: 1.1em;
+  font-weight: 500;
+  color: #222b;
+  margin-left: 0.2em;
+}
+.variantPrice {
+  font-size: 1.35em;
+  font-weight: 900;
+  color: #0ea5e9;
+  margin-top: 0.2em;
+  text-shadow: 0 2px 12px #3af0fc22;
+}
+.variantStock {
+  font-size: 0.95em;
+  font-weight: 600;
+  border-radius: 0.7em;
+  padding: 0.2em 0.8em;
+  background: #e0f7fa;
+  color: #059669;
+  letter-spacing: 0.04em;
+  margin-top: 0.2em;
+}
+.variantStock.out {
+  background: #fee2e2;
+  color: #dc2626;
+}
+.scrollbarThin::-webkit-scrollbar {
+  height: 8px;
+}
+.scrollbarThin::-webkit-scrollbar-thumb {
+  background: rgba(58,143,255,0.18);
+  border-radius: 8px;
+}
+
+/* Typography tweaks */
+.productName {
+  font-size: 2.7rem;
+  font-weight: 900;
+  color: #1e293b;
+  letter-spacing: -0.02em;
+  text-shadow: 0 2px 16px rgba(58,143,255,0.08);
+  margin-bottom: 0.5rem;
+}
+.productCatNo {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: #2563eb;
+  background: #e0f2fe;
+  border-radius: 1em;
+  padding: 0.3em 1em;
+  box-shadow: 0 2px 8px rgba(58,143,255,0.06);
+  margin-bottom: 0.5rem;
+}
+.productDescription {
+  font-size: 1.18rem;
+  color: #334155;
+  font-weight: 500;
+  margin-bottom: 0.5rem;
+  text-shadow: 0 1px 8px rgba(58,143,255,0.04);
+}
+@media (min-width: 1024px) {
+  .glassCard {
+    min-height: 640px;
+  }
+  .heroImage {
+    min-height: 420px;
+    height: 100%;
+  }
+  .heroImageBg {
+    width: 420px;
+    height: 420px;
+  }
+}
+
+.heroLeft {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-width: 340px;
+  max-width: 420px;
+  flex: 1 1 340px;
+  gap: 1.2rem;
+  padding-right: 1.5rem;
+}
+.heroRight {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: stretch;
+  flex: 2 1 0%;
+  min-width: 0;
+}
+@media (max-width: 900px) {
+  .glassCard {
+    flex-direction: column !important;
+    gap: 2.5rem !important;
+    padding: 2rem 0.5rem !important;
+  }
+  .heroLeft {
+    min-width: 0;
+    max-width: 100%;
+    padding-right: 0;
+    align-items: center;
+    margin-bottom: 1.5rem;
+  }
+  .heroRight {
+    min-width: 0;
+    width: 100%;
+  }
+} 

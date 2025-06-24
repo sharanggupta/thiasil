@@ -79,12 +79,6 @@ const FeatureSection = () => {
               </p>
             </div>
           </div>
-          {/* Footnote for Chemical Resistance */}
-          <div className="w-full flex justify-center mt-2">
-            <p className="text-xs text-custom-gray opacity-70 text-center max-w-xl">
-              *Except strong alkalis, phosphate, and fluorine compounds at high temperature.
-            </p>
-          </div>
         </div>
       </div>
     </div>

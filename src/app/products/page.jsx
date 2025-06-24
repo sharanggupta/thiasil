@@ -1,4 +1,5 @@
 "use client";
+import Link from "next/link";
 import { useMemo, useState } from "react";
 import productsData from "../../data/products.json";
 import { NeonBubblesBackground } from "../components/Glassmorphism";
@@ -153,57 +154,45 @@ export default function Products() {
       <Navbar theme="products" />
       <NeonBubblesBackground />
       <div className="flex z-10 gap-4 justify-center items-center mb-10">
-        <div className="relative group">
+        <div className="flex flex-row gap-3 items-center">
           <a
-            href="/api/generate-catalog"
+            href="/catalog.pdf"
             download
             aria-label="Download Price List (PDF)"
             title="Download Price List (PDF)"
-            className="flex flex-col justify-center items-center rounded-full focus:outline-none focus:ring-2 focus:ring-blue-400"
-            style={{ width: 56, height: 56, lineHeight: 0, boxShadow: '0 4px 24px 0 rgba(58,143,255,0.18)' }}
+            className="flex items-center rounded-full focus:outline-none focus:ring-2 focus:ring-blue-400"
+            style={{ width: '2.5rem', height: '2.5rem', minWidth: '2.5rem', minHeight: '2.5rem', lineHeight: 0, boxShadow: '0 4px 24px 0 rgba(58,143,255,0.18)', marginRight: '0.75rem' }}
           >
-            <span className="flex relative justify-center items-center w-14 h-14">
-              <svg width="56" height="56" viewBox="0 0 56 56" fill="none" xmlns="http://www.w3.org/2000/svg" className="block">
-                {/* Blue ring */}
-                <circle cx="28" cy="28" r="26" fill="#fff" stroke="#3a8fff" strokeWidth="4" />
-                {/* White glassy center */}
-                <circle cx="28" cy="28" r="20" fill="#fff" filter="url(#glassShadow)" />
-                {/* Arrow */}
-                <path d="M28 18v13" stroke="#374151" strokeWidth="3.5" strokeLinecap="round" />
-                <path d="M22.5 27.5L28 33l5.5-5.5" stroke="#374151" strokeWidth="3.5" strokeLinecap="round" strokeLinejoin="round" />
-                {/* Tray */}
-                <rect x="20" y="36" width="16" height="4" rx="2" fill="#374151" />
-                <defs>
-                  <filter id="glassShadow" x="6" y="6" width="44" height="44" filterUnits="userSpaceOnUse" colorInterpolationFilters="sRGB">
-                    <feDropShadow dx="0" dy="2" stdDeviation="2" floodColor="#3a8fff" floodOpacity="0.10" />
-                  </filter>
-                </defs>
-              </svg>
-            </span>
-            {/* Label below icon, only on desktop */}
-            <span className="hidden mt-1 text-xs font-semibold text-blue-700 md:block">Price List</span>
+            <svg width="2.5rem" height="2.5rem" viewBox="0 0 56 56" fill="none" xmlns="http://www.w3.org/2000/svg" className="block">
+              <circle cx="28" cy="28" r="26" fill="#fff" stroke="#3a8fff" strokeWidth="4" />
+              <circle cx="28" cy="28" r="20" fill="#fff" filter="url(#glassShadow)" />
+              <path d="M28 18v13" stroke="#374151" strokeWidth="3.5" strokeLinecap="round" />
+              <path d="M22.5 27.5L28 33l5.5-5.5" stroke="#374151" strokeWidth="3.5" strokeLinecap="round" strokeLinejoin="round" />
+              <rect x="20" y="36" width="16" height="4" rx="2" fill="#374151" />
+              <defs>
+                <filter id="glassShadow" x="6" y="6" width="44" height="44" filterUnits="userSpaceOnUse" colorInterpolationFilters="sRGB">
+                  <feDropShadow dx="0" dy="2" stdDeviation="2" floodColor="#3a8fff" floodOpacity="0.10" />
+                </filter>
+              </defs>
+            </svg>
           </a>
-          {/* Tooltip */}
-          <span className="absolute left-1/2 z-20 px-3 py-1 mt-2 text-xs text-white whitespace-nowrap bg-blue-900 rounded-lg shadow-lg opacity-0 transition-opacity duration-200 -translate-x-1/2 pointer-events-none group-hover:opacity-100">
-            Download Price List (PDF)
-          </span>
+          <h1
+            className="heading"
+            style={{
+              backgroundImage: 'linear-gradient(to right, #009ffd, #2a2a72)',
+              WebkitBackgroundClip: 'text',
+              color: 'transparent',
+              letterSpacing: '0.2rem',
+              fontWeight: 700,
+              fontSize: '2.5rem',
+              margin: 0,
+              display: 'inline-block',
+              textTransform: 'uppercase',
+            }}
+          >
+            Explore Premium Labware
+          </h1>
         </div>
-        <h1
-          className="heading"
-          style={{
-            backgroundImage: 'linear-gradient(to right, #009ffd, #2a2a72)',
-            WebkitBackgroundClip: 'text',
-            color: 'transparent',
-            letterSpacing: '0.2rem',
-            fontWeight: 700,
-            fontSize: '2.5rem',
-            margin: 0,
-            display: 'inline-block',
-            textTransform: 'uppercase',
-          }}
-        >
-          Explore Premium Labware
-        </h1>
       </div>
       {/* Filters and Coupon as cards */}
       <div className="flex z-10 flex-wrap gap-8 justify-center mb-12">
@@ -285,67 +274,79 @@ export default function Products() {
         {filteredProducts.length === 0 && (
           <div className="col-span-full py-12 text-lg text-center text-blue-900/80">No products found.</div>
         )}
-        {filteredProducts.map((product, index) => (
-          <div
-            key={product.catNo || (product.name + '-' + index)}
-            className="relative bg-white/90 backdrop-blur-lg rounded-[2.5rem] shadow-2xl p-6 flex flex-col items-center w-80 h-96 group overflow-visible transition-transform duration-300 ease-out hover:scale-105"
-            style={{
-              boxShadow: '0 0 24px 6px rgba(58,240,252,0.18), 0 8px 40px 0 rgba(31,38,135,0.10)'
-            }}
-          >
-            {/* Glowing gradient border using pseudo-element */}
-            <span className="pointer-events-none absolute inset-0 rounded-[2.5rem] z-10 transition-all duration-300 ease-out group-hover:opacity-100 group-hover:blur-[10px] group-hover:brightness-125" aria-hidden="true" style={{
-              boxShadow: '0 0 0 6px rgba(58,240,252,0.10), 0 0 32px 0 rgba(58,240,252,0.18)',
-              border: 'none',
-              background: 'linear-gradient(135deg,rgba(58,240,252,0.18) 0%,rgba(30,58,138,0.10) 100%)',
-              filter: 'blur(6px)',
-              opacity: 0.7
-            }} />
-            {/* Catalog Number badge at top left */}
-            <div className="absolute top-5 left-7 z-20 px-3 py-1 text-xs font-semibold text-blue-700 rounded-full border border-blue-100 shadow-sm bg-white/70">Cat No: {product.catNo}</div>
-            {/* Product Image with soft glow */}
-            <div className="flex flex-col justify-center items-center mt-6 mb-4">
-              <div className="absolute top-16 left-1/2 w-20 h-6 bg-gradient-to-r from-cyan-300 to-blue-200 rounded-full opacity-40 blur-2xl -translate-x-1/2 -z-10" />
-              <img
-                src={`/images/products/${getBaseCatalogNumber(product.catNo)}.png`}
-                alt={product.name}
-                className="object-contain w-20 h-20 drop-shadow-xl"
-                onError={e => {
-                  e.target.onerror = null;
-                  e.target.src = 'data:image/svg+xml;utf8,<svg width=\"80\" height=\"80\" xmlns=\"http://www.w3.org/2000/svg\"><rect width=\"100%\" height=\"100%\" rx=\"20\" fill=\"%23e0e7ef\"/><text x=\"50%\" y=\"54%\" text-anchor=\"middle\" fill=\"%2399aabb\" font-size=\"12\" font-family=\"Arial\" dy=\".3em\">No Image</text></svg>';
-                }}
-              />
-            </div>
-            {/* Product Name */}
-            <div className="mb-1 w-full text-lg font-extrabold text-center text-blue-900 truncate" title={product.name}>{product.name}</div>
-            {/* Stock Badge */}
-            <div className="flex gap-2 justify-center items-center mb-1">
-              <span className="inline-block px-3 py-0.5 rounded-full text-xs font-semibold border border-blue-700 text-blue-700 bg-white/80">{getStockStatusDisplay(product.stockStatus).props.children}</span>
-            </div>
-            {/* Packaging */}
-            {product.packaging && (
-              <div className="mb-1 text-xs text-center text-blue-800">Packaging: {product.packaging}</div>
-            )}
-            {/* Capacity */}
-            {product.capacity && (
-              <div className="mb-1 text-xs text-center text-blue-800">Capacity: {product.capacity}</div>
-            )}
-            {/* Dimensions */}
-            {product.dimensions && (
-              <div className="mb-1 text-xs text-center text-blue-800">Dimensions: {product.dimensions}</div>
-            )}
-            {/* Description */}
-            {product.description && (
-              <div className="mb-2 text-xs text-center text-gray-500 line-clamp-2">{product.description}</div>
-            )}
-            {/* Price at the bottom, prominent */}
-            <div className="absolute bottom-6 left-1/2 -translate-x-1/2 w-[90%] flex justify-center z-20">
-              <div className="px-6 py-2 w-full text-xl font-bold text-center text-blue-900 rounded-full border border-blue-100 shadow bg-white/90">
-                {activeCoupon ? applyDiscountToPriceRange(product.price, activeCoupon.discountPercent) : product.price}
+        {filteredProducts.map((product, index) => {
+          // Extract min price from price or priceRange
+          let fromPrice = null;
+          if (product.priceRange) {
+            const match = product.priceRange.match(/₹([\d,.]+)/);
+            if (match) fromPrice = `From ₹${match[1]}`;
+          } else if (product.price) {
+            const match = product.price.match(/₹([\d,.]+)/);
+            if (match) fromPrice = `From ₹${match[1]}`;
+          }
+          return (
+            <Link
+              key={product.catNo || (product.name + '-' + index)}
+              href={`/products/${product.categorySlug || product.category.toLowerCase()}/${encodeURIComponent(product.catNo)}`}
+              className="relative bg-white/90 backdrop-blur-lg rounded-[2.5rem] shadow-2xl p-6 flex flex-col items-center w-80 h-96 group overflow-visible transition-transform duration-300 ease-out hover:scale-105"
+              style={{
+                boxShadow: '0 0 24px 6px rgba(58,240,252,0.18), 0 8px 40px 0 rgba(31,38,135,0.10)'
+              }}
+            >
+              {/* Glowing gradient border using pseudo-element */}
+              <span className="pointer-events-none absolute inset-0 rounded-[2.5rem] z-10 transition-all duration-300 ease-out group-hover:opacity-100 group-hover:blur-[10px] group-hover:brightness-125" aria-hidden="true" style={{
+                boxShadow: '0 0 0 6px rgba(58,240,252,0.10), 0 0 32px 0 rgba(58,240,252,0.18)',
+                border: 'none',
+                background: 'linear-gradient(135deg,rgba(58,240,252,0.18) 0%,rgba(30,58,138,0.10) 100%)',
+                filter: 'blur(6px)',
+                opacity: 0.7
+              }} />
+              {/* Catalog Number badge at top left */}
+              <div className="absolute top-5 left-7 z-20 px-3 py-1 text-xs font-semibold text-blue-700 rounded-full border border-blue-100 shadow-sm bg-white/70">Cat No: {product.catNo}</div>
+              {/* Product Image with soft glow */}
+              <div className="flex flex-col justify-center items-center mt-6 mb-4">
+                <div className="absolute top-16 left-1/2 w-20 h-6 bg-gradient-to-r from-cyan-300 to-blue-200 rounded-full opacity-40 blur-2xl -translate-x-1/2 -z-10" />
+                <img
+                  src={`/images/products/${getBaseCatalogNumber(product.catNo)}.png`}
+                  alt={product.name}
+                  className="object-contain w-20 h-20 drop-shadow-xl"
+                  onError={e => {
+                    e.target.onerror = null;
+                    e.target.src = 'data:image/svg+xml;utf8,<svg width="80" height="80" xmlns="http://www.w3.org/2000/svg"><rect width="100%" height="100%" rx="20" fill="%23e0e7ef"/><text x="50%" y="54%" text-anchor="middle" fill="%2399aabb" font-size="12" font-family="Arial" dy=".3em">No Image</text></svg>';
+                  }}
+                />
               </div>
-            </div>
-          </div>
-        ))}
+              {/* Product Name */}
+              <div className="mb-1 w-full text-lg font-extrabold text-center text-blue-900 truncate" title={product.name}>{product.name}</div>
+              {/* Stock Badge */}
+              <div className="flex gap-2 justify-center items-center mb-1">
+                <span className="inline-block px-3 py-0.5 rounded-full text-xs font-semibold border border-blue-700 text-blue-700 bg-white/80">{getStockStatusDisplay(product.stockStatus).props.children}</span>
+              </div>
+              {/* Packaging */}
+              {product.packaging && (
+                <div className="mb-1 text-xs text-center text-blue-800">Packaging: {product.packaging}</div>
+              )}
+              {/* Capacity */}
+              {product.capacity && (
+                <div className="mb-1 text-xs text-center text-blue-800">Capacity: {product.capacity}</div>
+              )}
+              {/* Dimensions */}
+              {product.dimensions && (
+                <div className="mb-1 text-xs text-center text-blue-800">Dimensions: {product.dimensions}</div>
+              )}
+              {/* Description */}
+              {product.description && (
+                <div className="mb-2 text-xs text-center text-gray-500 line-clamp-2">{product.description}</div>
+              )}
+              {/* Price at the bottom, prominent */}
+              <div className="absolute bottom-6 left-1/2 -translate-x-1/2 w-[90%] flex justify-center z-20">
+                <div className="px-6 py-2 w-full text-xl font-bold text-center text-blue-900 rounded-full border border-blue-100 shadow bg-white/90">
+                  {fromPrice || 'Contact for pricing'}
+                </div>
+              </div>
+            </Link>
+          );
+        })}
       </div>
       <style jsx>{`
         .glassmorphic-card {
