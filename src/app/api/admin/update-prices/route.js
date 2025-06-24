@@ -1,6 +1,7 @@
 import fs from 'fs';
 import { NextResponse } from 'next/server';
 import path from 'path';
+import { createBackup } from '../../../../lib/backup-utils';
 
 // Get admin credentials from environment variables (required)
 const ADMIN_CREDENTIALS = {
@@ -15,8 +16,8 @@ if (!ADMIN_CREDENTIALS.username || !ADMIN_CREDENTIALS.password) {
 
 // Simple in-memory rate limiting (in production, use Redis or similar)
 const rateLimitMap = new Map();
-const RATE_LIMIT_WINDOW = 15 * 60 * 1000; // 15 minutes
-const MAX_REQUESTS = 10; // Max 10 requests per 15 minutes
+const RATE_LIMIT_WINDOW = 5 * 60 * 1000; // 5 minutes
+const RATE_LIMIT_MAX_REQUESTS = 10;
 
 function checkRateLimit(ip) {
   const now = Date.now();
@@ -25,7 +26,7 @@ function checkRateLimit(ip) {
   // Remove old requests outside the window
   const recentRequests = userRequests.filter(time => now - time < RATE_LIMIT_WINDOW);
   
-  if (recentRequests.length >= MAX_REQUESTS) {
+  if (recentRequests.length >= RATE_LIMIT_MAX_REQUESTS) {
     return false;
   }
   
@@ -214,20 +215,31 @@ export async function POST(request) {
     }
     
     // Create backup before writing changes
-    const backupPath = path.join(process.cwd(), 'src', 'data', `products_backup_${Date.now()}.json`);
-    try {
-      fs.writeFileSync(backupPath, JSON.stringify(productsData, null, 2));
-    } catch (error) {
-      console.error('Failed to create backup:', error);
-      return NextResponse.json({ error: 'Failed to create backup' }, { status: 500 });
+    const backupResult = await createBackup(productsData, 'price_update');
+    let backupCreated = false;
+    
+    if (backupResult.success) {
+      backupCreated = true;
+      console.log(`Backup created: ${backupResult.backupId} (${backupResult.method})`);
+    } else {
+      console.error('Failed to create backup:', backupResult.error);
+      // Don't fail the request if backup fails
     }
     
-    // Write the updated data back to the file
-    try {
-      fs.writeFileSync(productsPath, JSON.stringify(productsData, null, 2));
-    } catch (error) {
-      console.error('Failed to write updated data:', error);
-      return NextResponse.json({ error: 'Failed to update products data' }, { status: 500 });
+    // Write the updated data back to the file (only in development)
+    const isDevelopment = process.env.NODE_ENV === 'development';
+    const isVercel = process.env.VERCEL === '1';
+    
+    if (isDevelopment && !isVercel) {
+      try {
+        fs.writeFileSync(productsPath, JSON.stringify(productsData, null, 2));
+      } catch (error) {
+        console.error('Error writing products data file:', error);
+        return NextResponse.json({ error: 'Error saving changes' }, { status: 500 });
+      }
+    } else {
+      // In production, log the changes but don't write to filesystem
+      console.log('Production environment: Price changes logged but not persisted to filesystem');
     }
     
     // Log the changes for audit
@@ -244,7 +256,7 @@ export async function POST(request) {
       success: true,
       updatedCount,
       message: `Successfully updated prices for ${updatedCount} items`,
-      backupCreated: true
+      backupCreated: backupCreated
     });
     
   } catch (error) {

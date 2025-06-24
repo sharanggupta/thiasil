@@ -11,9 +11,9 @@ export default function Footer() {
 
   return (
     <footer className="bg-[#333333] text-white px-5 md:px-10 py-10 h-auto">
-      <div className="flex flex-col items-center justify-between">
+      <div className="flex flex-col justify-between items-center">
         {/* Logo Section */}
-        <div className="flex items-center justify-center mb-8">
+        <div className="flex justify-center items-center mb-8">
           <Image
             src={logo}
             alt="Thiasil Logo"
@@ -22,18 +22,18 @@ export default function Footer() {
         </div>
 
         {/* Company Description */}
-        <div className="text-center mb-8 max-w-2xl">
-          <h3 className="text-xl font-semibold mb-4">Thiasil Labware</h3>
-          <p className="text-sm text-gray-300 leading-relaxed">
+        <div className="mb-8 max-w-2xl text-center">
+          <h3 className="mb-4 text-xl font-semibold">Thiasil Labware</h3>
+          <p className="text-sm leading-relaxed text-gray-300">
             Manufacturers of individually oxy-fired laboratory glassware including crucibles, lids, basins, and specialty lab equipment. 
             Premium quality fused silica products for research institutions, quality control laboratories, and analytical laboratories.
           </p>
         </div>
 
         {/* Navigation and Info Section */}
-        <div className="flex flex-col md:flex-row items-start justify-between w-full">
+        <div className="flex flex-col justify-between items-start w-full md:flex-row">
           {/* Navigation Links */}
-          <div className="flex flex-wrap text-center items-center justify-center text-nowrap space-x-4 text-sm uppercase border-t-2 pt-4 mb-6 md:mb-0">
+          <div className="flex flex-wrap justify-center items-center pt-4 mb-6 space-x-4 text-sm text-center uppercase border-t-2 text-nowrap md:mb-0">
             <Link
               href="/"
               className="hover:rotate-6 hover:text-custom-blue hover:scale-125 hover:bg-[#333333] hover:shadow-md transition-transform duration-300 ease-in-out relative"
@@ -73,16 +73,14 @@ export default function Footer() {
           </div>
 
           {/* Contact Information */}
-          <div className="w-full md:w-1/3 text-sm border-t-2 pt-4 md:mt-0 mt-6">
-            <h4 className="font-semibold mb-3">Contact Information</h4>
+          <div className="pt-4 mt-6 w-full text-sm border-t-2 md:w-1/3 md:mt-0">
+            <h4 className="mb-3 font-semibold">Contact Information</h4>
             <div className="space-y-2 text-gray-300">
               <p>📞 Phone: +91 9820576045</p>
-              <p>📧 Email: info@thiasil.com</p>
-              <p>📍 Location: India</p>
             </div>
-            <div className="mt-4 pt-4 border-t border-gray-600">
+            <div className="pt-4 mt-4 border-t border-gray-600">
               <p className="text-xs text-gray-400">
-                © 2024 Thiasil Labware. All rights reserved. 
+                © 2025 Thiasil. All rights reserved. 
                 Premium laboratory equipment and supplies.
               </p>
             </div>
