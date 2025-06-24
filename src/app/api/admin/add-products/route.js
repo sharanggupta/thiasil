@@ -1,6 +1,7 @@
 import fs from 'fs';
 import { NextResponse } from 'next/server';
 import path from 'path';
+import { createBackup } from '../../../../lib/backup-utils';
 
 // Get admin credentials from environment variables (required)
 const ADMIN_CREDENTIALS = {
@@ -15,15 +16,15 @@ if (!ADMIN_CREDENTIALS.username || !ADMIN_CREDENTIALS.password) {
 
 // Simple in-memory rate limiting
 const rateLimitMap = new Map();
-const RATE_LIMIT_WINDOW = 15 * 60 * 1000; // 15 minutes
-const MAX_REQUESTS = 10;
+const RATE_LIMIT_WINDOW = 5 * 60 * 1000; // 5 minutes
+const RATE_LIMIT_MAX_REQUESTS = 10;
 
 function checkRateLimit(ip) {
   const now = Date.now();
   const userRequests = rateLimitMap.get(ip) || [];
   const recentRequests = userRequests.filter(time => now - time < RATE_LIMIT_WINDOW);
   
-  if (recentRequests.length >= MAX_REQUESTS) {
+  if (recentRequests.length >= RATE_LIMIT_MAX_REQUESTS) {
     return false;
   }
   
@@ -61,21 +62,6 @@ function validateInput(data) {
   }
   
   return { valid: true };
-}
-
-function createBackup(productsData) {
-  const timestamp = Date.now();
-  const backupFilename = `products_backup_add_products_${timestamp}.json`;
-  const backupPath = path.join(process.cwd(), 'src', 'data', backupFilename);
-  
-  try {
-    fs.writeFileSync(backupPath, JSON.stringify(productsData, null, 2));
-    console.log(`Backup created: ${backupFilename}`);
-    return backupFilename;
-  } catch (error) {
-    console.error('Error creating backup:', error);
-    return null;
-  }
 }
 
 export async function POST(request) {
@@ -126,8 +112,17 @@ export async function POST(request) {
       return NextResponse.json({ error: 'Error reading products data' }, { status: 500 });
     }
     
-    // Create backup before making changes
-    const backupFilename = createBackup(productsData);
+    // Create backup before adding new products
+    const backupResult = await createBackup(productsData, 'add_products');
+    let backupCreated = false;
+    
+    if (backupResult.success) {
+      backupCreated = true;
+      console.log(`Backup created: ${backupResult.backupId} (${backupResult.method})`);
+    } else {
+      console.error('Failed to create backup:', backupResult.error);
+      // Don't fail the request if backup fails
+    }
     
     let result = {};
     
@@ -215,12 +210,20 @@ export async function POST(request) {
       };
     }
     
-    // Write updated data back to file
-    try {
-      fs.writeFileSync(productsPath, JSON.stringify(productsData, null, 2));
-    } catch (error) {
-      console.error('Error writing products data file:', error);
-      return NextResponse.json({ error: 'Error saving changes' }, { status: 500 });
+    // Write updated data back to file (only in development)
+    const isDevelopment = process.env.NODE_ENV === 'development';
+    const isVercel = process.env.VERCEL === '1';
+    
+    if (isDevelopment && !isVercel) {
+      try {
+        fs.writeFileSync(productsPath, JSON.stringify(productsData, null, 2));
+      } catch (error) {
+        console.error('Error writing products data file:', error);
+        return NextResponse.json({ error: 'Error saving changes' }, { status: 500 });
+      }
+    } else {
+      // In production, log the changes but don't write to filesystem
+      console.log('Production environment: Product changes logged but not persisted to filesystem');
     }
     
     // Log successful operation
@@ -228,7 +231,7 @@ export async function POST(request) {
       user: username,
       ip: ip,
       action: action,
-      backup: backupFilename,
+      backup: backupResult.backupId,
       result: result
     });
     
@@ -236,7 +239,7 @@ export async function POST(request) {
       success: true,
       message: result.message,
       data: result,
-      backup: backupFilename
+      backup: backupResult.backupId
     });
     
   } catch (error) {
