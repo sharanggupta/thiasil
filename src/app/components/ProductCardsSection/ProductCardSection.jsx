@@ -1,6 +1,7 @@
 "use client";
 import { useState } from "react";
 import Modal from "../../components/Modals/Modal";
+import Heading from "../common/Heading";
 import Button from "../MainButton/Button";
 import "./ProductCardSection.css";
 
@@ -11,7 +12,9 @@ const ProductCardSection = () => {
       className="flex flex-col justify-center gap-8 px-10 h-auto my-24"
       id="popular-products"
     >
-      <h2 className="text-center heading mb-10">Most Popular Products</h2>
+      <Heading as="h2" gradient="linear-gradient(to right, #009ffd, #2a2a72)" className="text-center mb-10" size="primary">
+        Most Popular Products
+      </Heading>
       <div className="flex flex-col custom-mobile:flex-row items-center justify-center gap-16">
         {/* Card 1 */}
         <div className="group w-[339px] h-[540px] perspective">

@@ -2,7 +2,7 @@
 import { useState } from "react";
 import "./Navbar.css"; // Include the custom CSS for the animations
 
-const Navbar = () => {
+const Navbar = ({ theme = "default" }) => {
   const [active, setActive] = useState(false);
   const [closing, setClosing] = useState(false); // To handle closing animation
 
@@ -26,25 +26,33 @@ const Navbar = () => {
     handleCloseMenu();
   };
 
+  // Theme-based styles
+  const isProductsTheme = theme === "products";
+  const menuBackground = isProductsTheme
+    ? "linear-gradient(135deg, rgba(58,143,255,0.85) 0%, rgba(162,89,255,0.85) 100%)"
+    : "linear-gradient(to right bottom, rgba(0, 159, 253, 0.95), rgba(42, 42, 114, 1))";
+  const hamburgerBg = isProductsTheme ? "bg-blue-200/80" : "bg-white";
+  const barColor = isProductsTheme ? "bg-blue-900" : "bg-black";
+
   return (
     <div className="relative">
       {/* Hamburger Icon - 3 Bars */}
       <div
-        className={`fixed z-40 right-[1rem] md:right-[4rem] top-[1.1rem] md:top-[4rem] h-[60px] w-[60px] md:h-[70px] md:w-[70px] flex flex-col justify-center items-center cursor-pointer rounded-full shadow-2xl bg-white transition-all duration-300 ease-in-out`}
+        className={`fixed z-40 right-[1rem] md:right-[4rem] top-[1.1rem] md:top-[4rem] h-[60px] w-[60px] md:h-[70px] md:w-[70px] flex flex-col justify-center items-center cursor-pointer rounded-full shadow-2xl ${hamburgerBg} transition-all duration-300 ease-in-out`}
         onClick={handleClick}
       >
         <div
-          className={`w-6 md:w-8 h-[2px] bg-black transition-transform duration-300 ease-in-out ${
+          className={`w-6 md:w-8 h-[2px] ${barColor} transition-transform duration-300 ease-in-out ${
             active ? "transform translate-y-2 rotate-45" : ""
           }`}
         ></div>
         <div
-          className={`w-6 md:w-8 h-[2px] bg-black my-[7px] transition-opacity duration-300 ease-in-out ${
+          className={`w-6 md:w-8 h-[2px] ${barColor} my-[7px] transition-opacity duration-300 ease-in-out ${
             active ? "opacity-0" : ""
           }`}
         ></div>
         <div
-          className={`w-6 md:w-8 h-[2px] bg-black transition-transform duration-300 ease-in-out ${
+          className={`w-6 md:w-8 h-[2px] ${barColor} transition-transform duration-300 ease-in-out ${
             active ? "transform -translate-y-2 -rotate-45" : ""
           }`}
         ></div>
@@ -56,8 +64,7 @@ const Navbar = () => {
           active && !closing ? "menu-open" : "menu-closed"
         }`}
         style={{
-          background:
-            "linear-gradient(to right bottom, rgba(0, 159, 253, 0.95), rgba(42, 42, 114, 1))",
+          background: menuBackground,
         }}
       >
         <nav role="navigation" aria-label="Main Navigation" className="navbar">
@@ -67,12 +74,8 @@ const Navbar = () => {
               { label: "ABOUT US", href: "/company" },
               { label: "OUR PRODUCTS", href: "/products" },
               { label: "FEATURES", href: "#thiasil-benefits" },
-              { label: "POPULAR PRODUCTS", href: "#popular-products" },
               { label: "TESTIMONIALS", href: "#reviews" },
               { label: "CONTACT US", href: "/contact" },
-              { label: "PRIVACY POLICY", href: "/policy" },
-              { label: "CALL US", href: "tel:+919820576045", external: true },
-              { label: "ADMIN", href: "/admin", admin: true },
             ].map((item, index) => (
               <li className="my-1" key={index}>
                 <a
@@ -85,9 +88,8 @@ const Navbar = () => {
                       : closing
                       ? "menu-item-close"
                       : ""
-                  } ${item.admin ? "opacity-50 hover:opacity-100" : ""} focus:outline-none focus:ring-2 focus:ring-[#3a8fff]`}
+                  } focus:outline-none focus:ring-2 focus:ring-[#3a8fff] ${isProductsTheme ? "products-nav-link" : ""}`}
                   onClick={handleNavItemClick}
-                  title={item.admin ? "Admin Panel (Restricted Access)" : ""}
                 >
                   <span>{item.label}</span>
                 </a>
@@ -101,3 +103,9 @@ const Navbar = () => {
 };
 
 export default Navbar;
+
+<style jsx global>{`
+  .products-nav-link {
+    text-shadow: 0 2px 8px rgba(30,58,138,0.18), 0 1px 0 rgba(255,255,255,0.12);
+  }
+`}</style>

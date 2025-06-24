@@ -2,14 +2,15 @@ import Image from "next/image";
 import scientistImage from "../../images/thiasil-3.webp";
 import labEquipmentImage from "../../images/thiasil-4.webp";
 import industryWorkerImage from "../../images/thiasil-5.webp";
+import Heading from "../common/Heading";
 import "./HiTechSection.css"; // Hover effects and z-index styles
 
 const HiTechSection = () => {
   return (
     <div className="mt-10 md:mt-28 mb-5 md:mb-10 px-7 md:px-10 flex flex-col items-center h-[40rem]">
-      <h2 className="text-center heading mb-10 md:mb-28">
+      <Heading as="h2" gradient="linear-gradient(to right, #009ffd, #2a2a72)" className="text-center mb-10 md:mb-28" size="primary">
         HI-TECH RANGE FOR EVERY APPLICATION
-      </h2>
+      </Heading>
 
       <div className="flex flex-col lg:flex-row items-center lg:items-start justify-between w-full text-custom-gray gap-10">
         {/* Left Side - Text */}
