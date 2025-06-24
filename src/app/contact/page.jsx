@@ -1,6 +1,7 @@
 "use client";
 import Image from "next/image";
 import { useSearchParams } from "next/navigation";
+import { Suspense } from "react";
 import ContactFormGlass from "../components/ContactForm/ContactFormGlass";
 import {
     GlassButton,
@@ -17,11 +18,19 @@ const sidebarNav = [
   { icon: "✉️", label: "Contact", href: "/contact" },
 ];
 
-export default function Contact() {
+// Separate component that uses useSearchParams
+function ContactFormWithParams() {
   const searchParams = useSearchParams();
   const initialName = searchParams.get("name") || "";
   const initialEmail = searchParams.get("email") || "";
   const initialPhone = searchParams.get("phone") || "";
+  
+  return (
+    <ContactFormGlass initialName={initialName} initialEmail={initialEmail} initialPhone={initialPhone} />
+  );
+}
+
+export default function Contact() {
   return (
     <div className="relative min-h-screen bg-gradient-to-br from-[#2e026d] via-[#15162c] to-[#0a0a23] overflow-x-hidden">
       <NeonBubblesBackground />
@@ -86,7 +95,9 @@ export default function Contact() {
             <h2 className="text-2xl font-bold text-white mb-2 text-center uppercase tracking-wider">
               Send us a Message
             </h2>
-            <ContactFormGlass initialName={initialName} initialEmail={initialEmail} initialPhone={initialPhone} />
+            <Suspense fallback={<div className="text-white text-center py-8">Loading form...</div>}>
+              <ContactFormWithParams />
+            </Suspense>
           </GlassCard>
 
           {/* Contact Information Section */}
