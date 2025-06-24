@@ -215,7 +215,6 @@ export default function AdminPage() {
         localStorage.setItem('adminSession', JSON.stringify(session));
         
         startSessionTimer();
-        setMessage("Login successful!");
       } else {
         const data = await response.json();
         setMessage(data.error || "Login failed");

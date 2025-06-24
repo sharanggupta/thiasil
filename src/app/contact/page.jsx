@@ -3,12 +3,7 @@ import Image from "next/image";
 import { useSearchParams } from "next/navigation";
 import { Suspense } from "react";
 import ContactFormGlass from "../components/ContactForm/ContactFormGlass";
-import {
-    GlassButton,
-    GlassCard,
-    GlassIcon,
-    NeonBubblesBackground
-} from "../components/Glassmorphism";
+import { GlassButton, GlassCard, GlassIcon, NeonBubblesBackground } from "../components/Glassmorphism";
 import favicon from "../images/favicon.png";
 
 const sidebarNav = [
