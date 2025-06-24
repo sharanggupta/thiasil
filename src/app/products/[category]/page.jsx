@@ -1,8 +1,10 @@
 "use client";
 import Image from "next/image";
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import { useEffect, useState } from "react";
 import { GlassButton, GlassCard, GlassIcon, NeonBubblesBackground } from "../../components/Glassmorphism";
+import Modal from '../../components/Modals/Modal';
 import Navbar from "../../components/Navbar/Navbar";
 import Heading from "../../components/common/Heading";
 
@@ -58,6 +60,9 @@ export default function CategoryPage({ params }) {
   const [couponMessage, setCouponMessage] = useState("");
   const [isApplyingCoupon, setIsApplyingCoupon] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [modalProduct, setModalProduct] = useState(null);
+  const router = useRouter();
 
   useEffect(() => {
     if (params?.category) {
@@ -270,10 +275,14 @@ export default function CategoryPage({ params }) {
             </div>
             
             <div className="flex flex-col sm:flex-row gap-4">
-              <GlassButton href="/products" variant="secondary" size="large">
-                <span>←</span>
-                <span>Back to All Products</span>
-              </GlassButton>
+              <Link href="/products" passHref legacyBehavior>
+                <a style={{ textDecoration: 'none' }}>
+                  <GlassButton variant="secondary" size="large">
+                    <span>←</span>
+                    <span>Back to All Products</span>
+                  </GlassButton>
+                </a>
+              </Link>
               <GlassButton href="/contact" variant="accent" size="large">
                 <span>Get Quote</span>
                 <span>→</span>
@@ -374,6 +383,13 @@ export default function CategoryPage({ params }) {
                     <span>→</span>
                   </GlassButton>
                 </div>
+
+                <button
+                  className="mt-4 px-4 py-2 rounded-lg bg-gradient-to-r from-[#009ffd] to-[#2a2a72] text-white font-bold shadow hover:from-[#2a2a72] hover:to-[#009ffd] transition-all"
+                  onClick={e => { e.stopPropagation(); setModalProduct(variant); setIsModalOpen(true); }}
+                >
+                  Get Quote
+                </button>
               </div>
             </GlassCard>
           ))}
@@ -401,6 +417,22 @@ export default function CategoryPage({ params }) {
           </GlassCard>
         </section>
       </main>
+
+      <Modal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)}>
+        <div className="p-6 text-center">
+          <h2 className="text-xl font-bold mb-4">Terms & Conditions</h2>
+          <p className="mb-6 text-sm text-gray-700">By proceeding, you agree to our terms and conditions for product inquiries and purchases.</p>
+          <button
+            className="px-6 py-2 rounded-lg bg-gradient-to-r from-[#009ffd] to-[#2a2a72] text-white font-bold shadow hover:from-[#2a2a72] hover:to-[#009ffd] transition-all"
+            onClick={() => {
+              setIsModalOpen(false);
+              router.push(`/contact?product=${encodeURIComponent(modalProduct?.name || '')}`);
+            }}
+          >
+            Buy / Enquire
+          </button>
+        </div>
+      </Modal>
     </div>
   );
 } 
