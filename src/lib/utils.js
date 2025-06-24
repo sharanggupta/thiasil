@@ -158,19 +158,6 @@ export const validateImageFile = (file) => {
 };
 
 // Session utilities
-export const getSessionCredentials = () => {
-  try {
-    const session = localStorage.getItem('adminSession');
-    if (!session) return null;
-    
-    const { username, password } = JSON.parse(session);
-    return { username, password };
-  } catch (error) {
-    console.error('Error parsing session:', error);
-    return null;
-  }
-};
-
 export const saveSession = (username, password) => {
   const session = {
     timestamp: Date.now(),

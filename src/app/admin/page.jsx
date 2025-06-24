@@ -2,6 +2,10 @@
 import Image from "next/image";
 import { useEffect, useState } from "react";
 import productsData from '../../data/products.json';
+import { useAdminBackups } from '../../lib/hooks/useAdminBackups';
+import { useAdminCoupons } from '../../lib/hooks/useAdminCoupons';
+import { useAdminProducts } from '../../lib/hooks/useAdminProducts';
+import { useAdminSession } from '../../lib/hooks/useAdminSession';
 import {
     GlassButton,
     GlassCard,
@@ -39,107 +43,101 @@ const ADMIN_TABS = [
 ];
 
 export default function AdminPage() {
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
-  const [products, setProducts] = useState([]);
-  const [categories, setCategories] = useState([]);
-  const [selectedCategory, setSelectedCategory] = useState("all");
-  const [isLoading, setIsLoading] = useState(false);
-  const [message, setMessage] = useState("");
-  const [loginAttempts, setLoginAttempts] = useState(0);
-  const [isLocked, setIsLocked] = useState(false);
-  const [sessionTimer, setSessionTimer] = useState(null);
+  // Use the custom session hook
+  const session = useAdminSession();
+  const {
+    isAuthenticated,
+    username,
+    setUsername,
+    password,
+    setPassword,
+    loginAttempts,
+    isLocked,
+    message,
+    setMessage,
+    isLoading,
+    setIsLoading,
+    handleLogin,
+    handleLogout,
+    startSessionTimer,
+    clearSessionTimer,
+    setIsAuthenticated
+  } = session;
+
+  // Use the custom products hook
+  const productsApi = useAdminProducts({ isAuthenticated, setMessage, username, password });
+  const {
+    products,
+    setProducts,
+    categories,
+    setCategories,
+    selectedCategory,
+    setSelectedCategory,
+    categoryProducts,
+    setCategoryProducts,
+    selectedProductId,
+    setSelectedProductId,
+    productForm,
+    setProductForm,
+    categoryForm,
+    setCategoryForm,
+    newDimensionField,
+    setNewDimensionField,
+    newFeature,
+    setNewFeature,
+    isAddLoading,
+    setIsAddLoading,
+    isUploading,
+    setIsUploading,
+    selectedImage,
+    setSelectedImage,
+    imagePreview,
+    setImagePreview,
+    loadProducts,
+    addCategory,
+    addProduct,
+    addDimensionField,
+    removeDimensionField,
+    handleImageUpload,
+    handleImageSelect
+  } = productsApi;
+
+  // Use the custom backups hook
+  const backupsApi = useAdminBackups({ setMessage, loadProducts, username, password });
+  const {
+    backups,
+    setBackups,
+    selectedBackup,
+    setSelectedBackup,
+    isBackupLoading,
+    setIsBackupLoading,
+    loadBackups,
+    restoreBackup,
+    resetToDefault,
+    cleanupBackups,
+    deleteBackup
+  } = backupsApi;
+
+  // Use the custom coupons hook
+  const couponsApi = useAdminCoupons({ setMessage, username, password });
+  const {
+    coupons,
+    setCoupons,
+    isCouponLoading,
+    setIsCouponLoading,
+    couponForm,
+    setCouponForm,
+    loadCoupons,
+    createCoupon,
+    deleteCoupon
+  } = couponsApi;
+
   const [activeTab, setActiveTab] = useState('dashboard');
   
   // Unified management states
   const [priceChangePercent, setPriceChangePercent] = useState(10);
   const [stockStatus, setStockStatus] = useState("in_stock");
   const [quantity, setQuantity] = useState("");
-  const [categoryProducts, setCategoryProducts] = useState([]);
-  const [selectedProductId, setSelectedProductId] = useState("all");
-
-  // Backup management states
-  const [backups, setBackups] = useState([]);
-  const [selectedBackup, setSelectedBackup] = useState("");
-  const [isBackupLoading, setIsBackupLoading] = useState(false);
-
-  // Coupon management states
-  const [coupons, setCoupons] = useState([]);
-  const [isCouponLoading, setIsCouponLoading] = useState(false);
-  const [couponForm, setCouponForm] = useState({
-    code: "",
-    discountPercent: "",
-    expiryDate: "",
-    maxUses: ""
-  });
-
-  // Add Products/Categories states
-  const [isAddLoading, setIsAddLoading] = useState(false);
-  const [categoryForm, setCategoryForm] = useState({
-    name: "",
-    slug: "",
-    description: "",
-    dimensionFields: []
-  });
-  const [productForm, setProductForm] = useState({
-    name: "",
-    category: "",
-    price: "",
-    stockStatus: "in_stock",
-    quantity: "",
-    dimensions: {},
-    features: [],
-    image: ""
-  });
-  const [newDimensionField, setNewDimensionField] = useState({
-    name: "",
-    unit: ""
-  });
-  const [newFeature, setNewFeature] = useState("");
-
-  // Image upload state
-  const [selectedImage, setSelectedImage] = useState(null);
-  const [imagePreview, setImagePreview] = useState(null);
-  const [isUploading, setIsUploading] = useState(false);
-
-  // Check for existing session on mount
-  useEffect(() => {
-    const session = localStorage.getItem('adminSession');
-    if (session) {
-      const { timestamp, username: savedUsername } = JSON.parse(session);
-      const now = Date.now();
-      
-      if (now - timestamp < SESSION_TIMEOUT) {
-        setIsAuthenticated(true);
-        setUsername(savedUsername);
-        startSessionTimer();
-      } else {
-        localStorage.removeItem('adminSession');
-      }
-    }
-  }, []);
-
-  // Session timer
-  const startSessionTimer = () => {
-    const timer = setTimeout(() => {
-      handleLogout();
-      setMessage("Session expired. Please login again.");
-    }, SESSION_TIMEOUT);
-    setSessionTimer(timer);
-  };
-
-  const clearSessionTimer = () => {
-    if (sessionTimer) {
-      clearTimeout(sessionTimer);
-      setSessionTimer(null);
-    }
-  };
-
-  // Cleanup on unmount
-  useEffect(() => {
-    return () => clearSessionTimer();
-  }, [sessionTimer]);
 
   useEffect(() => {
     if (isAuthenticated) {
@@ -154,170 +152,6 @@ export default function AdminPage() {
     return input.replace(/[<>]/g, '').trim();
   };
 
-  const handleLogin = async (e) => {
-    e.preventDefault();
-    
-    if (isLocked) {
-      setMessage("Account is temporarily locked. Please try again later.");
-      return;
-    }
-
-    const sanitizedUsername = sanitizeInput(username);
-    const sanitizedPassword = sanitizeInput(password);
-
-    if (!sanitizedUsername || !sanitizedPassword) {
-      setMessage("Please enter both username and password.");
-      return;
-    }
-
-    setIsLoading(true);
-    setMessage("");
-
-    try {
-      const response = await fetch('/api/admin/update-prices', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          username: sanitizedUsername,
-          password: sanitizedPassword,
-          category: 'all',
-          priceChangePercent: 0 // Just for authentication
-        }),
-      });
-
-      if (response.status === 401) {
-        const newAttempts = loginAttempts + 1;
-        setLoginAttempts(newAttempts);
-        
-        if (newAttempts >= 5) {
-          setIsLocked(true);
-          setTimeout(() => {
-            setIsLocked(false);
-            setLoginAttempts(0);
-          }, 15 * 60 * 1000); // 15 minutes lockout
-          setMessage("Too many failed attempts. Account locked for 15 minutes.");
-        } else {
-          setMessage(`Invalid credentials. ${5 - newAttempts} attempts remaining.`);
-        }
-      } else if (response.ok) {
-        setIsAuthenticated(true);
-        setLoginAttempts(0);
-        setIsLocked(false);
-        
-        // Save session
-        const session = {
-          timestamp: Date.now(),
-          username: sanitizedUsername,
-          password: sanitizedPassword
-        };
-        localStorage.setItem('adminSession', JSON.stringify(session));
-        
-        startSessionTimer();
-      } else {
-        const data = await response.json();
-        setMessage(data.error || "Login failed");
-      }
-    } catch (error) {
-      console.error('Login error:', error);
-      setMessage("Network error. Please try again.");
-    } finally {
-      setIsLoading(false);
-    }
-  };
-
-  const loadProducts = async () => {
-    try {
-      const response = await fetch('/api/products');
-      if (!response.ok) {
-        throw new Error('Failed to load products');
-      }
-      const data = await response.json();
-      setProducts(data.products);
-      setCategories(data.categories);
-    } catch (error) {
-      console.error('Error loading products:', error);
-      setMessage("Error loading products");
-    }
-  };
-
-  // Helper function to get credentials from stored session
-  const getSessionCredentials = () => {
-    const session = localStorage.getItem('adminSession');
-    if (!session) {
-      return null;
-    }
-    
-    const { username: sessionUsername, password: sessionPassword } = JSON.parse(session);
-    return {
-      username: sessionUsername,
-      password: sessionPassword
-    };
-  };
-
-  const loadBackups = async () => {
-    try {
-      const credentials = getSessionCredentials();
-      if (!credentials) {
-        console.error('No admin session found');
-        return;
-      }
-      
-      const response = await fetch('/api/admin/backup-management', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          username: credentials.username,
-          password: credentials.password,
-          action: 'list_backups'
-        }),
-      });
-
-      if (response.ok) {
-        const data = await response.json();
-        setBackups(data.backups || []);
-      } else {
-        console.error('Failed to load backups:', response.status);
-      }
-    } catch (error) {
-      console.error('Error loading backups:', error);
-    }
-  };
-
-  const loadCoupons = async () => {
-    try {
-      const credentials = getSessionCredentials();
-      if (!credentials) {
-        console.error('No admin session found');
-        return;
-      }
-      
-      const response = await fetch('/api/admin/backup-management', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          username: credentials.username,
-          password: credentials.password,
-          action: 'list_coupons'
-        }),
-      });
-
-      if (response.ok) {
-        const data = await response.json();
-        setCoupons(data.coupons || []);
-      } else {
-        console.error('Failed to load coupons:', response.status);
-      }
-    } catch (error) {
-      console.error('Error loading coupons:', error);
-    }
-  };
-
   const updatePrices = async () => {
     if (!isAuthenticated) {
       setMessage("Please login first");
@@ -330,7 +164,7 @@ export default function AdminPage() {
       return;
     }
 
-    const credentials = getSessionCredentials();
+    const credentials = { username, password };
     if (!credentials) {
       setMessage("Session expired. Please login again.");
       return;
@@ -376,7 +210,7 @@ export default function AdminPage() {
       return;
     }
 
-    const credentials = getSessionCredentials();
+    const credentials = { username, password };
     if (!credentials) {
       setMessage("Session expired. Please login again.");
       return;
@@ -415,304 +249,6 @@ export default function AdminPage() {
     } finally {
       setIsLoading(false);
     }
-  };
-
-  const restoreBackup = async () => {
-    if (!selectedBackup) {
-      setMessage("Please select a backup file to restore");
-      return;
-    }
-
-    if (!confirm(`Are you sure you want to restore from backup: ${selectedBackup}? This will overwrite current data.`)) {
-      return;
-    }
-
-    const credentials = getSessionCredentials();
-    if (!credentials) {
-      setMessage("Session expired. Please login again.");
-      return;
-    }
-
-    setIsBackupLoading(true);
-    setMessage("");
-
-    try {
-      const response = await fetch('/api/admin/backup-management', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          username: credentials.username,
-          password: credentials.password,
-          action: 'restore',
-          backupFile: selectedBackup
-        }),
-      });
-
-      const data = await response.json();
-
-      if (response.ok) {
-        setMessage(data.message);
-        loadProducts(); // Refresh products
-        loadBackups(); // Refresh backup list
-        setSelectedBackup("");
-      } else {
-        setMessage(data.error || "Failed to restore backup");
-      }
-    } catch (error) {
-      console.error('Error restoring backup:', error);
-      setMessage("Network error. Please try again.");
-    } finally {
-      setIsBackupLoading(false);
-    }
-  };
-
-  const resetToDefault = async () => {
-    if (!confirm("Are you sure you want to reset to default products? This will overwrite all current data and cannot be undone.")) {
-      return;
-    }
-
-    const credentials = getSessionCredentials();
-    if (!credentials) {
-      setMessage("Session expired. Please login again.");
-      return;
-    }
-
-    setIsBackupLoading(true);
-    setMessage("");
-
-    try {
-      const response = await fetch('/api/admin/backup-management', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          username: credentials.username,
-          password: credentials.password,
-          action: 'reset'
-        }),
-      });
-
-      const data = await response.json();
-
-      if (response.ok) {
-        setMessage(data.message);
-        loadProducts(); // Refresh products
-        loadBackups(); // Refresh backup list
-      } else {
-        setMessage(data.error || "Failed to reset to default");
-      }
-    } catch (error) {
-      console.error('Error resetting to default:', error);
-      setMessage("Network error. Please try again.");
-    } finally {
-      setIsBackupLoading(false);
-    }
-  };
-
-  const cleanupBackups = async () => {
-    if (!confirm("This will delete old backups, keeping only the 10 most recent ones. Continue?")) {
-      return;
-    }
-
-    const credentials = getSessionCredentials();
-    if (!credentials) {
-      setMessage("Session expired. Please login again.");
-      return;
-    }
-
-    setIsBackupLoading(true);
-    setMessage("");
-
-    try {
-      const response = await fetch('/api/admin/backup-management', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          username: credentials.username,
-          password: credentials.password,
-          action: 'cleanup_backups'
-        }),
-      });
-
-      const data = await response.json();
-
-      if (response.ok) {
-        setMessage(data.message);
-        loadBackups(); // Refresh backup list
-      } else {
-        setMessage(data.error || "Failed to cleanup backups");
-      }
-    } catch (error) {
-      console.error('Error cleaning up backups:', error);
-      setMessage("Network error. Please try again.");
-    } finally {
-      setIsBackupLoading(false);
-    }
-  };
-
-  const deleteBackup = async (backupFile) => {
-    if (!confirm(`Are you sure you want to delete backup: ${backupFile}?`)) {
-      return;
-    }
-
-    const credentials = getSessionCredentials();
-    if (!credentials) {
-      setMessage("Session expired. Please login again.");
-      return;
-    }
-
-    setIsBackupLoading(true);
-    setMessage("");
-
-    try {
-      const response = await fetch('/api/admin/backup-management', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          username: credentials.username,
-          password: credentials.password,
-          action: 'delete_backup',
-          backupFile
-        }),
-      });
-
-      const data = await response.json();
-
-      if (response.ok) {
-        setMessage(data.message);
-        loadBackups(); // Refresh backup list
-      } else {
-        setMessage(data.error || "Failed to delete backup");
-      }
-    } catch (error) {
-      console.error('Error deleting backup:', error);
-      setMessage("Network error. Please try again.");
-    } finally {
-      setIsBackupLoading(false);
-    }
-  };
-
-  const createCoupon = async () => {
-    if (!couponForm.code || !couponForm.discountPercent || !couponForm.expiryDate) {
-      setMessage("Please fill in all required fields");
-      return;
-    }
-
-    const discountPercent = parseFloat(couponForm.discountPercent);
-    if (isNaN(discountPercent) || discountPercent <= 0 || discountPercent > 100) {
-      setMessage("Discount percentage must be between 1 and 100");
-      return;
-    }
-
-    const credentials = getSessionCredentials();
-    if (!credentials) {
-      setMessage("Session expired. Please login again.");
-      return;
-    }
-
-    setIsCouponLoading(true);
-    setMessage("");
-
-    try {
-      const response = await fetch('/api/admin/backup-management', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          username: credentials.username,
-          password: credentials.password,
-          action: 'create_coupon',
-          coupon: {
-            code: couponForm.code.toUpperCase(),
-            discountPercent,
-            expiryDate: couponForm.expiryDate,
-            maxUses: couponForm.maxUses ? parseInt(couponForm.maxUses) : null
-          }
-        }),
-      });
-
-      const data = await response.json();
-
-      if (response.ok) {
-        setMessage(data.message);
-        setCouponForm({
-          code: "",
-          discountPercent: "",
-          expiryDate: "",
-          maxUses: ""
-        });
-        loadCoupons(); // Refresh coupon list
-      } else {
-        setMessage(data.error || "Failed to create coupon");
-      }
-    } catch (error) {
-      console.error('Error creating coupon:', error);
-      setMessage("Network error. Please try again.");
-    } finally {
-      setIsCouponLoading(false);
-    }
-  };
-
-  const deleteCoupon = async (code) => {
-    if (!confirm(`Are you sure you want to delete coupon: ${code}?`)) {
-      return;
-    }
-
-    const credentials = getSessionCredentials();
-    if (!credentials) {
-      setMessage("Session expired. Please login again.");
-      return;
-    }
-
-    setIsCouponLoading(true);
-    setMessage("");
-
-    try {
-      const response = await fetch('/api/admin/backup-management', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          username: credentials.username,
-          password: credentials.password,
-          action: 'delete_coupon',
-          code
-        }),
-      });
-
-      const data = await response.json();
-
-      if (response.ok) {
-        setMessage(data.message);
-        loadCoupons(); // Refresh coupon list
-      } else {
-        setMessage(data.error || "Failed to delete coupon");
-      }
-    } catch (error) {
-      console.error('Error deleting coupon:', error);
-      setMessage("Network error. Please try again.");
-    } finally {
-      setIsCouponLoading(false);
-    }
-  };
-
-  const handleLogout = () => {
-    setIsAuthenticated(false);
-    setUsername("");
-    setPassword("");
-    setLoginAttempts(0);
-    setIsLocked(false);
-    clearSessionTimer();
-    localStorage.removeItem('adminSession');
   };
 
   const getStockStatusDisplay = (status) => {
@@ -755,208 +291,6 @@ export default function AdminPage() {
       setSelectedProductId("all");
     }
   }, [selectedCategory, products]);
-
-  // Add Category Function
-  const addCategory = async () => {
-    if (!categoryForm.name || !categoryForm.slug) {
-      setMessage("Category name and slug are required");
-      return;
-    }
-
-    const credentials = getSessionCredentials();
-    if (!credentials) {
-      setMessage("Session expired. Please login again.");
-      return;
-    }
-
-    setIsAddLoading(true);
-    setMessage("");
-
-    try {
-      const response = await fetch('/api/admin/add-products', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          username: credentials.username,
-          password: credentials.password,
-          action: 'add_category',
-          categoryData: categoryForm
-        }),
-      });
-
-      if (response.ok) {
-        const data = await response.json();
-        setMessage(data.message);
-        setCategoryForm({ name: "", slug: "", description: "", dimensionFields: [] });
-        loadProducts(); // Reload products to include new category
-      } else {
-        const data = await response.json();
-        setMessage(data.error || "Failed to add category");
-      }
-    } catch (error) {
-      console.error('Error adding category:', error);
-      setMessage("Network error. Please try again.");
-    } finally {
-      setIsAddLoading(false);
-    }
-  };
-
-  // Add Product Function
-  const addProduct = async () => {
-    if (!productForm.name || !productForm.category) {
-      setMessage("Product name and category are required");
-      return;
-    }
-
-    const credentials = getSessionCredentials();
-    if (!credentials) {
-      setMessage("Session expired. Please login again.");
-      return;
-    }
-
-    setIsAddLoading(true);
-    setMessage("");
-
-    try {
-      const response = await fetch('/api/admin/add-products', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          username: credentials.username,
-          password: credentials.password,
-          action: 'add_product',
-          productData: productForm
-        }),
-      });
-
-      if (response.ok) {
-        const data = await response.json();
-        setMessage(data.message);
-        setProductForm({
-          name: "",
-          category: "",
-          price: "",
-          stockStatus: "in_stock",
-          quantity: "",
-          dimensions: {},
-          features: [],
-          image: ""
-        });
-        setSelectedImage(null);
-        setImagePreview(null);
-        loadProducts(); // Reload products to include new product
-      } else {
-        const data = await response.json();
-        setMessage(data.error || "Failed to add product");
-      }
-    } catch (error) {
-      console.error('Error adding product:', error);
-      setMessage("Network error. Please try again.");
-    } finally {
-      setIsAddLoading(false);
-    }
-  };
-
-  // Add Dimension Field to Category Form
-  const addDimensionField = () => {
-    if (!newDimensionField.name || !newDimensionField.unit) {
-      setMessage("Dimension field name and unit are required");
-      return;
-    }
-
-    setCategoryForm(prev => ({
-      ...prev,
-      dimensionFields: [...prev.dimensionFields, newDimensionField]
-    }));
-    setNewDimensionField({ name: "", unit: "" });
-  };
-
-  // Remove Dimension Field from Category Form
-  const removeDimensionField = (index) => {
-    setCategoryForm(prev => ({
-      ...prev,
-      dimensionFields: prev.dimensionFields.filter((_, i) => i !== index)
-    }));
-  };
-
-  // Update Product Dimensions when category changes
-  useEffect(() => {
-    if (productForm.category) {
-      const categoryData = productsData.productVariants?.[productForm.category];
-      if (categoryData?.dimensionFields) {
-        const newDimensions = {};
-        categoryData.dimensionFields.forEach(field => {
-          newDimensions[field.name] = "";
-        });
-        setProductForm(prev => ({
-          ...prev,
-          dimensions: newDimensions
-        }));
-      }
-    }
-  }, [productForm.category]);
-
-  // Image upload function
-  const handleImageUpload = async (file) => {
-    if (!file) return;
-
-    const credentials = getSessionCredentials();
-    if (!credentials) {
-      setMessage("Session expired. Please login again.");
-      return;
-    }
-
-    setIsUploading(true);
-    setMessage("");
-
-    try {
-      const formData = new FormData();
-      formData.append('image', file);
-      formData.append('username', credentials.username);
-      formData.append('password', credentials.password);
-      formData.append('productName', productForm.name);
-      formData.append('categorySlug', productForm.category);
-
-      const response = await fetch('/api/upload-image', {
-        method: 'POST',
-        body: formData,
-      });
-
-      if (response.ok) {
-        const data = await response.json();
-        setProductForm(prev => ({
-          ...prev,
-          image: data.imageUrl
-        }));
-        setMessage("Image uploaded successfully!");
-        setSelectedImage(null);
-        setImagePreview(null);
-      } else {
-        const data = await response.json();
-        setMessage(data.error || "Failed to upload image");
-      }
-    } catch (error) {
-      console.error('Error uploading image:', error);
-      setMessage("Network error. Please try again.");
-    } finally {
-      setIsUploading(false);
-    }
-  };
-
-  // Handle image selection
-  const handleImageSelect = (e) => {
-    const file = e.target.files[0];
-    if (file) {
-      setSelectedImage(file);
-      const reader = new FileReader();
-      reader.onload = (e) => setImagePreview(e.target.result);
-      reader.readAsDataURL(file);
-    }
-  };
 
   if (!isAuthenticated) {
     return (

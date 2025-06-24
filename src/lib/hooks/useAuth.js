@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useState } from 'react';
 import { APP_CONFIG, ERROR_MESSAGES } from '../constants';
-import { clearSession, getSessionCredentials, isSessionValid, sanitizeInput, saveSession } from '../utils';
+import { clearSession, isSessionValid, saveSession } from '../session';
+import { sanitizeInput } from '../validation';
 
 export const useAuth = () => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -133,10 +134,6 @@ export const useAuth = () => {
     clearSessionTimer();
   }, [clearSessionTimer]);
 
-  const getCredentials = useCallback(() => {
-    return getSessionCredentials();
-  }, []);
-
   return {
     // State
     isAuthenticated,
@@ -153,6 +150,5 @@ export const useAuth = () => {
     setMessage,
     handleLogin,
     handleLogout,
-    getCredentials,
   };
 }; 

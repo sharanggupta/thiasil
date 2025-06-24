@@ -1,4 +1,6 @@
+import fs from 'fs';
 import { NextResponse } from 'next/server';
+import path from 'path';
 import { deleteBackup, listBackups, restoreBackup } from '../../../../lib/backup-utils';
 
 // Admin credentials
@@ -11,6 +13,8 @@ const ADMIN_CREDENTIALS = {
 const rateLimitMap = new Map();
 const RATE_LIMIT_WINDOW = 5 * 60 * 1000; // 5 minutes
 const RATE_LIMIT_MAX_REQUESTS = 10;
+
+const COUPONS_FILE = path.join(process.cwd(), 'src', 'data', 'coupons.json');
 
 function checkRateLimit(ip) {
   const now = Date.now();
@@ -30,7 +34,23 @@ function checkRateLimit(ip) {
   return true;
 }
 
+function readCoupons() {
+  try {
+    if (!fs.existsSync(COUPONS_FILE)) return [];
+    const data = fs.readFileSync(COUPONS_FILE, 'utf-8');
+    return JSON.parse(data);
+  } catch (e) {
+    return [];
+  }
+}
+
+function writeCoupons(coupons) {
+  fs.writeFileSync(COUPONS_FILE, JSON.stringify(coupons, null, 2), 'utf-8');
+}
+
 export async function POST(request) {
+  const body = await request.json();
+  console.log('DEBUG BACKUP BODY', body);
   try {
     const ip = request.headers.get('x-forwarded-for') || request.headers.get('x-real-ip') || 'unknown';
     
@@ -39,7 +59,7 @@ export async function POST(request) {
       return NextResponse.json({ error: 'Rate limit exceeded' }, { status: 429 });
     }
     
-    const { username, password, action, backupId } = await request.json();
+    const { username, password, action, backupId, coupon, code } = body;
     
     // Authentication
     if (username !== ADMIN_CREDENTIALS.username || password !== ADMIN_CREDENTIALS.password) {
@@ -128,6 +148,56 @@ export async function POST(request) {
           return NextResponse.json({ error: deleteResult.error }, { status: 500 });
         }
         
+      case 'list_coupons': {
+        const coupons = readCoupons();
+        return NextResponse.json({ success: true, coupons });
+      }
+      case 'create_coupon': {
+        if (!coupon || !coupon.code || !coupon.discountPercent || !coupon.expiryDate) {
+          return NextResponse.json({ error: 'Missing coupon fields' }, { status: 400 });
+        }
+        let coupons = readCoupons();
+        if (coupons.find(c => c.code === coupon.code)) {
+          return NextResponse.json({ error: 'Coupon code already exists' }, { status: 400 });
+        }
+        coupons.push({
+          ...coupon,
+          code: coupon.code.toUpperCase(),
+          isActive: true,
+          currentUses: 0,
+          createdAt: new Date().toISOString()
+        });
+        writeCoupons(coupons);
+        return NextResponse.json({ success: true, message: 'Coupon created', coupons });
+      }
+      case 'delete_coupon': {
+        if (!code) {
+          return NextResponse.json({ error: 'Coupon code required' }, { status: 400 });
+        }
+        let coupons = readCoupons();
+        const before = coupons.length;
+        coupons = coupons.filter(c => c.code !== code);
+        if (coupons.length === before) {
+          return NextResponse.json({ error: 'Coupon not found' }, { status: 404 });
+        }
+        writeCoupons(coupons);
+        return NextResponse.json({ success: true, message: 'Coupon deleted', coupons });
+      }
+      case 'reset': {
+        // Reset products.json to default_products.json
+        const productsPath = path.join(process.cwd(), 'src', 'data', 'products.json');
+        const defaultProductsPath = path.join(process.cwd(), 'src', 'data', 'default_products.json');
+        try {
+          if (!fs.existsSync(defaultProductsPath)) {
+            return NextResponse.json({ error: 'Default products file not found' }, { status: 500 });
+          }
+          const defaultData = fs.readFileSync(defaultProductsPath, 'utf-8');
+          fs.writeFileSync(productsPath, defaultData, 'utf-8');
+          return NextResponse.json({ success: true, message: 'Products reset to default.' });
+        } catch (err) {
+          return NextResponse.json({ error: 'Failed to reset products: ' + err.message }, { status: 500 });
+        }
+      }
       default:
         return NextResponse.json({ error: 'Invalid action' }, { status: 400 });
     }
