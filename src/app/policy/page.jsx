@@ -1,98 +1,178 @@
-import React from "react";
-import logoImage from "../images/favicon.png";
+"use client";
 import Image from "next/image";
-import Link from "next/link";
+import {
+    GlassButton,
+    GlassCard,
+    GlassIcon,
+    NeonBubblesBackground
+} from "../components/Glassmorphism";
+import favicon from "../images/favicon.png";
 
-export default function PrivacyPolicy() {
+const sidebarNav = [
+  { icon: "🏠", label: "Home", href: "/" },
+  { icon: "🧪", label: "Products", href: "/#products" },
+  { icon: "🏢", label: "About", href: "/company" },
+  { icon: "✉️", label: "Contact", href: "/contact" },
+];
+
+export default function Policy() {
   return (
-    <div className="bg-gradient-to-br from-blue-50 to-gray-100 min-h-screen py-10 px-5 md:px-20">
-      <div className="bg-white shadow-2xl rounded-xl p-6 md:p-12">
-        <div className="flex items-center justify-between mb-10">
-          <Link href={"/"}>
-            <Image className="w-16 h-16" src={logoImage} alt="Logo" />
-          </Link>
-          <h1 className="text-4xl md:text-5xl font-bold text-blue-600 text-center flex-grow">
-            Privacy Policy
-          </h1>
-        </div>
+    <div className="relative min-h-screen bg-gradient-to-br from-[#2e026d] via-[#15162c] to-[#0a0a23] overflow-x-hidden">
+      <NeonBubblesBackground />
+      <div className="absolute inset-0 bg-gradient-to-br from-[#3a8fff]/30 via-[#a259ff]/20 to-[#0a0a23]/80 pointer-events-none z-0" />
 
-        <p className="text-lg text-gray-800 leading-relaxed mb-8">
-          At <span className="font-semibold text-blue-600">THIASIL</span>, we are dedicated to safeguarding your privacy. This Privacy Policy explains how we collect, use, and protect your personal information when you use our website.
-        </p>
-
-        {/* Information Collection Section */}
-        <div className="bg-blue-50 p-6 rounded-lg mb-8">
-          <h2 className="text-2xl font-semibold text-blue-600 mb-4">
-            Information We Collect
-          </h2>
-          <ul className="list-disc list-inside text-gray-700 leading-relaxed space-y-2">
-            <li>Personal details like name, email, and contact information.</li>
-            <li>Technical data such as browser type, IP address, and activity on our site.</li>
-            <li>Feedback or inquiries submitted through our contact forms.</li>
-          </ul>
+      {/* Sidebar Navigation */}
+      <aside className="fixed top-6 left-6 z-30 flex flex-col items-center gap-6 bg-white/10 backdrop-blur-xl border border-white/20 rounded-3xl shadow-2xl p-4 w-20 h-[80vh] min-h-[400px] max-h-[90vh] justify-between">
+        <div className="flex flex-col items-center gap-2">
+          <div className="w-10 h-10 rounded-full bg-white/20 flex items-center justify-center shadow-lg mb-2 overflow-hidden">
+            <Image src={favicon} alt="Thiasil Logo" width={40} height={40} className="object-contain w-8 h-8" />
+          </div>
         </div>
+        <nav className="flex flex-col gap-6 items-center mt-4">
+          {sidebarNav.map((item, i) => (
+            <a
+              key={item.label}
+              href={item.href}
+              className="flex flex-col items-center group"
+              title={item.label}
+            >
+              <div className="w-10 h-10 flex items-center justify-center rounded-2xl bg-white/10 border border-white/20 shadow-md group-hover:bg-gradient-to-br group-hover:from-[#3a8fff]/60 group-hover:to-[#a259ff]/60 transition-all">
+                <span className="text-2xl text-white drop-shadow-lg">{item.icon}</span>
+              </div>
+              <span className="text-xs text-white/60 mt-1 group-hover:text-white transition-all">{item.label}</span>
+            </a>
+          ))}
+        </nav>
+        <div />
+      </aside>
 
-        {/* Usage Section */}
-        <div className="bg-white shadow-sm p-6 rounded-lg mb-8">
-          <h2 className="text-2xl font-semibold text-blue-600 mb-4">
-            How We Use Your Information
-          </h2>
-          <p className="text-gray-700 leading-relaxed">
-            We use the collected information to:
-          </p>
-          <ul className="list-disc list-inside text-gray-700 leading-relaxed space-y-2 mt-4">
-            <li>Improve our website and services.</li>
-            <li>Communicate updates, promotions, or service-related notices.</li>
-            <li>Ensure security and enhance your browsing experience.</li>
-          </ul>
-        </div>
+      <main className="relative z-10 max-w-7xl mx-auto px-4 pb-24 flex flex-col gap-20 ml-0 md:ml-32">
+        {/* Hero Glass Card */}
+        <section className="flex flex-col items-center justify-center pt-32 pb-10">
+          <GlassCard variant="accent" padding="large" className="w-full max-w-xl flex flex-col items-center text-center">
+            <h1 className="text-4xl md:text-5xl font-extrabold text-white tracking-wide mb-4 drop-shadow-[0_2px_16px_rgba(58,143,255,0.7)]">
+              Privacy Policy
+            </h1>
+            <p className="text-lg text-white/80 mb-8 max-w-md mx-auto">
+              Your privacy and data protection are our top priorities. This policy outlines how we collect, use, and safeguard your data.
+            </p>
+          </GlassCard>
+        </section>
 
-        {/* Data Protection Section */}
-        <div className="bg-blue-50 p-6 rounded-lg mb-8">
-          <h2 className="text-2xl font-semibold text-blue-600 mb-4">
-            Protecting Your Data
-          </h2>
-          <p className="text-gray-700 leading-relaxed">
-            We implement advanced security measures to protect your data from unauthorized access or misuse. However, no internet transmission is entirely secure. Please share information responsibly.
-          </p>
-        </div>
+        {/* Main Content */}
+        <section className="grid md:grid-cols-2 gap-8 mb-12">
+          {[
+            {
+              title: "Information We Collect",
+              icon: "📊",
+              variant: "primary",
+              content: [
+                "Personal identification information (name, email address, phone number)",
+                "Contact information and communication preferences",
+                "Technical data including IP address and browser information",
+                "Usage data and interaction with our website"
+              ]
+            },
+            {
+              title: "How We Use Your Information",
+              icon: "🎯",
+              variant: "secondary",
+              content: [
+                "To provide and maintain our services",
+                "To communicate with you about products and services",
+                "To improve our website and user experience",
+                "To comply with legal obligations and regulations"
+              ]
+            },
+            {
+              title: "Data Security",
+              icon: "🔒",
+              variant: "success",
+              content: [
+                "We implement industry-standard security measures",
+                "Your data is encrypted during transmission",
+                "Regular security audits and updates",
+                "Limited access to personal information"
+              ]
+            },
+            {
+              title: "Data Sharing",
+              icon: "🤝",
+              variant: "warning",
+              content: [
+                "We do not sell your personal information",
+                "Data may be shared with trusted service providers",
+                "Information may be disclosed if required by law",
+                "We maintain strict confidentiality agreements"
+              ]
+            },
+            {
+              title: "Your Rights",
+              icon: "⚖️",
+              variant: "accent",
+              content: [
+                "Right to access your personal data",
+                "Right to correct inaccurate information",
+                "Right to request deletion of your data",
+                "Right to withdraw consent at any time"
+              ]
+            },
+            {
+              title: "Contact Information",
+              icon: "📞",
+              variant: "primary",
+              content: [
+                "For privacy-related questions, contact us at:",
+                "Email: thiaglasswork@gmail.com",
+                "Phone: +91 98205 76045",
+                "Address: No. 3/16, Mahalaxmi Industrial Estate, DC Road, Lower Parel, Mumbai-400013, Maharashtra, India"
+              ]
+            }
+          ].map((section, index) => (
+            <GlassCard key={index} variant={section.variant} padding="default">
+              <div className="flex items-center gap-4 mb-6">
+                <GlassIcon icon={section.icon} variant={section.variant} size="large" />
+                <h3 className="text-2xl font-bold text-white uppercase tracking-wider">
+                  {section.title}
+                </h3>
+              </div>
+              <div className="space-y-4">
+                {section.content.map((item, itemIndex) => (
+                  <div key={itemIndex} className="flex items-start gap-3 p-3 bg-white bg-opacity-10 rounded-lg backdrop-blur-sm">
+                    <div className="w-2 h-2 bg-white rounded-full mt-2 flex-shrink-0"></div>
+                    <p className="text-gray-200 leading-relaxed">{item}</p>
+                  </div>
+                ))}
+              </div>
+            </GlassCard>
+          ))}
+        </section>
 
-        {/* Third-Party Services */}
-        <div className="bg-white shadow-sm p-6 rounded-lg mb-8">
-          <h2 className="text-2xl font-semibold text-blue-600 mb-4">
-            Sharing with Third Parties
-          </h2>
-          <p className="text-gray-700 leading-relaxed">
-            Your data may be shared with trusted third-party providers for specific services, such as analytics or customer support. We ensure these parties adhere to strict confidentiality agreements.
-          </p>
-        </div>
+        {/* Legal Notice */}
+        <section>
+          <GlassCard variant="secondary" padding="large" className="mb-12">
+            <h3 className="text-2xl font-bold text-white mb-8 text-center uppercase tracking-wider">
+              Legal Notice
+            </h3>
+            <div className="space-y-6">
+              <p className="text-gray-200 leading-relaxed text-lg">
+                This privacy policy is effective as of January 1, 2024, and will remain in effect except with respect to any changes in its provisions in the future, which will be in effect immediately after being posted on this page.
+              </p>
+              <p className="text-gray-200 leading-relaxed text-lg">
+                We reserve the right to update or change our Privacy Policy at any time and you should check this Privacy Policy periodically. Your continued use of the Service after we post any modifications to the Privacy Policy on this page will constitute your acknowledgment of the modifications and your consent to abide and be bound by the modified Privacy Policy.
+              </p>
+            </div>
+          </GlassCard>
+        </section>
 
-        {/* Your Rights Section */}
-        <div className="bg-blue-50 p-6 rounded-lg mb-8">
-          <h2 className="text-2xl font-semibold text-blue-600 mb-4">
-            Your Rights
-          </h2>
-          <ul className="list-disc list-inside text-gray-700 leading-relaxed space-y-2">
-            <li>Access and review your personal information.</li>
-            <li>Request corrections or deletion of your data.</li>
-            <li>Opt-out of promotional communications.</li>
-          </ul>
+        {/* Back to Home */}
+        <div className="text-center">
+          <GlassButton href="/" variant="accent" size="large">
+            <span>←</span>
+            <span>Back to Home</span>
+          </GlassButton>
         </div>
-
-        {/* Contact and Updates */}
-        <div className="bg-white shadow-sm p-6 rounded-lg">
-          <h2 className="text-2xl font-semibold text-blue-600 mb-4">
-            Contact Us
-          </h2>
-          <p className="text-gray-700 leading-relaxed">
-            If you have questions or concerns about our Privacy Policy, please
-            contact us at <span className="text-blue-600 font-semibold">[thiaglasswork@gmail.com]</span>.
-          </p>
-          <p className="mt-4 text-gray-700 leading-relaxed">
-            We may update this policy periodically. The latest version will always be available on this page.
-          </p>
-        </div>
-      </div>
+      </main>
     </div>
   );
 }
