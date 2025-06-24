@@ -8,7 +8,7 @@
       "capacity": "15 to 250 ml",
       "packaging": "6 to 36 pieces",
       "price": "₹300",
-      "priceRange": "₹300 - ₹1800",
+      "priceRange": "₹300.00 - ₹1800.00",
       "description": "Standard crucible for general laboratory use",
       "image": "/images/products/1100.png",
       "features": [
@@ -29,7 +29,7 @@
       "capacity": "15 to 250 ml",
       "packaging": "6 to 36 pieces",
       "price": "₹300",
-      "priceRange": "₹300 - ₹1800",
+      "priceRange": "₹300.00 - ₹1800.00",
       "description": "Matching lids for crucibles with precise fit",
       "image": "/images/products/1120.png",
       "features": [
@@ -50,7 +50,7 @@
       "capacity": "10 to 50 ml",
       "packaging": "15 to 30 pieces",
       "price": "₹350",
-      "priceRange": "₹350 - ₹700",
+      "priceRange": "₹350.00 - ₹700.00",
       "description": "Tall form crucibles for specific applications",
       "image": "/images/products/1110.png",
       "features": [
@@ -71,7 +71,7 @@
       "capacity": "20 to 50 ml",
       "packaging": "15 to 25 pieces",
       "price": "₹800",
-      "priceRange": "₹800 - ₹1400",
+      "priceRange": "₹800.00 - ₹1400.00",
       "description": "Perforated bottom crucibles for filtration",
       "image": "/images/products/1130.png",
       "features": [
@@ -92,7 +92,7 @@
       "capacity": "20 to 250 ml",
       "packaging": "5 to 12 pieces",
       "price": "₹350",
-      "priceRange": "₹350 - ₹1800",
+      "priceRange": "₹350.00 - ₹1800.00",
       "description": "Basins with spout for laboratory applications",
       "image": "/images/products/1140.png",
       "features": [
@@ -113,7 +113,7 @@
       "capacity": "N/A",
       "packaging": "10 pieces",
       "price": "₹600",
-      "priceRange": "₹250 - ₹600",
+      "priceRange": "₹250.00 - ₹600.00",
       "description": "Specialized crucibles for volatile matter determination",
       "features": [
         "Volatile matter ready",
@@ -133,7 +133,7 @@
       "capacity": "N/A",
       "packaging": "2 to 4 pieces",
       "price": "₹1000",
-      "priceRange": "₹1000 - ₹1800",
+      "priceRange": "₹1000.00 - ₹1800.00",
       "description": "Support stands for muffle furnace operations",
       "features": [
         "Stable support",
@@ -153,7 +153,7 @@
       "capacity": "10 to 25 ml",
       "packaging": "20 pieces",
       "price": "₹460",
-      "priceRange": "₹460 - ₹660",
+      "priceRange": "₹460.00 - ₹660.00",
       "description": "Circular capsules for sample preparation",
       "features": [
         "Compact design",
@@ -173,7 +173,7 @@
       "capacity": "12 ml",
       "packaging": "20 pieces",
       "price": "₹900",
-      "priceRange": "₹900 - ₹1100",
+      "priceRange": "₹900.00 - ₹1100.00",
       "description": "Circular capsules with ground lid for precise sealing",
       "features": [
         "Ground lid",
@@ -193,7 +193,7 @@
       "capacity": "38 to 100 ml",
       "packaging": "10 pieces",
       "price": "₹230",
-      "priceRange": "₹230 - ₹380",
+      "priceRange": "₹230.00 - ₹380.00",
       "description": "Support triangles with nichrome wire",
       "features": [
         "Heat resistant wire",
@@ -213,7 +213,7 @@
       "capacity": "N/A",
       "packaging": "10 pieces",
       "price": "₹400",
-      "priceRange": "₹400 - ₹750",
+      "priceRange": "₹400.00 - ₹750.00",
       "description": "Combustion boats with handle for analytical procedures",
       "features": [
         "Combustion ready",
@@ -238,7 +238,7 @@
           "name": "Regular Form Crucible",
           "capacity": "15 ml",
           "packaging": "36 pieces",
-          "price": "₹300",
+          "price": "₹300.00",
           "features": [
             "Standard form",
             "General purpose",
@@ -253,7 +253,7 @@
           "name": "Regular Form Crucible",
           "capacity": "25 ml",
           "packaging": "30 pieces",
-          "price": "₹320",
+          "price": "₹320.00",
           "features": [
             "Standard form",
             "General purpose",
@@ -268,7 +268,7 @@
           "name": "Regular Form Crucible",
           "capacity": "50 ml",
           "packaging": "20 pieces",
-          "price": "₹570",
+          "price": "₹570.00",
           "features": [
             "Standard form",
             "General purpose",
@@ -283,7 +283,7 @@
           "name": "Regular Form Crucible",
           "capacity": "80 ml",
           "packaging": "6 pieces",
-          "price": "₹850",
+          "price": "₹850.00",
           "features": [
             "Standard form",
             "General purpose",
@@ -298,7 +298,7 @@
           "name": "Regular Form Crucible",
           "capacity": "100 ml",
           "packaging": "6 pieces",
-          "price": "₹1100",
+          "price": "₹1100.00",
           "features": [
             "Standard form",
             "General purpose",
@@ -313,7 +313,7 @@
           "name": "Regular Form Crucible",
           "capacity": "150 ml",
           "packaging": "5 pieces",
-          "price": "₹1300",
+          "price": "₹1300.00",
           "features": [
             "Standard form",
             "General purpose",
@@ -328,7 +328,7 @@
           "name": "Regular Form Crucible",
           "capacity": "250 ml",
           "packaging": "3 pieces",
-          "price": "₹1800",
+          "price": "₹1800.00",
           "features": [
             "Standard form",
             "General purpose",
@@ -343,7 +343,7 @@
           "name": "Tall Form Crucible",
           "capacity": "10 ml",
           "packaging": "30 pieces",
-          "price": "₹350",
+          "price": "₹350.00",
           "features": [
             "Deep design",
             "Better heat distribution",
@@ -358,7 +358,7 @@
           "name": "Tall Form Crucible",
           "capacity": "30 ml",
           "packaging": "20 pieces",
-          "price": "₹500",
+          "price": "₹500.00",
           "features": [
             "Deep design",
             "Better heat distribution",
@@ -373,7 +373,7 @@
           "name": "Tall Form Crucible",
           "capacity": "50 ml",
           "packaging": "15 pieces",
-          "price": "₹700",
+          "price": "₹700.00",
           "features": [
             "Deep design",
             "Better heat distribution",
@@ -396,7 +396,7 @@
           "name": "Quartz Silica Lid",
           "capacity": "15 ml",
           "packaging": "36 pieces",
-          "price": "₹300",
+          "price": "₹300.00",
           "features": [
             "Perfect fit",
             "High temperature resistant",
@@ -411,7 +411,7 @@
           "name": "Quartz Silica Lid",
           "capacity": "25 ml",
           "packaging": "30 pieces",
-          "price": "₹320",
+          "price": "₹320.00",
           "features": [
             "Perfect fit",
             "High temperature resistant",
@@ -426,7 +426,7 @@
           "name": "Quartz Silica Lid",
           "capacity": "50 ml",
           "packaging": "20 pieces",
-          "price": "₹550",
+          "price": "₹550.00",
           "features": [
             "Perfect fit",
             "High temperature resistant",
@@ -441,7 +441,7 @@
           "name": "Quartz Silica Lid",
           "capacity": "80 ml",
           "packaging": "12 pieces",
-          "price": "₹850",
+          "price": "₹850.00",
           "features": [
             "Perfect fit",
             "High temperature resistant",
@@ -456,7 +456,7 @@
           "name": "Quartz Silica Lid",
           "capacity": "100 ml",
           "packaging": "12 pieces",
-          "price": "₹1100",
+          "price": "₹1100.00",
           "features": [
             "Perfect fit",
             "High temperature resistant",
@@ -471,7 +471,7 @@
           "name": "Quartz Silica Lid",
           "capacity": "150 ml",
           "packaging": "6 pieces",
-          "price": "₹1300",
+          "price": "₹1300.00",
           "features": [
             "Perfect fit",
             "High temperature resistant",
@@ -486,7 +486,7 @@
           "name": "Quartz Silica Lid",
           "capacity": "250 ml",
           "packaging": "6 pieces",
-          "price": "₹1800",
+          "price": "₹1800.00",
           "features": [
             "Perfect fit",
             "High temperature resistant",
@@ -509,7 +509,7 @@
           "name": "Gooch Crucible",
           "capacity": "20 ml",
           "packaging": "25 pieces",
-          "price": "₹800",
+          "price": "₹800.00",
           "features": [
             "Perforated base",
             "Filtration ready",
@@ -524,7 +524,7 @@
           "name": "Gooch Crucible",
           "capacity": "30 ml",
           "packaging": "20 pieces",
-          "price": "₹1100",
+          "price": "₹1100.00",
           "features": [
             "Perforated base",
             "Filtration ready",
@@ -539,7 +539,7 @@
           "name": "Gooch Crucible",
           "capacity": "50 ml",
           "packaging": "15 pieces",
-          "price": "₹1400",
+          "price": "₹1400.00",
           "features": [
             "Perforated base",
             "Filtration ready",
@@ -554,7 +554,7 @@
           "name": "Crucible Volatile Matter Determine",
           "capacity": "N/A",
           "packaging": "10 pieces",
-          "price": "₹600",
+          "price": "₹600.00",
           "features": [
             "Volatile matter ready",
             "High temperature",
@@ -569,7 +569,7 @@
           "name": "Lid for VM Crucible",
           "capacity": "N/A",
           "packaging": "10 pieces",
-          "price": "₹250",
+          "price": "₹250.00",
           "features": [
             "Perfect fit",
             "High temperature",
@@ -584,7 +584,7 @@
           "name": "Plunger for VM Crucible",
           "capacity": "N/A",
           "packaging": "10 pieces",
-          "price": "₹400",
+          "price": "₹400.00",
           "features": [
             "Precise fit",
             "High temperature",
@@ -599,7 +599,7 @@
           "name": "Combustion Boat with Handle",
           "capacity": "50mm x 12mm x 8mm",
           "packaging": "10 pieces",
-          "price": "₹400",
+          "price": "₹400.00",
           "features": [
             "Combustion ready",
             "With handle",
@@ -615,7 +615,7 @@
           "name": "Combustion Boat with Handle",
           "capacity": "77mm x 12mm x 8mm",
           "packaging": "10 pieces",
-          "price": "₹450",
+          "price": "₹450.00",
           "features": [
             "Combustion ready",
             "With handle",
@@ -631,7 +631,7 @@
           "name": "Combustion Boat with Handle",
           "capacity": "78mm x 12mm x 12mm",
           "packaging": "10 pieces",
-          "price": "₹650",
+          "price": "₹650.00",
           "features": [
             "Combustion ready",
             "With handle",
@@ -647,7 +647,7 @@
           "name": "Combustion Boat with Handle",
           "capacity": "103mm x 12mm x 12mm",
           "packaging": "10 pieces",
-          "price": "₹750",
+          "price": "₹750.00",
           "features": [
             "Combustion ready",
             "With handle",
@@ -671,7 +671,7 @@
           "name": "Basin with Spout Fused Silica",
           "capacity": "20 ml",
           "packaging": "12 pieces",
-          "price": "₹350",
+          "price": "₹350.00",
           "features": [
             "Spout design",
             "Easy pouring",
@@ -686,7 +686,7 @@
           "name": "Basin with Spout Fused Silica",
           "capacity": "35 ml",
           "packaging": "12 pieces",
-          "price": "₹500",
+          "price": "₹500.00",
           "features": [
             "Spout design",
             "Easy pouring",
@@ -701,7 +701,7 @@
           "name": "Basin with Spout Fused Silica",
           "capacity": "70 ml",
           "packaging": "8 pieces",
-          "price": "₹800",
+          "price": "₹800.00",
           "features": [
             "Spout design",
             "Easy pouring",
@@ -716,7 +716,7 @@
           "name": "Basin with Spout Fused Silica",
           "capacity": "100 ml",
           "packaging": "6 pieces",
-          "price": "₹1100",
+          "price": "₹1100.00",
           "features": [
             "Spout design",
             "Easy pouring",
@@ -731,7 +731,7 @@
           "name": "Basin with Spout Fused Silica",
           "capacity": "150 ml",
           "packaging": "6 pieces",
-          "price": "₹1300",
+          "price": "₹1300.00",
           "features": [
             "Spout design",
             "Easy pouring",
@@ -746,7 +746,7 @@
           "name": "Basin with Spout Fused Silica",
           "capacity": "200 ml",
           "packaging": "6 pieces",
-          "price": "₹1700",
+          "price": "₹1700.00",
           "features": [
             "Spout design",
             "Easy pouring",
@@ -761,7 +761,7 @@
           "name": "Basin with Spout Fused Silica",
           "capacity": "250 ml",
           "packaging": "5 pieces",
-          "price": "₹1800",
+          "price": "₹1800.00",
           "features": [
             "Spout design",
             "Easy pouring",
@@ -784,7 +784,7 @@
           "name": "Circular Capsule Quartz",
           "capacity": "10 ml",
           "packaging": "20 pieces",
-          "price": "₹460",
+          "price": "₹460.00",
           "features": [
             "Compact design",
             "Easy handling",
@@ -799,7 +799,7 @@
           "name": "Circular Capsule Quartz",
           "capacity": "20 ml",
           "packaging": "20 pieces",
-          "price": "₹560",
+          "price": "₹560.00",
           "features": [
             "Compact design",
             "Easy handling",
@@ -814,7 +814,7 @@
           "name": "Circular Capsule Quartz",
           "capacity": "25 ml",
           "packaging": "20 pieces",
-          "price": "₹660",
+          "price": "₹660.00",
           "features": [
             "Compact design",
             "Easy handling",
@@ -829,7 +829,7 @@
           "name": "Circular Capsule Ground Lid Quartz",
           "capacity": "12 ml",
           "packaging": "20 pieces",
-          "price": "₹900",
+          "price": "₹900.00",
           "features": [
             "Ground lid",
             "Precise sealing",
@@ -844,7 +844,7 @@
           "name": "Circular Capsule Ground Lid Quartz",
           "capacity": "12 ml",
           "packaging": "20 pieces",
-          "price": "₹1100",
+          "price": "₹1100.00",
           "features": [
             "Ground lid",
             "Precise sealing",
@@ -867,7 +867,7 @@
           "name": "Muffle Stand for 2 VM Crucible",
           "size": "2 holes",
           "packaging": "4 pieces",
-          "price": "₹1000",
+          "price": "₹1000.00",
           "features": [
             "Stable support",
             "Heat resistant",
@@ -882,7 +882,7 @@
           "name": "Muffle Stand for 4 VM Crucible",
           "size": "4 holes",
           "packaging": "2 pieces",
-          "price": "₹1800",
+          "price": "₹1800.00",
           "features": [
             "Stable support",
             "Heat resistant",
@@ -897,7 +897,7 @@
           "name": "Triangle on Nichrome Wire",
           "capacity": "38 ml",
           "packaging": "10 pieces",
-          "price": "₹230",
+          "price": "₹230.00",
           "features": [
             "Heat resistant wire",
             "Stable support",
@@ -912,7 +912,7 @@
           "name": "Triangle on Nichrome Wire",
           "capacity": "50 ml",
           "packaging": "10 pieces",
-          "price": "₹250",
+          "price": "₹250.00",
           "features": [
             "Heat resistant wire",
             "Stable support",
@@ -927,7 +927,7 @@
           "name": "Triangle on Nichrome Wire",
           "capacity": "63 ml",
           "packaging": "10 pieces",
-          "price": "₹280",
+          "price": "₹280.00",
           "features": [
             "Heat resistant wire",
             "Stable support",
@@ -942,7 +942,7 @@
           "name": "Triangle on Nichrome Wire",
           "capacity": "75 ml",
           "packaging": "10 pieces",
-          "price": "₹320",
+          "price": "₹320.00",
           "features": [
             "Heat resistant wire",
             "Stable support",
@@ -957,7 +957,7 @@
           "name": "Triangle on Nichrome Wire",
           "capacity": "100 ml",
           "packaging": "10 pieces",
-          "price": "₹380",
+          "price": "₹380.00",
           "features": [
             "Heat resistant wire",
             "Stable support",
