@@ -1,8 +1,57 @@
-import { kv } from '@vercel/kv';
-import fs from 'fs';
-import path from 'path';
+import { createClient } from 'redis';
 
-// Backup utility that works in both development and production
+let redisClient = null;
+
+// Initialize Redis client
+async function initializeRedis() {
+  if (redisClient) {
+    return redisClient;
+  }
+
+  try {
+    // Check if we're in Vercel environment
+    if (process.env.VERCEL === '1') {
+      console.log('Using Vercel KV in production');
+      const { kv } = await import('@vercel/kv');
+      return { kv, isVercel: true };
+    }
+
+    // Create Redis client for local development
+    const redisUrl = process.env.REDIS_URL || 'redis://localhost:6379';
+    console.log(`Connecting to Redis: ${redisUrl}`);
+    
+    redisClient = createClient({
+      url: redisUrl
+    });
+
+    // Handle connection events
+    redisClient.on('error', (err) => {
+      console.error('Redis Client Error:', err);
+    });
+
+    redisClient.on('connect', () => {
+      console.log('Redis Client Connected');
+    });
+
+    redisClient.on('ready', () => {
+      console.log('Redis Client Ready');
+    });
+
+    redisClient.on('end', () => {
+      console.log('Redis Client Disconnected');
+    });
+
+    // Connect to Redis
+    await redisClient.connect();
+    
+    return { client: redisClient, isVercel: false };
+  } catch (error) {
+    console.error('Failed to initialize Redis:', error);
+    throw error;
+  }
+}
+
+// Backup utility that uses Redis everywhere
 export async function createBackup(data, operation = 'backup') {
   const timestamp = Date.now();
   const backupId = `${operation}_${timestamp}`;
@@ -15,86 +64,69 @@ export async function createBackup(data, operation = 'backup') {
     isVercel: process.env.VERCEL === '1'
   };
 
-  const isDevelopment = process.env.NODE_ENV === 'development';
-  const isVercel = process.env.VERCEL === '1';
-
   try {
-    if (isDevelopment && !isVercel) {
-      // Use file system in development (not on Vercel)
-      const backupPath = path.join(process.cwd(), 'src', 'data', `${backupId}.json`);
-      fs.writeFileSync(backupPath, JSON.stringify(backupData, null, 2));
-      console.log(`Backup created (file): ${backupId}`);
-      return { success: true, backupId, method: 'file' };
+    const redis = await initializeRedis();
+    
+    if (redis.isVercel) {
+      // Use Vercel KV in production
+      await redis.kv.set(`backup:${backupId}`, JSON.stringify(backupData));
+      console.log(`Backup created successfully in Vercel KV: ${backupId}`);
     } else {
-      // Use Vercel KV in production or on Vercel
-      if (!kv) {
-        console.warn('Vercel KV not available, skipping backup');
-        return { success: false, error: 'KV not available' };
-      }
-      
-      await kv.set(`backup:${backupId}`, backupData);
-      await kv.expire(`backup:${backupId}`, 60 * 60 * 24 * 30); // 30 days TTL
-      
-      // Also store in a list for easy retrieval
-      await kv.lpush('backups:list', backupId);
-      await kv.ltrim('backups:list', 0, 99); // Keep only last 100 backups
-      
-      console.log(`Backup created (KV): ${backupId}`);
-      return { success: true, backupId, method: 'kv' };
+      // Use local Redis in development
+      await redis.client.set(`backup:${backupId}`, JSON.stringify(backupData));
+      console.log(`Backup created successfully in local Redis: ${backupId}`);
     }
+    
+    return { success: true, backupId, timestamp };
   } catch (error) {
-    console.error('Backup creation failed:', error);
+    console.error('Failed to create backup:', error);
     return { success: false, error: error.message };
   }
 }
 
 // List all backups
 export async function listBackups() {
-  const isDevelopment = process.env.NODE_ENV === 'development';
-  const isVercel = process.env.VERCEL === '1';
-
   try {
-    if (isDevelopment && !isVercel) {
-      // List file-based backups
-      const dataDir = path.join(process.cwd(), 'src', 'data');
-      const files = fs.readdirSync(dataDir).filter(file => file.endsWith('.json') && file.includes('backup'));
-      
-      const backups = files.map(filename => {
-        const filePath = path.join(dataDir, filename);
-        const stats = fs.statSync(filePath);
-        return {
-          filename,
-          size: stats.size,
-          created: stats.birthtime,
-          modified: stats.mtime
-        };
-      }).sort((a, b) => b.modified - a.modified);
-
-      return { success: true, backups, method: 'file' };
-    } else {
-      // List KV-based backups
-      if (!kv) {
-        return { success: false, error: 'KV not available' };
-      }
-
-      const backupIds = await kv.lrange('backups:list', 0, -1);
+    const redis = await initializeRedis();
+    
+    if (redis.isVercel) {
+      // Use Vercel KV in production
+      const keys = await redis.kv.keys('backup:*');
       const backups = [];
-
-      for (const backupId of backupIds) {
-        const backupData = await kv.get(`backup:${backupId}`);
+      
+      for (const key of keys) {
+        const backupData = await redis.kv.get(key);
         if (backupData) {
+          const backup = JSON.parse(backupData);
           backups.push({
-            id: backupId,
-            timestamp: backupData.timestamp,
-            operation: backupData.operation,
-            size: JSON.stringify(backupData).length,
-            created: new Date(backupData.timestamp),
-            modified: new Date(backupData.timestamp)
+            filename: `${backup.id}.json`,
+            size: JSON.stringify(backup).length,
+            created: new Date(backup.timestamp),
+            modified: new Date(backup.timestamp)
           });
         }
       }
-
-      return { success: true, backups, method: 'kv' };
+      
+      return { success: true, backups: backups.sort((a, b) => b.created - a.created) };
+    } else {
+      // Use local Redis in development
+      const keys = await redis.client.keys('backup:*');
+      const backups = [];
+      
+      for (const key of keys) {
+        const backupData = await redis.client.get(key);
+        if (backupData) {
+          const backup = JSON.parse(backupData);
+          backups.push({
+            filename: `${backup.id}.json`,
+            size: JSON.stringify(backup).length,
+            created: new Date(backup.timestamp),
+            modified: new Date(backup.timestamp)
+          });
+        }
+      }
+      
+      return { success: true, backups: backups.sort((a, b) => b.created - a.created) };
     }
   } catch (error) {
     console.error('Failed to list backups:', error);
@@ -102,33 +134,29 @@ export async function listBackups() {
   }
 }
 
-// Restore a backup
+// Restore backup
 export async function restoreBackup(backupId) {
-  const isDevelopment = process.env.NODE_ENV === 'development';
-  const isVercel = process.env.VERCEL === '1';
-
   try {
-    if (isDevelopment && !isVercel) {
-      // Restore from file
-      const backupPath = path.join(process.cwd(), 'src', 'data', `${backupId}.json`);
-      if (!fs.existsSync(backupPath)) {
-        return { success: false, error: 'Backup not found' };
-      }
-      
-      const backupData = JSON.parse(fs.readFileSync(backupPath, 'utf8'));
-      return { success: true, data: backupData.data, method: 'file' };
-    } else {
-      // Restore from KV
-      if (!kv) {
-        return { success: false, error: 'KV not available' };
-      }
-
-      const backupData = await kv.get(`backup:${backupId}`);
+    const redis = await initializeRedis();
+    
+    if (redis.isVercel) {
+      // Use Vercel KV in production
+      const backupData = await redis.kv.get(`backup:${backupId}`);
       if (!backupData) {
         return { success: false, error: 'Backup not found' };
       }
-
-      return { success: true, data: backupData.data, method: 'kv' };
+      
+      const backup = JSON.parse(backupData);
+      return { success: true, data: backup.data };
+    } else {
+      // Use local Redis in development
+      const backupData = await redis.client.get(`backup:${backupId}`);
+      if (!backupData) {
+        return { success: false, error: 'Backup not found' };
+      }
+      
+      const backup = JSON.parse(backupData);
+      return { success: true, data: backup.data };
     }
   } catch (error) {
     console.error('Failed to restore backup:', error);
@@ -136,33 +164,33 @@ export async function restoreBackup(backupId) {
   }
 }
 
-// Delete a backup
+// Delete backup
 export async function deleteBackup(backupId) {
-  const isDevelopment = process.env.NODE_ENV === 'development';
-  const isVercel = process.env.VERCEL === '1';
-
   try {
-    if (isDevelopment && !isVercel) {
-      // Delete file
-      const backupPath = path.join(process.cwd(), 'src', 'data', `${backupId}.json`);
-      if (fs.existsSync(backupPath)) {
-        fs.unlinkSync(backupPath);
-        return { success: true, method: 'file' };
-      }
-      return { success: false, error: 'Backup not found' };
+    const redis = await initializeRedis();
+    
+    if (redis.isVercel) {
+      // Use Vercel KV in production
+      await redis.kv.del(`backup:${backupId}`);
+      console.log(`Backup deleted successfully from Vercel KV: ${backupId}`);
     } else {
-      // Delete from KV
-      if (!kv) {
-        return { success: false, error: 'KV not available' };
-      }
-
-      await kv.del(`backup:${backupId}`);
-      await kv.lrem('backups:list', 0, backupId);
-      
-      return { success: true, method: 'kv' };
+      // Use local Redis in development
+      await redis.client.del(`backup:${backupId}`);
+      console.log(`Backup deleted successfully from local Redis: ${backupId}`);
     }
+    
+    return { success: true };
   } catch (error) {
     console.error('Failed to delete backup:', error);
     return { success: false, error: error.message };
+  }
+}
+
+// Close Redis connection (for cleanup)
+export async function closeRedisConnection() {
+  if (redisClient) {
+    await redisClient.quit();
+    redisClient = null;
+    console.log('Redis connection closed');
   }
 } 
