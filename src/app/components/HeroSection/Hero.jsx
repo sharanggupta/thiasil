@@ -6,7 +6,7 @@ import "./Hero.css";
 
 const HeroSection = () => {
   return (
-    <div className="relative h-screen">
+    <div className="relative h-screen" id="home">
       {/* Background image with clip-path */}
       <div className="absolute inset-0 bg-image-clippath">
         <Image

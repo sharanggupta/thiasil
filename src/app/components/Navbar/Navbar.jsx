@@ -62,13 +62,16 @@ const Navbar = () => {
       >
         <ul className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-center list-none">
           {[
-            { label: "ABOUT THIASIL", href: "#about-thiasil" },
-            { label: "THIASIL BENEFITS", href: "#thiasil-benefits" },
+            { label: "HOME", href: "/" },
+            { label: "ABOUT US", href: "/company" },
+            { label: "OUR PRODUCTS", href: "/products" },
+            { label: "FEATURES", href: "#thiasil-benefits" },
             { label: "POPULAR PRODUCTS", href: "#popular-products" },
-            { label: "TESTIMONY", href: "#reviews" },
-            { label: "ORDER NOW", href: "#order-now" },
-            { label: "PRICELIST", href: "/catalog.pdf", external: true },
+            { label: "TESTIMONIALS", href: "#reviews" },
+            { label: "CONTACT US", href: "/contact" },
+            { label: "PRIVACY POLICY", href: "/policy" },
             { label: "CALL US", href: "tel:+919820576045", external: true },
+            { label: "ADMIN", href: "/admin", admin: true },
           ].map((item, index) => (
             <li className="my-1" key={index}>
               <a
@@ -81,8 +84,9 @@ const Navbar = () => {
                     : closing
                     ? "menu-item-close"
                     : ""
-                }`}
+                } ${item.admin ? "opacity-50 hover:opacity-100" : ""}`}
                 onClick={handleNavItemClick}
+                title={item.admin ? "Admin Panel (Restricted Access)" : ""}
               >
                 <span>{item.label}</span>
               </a>
