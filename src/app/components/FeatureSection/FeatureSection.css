@@ -66,3 +66,50 @@
     
  }
 }
+
+/* Responsive image sizing for FeatureSection */
+.feature-section-image {
+  width: 250px;
+  height: 180px;
+  object-fit: cover;
+  border-radius: 12px;
+}
+
+@media (max-width: 900px) {
+  .feature-section-image {
+    width: 210px;
+    height: 150px;
+  }
+}
+
+@media (max-width: 600px) {
+  .feature-section-image {
+    width: 110px;
+    height: 80px;
+  }
+}
+
+.card h2 {
+  font-size: 1rem;
+}
+.card p {
+  font-size: 0.95rem;
+}
+
+@media (max-width: 900px) {
+  .card h2 {
+    font-size: 0.95rem;
+  }
+  .card p {
+    font-size: 0.9rem;
+  }
+}
+
+@media (max-width: 600px) {
+  .card h2 {
+    font-size: 0.85rem;
+  }
+  .card p {
+    font-size: 0.8rem;
+  }
+}

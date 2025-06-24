@@ -12,6 +12,8 @@
   transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
   position: relative;
   clip-path: polygon(10% 0%, 100% 0%, 90% 100%, 0% 100%);
+  max-width: 100%;
+  box-sizing: border-box;
 }
 
 /* Image container to ensure it's square for circular shape */
@@ -98,8 +100,9 @@
 @media (max-width: 768px) {
   .review-card {
     flex-direction: column; /* Stack items in column on mobile */
-    width: 80%;
-    padding: 1rem;
+    width: 100%;
+    padding-left: 0.5rem;
+    padding-right: 0.5rem;
     clip-path: polygon(100% 0, 100% 100%, 0 100%, 0 0);
   }
 
@@ -124,4 +127,8 @@
     display: flex;
     line-height: 1.2;
   }
+}
+
+.reviews-section-parent {
+  overflow-x: auto;
 }

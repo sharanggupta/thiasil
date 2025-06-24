@@ -22,7 +22,7 @@ const HeroSection = () => {
 
       {/* Logo in the top-left */}
       <div className="absolute top-8 left-6 md:left-10 z-20">
-        <Image src={logoImage} alt="Logo" width={40} height={40} />
+        <Image src={logoImage} alt="Thiasil Logo" width={40} height={40} />
       </div>
 
       {/* Content */}

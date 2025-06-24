@@ -4,7 +4,7 @@ import { NAVIGATION } from "../../../lib/constants";
 
 const Sidebar = ({ className = "" }) => {
   return (
-    <aside className={`fixed top-6 left-6 z-30 flex flex-col items-center gap-6 bg-white/10 backdrop-blur-xl border border-white/20 rounded-3xl shadow-2xl p-4 w-20 h-[80vh] min-h-[400px] max-h-[90vh] justify-between ${className}`}>
+    <aside role="navigation" aria-label="Sidebar Navigation" className={`hidden sm:flex fixed top-6 left-6 z-30 flex-col items-center gap-6 bg-white/10 backdrop-blur-xl border border-white/20 rounded-3xl shadow-2xl p-4 w-20 h-[80vh] min-h-[400px] max-h-[90vh] justify-between ${className}`}>
       {/* Logo */}
       <div className="flex flex-col items-center gap-2">
         <div className="w-10 h-10 rounded-full bg-white/20 flex items-center justify-center shadow-lg mb-2 overflow-hidden">

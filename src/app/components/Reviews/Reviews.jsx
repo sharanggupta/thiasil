@@ -1,6 +1,6 @@
+import Image from "next/image";
 import img1 from "../../images/thiasil-10.jpg";
 import img2 from "../../images/thiasil-11.jpg";
-import Image from "next/image";
 import "./Reviews.css";
 
 export default function Reviews() {
@@ -30,7 +30,7 @@ export default function Reviews() {
         {/* Review Card 1 */}
         <div className="review-card">
           <div className="image-container">
-            <Image src={img1} alt="Laboratory" className="review-image" />
+            <Image src={img1} alt="Laboratory Review" className="review-image" />
             {/* Add the overlay */}
             <div className="overlay">
               <p>LABORATORY</p>
@@ -49,7 +49,7 @@ export default function Reviews() {
 {/* Review Card 2 */}
         <div className="review-card">
           <div className="image-container">
-            <Image src={img2} alt="Cost Effective" className="review-image" />
+            <Image src={img2} alt="Cost Effective Review" className="review-image" />
             {/* Add the overlay */}
             <div className="overlay">
               <p>RESELLER</p>
