@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
+import { getUniqueValues } from '../array';
 import { API_ENDPOINTS } from '../constants';
-import { filterProducts, getUniqueValues, searchProducts } from '../utils';
+import { filterProducts, searchProducts } from '../productFilter';
 
 export const useProducts = () => {
   const [products, setProducts] = useState([]);

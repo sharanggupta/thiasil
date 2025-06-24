@@ -11,7 +11,7 @@ export default function Reviews() {
         autoPlay
         loop
         muted
-        className="absolute top-0 left-0 w-full h-full object-cover"
+        className="object-cover absolute top-0 left-0 w-full h-full"
       >
         <source src="video.mp4" type="video/mp4" />
         {/* Fallback for browsers that don't support the video */}
@@ -22,8 +22,8 @@ export default function Reviews() {
       <div className="absolute top-0 left-0 w-full h-full bg-[#dcdddd] opacity-80"></div>
 
       {/* Review Cards */}
-      <div className="relative h-full flex flex-col items-center justify-center text-custom-gray">
-        <h2 className="text-center heading md:mt-0 mt-15 px-5 mb-5">
+      <div className="flex relative flex-col justify-center items-center h-full text-custom-gray">
+        <h2 className="px-5 mb-5 text-center heading md:mt-0 mt-15">
           We make our clients genuinely happy
         </h2>
 

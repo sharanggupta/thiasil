@@ -9,6 +9,8 @@ const ADMIN_CREDENTIALS = {
   password: process.env.ADMIN_PASSWORD
 };
 
+console.log('DEBUG ADMIN CREDS', ADMIN_CREDENTIALS);
+
 // Validate that credentials are set
 if (!ADMIN_CREDENTIALS.username || !ADMIN_CREDENTIALS.password) {
   console.error('Admin credentials not configured. Please set ADMIN_USERNAME and ADMIN_PASSWORD in .env.local');
@@ -81,12 +83,8 @@ export async function POST(request) {
     }
     
     // Parse and validate request body
-    let body;
-    try {
-      body = await request.json();
-    } catch (error) {
-      return NextResponse.json({ error: 'Invalid JSON in request body' }, { status: 400 });
-    }
+    const body = await request.json();
+    console.log('DEBUG LOGIN BODY', body);
     
     // Validate input
     const validation = validateInput(body);

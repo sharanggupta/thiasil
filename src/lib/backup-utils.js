@@ -5,49 +5,27 @@ let redisClient = null;
 // Initialize Redis client
 async function initializeRedis() {
   if (redisClient) {
-    return redisClient;
+    return { client: redisClient, isVercel: false };
   }
 
   try {
     // Check if we're in Vercel environment
     if (process.env.VERCEL === '1') {
-      console.log('Using Vercel KV in production');
       const { kv } = await import('@vercel/kv');
       return { kv, isVercel: true };
     }
 
     // Create Redis client for local development
     const redisUrl = process.env.REDIS_URL || 'redis://localhost:6379';
-    console.log(`Connecting to Redis: ${redisUrl}`);
     
     redisClient = createClient({
       url: redisUrl
     });
 
-    // Handle connection events
-    redisClient.on('error', (err) => {
-      console.error('Redis Client Error:', err);
-    });
-
-    redisClient.on('connect', () => {
-      console.log('Redis Client Connected');
-    });
-
-    redisClient.on('ready', () => {
-      console.log('Redis Client Ready');
-    });
-
-    redisClient.on('end', () => {
-      console.log('Redis Client Disconnected');
-    });
-
-    // Connect to Redis
     await redisClient.connect();
-    
     return { client: redisClient, isVercel: false };
-  } catch (error) {
-    console.error('Failed to initialize Redis:', error);
-    throw error;
+  } catch (err) {
+    throw err;
   }
 }
 
@@ -70,16 +48,13 @@ export async function createBackup(data, operation = 'backup') {
     if (redis.isVercel) {
       // Use Vercel KV in production
       await redis.kv.set(`backup:${backupId}`, JSON.stringify(backupData));
-      console.log(`Backup created successfully in Vercel KV: ${backupId}`);
     } else {
       // Use local Redis in development
       await redis.client.set(`backup:${backupId}`, JSON.stringify(backupData));
-      console.log(`Backup created successfully in local Redis: ${backupId}`);
     }
     
     return { success: true, backupId, timestamp };
   } catch (error) {
-    console.error('Failed to create backup:', error);
     return { success: false, error: error.message };
   }
 }
@@ -129,7 +104,6 @@ export async function listBackups() {
       return { success: true, backups: backups.sort((a, b) => b.created - a.created) };
     }
   } catch (error) {
-    console.error('Failed to list backups:', error);
     return { success: false, error: error.message };
   }
 }
@@ -159,7 +133,6 @@ export async function restoreBackup(backupId) {
       return { success: true, data: backup.data };
     }
   } catch (error) {
-    console.error('Failed to restore backup:', error);
     return { success: false, error: error.message };
   }
 }
@@ -172,16 +145,13 @@ export async function deleteBackup(backupId) {
     if (redis.isVercel) {
       // Use Vercel KV in production
       await redis.kv.del(`backup:${backupId}`);
-      console.log(`Backup deleted successfully from Vercel KV: ${backupId}`);
     } else {
       // Use local Redis in development
       await redis.client.del(`backup:${backupId}`);
-      console.log(`Backup deleted successfully from local Redis: ${backupId}`);
     }
     
     return { success: true };
   } catch (error) {
-    console.error('Failed to delete backup:', error);
     return { success: false, error: error.message };
   }
 }
@@ -191,6 +161,5 @@ export async function closeRedisConnection() {
   if (redisClient) {
     await redisClient.quit();
     redisClient = null;
-    console.log('Redis connection closed');
   }
 } 
