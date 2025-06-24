@@ -3,12 +3,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useMemo, useState } from "react";
 import productsData from "../../data/products.json";
-import {
-    GlassButton,
-    GlassCard,
-    GlassIcon,
-    NeonBubblesBackground
-} from "../components/Glassmorphism";
+import { GlassButton, GlassCard, GlassIcon, NeonBubblesBackground } from "../components/Glassmorphism";
 import favicon from "../images/favicon.png";
 
 const sidebarNav = [
@@ -389,7 +384,7 @@ export default function Products() {
                     <div className="mb-4 relative">
                       <div className="aspect-square w-full h-32 overflow-hidden rounded-xl border border-white/20 shadow-lg bg-gradient-to-br from-white/10 to-white/5">
                         <Image
-                          src={`/images/products/${getBaseCatalogNumber(product.catNo)}.png`}
+                          src={`/images/products/${getBaseCatalogNumber(product.catNo).replace(/[^\d]+/g, "")}.png`}
                           alt={product.name}
                           width={200}
                           height={200}
@@ -459,7 +454,7 @@ export default function Products() {
                     <div className="grid grid-cols-2 gap-1">
                       {product.features && product.features.length > 0 ? (
                         product.features.map((feature, index) => (
-                          <div key={`${product.id}-${product.catNo}-feature-${index}`} className="flex items-center gap-1 text-xs">
+                          <div key={`${product.id}-feature-${index}`} className="flex items-center gap-1 text-xs">
                             <div className="w-1 h-1 bg-[#3a8fff] rounded-full"></div>
                             <span className="text-white/70">{feature}</span>
                           </div>

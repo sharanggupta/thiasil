@@ -2,12 +2,7 @@
 import Image from "next/image";
 import Link from 'next/link';
 import { useEffect, useState } from "react";
-import {
-    GlassButton,
-    GlassCard,
-    GlassIcon,
-    NeonBubblesBackground
-} from "../../components/Glassmorphism";
+import { GlassButton, GlassCard, GlassIcon, NeonBubblesBackground } from "../../components/Glassmorphism";
 import favicon from "../../images/favicon.png";
 
 const sidebarNav = [
@@ -318,7 +313,7 @@ export default function CategoryPage({ params }) {
                   <div className="mb-4 relative">
                     <div className="aspect-square w-full h-24 overflow-hidden rounded-xl border border-white/20 shadow-lg bg-gradient-to-br from-white/10 to-white/5">
                       <Image
-                        src={`/images/products/${getBaseCatalogNumber(variant.catNo)}.png`}
+                        src={`/images/products/${getBaseCatalogNumber(variant.catNo).replace(/[^\d]+/g, "")}.png`}
                         alt={variant.name}
                         width={200}
                         height={200}
@@ -380,7 +375,7 @@ export default function CategoryPage({ params }) {
                   <h4 className="text-sm font-semibold text-white/90 mb-2">Features:</h4>
                   <div className="space-y-1">
                     {variant.features.map((feature, index) => (
-                      <div key={index} className="flex items-center gap-2 text-xs">
+                      <div key={`${variant.id}-feature-${index}`} className="flex items-center gap-2 text-xs">
                         <div className="w-1 h-1 bg-[#3a8fff] rounded-full"></div>
                         <span className="text-white/70">{feature}</span>
                       </div>
