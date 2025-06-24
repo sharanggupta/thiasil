@@ -127,3 +127,17 @@
 .menu-item-close {
   animation: bounceAndClose 0.7s ease-in-out forwards;
 }
+
+@media (max-width: 900px) {
+  .navbar-link {
+    font-size: 1.1rem !important;
+    padding: 0.7rem 1.2rem !important;
+  }
+}
+
+@media (max-width: 600px) {
+  .navbar-link {
+    font-size: 0.95rem !important;
+    padding: 0.5rem 0.7rem !important;
+  }
+}

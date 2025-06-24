@@ -36,41 +36,58 @@ const ContactForm = () => {
         {/* The actual form */}
         <div className="contact-form">
           <h2 className="heading">GET IN TOUCH WITH US</h2>
-          <form className="form" onSubmit={handleSubmit}>
-            <input
-              type="text"
-              name="name"
-              placeholder="Full name"
-              className="input-field"
-              value={formData.name}
-              onChange={handleChange}
-            />
-            <input
-              type="email"
-              name="email"
-              placeholder="Email address"
-              className="input-field"
-              value={formData.email}
-              onChange={handleChange}
-            />
-            <input
-              type="tel"
-              name="phone"
-              placeholder="Phone Number"
-              className="input-field"
-              value={formData.phone}
-              onChange={handleChange}
-            />
+          <form className="form" onSubmit={handleSubmit} aria-label="Contact Form">
+            <div className="mb-4">
+              <label htmlFor="name" className="block text-sm font-medium text-gray-700">Name</label>
+              <input
+                id="name"
+                name="name"
+                type="text"
+                placeholder="Full name"
+                className="input-field focus:outline-none focus:ring-2 focus:ring-[#3a8fff]"
+                value={formData.name}
+                onChange={handleChange}
+                required
+                aria-required="true"
+              />
+            </div>
+            <div className="mb-4">
+              <label htmlFor="email" className="block text-sm font-medium text-gray-700">Email</label>
+              <input
+                id="email"
+                name="email"
+                type="email"
+                placeholder="Email address"
+                className="input-field focus:outline-none focus:ring-2 focus:ring-[#3a8fff]"
+                value={formData.email}
+                onChange={handleChange}
+                required
+                aria-required="true"
+              />
+            </div>
+            <div className="mb-4">
+              <label htmlFor="phone" className="block text-sm font-medium text-gray-700">Phone</label>
+              <input
+                id="phone"
+                name="phone"
+                type="tel"
+                placeholder="Phone Number"
+                className="input-field focus:outline-none focus:ring-2 focus:ring-[#3a8fff]"
+                value={formData.phone}
+                onChange={handleChange}
+                required
+                aria-required="true"
+              />
+            </div>
             <Button
               name="Next Step "
               color="#ffff"
               bgColor="#2196f3"
               textSize="text-sm md:text-base"
               padding="px-3 md:px-5 py-2 md:py-3"
-              className="mt-5 w-1/2 md:w-1/3 text-center"
+              className="mt-5 w-1/2 md:w-1/3 text-center focus:outline-none focus:ring-2 focus:ring-[#3a8fff]"
               type="submit"
             />
-            <p className="contact-info">TEL : +919820576045</p>
           </form>
         </div>
       </div>

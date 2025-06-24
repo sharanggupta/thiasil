@@ -4,6 +4,7 @@
 
 body {
   font-family: var(--font-lato), sans-serif; /* Use the CSS variable for the Lato font */
+  font-size: 16px;
 }
 .custom-link {
   font-weight: 600; /* Equivalent to 'font-semibold' in Tailwind */
@@ -35,9 +36,20 @@ body {
   text-shadow: 0.5rem 1rem 2rem rgba(0, 0, 0, 0.2);
 }
 
+@media only screen and (max-width: 900px) {
+  body {
+    font-size: 15px;
+  }
+  .heading {
+    font-size: 24px;
+  }
+}
 @media only screen and (max-width: 430px) {
-  .heading{
-  font-size: 18px;
+  body {
+    font-size: 14px;
+  }
+  .heading {
+    font-size: 18px;
   }
 }
 

@@ -60,39 +60,41 @@ const Navbar = () => {
             "linear-gradient(to right bottom, rgba(0, 159, 253, 0.95), rgba(42, 42, 114, 1))",
         }}
       >
-        <ul className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-center list-none">
-          {[
-            { label: "HOME", href: "/" },
-            { label: "ABOUT US", href: "/company" },
-            { label: "OUR PRODUCTS", href: "/products" },
-            { label: "FEATURES", href: "#thiasil-benefits" },
-            { label: "POPULAR PRODUCTS", href: "#popular-products" },
-            { label: "TESTIMONIALS", href: "#reviews" },
-            { label: "CONTACT US", href: "/contact" },
-            { label: "PRIVACY POLICY", href: "/policy" },
-            { label: "CALL US", href: "tel:+919820576045", external: true },
-            { label: "ADMIN", href: "/admin", admin: true },
-          ].map((item, index) => (
-            <li className="my-1" key={index}>
-              <a
-                href={item.href}
-                target={item.external ? "_blank" : "_self"}
-                rel={item.external ? "noopener noreferrer" : ""}
-                className={`navbar-link relative text-white text-nowrap text-xl md:text-4xl font-light py-2 px-3 md:px-6 inline-block transition-all duration-300 ease-in-out ${
-                  active && !closing
-                    ? "menu-item-open"
-                    : closing
-                    ? "menu-item-close"
-                    : ""
-                } ${item.admin ? "opacity-50 hover:opacity-100" : ""}`}
-                onClick={handleNavItemClick}
-                title={item.admin ? "Admin Panel (Restricted Access)" : ""}
-              >
-                <span>{item.label}</span>
-              </a>
-            </li>
-          ))}
-        </ul>
+        <nav role="navigation" aria-label="Main Navigation" className="navbar">
+          <ul className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-center list-none">
+            {[
+              { label: "HOME", href: "/" },
+              { label: "ABOUT US", href: "/company" },
+              { label: "OUR PRODUCTS", href: "/products" },
+              { label: "FEATURES", href: "#thiasil-benefits" },
+              { label: "POPULAR PRODUCTS", href: "#popular-products" },
+              { label: "TESTIMONIALS", href: "#reviews" },
+              { label: "CONTACT US", href: "/contact" },
+              { label: "PRIVACY POLICY", href: "/policy" },
+              { label: "CALL US", href: "tel:+919820576045", external: true },
+              { label: "ADMIN", href: "/admin", admin: true },
+            ].map((item, index) => (
+              <li className="my-1" key={index}>
+                <a
+                  href={item.href}
+                  target={item.external ? "_blank" : "_self"}
+                  rel={item.external ? "noopener noreferrer" : ""}
+                  className={`navbar-link relative text-white text-nowrap text-xl md:text-4xl font-light py-2 px-3 md:px-6 inline-block transition-all duration-300 ease-in-out ${
+                    active && !closing
+                      ? "menu-item-open"
+                      : closing
+                      ? "menu-item-close"
+                      : ""
+                  } ${item.admin ? "opacity-50 hover:opacity-100" : ""} focus:outline-none focus:ring-2 focus:ring-[#3a8fff]`}
+                  onClick={handleNavItemClick}
+                  title={item.admin ? "Admin Panel (Restricted Access)" : ""}
+                >
+                  <span>{item.label}</span>
+                </a>
+              </li>
+            ))}
+          </ul>
+        </nav>
       </div>
     </div>
   );

@@ -11,9 +11,10 @@ const FeatureSection = () => {
           <Image
             src={backgroundImage}
             alt="Lab Background"
-            fill
-            className="object-cover"
+            width={250}
+            height={180}
             quality={100}
+            className="feature-section-image"
           />
           {/* Gradient overlay with clip-path */}
           <div className="absolute inset-0 w-full h-full bg-gradient-clip-path-features"></div>

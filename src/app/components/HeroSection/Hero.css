@@ -4,7 +4,8 @@
 .letter-spacing_subheading {
   letter-spacing: 17.5px;
 }
-.bg-image-clippath {
+.bg-image-clippath,
+.bg-gradient-clip-path {
   clip-path: polygon(0 0, 100% 0, 100% 75vh, 0 100%);
 }
 .bg-gradient-clip-path {
@@ -23,24 +24,17 @@
   .letter-spacing_subheading {
     letter-spacing: 5px;
   }
-  .bg-image-clippath {
-    clip-path: polygon(0 0, 100% 0, 100% 90vh, 0 100%);
-  }
+  .bg-image-clippath,
   .bg-gradient-clip-path {
-    background: linear-gradient(
-      to right bottom,
-      rgba(0, 159, 253, 0.75),
-      rgba(42, 42, 114, 0.75)
-    );
-    opacity: 1;
-    clip-path: polygon(0 0, 100% 0, 100% 90vh, 0 100%);
+    clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%) !important;
   }
 }
 
 @media only screen and (max-width: 360px) {
   
-  .bg-image-clippath {
-    clip-path: polygon(0 0, 100% 0, 100% 85vh, 0 100%);
+  .bg-image-clippath,
+  .bg-gradient-clip-path {
+    clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
   }
   .bg-gradient-clip-path {
     background: linear-gradient(
@@ -49,10 +43,23 @@
       rgba(42, 42, 114, 0.75)
     );
     opacity: 1;
-    clip-path: polygon(0 0, 100% 0, 100% 85vh, 0 100%);
+    clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
   }
 }
 
+@media (max-width: 600px) {
+  .bg-image-clippath,
+  .bg-gradient-clip-path {
+    clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%) !important;
+  }
+}
+
+@media (max-width: 900px) {
+  .bg-image-clippath,
+  .bg-gradient-clip-path {
+    clip-path: polygon(0 0, 100% 0, 100% 90vh, 0 100%) !important;
+  }
+}
 
 /* animations */
 /* Hero.css */
