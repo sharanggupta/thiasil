@@ -6,16 +6,27 @@ const Button = ({
   name,
   color = "#fff",
   bgColor = "#2d96dc",
-  padding = "px-4 py-2",
-  textSize = "text-base", // Default text size
+  padding,
+  textSize,
   className = "",
-  onClick, // Add onClick as a prop
-  href, // Add href as a prop
+  onClick,
+  href,
+  size = "medium", // new prop
   ...props
 }) => {
   const router = useRouter();
+  // Set default padding/textSize based on size prop if not provided
+  let defaultPadding = "px-7 py-3";
+  let defaultTextSize = "text-base";
+  if (size === "small") {
+    defaultPadding = "px-4 py-2";
+    defaultTextSize = "text-sm";
+  } else if (size === "large") {
+    defaultPadding = "px-10 py-5";
+    defaultTextSize = "text-lg";
+  }
   const buttonStyle = { color: color, backgroundColor: bgColor };
-  const buttonClasses = `btn ${padding} ${textSize} ${className}`;
+  const buttonClasses = `btn ${padding || defaultPadding} ${textSize || defaultTextSize} ${className}`;
 
   const handleClick = (e) => {
     if (href) {

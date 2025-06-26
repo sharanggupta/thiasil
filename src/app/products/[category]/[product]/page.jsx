@@ -1,91 +1,180 @@
+"use client";
+import Footer from "@/app/components/Footer/Footer";
+import "@/app/components/HeroSection/Hero.css";
+import Button from "@/app/components/MainButton/Button";
+import Navbar from "@/app/components/Navbar/Navbar";
 import productsData from "@/data/products.json";
 import Image from "next/image";
-import { notFound } from "next/navigation";
-import 'swiper/css';
-import styles from "./ProductDetails.module.css";
-import VariantCarousel from './VariantCarousel';
+import styles from "./ProductVariantCard.module.css";
 
-// SVG icons
-const CapacityIcon = () => (
-  <svg className={styles.variantIcon} fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 19V7a2 2 0 012-2h12a2 2 0 012 2v12M4 19h16M4 19a2 2 0 002 2h12a2 2 0 002-2" /></svg>
-);
-const PackagingIcon = () => (
-  <svg className={styles.variantIcon} fill="none" viewBox="0 0 24 24" stroke="currentColor"><rect x="3" y="7" width="18" height="13" rx="2" strokeWidth={2} /><path d="M16 3v4M8 3v4" strokeWidth={2} /></svg>
-);
-const PriceIcon = () => (
-  <svg className={styles.variantIcon} fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v8m0 0a4 4 0 100-8 4 4 0 000 8z" /></svg>
-);
-const CatNoIcon = () => (
-  <svg className={styles.variantIcon} fill="none" viewBox="0 0 24 24" stroke="currentColor"><rect x="4" y="4" width="16" height="16" rx="2" strokeWidth={2} /><path d="M8 8h8v8H8z" strokeWidth={2} /></svg>
-);
-const StockIcon = ({ inStock }) => inStock ? (
-  <svg className={styles.variantIcon} fill="none" viewBox="0 0 24 24" stroke="#059669"><circle cx="12" cy="12" r="10" strokeWidth={2} /><path d="M8 12l2 2 4-4" strokeWidth={2} /></svg>
-) : (
-  <svg className={styles.variantIcon} fill="none" viewBox="0 0 24 24" stroke="#dc2626"><circle cx="12" cy="12" r="10" strokeWidth={2} /><path d="M8 8l8 8M16 8l-8 8" strokeWidth={2} /></svg>
-);
+function parseNumber(str) {
+  // Extract the first number from a string (e.g., '36 pieces' -> 36)
+  if (!str) return null;
+  const match = str.match(/\d+/);
+  return match ? parseInt(match[0], 10) : null;
+}
 
-export default async function ProductDetailsPage({ params }) {
-  console.log('ProductDetailsPage params:', params);
-  const { product } = params;
-  // Find the main product by catNo only (case-insensitive, decode URL param)
-  const productData = productsData.products.find(
-    (p) => p.catNo.toLowerCase() === decodeURIComponent(product).toLowerCase()
-  );
-  console.log('Resolved productData:', productData);
-  if (!productData) return notFound();
+function parsePrice(str) {
+  // Extract the first number from a price string (e.g., '₹300.00' -> 300)
+  if (!str) return null;
+  const match = str.replace(/[^\d.]/g, '');
+  return match ? parseFloat(match) : null;
+}
 
-  // Get base catalog number (series) from catNo, e.g., '1110' from '1110 Series'
-  const baseCatNo = productData.catNo.split(' ')[0];
-  const categorySlug = productData.categorySlug;
-  // Only show variants whose catNo starts with the baseCatNo + '/'
-  const variants =
-    productsData.productVariants?.[categorySlug]?.variants?.filter(
-      v => v.catNo.startsWith(baseCatNo + '/')
-    ) || [];
+function ProductVariantCard({ variant, productImage }) {
+  const isOutOfStock = variant.stockStatus !== 'in_stock';
+  const packagingQty = parseNumber(variant.packaging);
+  const pricePerPiece = parsePrice(variant.price);
+  const totalCost = (packagingQty && pricePerPiece) ? (packagingQty * pricePerPiece) : null;
 
-  // Fallback for missing image
-  let imageSrc = productData.image;
-  if (!imageSrc) {
-    console.warn('No image found for product, using placeholder:', productData.catNo);
-    imageSrc = '/images/products/placeholder.png';
+  // Format total cost: no thousands separator, just plain string
+  function formatRupee(val) {
+    if (val == null) return "-";
+    if (Number.isInteger(val)) return `₹${val}`;
+    return `₹${val.toFixed(2)}`;
   }
-  console.log('Product image src:', imageSrc);
+
+  // Compose prefill message for contact form
+  const prefillMessage = encodeURIComponent(
+    `Product Inquiry:\n` +
+    `Name: ${variant.name || ''}\n` +
+    `Cat No: ${variant.catNo || ''}\n` +
+    `Capacity: ${variant.capacity || ''}\n` +
+    `Packaging: ${variant.packaging || ''}\n` +
+    `Price per piece: ${variant.price || ''}\n` +
+    (totalCost ? `Total cost for one pack: ${formatRupee(totalCost)}` : '')
+  );
+
+  const handleBuyNow = () => {
+    window.location.href = `/contact?message=${prefillMessage}`;
+  };
+
+  // Determine image URL
+  const imageUrl = variant.image || productImage || "/images/catalog/catalog-000.jpg";
 
   return (
-    <div className="flex flex-col items-center px-2 py-12 w-full min-h-screen bg-gradient-to-br from-blue-100 to-blue-200">
-      {/* Accent blobs */}
-      <div className={styles.accentBlob} style={{top: 40, left: -60}} />
-      <div className={styles.accentBlob} style={{bottom: 60, right: -80}} />
-      <div className="flex relative flex-col gap-0 items-center p-0 mx-auto w-full max-w-5xl rounded-3xl shadow-2xl" style={{background: 'rgba(255,255,255,0.60)', backdropFilter: 'blur(32px)'}}>
-        {/* Hero Section */}
-        <div className="flex flex-col justify-center items-center px-4 pt-12 pb-8 w-full">
-          <div className={styles.heroImage}>
-            <div className={styles.heroImageBg}></div>
-            <Image
-              src={imageSrc}
-              alt={productData.name}
-              fill
-              style={{objectFit: 'contain'}}
-              className="drop-shadow-xl"
-              priority
-              sizes="(max-width: 768px) 80vw, 420px"
-            />
-            <div className={styles.heroOverlay}></div>
+    <div className={`${styles["variant-card"]} ${isOutOfStock ? styles["out-of-stock"] : ""}`}>
+      <div className={styles["variant-card-inner"]}>
+        {/* Front Side */}
+        <div className={styles["variant-card-front"]}>
+          <div
+            className={styles["variant-card-picture"]}
+            style={{
+              backgroundImage: `linear-gradient(to right bottom, rgba(41, 152, 255, 0.7), rgba(86, 67, 250, 0.7)), url('${imageUrl}')`,
+              backgroundSize: 'cover',
+              backgroundPosition: 'center',
+              backgroundRepeat: 'no-repeat',
+              backgroundBlendMode: 'screen',
+            }}
+          />
+          <div className={styles["variant-card-labelContainer"]}>
+            <span className={styles["variant-card-label"]}>
+              {variant.capacity ? `${variant.capacity}` : variant.name}
+            </span>
           </div>
-          <h1 className={styles.productName}>{productData.name}</h1>
-          <span className={styles.productCatNo}>{productData.catNo}</span>
-          <p className={styles.productDescription}>{productData.description}</p>
-          <ul className="mb-2 text-base list-disc list-inside text-gray-600">
-            {productData.features && productData.features.map((f, i) => (
-              <li key={i}>{f}</li>
-            ))}
-          </ul>
+          <div className={styles["variant-card-info"]}>
+            <p>Cat No: {variant.catNo}</p>
+            {variant.capacity && <p>capacity: {variant.capacity}</p>}
+            {variant.packaging && <p>packaging: {variant.packaging}</p>}
+            <p>pricing: {variant.price ? variant.price : 'varies with size'}</p>
+          </div>
         </div>
-        {/* Variant Carousel Section */}
-        <div className="px-2 mt-4 mb-12 w-full md:px-8">
-          <VariantCarousel variants={variants} />
+        {/* Back Side */}
+        <div className={styles["variant-card-backRect"]}>
+          <div>
+            <div style={{ fontSize: "1.1rem", fontWeight: 600, marginBottom: 8 }}>Total Cost</div>
+            <div style={{ fontSize: "2.1rem", fontWeight: 200, marginBottom: 0 }}>
+              {totalCost ? formatRupee(totalCost) : "-"}
+            </div>
+            <div style={{ fontSize: "1.1rem", fontWeight: 400, marginBottom: 18 }}>
+              {totalCost ? "per pack" : ""}
+            </div>
+            <Button
+              name={isOutOfStock ? "Unavailable" : "Buy Now!"}
+              color="#0A6EBD"
+              bgColor="#fff"
+              size="medium"
+              className="w-full max-w-[140px] mx-auto mt-2"
+              onClick={isOutOfStock ? undefined : handleBuyNow}
+              disabled={isOutOfStock}
+            />
+          </div>
         </div>
       </div>
     </div>
   );
-} 
+}
+
+export default function ProductDetailsPage({ params }) {
+  // Get product from params
+  const { product } = params || {};
+  const productData = productsData.products.find(
+    (p) => p.catNo.toLowerCase() === decodeURIComponent(product || "").toLowerCase()
+  );
+  if (!productData) return null;
+
+  // Get all variants for this product's category
+  const variants = productsData.productVariants?.[productData.categorySlug]?.variants || [];
+
+  return (
+    <>
+      <Navbar theme="products" />
+      <div className="main-margin bg-[#f7f7f7] min-h-screen">
+        {/* Hero Section - gradient only, no background image */}
+        <div className="relative h-[70vh] min-h-[400px]" id="product-hero">
+          {/* Gradient overlay with steeper homepage angle */}
+          <div
+            className="absolute inset-0"
+            style={{
+              background: 'linear-gradient(90deg, #0A6EBD 60%, #6C5CE7 100%)',
+              clipPath: 'polygon(0 0, 100% 0, 100% 70%, 0 100%)',
+              WebkitClipPath: 'polygon(0 0, 100% 0, 100% 70%, 0 100%)',
+            }}
+          ></div>
+          {/* Content - product title from data */}
+          <div className="relative z-10 flex flex-col items-center justify-center text-center text-white w-full h-full">
+            <h1
+              className="text-4xl md:text-5xl lg:text-6xl leading-[1.1] mt-[-7rem] mb-0 md:mb-5 uppercase"
+              style={{ letterSpacing: '0.16em' }}
+            >
+              {productData.name.toUpperCase()}
+            </h1>
+            <p
+              className="text-base md:text-xl leading-5 md:leading-10 font-semibold mt-8 max-w-2xl mx-auto uppercase"
+              style={{ letterSpacing: '0.08em' }}
+            >
+              {productData.description}
+            </p>
+          </div>
+          {/* Product image as a large, circular avatar overlapping the cut, much larger and more left */}
+          {productData.image && (
+            <div
+              className="absolute z-10 flex justify-center items-center w-[55vw] h-[55vw] max-w-[180px] max-h-[180px] md:w-[350px] md:h-[350px] md:max-w-[350px] md:max-h-[350px] left-1/2 -translate-x-1/2 bottom-[-40px] md:left-[20%] md:-translate-x-[30%] md:bottom-[-160px] md:translate-x-0"
+              id="product-image-avatar"
+            >
+              <div className="relative rounded-full border-4 border-white shadow-xl bg-white overflow-hidden w-full h-full flex items-center justify-center">
+                <Image
+                  src={productData.image}
+                  alt={productData.name}
+                  width={350}
+                  height={350}
+                  className="object-cover w-full h-full rounded-full"
+                  priority
+                />
+              </div>
+            </div>
+          )}
+        </div>
+        {/* Product Variants Grid */}
+        <div className="max-w-5xl mx-auto py-32 px-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8 mt-[80px] md:mt-[180px]">
+            {variants.map((variant) => (
+              <ProductVariantCard key={variant.catNo} variant={variant} productImage={productData.image} />
+            ))}
+          </div>
+        </div>
+      </div>
+      <Footer />
+    </>
+  );
+}
