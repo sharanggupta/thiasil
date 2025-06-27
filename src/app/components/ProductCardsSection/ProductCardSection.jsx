@@ -239,7 +239,7 @@ const ProductCardSection = () => {
           textSize="text-sm md:text-base"
           padding="px-8 md:px-10 py-4 md:py-5"
           className="mt-14"
-          href="/catalog.pdf"
+          href="/products"
         />
       </div>
       {/* Modal Component */}
