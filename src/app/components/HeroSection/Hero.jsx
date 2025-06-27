@@ -41,7 +41,7 @@ const HeroSection = () => {
             bgColor="#ffffff"
             textSize="text-sm md:text-base"
             padding="px-7 md:px-10 py-3 md:py-5"
-            href="#popular-products"
+            href="/products"
           />
         </div>
       </div>
