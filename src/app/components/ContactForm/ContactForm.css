@@ -1,13 +1,9 @@
 .contact-form-container{
-    background: linear-gradient(
-    to right bottom,
-    rgba(0, 159, 253, 0.75),
-    rgba(42, 42, 114, 0.75)
-  );
-  position: relative;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+    background: var(--primary-gradient);
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 /* Container for the form with the background image */
 .contact-form-bg-image{

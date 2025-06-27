@@ -62,3 +62,16 @@ body {
   }
 }
 
+:root {
+  --primary-color: rgba(41, 152, 255);
+  --opacity-primary-color: rgba(41, 152, 255, 0.85);
+  --secondary-color: rgba(42, 42, 114);
+  --opacity-secondary-color: rgba(42, 42, 114, 0.75);
+  --bright-secondary-color: rgba(86, 67, 250, 0.85);
+  --opacity-bright-secondary-color: rgba(86, 67, 250, 0.85);
+  --primary-gradient: linear-gradient(to right bottom, var(--opacity-primary-color), var(--opacity-secondary-color));
+  --dark-primary-gradient: linear-gradient(to right bottom, var(--primary-color), var(--secondary-color));
+  --secondary-gradient: linear-gradient(to right bottom, var(--opacity-primary-color), var(--opacity-secondary-color));
+  --bright-secondary-gradient: linear-gradient(to right bottom, var(--opacity-primary-color), var(--opacity-bright-secondary-color));
+}
+

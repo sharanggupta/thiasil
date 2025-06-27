@@ -141,3 +141,7 @@
     padding: 0.5rem 0.7rem !important;
   }
 }
+
+.navbar-menu-bg {
+  background: var(--dark-primary-gradient);
+}
