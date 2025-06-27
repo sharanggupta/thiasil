@@ -43,7 +43,7 @@
 
 .variant-card-back {
   transform: rotateY(180deg);
-  background: linear-gradient(135deg, #0A6EBD 60%, #6C5CE7 100%);
+  background: var(--primary-gradient);
   color: #fff;
   justify-content: center;
   text-align: center;
@@ -55,7 +55,7 @@
 
 .variant-card-backRect {
   transform: rotateY(180deg);
-  background: linear-gradient(135deg, #0A6EBD 60%, #6C5CE7 100%);
+  background: var(--primary-gradient);
   color: #fff;
   justify-content: center;
   text-align: center;
@@ -104,7 +104,7 @@
 }
 
 .variant-card-label {
-  background: linear-gradient(90deg, #0A6EBD 60%, #6C5CE7 100%);
+  background: var(--primary-gradient);
   color: #fff;
   font-weight: 700;
   font-size: 1.1rem;
@@ -113,9 +113,11 @@
   letter-spacing: 0.04em;
   box-shadow: 0 2px 8px rgba(106, 92, 231, 0.12);
   min-width: 60px;
+  max-width: 180px;
   text-align: center;
   overflow: visible;
-  white-space: nowrap;
+  white-space: normal;
+  word-break: break-word;
   z-index: 20;
 }
 

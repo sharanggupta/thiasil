@@ -9,8 +9,7 @@
 }
 
 .gradient-div-card3 {
-  background-image: linear-gradient(to right bottom, #2998ff, #5643fa),
-    url(../../images/thiasil-9.webp);
+  background-image: var(--bright-secondary-gradient), url(../../images/thiasil-9.webp);
 }
 
 .card__picture {
@@ -40,11 +39,7 @@
   padding: 0.6rem 1rem;
 }
 .card-heading-3 , .card-heading-3_1 , .card-cta-3{
-  background-image: linear-gradient(
-    to right bottom,
-    rgba(41, 152, 255, 0.85),
-    rgba(86, 67, 250, 0.85)
-  );
+  background-image: var(--primary-gradient);
   padding: 0.6rem 1rem;
 }
 
@@ -88,11 +83,7 @@
 }
 .card3-backSide
 {
-  background-image: linear-gradient(
-    to right bottom,
-    rgba(41, 152, 255, 0.85),
-    rgba(86, 67, 250, 0.85)
-  );
+  background-image: var(--primary-gradient);
 }
 
 /* Default: Hide the CTA on larger screens */

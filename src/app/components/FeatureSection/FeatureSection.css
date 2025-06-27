@@ -19,7 +19,7 @@
   display: inline-block;
   position: relative;
   color: transparent;
-  background-image: linear-gradient(to right, #009ffd, #2a2a72);
+  background-image: var(--primary-gradient);
   -webkit-background-clip: text;
   background-clip: text;
 }
@@ -28,11 +28,7 @@
   clip-path: polygon(0 18.5%, 100% 0, 100% 87%, 0% 100%);
 }
 .bg-gradient-clip-path-features {
-  background: linear-gradient(
-    to right bottom,
-    rgba(0, 159, 253, 0.75),
-    rgba(42, 42, 114, 0.75)
-  );
+  background: var(--primary-gradient);
   clip-path: polygon(0 18.5%, 100% 0, 100% 87%, 0% 100%);
 }
 @media (max-width: 438px) {
@@ -50,11 +46,7 @@
     clip-path: polygon(0 4%, 100% 0, 100% 96%, 0% 100%);
   }
   .bg-gradient-clip-path-features {
-    background: linear-gradient(
-      to right bottom,
-      rgba(0, 159, 253, 0.75),
-      rgba(42, 42, 114, 0.75)
-    );
+    background: var(--primary-gradient);
     clip-path: polygon(0 4%, 100% 0, 100% 96%, 0% 100%);
   }
 }

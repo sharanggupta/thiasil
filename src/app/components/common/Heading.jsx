@@ -1,7 +1,6 @@
-
 const Heading = ({
   children,
-  gradient = "linear-gradient(to right, #009ffd, #2a2a72)",
+  gradient = "var(--primary-gradient)",
   as: Tag = "h1",
   className = "",
   ...props

@@ -8,7 +8,7 @@ import "./HiTechSection.css"; // Hover effects and z-index styles
 const HiTechSection = () => {
   return (
     <div className="mt-10 md:mt-28 mb-5 md:mb-10 px-7 md:px-10 flex flex-col items-center h-[40rem]">
-      <Heading as="h2" gradient="linear-gradient(to right, #009ffd, #2a2a72)" className="text-center mb-10 md:mb-28" size="primary">
+      <Heading as="h2" className="text-center mb-10 md:mb-28" size="primary">
         HI-TECH RANGE FOR EVERY APPLICATION
       </Heading>
 
@@ -43,6 +43,8 @@ const HiTechSection = () => {
 
         {/* Right Side - Images with Hover Effect */}
         <div className="flex md:flex-col justify-center w-full md:w-1/2 space-y-6 relative " id="thiasil-benefits">
+          {/* Gradient overlay for brand consistency, semi-transparent */}
+          <div className="absolute inset-0 pointer-events-none z-20" style={{ background: 'var(--primary-gradient)', opacity: 0.7, borderRadius: '2px' }} />
           <Image
             src={scientistImage}
             alt="Scientist Image"

@@ -28,9 +28,6 @@ const Navbar = ({ theme = "default" }) => {
 
   // Theme-based styles
   const isProductsTheme = theme === "products";
-  const menuBackground = isProductsTheme
-    ? "linear-gradient(135deg, rgba(58,143,255,0.85) 0%, rgba(162,89,255,0.85) 100%)"
-    : "linear-gradient(to right bottom, rgba(0, 159, 253, 0.95), rgba(42, 42, 114, 1))";
   const hamburgerBg = isProductsTheme ? "bg-blue-200/80" : "bg-white";
   const barColor = isProductsTheme ? "bg-blue-900" : "bg-black";
 
@@ -60,12 +57,9 @@ const Navbar = ({ theme = "default" }) => {
 
       {/* Fullscreen Menu */}
       <div
-        className={`fixed z-30 top-0 right-0 bottom-0 left-0 transition-transform duration-500 ease-in-out ${
+        className={`navbar-menu-bg fixed z-30 top-0 right-0 bottom-0 left-0 transition-transform duration-500 ease-in-out ${
           active && !closing ? "menu-open" : "menu-closed"
         }`}
-        style={{
-          background: menuBackground,
-        }}
       >
         <nav role="navigation" aria-label="Main Navigation" className="navbar">
           <ul className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-center list-none">

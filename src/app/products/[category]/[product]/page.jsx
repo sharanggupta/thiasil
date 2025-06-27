@@ -117,64 +117,55 @@ export default function ProductDetailsPage({ params }) {
   const variants = productsData.productVariants?.[productData.categorySlug]?.variants || [];
 
   return (
-    <>
+    <div className="main-margin bg-[#f7f7f7] min-h-screen">
       <Navbar theme="products" />
-      <div className="main-margin bg-[#f7f7f7] min-h-screen">
-        {/* Hero Section - gradient only, no background image */}
-        <div className="relative h-[70vh] min-h-[400px]" id="product-hero">
-          {/* Gradient overlay with steeper homepage angle */}
-          <div
-            className="absolute inset-0"
-            style={{
-              background: 'linear-gradient(90deg, #0A6EBD 60%, #6C5CE7 100%)',
-              clipPath: 'polygon(0 0, 100% 0, 100% 70%, 0 100%)',
-              WebkitClipPath: 'polygon(0 0, 100% 0, 100% 70%, 0 100%)',
-            }}
-          ></div>
-          {/* Content - product title from data */}
-          <div className="relative z-10 flex flex-col items-center justify-center text-center text-white w-full h-full">
-            <h1
-              className="text-4xl md:text-5xl lg:text-6xl leading-[1.1] mt-[-7rem] mb-0 md:mb-5 uppercase"
-              style={{ letterSpacing: '0.16em' }}
-            >
-              {productData.name.toUpperCase()}
-            </h1>
-            <p
-              className="text-base md:text-xl leading-5 md:leading-10 font-semibold mt-8 max-w-2xl mx-auto uppercase"
-              style={{ letterSpacing: '0.08em' }}
-            >
-              {productData.description}
-            </p>
-          </div>
-          {/* Product image as a large, circular avatar overlapping the cut, much larger and more left */}
-          {productData.image && (
-            <div
-              className="absolute z-10 flex justify-center items-center w-[55vw] h-[55vw] max-w-[180px] max-h-[180px] md:w-[350px] md:h-[350px] md:max-w-[350px] md:max-h-[350px] left-1/2 -translate-x-1/2 bottom-[-40px] md:left-[20%] md:-translate-x-[30%] md:bottom-[-160px] md:translate-x-0"
-              id="product-image-avatar"
-            >
-              <div className="relative rounded-full border-4 border-white shadow-xl bg-white overflow-hidden w-full h-full flex items-center justify-center">
-                <Image
-                  src={productData.image}
-                  alt={productData.name}
-                  width={350}
-                  height={350}
-                  className="object-cover w-full h-full rounded-full"
-                  priority
-                />
-              </div>
-            </div>
-          )}
+      {/* Hero Section - gradient only, no background image */}
+      <div className="w-full relative" style={{ minHeight: '500px' }} id="product-hero">
+        {/* Background gradient with clip-path */}
+        <div className="absolute inset-0 z-0" style={{ background: 'var(--primary-gradient)', clipPath: 'polygon(0 0, 100% 0, 100% 70%, 0 100%)', WebkitClipPath: 'polygon(0 0, 100% 0, 100% 70%, 0 100%)' }} />
+        {/* Hero content */}
+        <div className="relative z-10 flex flex-col items-center justify-center text-center text-white w-full h-full py-32">
+          <h1
+            className="text-4xl md:text-5xl lg:text-6xl leading-[1.1] mb-0 md:mb-5 uppercase"
+            style={{ letterSpacing: '0.16em' }}
+          >
+            {productData.name.toUpperCase()}
+          </h1>
+          <p
+            className="text-base md:text-xl leading-5 md:leading-10 font-semibold mt-8 max-w-2xl mx-auto uppercase"
+            style={{ letterSpacing: '0.08em' }}
+          >
+            {productData.description}
+          </p>
         </div>
-        {/* Product Variants Grid */}
-        <div className="max-w-5xl mx-auto py-32 px-4">
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8 mt-[80px] md:mt-[180px]">
-            {variants.map((variant) => (
-              <ProductVariantCard key={variant.catNo} variant={variant} productImage={productData.image} />
-            ))}
+        {/* Product image as a large, circular avatar overlapping the cut, much larger and more left */}
+        {productData.image && (
+          <div
+            className="absolute z-20 flex justify-center items-center w-[55vw] h-[55vw] max-w-[180px] max-h-[180px] md:w-[350px] md:h-[350px] md:max-w-[350px] md:max-h-[350px] left-1/2 -translate-x-1/2 bottom-[-40px] md:left-[20%] md:-translate-x-[30%] md:bottom-[-160px] md:translate-x-0"
+            id="product-image-avatar"
+          >
+            <div className="relative rounded-full border-4 border-white shadow-xl bg-white overflow-hidden w-full h-full flex items-center justify-center">
+              <Image
+                src={productData.image}
+                alt={productData.name}
+                width={350}
+                height={350}
+                className="object-cover w-full h-full rounded-full"
+                priority
+              />
+            </div>
           </div>
+        )}
+      </div>
+      {/* Product Variants Grid */}
+      <div className="max-w-5xl mx-auto py-32 px-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8 mt-[80px] md:mt-[180px]">
+          {variants.map((variant) => (
+            <ProductVariantCard key={variant.catNo} variant={variant} productImage={productData.image} />
+          ))}
         </div>
       </div>
       <Footer />
-    </>
+    </div>
   );
 }
