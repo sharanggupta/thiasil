@@ -4,6 +4,7 @@ import "@/app/components/HeroSection/Hero.css";
 import Button from "@/app/components/MainButton/Button";
 import Navbar from "@/app/components/Navbar/Navbar";
 import productsData from "@/data/products.json";
+import { AutoTextSize } from 'auto-text-size';
 import Image from "next/image";
 import styles from "./ProductVariantCard.module.css";
 
@@ -113,26 +114,65 @@ export default function ProductDetailsPage({ params }) {
   );
   if (!productData) return null;
 
-  // Get all variants for this product's category
-  const variants = productsData.productVariants?.[productData.categorySlug]?.variants || [];
+  // Get the base catalog number for this product (e.g., "1170" from "1170 Series")
+  const baseCatalogNumber = productData.catNo.split(/[\s\/]/)[0];
+
+  // Get all variants for this product's category, but filter to only show variants
+  // that belong to this specific product (matching the base catalog number)
+  const allVariants = productsData.productVariants?.[productData.categorySlug]?.variants || [];
+  const variants = allVariants.filter(variant => {
+    // Extract the base catalog number from the variant's catNo (e.g., "1170" from "1170/40")
+    const variantBaseNumber = variant.catNo.split(/[\s\/]/)[0];
+    return variantBaseNumber === baseCatalogNumber;
+  });
 
   return (
     <div className="main-margin bg-[#f7f7f7] min-h-screen">
       <Navbar theme="products" />
       {/* Hero Section - gradient only, no background image */}
-      <div className="w-full relative" style={{ minHeight: '500px' }} id="product-hero">
+      <div className="relative w-full" style={{ minHeight: '500px' }} id="product-hero">
         {/* Background gradient with clip-path */}
         <div className="absolute inset-0 z-0" style={{ background: 'var(--primary-gradient)', clipPath: 'polygon(0 0, 100% 0, 100% 70%, 0 100%)', WebkitClipPath: 'polygon(0 0, 100% 0, 100% 70%, 0 100%)' }} />
         {/* Hero content */}
-        <div className="relative z-10 flex flex-col items-center justify-center text-center text-white w-full h-full py-32">
-          <h1
-            className="text-4xl md:text-5xl lg:text-6xl leading-[1.1] mb-0 md:mb-5 uppercase"
-            style={{ letterSpacing: '0.16em' }}
-          >
-            {productData.name.toUpperCase()}
-          </h1>
+        <div className="flex relative z-10 flex-col justify-center items-center py-32 w-full h-full text-center text-white">
+          {(() => {
+            const productName = productData.name || "";
+            const wordCount = productName.trim().split(/\s+/).length;
+            if (wordCount > 3) {
+              return (
+                <div style={{ width: '100%', maxWidth: '700px', margin: '0 auto', textAlign: 'center' }}>
+                  <AutoTextSize minFontSizePx={32} maxFontSizePx={100} mode="oneline" style={{ width: '100%' }}>
+                    <span
+                      style={{
+                        textTransform: 'uppercase',
+                        letterSpacing: '0.16em',
+                        lineHeight: 1.1,
+                        fontWeight: 700,
+                        marginBottom: 0,
+                        marginTop: 0,
+                        display: 'block',
+                        textAlign: 'center',
+                        width: '100%',
+                      }}
+                    >
+                      {productName}
+                    </span>
+                  </AutoTextSize>
+                </div>
+              );
+            } else {
+              return (
+                <h1
+                  className="text-4xl md:text-5xl lg:text-6xl leading-[1.1] mb-0 md:mb-5 uppercase"
+                  style={{ letterSpacing: '0.16em' }}
+                >
+                  {productName.toUpperCase()}
+                </h1>
+              );
+            }
+          })()}
           <p
-            className="text-base md:text-xl leading-5 md:leading-10 font-semibold mt-8 max-w-2xl mx-auto uppercase"
+            className="mx-auto mt-8 max-w-2xl text-base font-semibold leading-5 uppercase md:text-xl md:leading-10"
             style={{ letterSpacing: '0.08em' }}
           >
             {productData.description}
@@ -144,7 +184,7 @@ export default function ProductDetailsPage({ params }) {
             className="absolute z-20 flex justify-center items-center w-[55vw] h-[55vw] max-w-[180px] max-h-[180px] md:w-[350px] md:h-[350px] md:max-w-[350px] md:max-h-[350px] left-1/2 -translate-x-1/2 bottom-[-40px] md:left-[20%] md:-translate-x-[30%] md:bottom-[-160px] md:translate-x-0"
             id="product-image-avatar"
           >
-            <div className="relative rounded-full border-4 border-white shadow-xl bg-white overflow-hidden w-full h-full flex items-center justify-center">
+            <div className="flex overflow-hidden relative justify-center items-center w-full h-full bg-white rounded-full border-4 border-white shadow-xl">
               <Image
                 src={productData.image}
                 alt={productData.name}
@@ -158,7 +198,7 @@ export default function ProductDetailsPage({ params }) {
         )}
       </div>
       {/* Product Variants Grid */}
-      <div className="max-w-5xl mx-auto py-32 px-4">
+      <div className="px-4 py-32 mx-auto max-w-5xl">
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8 mt-[80px] md:mt-[180px]">
           {variants.map((variant) => (
             <ProductVariantCard key={variant.catNo} variant={variant} productImage={productData.image} />
