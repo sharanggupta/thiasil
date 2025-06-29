@@ -15,6 +15,7 @@ import {
 } from "../components/Glassmorphism";
 import Navbar from "../components/Navbar/Navbar";
 import Heading from "../components/common/Heading";
+import StockStatusBadge from "../components/common/StockStatusBadge";
 
 const sidebarNav = SIDEBAR_NAVIGATION;
 
@@ -238,15 +239,6 @@ export default function AdminPage() {
     } finally {
       setIsLoading(false);
     }
-  };
-
-  const getStockStatusDisplay = (status) => {
-    const statusConfig = Object.values(STOCK_STATUSES).find(s => s.value === status) || Object.values(STOCK_STATUSES)[0];
-    return (
-      <span className={`inline-block px-3 py-1 rounded-full text-xs font-medium ${statusConfig.bg} ${statusConfig.color} min-w-[100px] text-center`}>
-        {statusConfig.label}
-      </span>
-    );
   };
 
   // Update categoryProducts when selectedCategory changes
@@ -1402,7 +1394,7 @@ export default function AdminPage() {
                   
                   {/* Stock Status */}
                   <div className="mb-3">
-                    {getStockStatusDisplay(product.stockStatus || 'in_stock')}
+                    <StockStatusBadge status={product.stockStatus || 'in_stock'} />
                     {product.quantity !== undefined && product.quantity !== null && (
                       <span className="ml-2 text-sm text-white/60">
                         Qty: {product.quantity}
