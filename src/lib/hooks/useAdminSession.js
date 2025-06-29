@@ -19,11 +19,12 @@ export function useAdminSession() {
   useEffect(() => {
     const session = localStorage.getItem('adminSession');
     if (session) {
-      const { timestamp, username: savedUsername } = JSON.parse(session);
+      const { timestamp, username: savedUsername, password: savedPassword } = JSON.parse(session);
       const now = Date.now();
       if (now - timestamp < SESSION_TIMEOUT) {
         setIsAuthenticated(true);
         setUsername(savedUsername);
+        setPassword(savedPassword);
         startSessionTimer();
       } else {
         localStorage.removeItem('adminSession');

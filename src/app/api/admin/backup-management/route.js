@@ -1,7 +1,7 @@
 import fs from 'fs';
 import { NextResponse } from 'next/server';
 import path from 'path';
-import { deleteBackup, listBackups, restoreBackup } from '../../../../lib/backup-utils';
+import { createBackup, deleteBackup, listBackups, restoreBackup } from '../../../../lib/backup-utils';
 
 // Admin credentials
 const ADMIN_CREDENTIALS = {
@@ -36,7 +36,9 @@ function checkRateLimit(ip) {
 
 function readCoupons() {
   try {
-    if (!fs.existsSync(COUPONS_FILE)) return [];
+    if (!fs.existsSync(COUPONS_FILE)) {
+      return [];
+    }
     const data = fs.readFileSync(COUPONS_FILE, 'utf-8');
     return JSON.parse(data);
   } catch (e) {
@@ -160,14 +162,39 @@ export async function POST(request) {
         if (coupons.find(c => c.code === coupon.code)) {
           return NextResponse.json({ error: 'Coupon code already exists' }, { status: 400 });
         }
-        coupons.push({
+        
+        const newCoupon = {
           ...coupon,
           code: coupon.code.toUpperCase(),
           isActive: true,
           currentUses: 0,
           createdAt: new Date().toISOString()
-        });
+        };
+        
+        coupons.push(newCoupon);
         writeCoupons(coupons);
+        
+        // Create backup after coupon creation
+        try {
+          await createBackup({
+            action: 'create_coupon',
+            coupon: newCoupon,
+            allCoupons: coupons,
+            timestamp: new Date().toISOString()
+          }, 'coupon_created');
+          
+          console.log('Admin create_coupon_with_backup_successful:', {
+            timestamp: new Date().toISOString(),
+            action: 'create_coupon_with_backup_successful',
+            user: username,
+            ip: ip,
+            couponCode: newCoupon.code
+          });
+        } catch (backupError) {
+          console.error('Backup failed after coupon creation:', backupError);
+          // Don't fail the coupon creation if backup fails
+        }
+        
         return NextResponse.json({ success: true, message: 'Coupon created', coupons });
       }
       case 'delete_coupon': {
@@ -176,11 +203,34 @@ export async function POST(request) {
         }
         let coupons = readCoupons();
         const before = coupons.length;
+        const deletedCoupon = coupons.find(c => c.code === code);
         coupons = coupons.filter(c => c.code !== code);
         if (coupons.length === before) {
           return NextResponse.json({ error: 'Coupon not found' }, { status: 404 });
         }
         writeCoupons(coupons);
+        
+        // Create backup after coupon deletion
+        try {
+          await createBackup({
+            action: 'delete_coupon',
+            deletedCoupon,
+            allCoupons: coupons,
+            timestamp: new Date().toISOString()
+          }, 'coupon_deleted');
+          
+          console.log('Admin delete_coupon_with_backup_successful:', {
+            timestamp: new Date().toISOString(),
+            action: 'delete_coupon_with_backup_successful',
+            user: username,
+            ip: ip,
+            couponCode: code
+          });
+        } catch (backupError) {
+          console.error('Backup failed after coupon deletion:', backupError);
+          // Don't fail the coupon deletion if backup fails
+        }
+        
         return NextResponse.json({ success: true, message: 'Coupon deleted', coupons });
       }
       case 'reset': {

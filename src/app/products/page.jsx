@@ -2,6 +2,7 @@
 import { useMemo, useState } from "react";
 import productsData from "../../data/products.json";
 import { SIDEBAR_NAVIGATION } from "../../lib/constants/navigation";
+import { useCoupons } from "../../lib/hooks/useCoupons";
 import { getBaseCatalogNumber } from "../../lib/utils";
 import Footer from "../components/Footer/Footer";
 import Button from "../components/MainButton/Button";
@@ -29,10 +30,17 @@ const applyDiscountToPriceRange = (priceRange, discountPercent) => {
 
 export default function Products() {
   const [products, setProducts] = useState(productsData.products);
-  const [couponCode, setCouponCode] = useState("");
-  const [activeCoupon, setActiveCoupon] = useState(null);
-  const [couponMessage, setCouponMessage] = useState("");
-  const [isApplyingCoupon, setIsApplyingCoupon] = useState(false);
+  
+  // Use the coupon hook instead of inline state
+  const {
+    couponCode,
+    setCouponCode,
+    activeCoupon,
+    couponMessage,
+    isApplyingCoupon,
+    applyCoupon,
+    clearCoupon
+  } = useCoupons();
 
   // Extract unique categories
   const categories = useMemo(() => [
@@ -82,47 +90,6 @@ export default function Products() {
     });
   }, [products, selectedCategory, selectedStock, selectedPackaging, minPrice, maxPrice]);
 
-  const applyCoupon = async () => {
-    if (!couponCode.trim()) {
-      setCouponMessage("Please enter a coupon code");
-      return;
-    }
-
-    setIsApplyingCoupon(true);
-    setCouponMessage("");
-
-    try {
-      const response = await fetch('/api/coupons', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ code: couponCode.trim() }),
-      });
-
-      const data = await response.json();
-
-      if (response.ok) {
-        setActiveCoupon(data.coupon);
-        setCouponMessage(`Coupon ${data.coupon.code} applied! ${data.coupon.discountPercent}% discount active.`);
-      } else {
-        setActiveCoupon(null);
-        setCouponMessage(data.error || "Invalid coupon code");
-      }
-    } catch (error) {
-      console.error('Error applying coupon:', error);
-      setCouponMessage("Error applying coupon. Please try again.");
-    } finally {
-      setIsApplyingCoupon(false);
-    }
-  };
-
-  const clearCoupon = () => {
-    setActiveCoupon(null);
-    setCouponCode("");
-    setCouponMessage("");
-  };
-
   return (
     <div className="main-margin bg-[#f7f7f7]">
       <Navbar theme="products" />
@@ -171,8 +138,8 @@ export default function Products() {
                 ))}
               </select>
             </div>
-            {/* Second row: price and download */}
-            <div className="flex w-full gap-2 items-center">
+            {/* Second row: price, download, and coupon */}
+            <div className="flex w-full gap-2 items-center flex-wrap">
               <input
                 type="number"
                 className="flex-1 px-2 py-1 sm:px-4 sm:py-2 text-xs sm:text-base text-gray-800 rounded-xl border border-blue-100 shadow-sm bg-white focus:outline-none"
@@ -202,9 +169,40 @@ export default function Products() {
                 <span className="sm:inline hidden">Download Price List (PDF)</span>
                 <span className="inline sm:hidden">PDF</span>
               </a>
+              {/* Coupon input and button group */}
+              <div className="flex flex-shrink-0 w-full sm:w-auto ml-0 sm:ml-2 mt-2 sm:mt-0">
+                <div className="flex w-full bg-white border border-blue-200 rounded-xl shadow px-2 py-1 gap-2 items-center">
+                  <input
+                    type="text"
+                    value={couponCode}
+                    onChange={(e) => setCouponCode(e.target.value.toUpperCase())}
+                    placeholder="Enter coupon code"
+                    className="flex-1 min-w-0 px-2 py-2 bg-transparent text-gray-800 placeholder-gray-500 focus:outline-none focus:border-blue-400 transition-colors"
+                    maxLength={20}
+                  />
+                  <button
+                    onClick={applyCoupon}
+                    disabled={isApplyingCoupon}
+                    className="px-4 py-2 bg-gradient-to-r from-cyan-400 to-blue-700 text-white font-semibold rounded-lg shadow hover:from-cyan-500 hover:to-blue-800 transition disabled:opacity-50 disabled:cursor-not-allowed"
+                  >
+                    {isApplyingCoupon ? "Applying..." : "Apply"}
+                  </button>
+                </div>
+              </div>
             </div>
+            {/* Coupon feedback message */}
+            {couponMessage && (
+              <div className={`w-full mt-2 p-2 rounded-lg text-sm ${
+                couponMessage.includes('applied') || couponMessage.includes('active') 
+                  ? 'bg-green-100 text-green-700 border border-green-200' 
+                  : 'bg-red-100 text-red-700 border border-red-200'
+              }`}>
+                {couponMessage}
+              </div>
+            )}
           </div>
         </div>
+        
         {/* Product Grid with PDP-style Flip Cards */}
         <div className="grid z-10 grid-cols-1 gap-12 mt-8 mb-20 sm:grid-cols-2 md:grid-cols-3">
           {filteredProducts.length === 0 && (
@@ -220,6 +218,16 @@ export default function Products() {
               const match = product.price.match(/₹([\d,.]+)/);
               if (match) fromPrice = `From ₹${match[1]}`;
             }
+            
+            // Apply discount if coupon is active
+            let displayPrice = fromPrice;
+            if (activeCoupon && fromPrice) {
+              const discountedPriceRange = applyDiscountToPriceRange(product.priceRange || product.price, activeCoupon.discountPercent);
+              if (discountedPriceRange) {
+                displayPrice = `From ${discountedPriceRange.split(' - ')[0]}`;
+              }
+            }
+            
             const isOutOfStock = product.stockStatus !== 'in_stock';
             // Card flip logic: always show flip on hover
             return (
@@ -254,7 +262,14 @@ export default function Products() {
                   <div className={styles["variant-card-backRect"]}>
                     <div className="flex flex-col items-center justify-center h-full w-full">
                       {/* Show 'Starts from ₹xxx' or 'From ₹xxx' at the top */}
-                      <div style={{ fontSize: "1.2rem", fontWeight: 600, marginBottom: 18 }}>{fromPrice ? fromPrice : "Contact for pricing"}</div>
+                      <div style={{ fontSize: "1.2rem", fontWeight: 600, marginBottom: 18 }}>
+                        {displayPrice ? displayPrice : "Contact for pricing"}
+                        {activeCoupon && (
+                          <div style={{ fontSize: "0.8rem", color: "#10b981", marginTop: 4 }}>
+                            {activeCoupon.discountPercent}% off with {activeCoupon.code}
+                          </div>
+                        )}
+                      </div>
                       <Button
                         name={isOutOfStock ? "Unavailable" : "Details"}
                         color="#0A6EBD"
