@@ -10,6 +10,7 @@ import {
     GlassButton,
     GlassCard,
     GlassIcon,
+    GlassInput,
     NeonBubblesBackground
 } from "../components/Glassmorphism";
 import Navbar from "../components/Navbar/Navbar";
@@ -294,11 +295,10 @@ export default function AdminPage() {
             <form onSubmit={handleLogin} className="space-y-6">
               <div>
                 <label className="block text-sm font-medium text-white/80 mb-2">Username</label>
-                <input
+                <GlassInput
                   type="text"
                   value={username}
                   onChange={(e) => setUsername(e.target.value)}
-                  className="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-xl text-white placeholder-white/50 focus:outline-none focus:border-[#3a8fff] transition-colors"
                   placeholder="Enter username"
                   required
                   disabled={isLocked || isLoading}
@@ -308,11 +308,10 @@ export default function AdminPage() {
 
               <div>
                 <label className="block text-sm font-medium text-white/80 mb-2">Password</label>
-                <input
+                <GlassInput
                   type="password"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
-                  className="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-xl text-white placeholder-white/50 focus:outline-none focus:border-[#3a8fff] transition-colors"
                   placeholder="Enter password"
                   required
                   disabled={isLocked || isLoading}

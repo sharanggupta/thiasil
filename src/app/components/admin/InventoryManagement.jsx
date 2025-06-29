@@ -1,6 +1,6 @@
 "use client";
 import { STOCK_STATUSES } from '../../../lib/constants';
-import { GlassButton } from "../Glassmorphism";
+import { GlassButton, GlassInput } from "../Glassmorphism";
 
 export default function InventoryManagement({
   categories,
@@ -81,11 +81,10 @@ export default function InventoryManagement({
 
           <div>
             <label className="block text-sm font-medium text-white/80 mb-2">Quantity (Optional)</label>
-            <input
+            <GlassInput
               type="number"
               value={quantity}
               onChange={(e) => setQuantity(e.target.value)}
-              className="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-xl text-white placeholder-white/80 focus:outline-none focus:border-[#3a8fff] transition-colors"
               placeholder="Leave empty for made-to-order"
               min="0"
             />
