@@ -4,6 +4,7 @@ import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from "react";
 import { SIDEBAR_NAVIGATION } from "../../../lib/constants/navigation";
+import { getBaseCatalogNumber } from "../../../lib/utils";
 import { GlassButton, GlassCard, GlassIcon, NeonBubblesBackground } from "../../components/Glassmorphism";
 import Modal from '../../components/Modals/Modal';
 import Navbar from "../../components/Navbar/Navbar";
@@ -22,13 +23,6 @@ const applyDiscountToPrice = (price, discountPercent) => {
   const numPrice = parseFloat(number[1]);
   const discountedPrice = numPrice * (1 - discountPercent / 100);
   return `₹${discountedPrice.toFixed(2)}`;
-};
-
-// Helper function to extract base catalog number for image paths
-const getBaseCatalogNumber = (catNo) => {
-  if (!catNo) return '';
-  // Handle both "1100 Series" and "1100/50" formats
-  return catNo.split(/[\s\/]/)[0];
 };
 
 export default function CategoryPage({ params }) {
