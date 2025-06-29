@@ -4,9 +4,9 @@ import "@/app/components/HeroSection/Hero.css";
 import Button from "@/app/components/MainButton/Button";
 import Navbar from "@/app/components/Navbar/Navbar";
 import productsData from "@/data/products.json";
-import { AutoTextSize } from 'auto-text-size';
 import Image from "next/image";
 import styles from "./ProductVariantCard.module.css";
+import productDetailsStyles from "./ProductDetails.module.css";
 
 function parseNumber(str) {
   // Extract the first number from a string (e.g., '36 pieces' -> 36)
@@ -135,42 +135,12 @@ export default function ProductDetailsPage({ params }) {
         <div className="absolute inset-0 z-0" style={{ background: 'var(--primary-gradient)', clipPath: 'polygon(0 0, 100% 0, 100% 70%, 0 100%)', WebkitClipPath: 'polygon(0 0, 100% 0, 100% 70%, 0 100%)' }} />
         {/* Hero content */}
         <div className="flex relative z-10 flex-col justify-center items-center py-32 w-full h-full text-center text-white">
-          {(() => {
-            const productName = productData.name || "";
-            const wordCount = productName.trim().split(/\s+/).length;
-            if (wordCount > 3) {
-              return (
-                <div style={{ width: '100%', maxWidth: '700px', margin: '0 auto', textAlign: 'center' }}>
-                  <AutoTextSize minFontSizePx={32} maxFontSizePx={100} mode="oneline" style={{ width: '100%' }}>
-                    <span
-                      style={{
-                        textTransform: 'uppercase',
-                        letterSpacing: '0.16em',
-                        lineHeight: 1.1,
-                        fontWeight: 700,
-                        marginBottom: 0,
-                        marginTop: 0,
-                        display: 'block',
-                        textAlign: 'center',
-                        width: '100%',
-                      }}
-                    >
-                      {productName}
-                    </span>
-                  </AutoTextSize>
-                </div>
-              );
-            } else {
-              return (
-                <h1
-                  className="text-4xl md:text-5xl lg:text-6xl leading-[1.1] mb-0 md:mb-5 uppercase"
-                  style={{ letterSpacing: '0.16em' }}
-                >
-                  {productName.toUpperCase()}
-                </h1>
-              );
-            }
-          })()}
+          <h1
+            className={`leading-[1.1] mb-0 md:mb-5 uppercase ${productDetailsStyles.productDetailsTitle}`}
+            style={{ letterSpacing: '0.16em' }}
+          >
+            {(productData.name || "").toUpperCase()}
+          </h1>
           <p
             className="mx-auto mt-8 max-w-2xl text-base font-semibold leading-5 uppercase md:text-xl md:leading-10"
             style={{ letterSpacing: '0.08em' }}

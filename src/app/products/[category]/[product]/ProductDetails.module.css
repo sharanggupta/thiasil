@@ -315,4 +315,43 @@
 .is-visible {
   opacity: 1 !important;
   transform: none !important;
+}
+
+/* ProductDetails responsive title styling - wraps on mobile, large on desktop */
+.productDetailsTitle {
+  /* Mobile: smaller font, allows wrapping */
+  font-size: 2.25rem; /* 36px */
+  font-weight: 700;
+  text-align: center;
+  word-wrap: break-word;
+  hyphens: auto;
+  line-height: 1.1;
+}
+
+/* Tablet */
+@media (min-width: 768px) {
+  .productDetailsTitle {
+    font-size: 2.5rem; /* 48px */
+  }
+}
+
+/* Desktop */
+@media (min-width: 1024px) {
+  .productDetailsTitle {
+    font-size: 2.5rem; /* 60px */
+  }
+}
+
+/* Large desktop - matches AutoTextSize max behavior */
+@media (min-width: 1280px) {
+  .productDetailsTitle {
+    font-size: 3rem; /* 80px */
+  }
+}
+
+/* Extra large screens */
+@media (min-width: 1536px) {
+  .productDetailsTitle {
+    font-size: 4.25rem; /* 100px - matches AutoTextSize maxFontSizePx */
+  }
 } 
