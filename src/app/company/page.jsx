@@ -1,6 +1,7 @@
 "use client";
 import Image from "next/image";
 import Heading from "../components/common/Heading";
+import Breadcrumb from "../components/common/Breadcrumb";
 import {
     GlassButton,
     GlassCard,
@@ -27,13 +28,13 @@ export default function Company() {
 
       <main className="relative z-10 max-w-7xl mx-auto px-4 pb-24 flex flex-col gap-20 ml-0 md:ml-32">
         {/* Breadcrumb Navigation */}
-        <nav className="pt-32 pb-4">
-          <div className="flex items-center space-x-2 text-base md:text-lg font-semibold text-white/90">
-            <a href="/" className="hover:text-white transition-colors">Home</a>
-            <span>/</span>
-            <span className="text-white font-bold">About Us</span>
-          </div>
-        </nav>
+        <Breadcrumb 
+          items={[
+            { href: "/", label: "Home" },
+            { label: "About Us" }
+          ]}
+          className="text-base md:text-lg font-semibold text-white/90"
+        />
 
         {/* Hero Glass Card */}
         <section className="flex flex-col md:flex-row items-center justify-center gap-12 pb-10">

@@ -33,13 +33,13 @@
   - [x] ✅ Validate: Stock badges look identical
   - [x] ✅ Git commit: "Use StockStatusBadge component consistently"
 
-- [ ] **Catalog helper extraction** (15 min) - 15+ lines across 3 files
-  - [ ] Create `getBaseCatalogNumber` in `src/lib/utils/catalog.js`
-  - [ ] Replace in file 1: src/app/products/page.jsx
-  - [ ] Replace in file 2: src/app/products/[category]/page.jsx
-  - [ ] Replace in file 3: src/app/products/[category]/[product]/page.jsx
-  - [ ] ✅ Validate: Catalog numbers display correctly
-  - [ ] ✅ Git commit: "Extract catalog helper functions"
+- [x] **Catalog helper extraction** (15 min) - 15+ lines across 3 files ✅ COMPLETED
+  - [x] Found existing `getBaseCatalogNumber` in `src/lib/utils.js`
+  - [x] Replace in file 1: src/app/products/page.jsx (removed duplicate, imported from utils)
+  - [x] Replace in file 2: src/app/products/[category]/page.jsx (removed duplicate, imported from utils)
+  - [x] Replace in file 3: src/app/products/[category]/[product]/page.jsx (replaced inline split patterns)
+  - [x] ✅ Validate: Catalog numbers display correctly
+  - [x] ✅ Git commit: "Extract catalog helper functions"
 
 - [ ] **Breadcrumb component usage** (15 min) - 75+ lines across 5 files
   - [ ] Identify existing `Breadcrumb` component
