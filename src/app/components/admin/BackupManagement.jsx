@@ -1,5 +1,5 @@
 "use client";
-import { GlassButton, GlassCard } from "../Glassmorphism";
+import { GlassButton, GlassCard, GlassContainer } from "../Glassmorphism";
 
 export default function BackupManagement({
   backups,
@@ -19,7 +19,7 @@ export default function BackupManagement({
       </h2>
       
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
-        <div className="bg-white/5 rounded-xl p-6">
+        <GlassContainer>
           <h3 className="text-xl font-bold text-white mb-4">Backup Actions</h3>
           <div className="space-y-4">
             <GlassButton
@@ -73,9 +73,9 @@ export default function BackupManagement({
               )}
             </GlassButton>
           </div>
-        </div>
+        </GlassContainer>
 
-        <div className="bg-white/5 rounded-xl p-6">
+        <GlassContainer>
           <h3 className="text-xl font-bold text-white mb-4">Available Backups</h3>
           {backups.length > 0 ? (
             <div className="space-y-3 max-h-96 overflow-y-auto">
@@ -119,10 +119,10 @@ export default function BackupManagement({
               <p>No backups available</p>
             </div>
           )}
-        </div>
+        </GlassContainer>
       </div>
 
-      <div className="bg-white/5 rounded-xl p-4">
+      <GlassContainer padding="small">
         <h4 className="text-lg font-semibold text-white mb-3">Backup Information</h4>
         <div className="space-y-2 text-sm text-white/80">
           <p>• <strong>Auto-backup:</strong> Backups are automatically created before any changes</p>
@@ -131,7 +131,7 @@ export default function BackupManagement({
           <p>• <strong>Cleanup:</strong> Automatically removes old backups, keeping only the last 10</p>
           <p>• <strong>Manual Delete:</strong> Click the trash icon to delete specific backups</p>
         </div>
-      </div>
+      </GlassContainer>
     </div>
   );
 }

@@ -1,5 +1,5 @@
 "use client";
-import { GlassButton, GlassInput } from "../Glassmorphism";
+import { GlassButton, GlassInput, GlassContainer } from "../Glassmorphism";
 
 export default function PriceManagement({
   categories,
@@ -59,7 +59,7 @@ export default function PriceManagement({
       </div>
 
       {/* Price Update Form */}
-      <div className="bg-white/5 rounded-xl p-6 mb-8">
+      <GlassContainer className="mb-8">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-4">
           <div>
             <label className="block text-sm font-medium text-white/80 mb-2">Price Change (%)</label>
@@ -94,7 +94,7 @@ export default function PriceManagement({
             </GlassButton>
           </div>
         </div>
-      </div>
+      </GlassContainer>
     </div>
   );
 }

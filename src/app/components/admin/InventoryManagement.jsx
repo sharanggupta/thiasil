@@ -1,6 +1,6 @@
 "use client";
 import { STOCK_STATUSES } from '../../../lib/constants';
-import { GlassButton, GlassInput } from "../Glassmorphism";
+import { GlassButton, GlassInput, GlassContainer } from "../Glassmorphism";
 
 export default function InventoryManagement({
   categories,
@@ -62,7 +62,7 @@ export default function InventoryManagement({
       </div>
 
       {/* Inventory Update Form */}
-      <div className="bg-white/5 rounded-xl p-6 mb-8">
+      <GlassContainer className="mb-8">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-4">
           <div>
             <label className="block text-sm font-medium text-white/80 mb-2">Stock Status</label>
@@ -112,7 +112,7 @@ export default function InventoryManagement({
         </div>
 
         {/* Stock Status Legend */}
-        <div className="bg-white/5 rounded-xl p-4">
+        <GlassContainer padding="small">
           <h4 className="text-lg font-semibold text-white mb-3">Stock Status Guide</h4>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
             {Object.values(STOCK_STATUSES).map((status) => (
@@ -123,8 +123,8 @@ export default function InventoryManagement({
               </div>
             ))}
           </div>
-        </div>
-      </div>
+        </GlassContainer>
+      </GlassContainer>
     </div>
   );
 }

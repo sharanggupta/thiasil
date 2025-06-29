@@ -1,5 +1,5 @@
 "use client";
-import { GlassButton, GlassInput } from "../Glassmorphism";
+import { GlassButton, GlassInput, GlassContainer, GlassBadge } from "../Glassmorphism";
 
 export default function CouponManagement({
   coupons,
@@ -18,7 +18,7 @@ export default function CouponManagement({
       
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
         {/* Create Coupon Form */}
-        <div className="bg-white/5 rounded-xl p-6">
+        <GlassContainer>
           <h3 className="text-xl font-bold text-white mb-4">Create New Coupon</h3>
           
           <div className="space-y-4">
@@ -82,10 +82,10 @@ export default function CouponManagement({
               )}
             </GlassButton>
           </div>
-        </div>
+        </GlassContainer>
 
         {/* Active Coupons List */}
-        <div className="bg-white/5 rounded-xl p-6">
+        <GlassContainer>
           <h3 className="text-xl font-bold text-white mb-4">Active Coupons</h3>
           
           {coupons.length > 0 ? (
@@ -127,13 +127,9 @@ export default function CouponManagement({
                       </div>
                       <div className="flex justify-between">
                         <span className="text-white/80">Status:</span>
-                        <span className={`text-xs px-2 py-1 rounded-full ${
-                          isExpired || isMaxedOut 
-                            ? 'bg-red-500/20 text-red-400' 
-                            : 'bg-green-500/20 text-green-400'
-                        }`}>
+                        <GlassBadge variant={isExpired || isMaxedOut ? 'error' : 'success'}>
                           {isExpired ? 'Expired' : isMaxedOut ? 'Maxed Out' : 'Active'}
-                        </span>
+                        </GlassBadge>
                       </div>
                     </div>
                   </div>
@@ -146,11 +142,11 @@ export default function CouponManagement({
               <p>No active coupons</p>
             </div>
           )}
-        </div>
+        </GlassContainer>
       </div>
 
       {/* Coupon Info */}
-      <div className="bg-white/5 rounded-xl p-4 mt-6">
+      <GlassContainer padding="small" className="mt-6">
         <h4 className="text-lg font-semibold text-white mb-3">Coupon Information</h4>
         <div className="space-y-2 text-sm text-white/80">
           <p>• <strong>Code:</strong> Unique coupon code (automatically converted to uppercase)</p>
@@ -160,7 +156,7 @@ export default function CouponManagement({
           <p>• <strong>Usage Tracking:</strong> Coupon usage is automatically tracked and incremented</p>
           <p>• <strong>Validation:</strong> Coupons are validated on the products page for customers</p>
         </div>
-      </div>
+      </GlassContainer>
     </div>
   );
 }
