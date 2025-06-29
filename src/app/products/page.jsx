@@ -9,23 +9,6 @@ import styles from "../products/[category]/[product]/ProductVariantCard.module.c
 
 const sidebarNav = SIDEBAR_NAVIGATION;
 
-// Stock status display helper
-const getStockStatusDisplay = (status) => {
-  const statusConfigs = {
-    'in_stock': { label: 'In Stock', color: 'text-green-400', bg: 'bg-green-500/20' },
-    'out_of_stock': { label: 'Out of Stock', color: 'text-red-400', bg: 'bg-red-500/20' },
-    'made_to_order': { label: 'Made to Order', color: 'text-blue-400', bg: 'bg-blue-500/20' },
-    'limited_stock': { label: 'Limited Stock', color: 'text-yellow-400', bg: 'bg-yellow-500/20' }
-  };
-  
-  const config = statusConfigs[status] || statusConfigs['in_stock'];
-  return (
-    <span className={`inline-block px-3 py-1 rounded-full text-xs font-medium ${config.bg} ${config.color} min-w-[100px] text-center`}>
-      {config.label}
-    </span>
-  );
-};
-
 // Helper function to apply discount to price range
 const applyDiscountToPriceRange = (priceRange, discountPercent) => {
   if (!priceRange || !discountPercent) return priceRange;

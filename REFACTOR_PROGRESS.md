@@ -12,17 +12,17 @@
 **Target: 510+ lines eliminated | 4.5 hours | 30-40% code reduction**
 
 ### Lightning Round (1 hour total)
-- [ ] **sidebarNav extraction** (15 min) - 30+ lines across 6 files
-  - [ ] Create `src/lib/constants/navigation.js`
-  - [ ] Export `SIDEBAR_NAVIGATION` array
-  - [ ] Replace in file 1: src/app/products/page.jsx
-  - [ ] Replace in file 2: src/app/products/[category]/page.jsx
-  - [ ] Replace in file 3: src/app/admin/page.jsx
-  - [ ] Replace in file 4: src/app/contact/page.jsx
-  - [ ] Replace in file 5: src/app/company/page.jsx
-  - [ ] Replace in file 6: src/app/policy/page.jsx
-  - [ ] ✅ Validate: Navigation works identically
-  - [ ] ✅ Git commit: "Extract sidebarNav constant"
+- [x] **sidebarNav extraction** (15 min) - 30+ lines across 6 files ✅ COMPLETED
+  - [x] Create `src/lib/constants/navigation.js`
+  - [x] Export `SIDEBAR_NAVIGATION` array
+  - [x] Replace in file 1: src/app/products/page.jsx
+  - [x] Replace in file 2: src/app/products/[category]/page.jsx
+  - [x] Replace in file 3: src/app/admin/page.jsx
+  - [x] Replace in file 4: src/app/contact/page.jsx (kept specific navigation)
+  - [x] Replace in file 5: src/app/company/page.jsx (kept specific navigation)
+  - [x] Replace in file 6: src/app/policy/page.jsx (kept specific navigation)
+  - [x] ✅ Validate: Navigation works identically
+  - [x] ✅ Git commit: "Extract sidebarNav constant"
 
 - [ ] **StockStatusBadge usage** (15 min) - 60+ lines across 4 files
   - [ ] Identify existing `StockStatusBadge` component location
