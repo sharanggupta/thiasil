@@ -2,6 +2,7 @@
 import { useMemo, useState } from "react";
 import productsData from "../../data/products.json";
 import { SIDEBAR_NAVIGATION } from "../../lib/constants/navigation";
+import { getBaseCatalogNumber } from "../../lib/utils";
 import Footer from "../components/Footer/Footer";
 import Button from "../components/MainButton/Button";
 import Navbar from "../components/Navbar/Navbar";
@@ -24,13 +25,6 @@ const applyDiscountToPriceRange = (priceRange, discountPercent) => {
   });
   
   return discountedPrices.join(' - ');
-};
-
-// Helper function to extract base catalog number for image paths
-const getBaseCatalogNumber = (catNo) => {
-  if (!catNo) return '';
-  // Handle both "1100 Series" and "1100/50" formats
-  return catNo.split(/[\s\/]/)[0];
 };
 
 export default function Products() {

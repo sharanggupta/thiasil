@@ -3,6 +3,7 @@ import Footer from "@/app/components/Footer/Footer";
 import "@/app/components/HeroSection/Hero.css";
 import Button from "@/app/components/MainButton/Button";
 import Navbar from "@/app/components/Navbar/Navbar";
+import { getBaseCatalogNumber } from "@/lib/utils";
 import productsData from "@/data/products.json";
 import Image from "next/image";
 import styles from "./ProductVariantCard.module.css";
@@ -115,14 +116,14 @@ export default function ProductDetailsPage({ params }) {
   if (!productData) return null;
 
   // Get the base catalog number for this product (e.g., "1170" from "1170 Series")
-  const baseCatalogNumber = productData.catNo.split(/[\s\/]/)[0];
+  const baseCatalogNumber = getBaseCatalogNumber(productData.catNo);
 
   // Get all variants for this product's category, but filter to only show variants
   // that belong to this specific product (matching the base catalog number)
   const allVariants = productsData.productVariants?.[productData.categorySlug]?.variants || [];
   const variants = allVariants.filter(variant => {
     // Extract the base catalog number from the variant's catNo (e.g., "1170" from "1170/40")
-    const variantBaseNumber = variant.catNo.split(/[\s\/]/)[0];
+    const variantBaseNumber = getBaseCatalogNumber(variant.catNo);
     return variantBaseNumber === baseCatalogNumber;
   });
 

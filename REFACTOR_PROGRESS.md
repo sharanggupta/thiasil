@@ -24,14 +24,14 @@
   - [x] ✅ Validate: Navigation works identically
   - [x] ✅ Git commit: "Extract sidebarNav constant"
 
-- [ ] **StockStatusBadge usage** (15 min) - 60+ lines across 4 files
-  - [ ] Identify existing `StockStatusBadge` component location
-  - [ ] Replace inline status logic in file 1: src/app/products/page.jsx
-  - [ ] Replace inline status logic in file 2: src/app/products/[category]/page.jsx
-  - [ ] Replace inline status logic in file 3: src/app/admin/page.jsx
-  - [ ] Replace inline status logic in file 4: src/app/products/[category]/[product]/page.jsx
-  - [ ] ✅ Validate: Stock badges look identical
-  - [ ] ✅ Git commit: "Use StockStatusBadge component"
+- [x] **StockStatusBadge usage** (15 min) - 60+ lines across 4 files ✅ COMPLETED
+  - [x] Identify existing `StockStatusBadge` component location
+  - [x] Replace inline status logic in file 1: src/app/products/page.jsx (removed unused function)
+  - [x] Replace inline status logic in file 2: src/app/products/[category]/page.jsx (removed unused function)
+  - [x] Replace inline status logic in file 3: src/app/admin/page.jsx (replaced with component)
+  - [x] Replace inline status logic in file 4: N/A (not found in product detail page)
+  - [x] ✅ Validate: Stock badges look identical
+  - [x] ✅ Git commit: "Use StockStatusBadge component consistently"
 
 - [ ] **Catalog helper extraction** (15 min) - 15+ lines across 3 files
   - [ ] Create `getBaseCatalogNumber` in `src/lib/utils/catalog.js`
