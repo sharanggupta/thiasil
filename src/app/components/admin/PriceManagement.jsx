@@ -1,5 +1,5 @@
 "use client";
-import { GlassButton } from "../Glassmorphism";
+import { GlassButton, GlassInput } from "../Glassmorphism";
 
 export default function PriceManagement({
   categories,
@@ -63,11 +63,10 @@ export default function PriceManagement({
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-4">
           <div>
             <label className="block text-sm font-medium text-white/80 mb-2">Price Change (%)</label>
-            <input
+            <GlassInput
               type="number"
               value={priceChangePercent}
               onChange={(e) => setPriceChangePercent(e.target.value)}
-              className="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-xl text-white placeholder-white/80 focus:outline-none focus:border-[#3a8fff] transition-colors"
               placeholder="10"
               min="-50"
               max="100"
