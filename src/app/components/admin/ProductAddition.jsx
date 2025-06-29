@@ -105,11 +105,11 @@ export default function ProductAddition({
           </div>
 
           {categoryForm.dimensionFields.length > 0 && (
-            <div className="bg-white/5 rounded-xl p-3">
+            <GlassContainer variant="nested" padding="small">
               <h5 className="text-sm font-medium text-white/80 mb-2">Added Fields:</h5>
               <div className="space-y-2">
                 {categoryForm.dimensionFields.map((field, index) => (
-                  <div key={index} className="flex items-center justify-between bg-white/5 rounded-lg p-2">
+                  <GlassContainer key={index} variant="nested" padding="small" className="flex items-center justify-between">
                     <span className="text-white text-sm">
                       {field.name} ({field.unit})
                     </span>
@@ -120,10 +120,10 @@ export default function ProductAddition({
                     >
                       <span>🗑️</span>
                     </GlassButton>
-                  </div>
+                  </GlassContainer>
                 ))}
               </div>
-            </div>
+            </GlassContainer>
           )}
         </div>
 
