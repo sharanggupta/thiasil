@@ -1,6 +1,6 @@
 "use client";
 import productsData from '../../../data/products.json';
-import { GlassButton, GlassInput } from "../Glassmorphism";
+import { GlassButton, GlassInput, GlassContainer } from "../Glassmorphism";
 
 export default function ProductAddition({
   categoryForm,
@@ -30,7 +30,7 @@ export default function ProductAddition({
       </h2>
       
       {/* Add Category Form */}
-      <div className="bg-white/5 rounded-xl p-4 mb-6">
+      <GlassContainer className="mb-6">
         <h4 className="text-lg font-semibold text-white mb-4">Add New Category</h4>
         
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
@@ -144,10 +144,10 @@ export default function ProductAddition({
             )}
           </GlassButton>
         </div>
-      </div>
+      </GlassContainer>
 
       {/* Add Product Form */}
-      <div className="bg-white/5 rounded-xl p-4">
+      <GlassContainer className="mb-6">
         <h4 className="text-lg font-semibold text-white mb-4">Add New Product</h4>
         
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
@@ -387,10 +387,10 @@ export default function ProductAddition({
             )}
           </GlassButton>
         </div>
-      </div>
+      </GlassContainer>
 
       {/* Information */}
-      <div className="bg-white/5 rounded-xl p-4 mt-4">
+      <GlassContainer className="mt-4 mb-6">
         <h4 className="text-lg font-semibold text-white mb-3">How to Use</h4>
         <div className="space-y-2 text-sm text-white/80">
           <p>• <strong>Categories:</strong> Create new product categories with custom dimension fields</p>
@@ -399,7 +399,7 @@ export default function ProductAddition({
           <p>• <strong>Dynamic Forms:</strong> Product forms automatically adapt to category dimension fields</p>
           <p>• <strong>Auto-backup:</strong> All changes are automatically backed up before saving</p>
         </div>
-      </div>
+      </GlassContainer>
     </div>
   );
 }
