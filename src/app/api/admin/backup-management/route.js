@@ -61,7 +61,7 @@ export async function POST(request) {
       return NextResponse.json({ error: 'Rate limit exceeded' }, { status: 429 });
     }
     
-    const { username, password, action, backupId, coupon, code } = body;
+    const { username, password, action, backupId, backupFile, coupon, code } = body;
     
     // Authentication
     if (username !== ADMIN_CREDENTIALS.username || password !== ADMIN_CREDENTIALS.password) {
@@ -128,18 +128,24 @@ export async function POST(request) {
         }
         
       case 'delete_backup':
-        if (!backupId) {
+        let backupToDelete = backupId || backupFile;
+        if (!backupToDelete) {
           return NextResponse.json({ error: 'Backup ID required' }, { status: 400 });
         }
         
-        const deleteResult = await deleteBackup(backupId);
+        // If it's a filename, extract the backup ID
+        if (backupToDelete.endsWith('.json')) {
+          backupToDelete = backupToDelete.replace('.json', '');
+        }
+        
+        const deleteResult = await deleteBackup(backupToDelete);
         if (deleteResult.success) {
           console.log('Admin delete_backup_successful:', {
             timestamp: new Date().toISOString(),
             action: 'delete_backup_successful',
             user: username,
             ip: ip,
-            backupId: backupId,
+            backupId: backupToDelete,
             method: deleteResult.method
           });
           return NextResponse.json({
@@ -232,6 +238,64 @@ export async function POST(request) {
         }
         
         return NextResponse.json({ success: true, message: 'Coupon deleted', coupons });
+      }
+      case 'cleanup_backups': {
+        const listResult = await listBackups();
+        if (!listResult.success) {
+          return NextResponse.json({ error: listResult.error }, { status: 500 });
+        }
+        
+        const backups = listResult.backups;
+        if (backups.length <= 10) {
+          return NextResponse.json({ 
+            success: true, 
+            message: `No cleanup needed. Only ${backups.length} backups found.`,
+            deletedCount: 0
+          });
+        }
+        
+        // Sort by creation date (newest first) and keep only the 10 most recent
+        const sortedBackups = backups.sort((a, b) => new Date(b.created) - new Date(a.created));
+        const backupsToDelete = sortedBackups.slice(10);
+        
+        let deletedCount = 0;
+        const errors = [];
+        
+        for (const backup of backupsToDelete) {
+          // Extract backup ID from filename (remove .json extension)
+          const backupId = backup.filename.replace('.json', '');
+          const deleteResult = await deleteBackup(backupId);
+          if (deleteResult.success) {
+            deletedCount++;
+          } else {
+            errors.push(`Failed to delete ${backup.filename}: ${deleteResult.error}`);
+          }
+        }
+        
+        console.log('Admin cleanup_backups_successful:', {
+          timestamp: new Date().toISOString(),
+          action: 'cleanup_backups_successful',
+          user: username,
+          ip: ip,
+          deletedCount,
+          totalBackups: backups.length,
+          errors: errors.length
+        });
+        
+        if (errors.length > 0) {
+          return NextResponse.json({ 
+            success: true, 
+            message: `Cleanup partially completed. Deleted ${deletedCount} backups. ${errors.length} errors occurred.`,
+            deletedCount,
+            errors
+          });
+        }
+        
+        return NextResponse.json({ 
+          success: true, 
+          message: `Cleanup completed successfully. Deleted ${deletedCount} old backups, keeping the 10 most recent.`,
+          deletedCount
+        });
       }
       case 'reset': {
         // Reset products.json to default_products.json

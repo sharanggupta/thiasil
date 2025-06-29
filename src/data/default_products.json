@@ -8,7 +8,7 @@
       "capacity": "15 to 250 ml",
       "packaging": "6 to 36 pieces",
       "price": "₹300",
-      "priceRange": "₹300 - ₹1800",
+      "priceRange": "₹300.00 - ₹1800.00",
       "description": "Standard crucible for general laboratory use",
       "image": "/images/products/1100.png",
       "features": [
@@ -23,13 +23,13 @@
     },
     {
       "id": 2,
-      "name": "Lidz Quartz Silica",
+      "name": "Lids Quartz Silica",
       "category": "Lids",
       "categorySlug": "lids",
       "capacity": "15 to 250 ml",
       "packaging": "6 to 36 pieces",
       "price": "₹300",
-      "priceRange": "₹300 - ₹1800",
+      "priceRange": "₹300.00 - ₹1800.00",
       "description": "Matching lids for crucibles with precise fit",
       "image": "/images/products/1120.png",
       "features": [
@@ -50,7 +50,7 @@
       "capacity": "10 to 50 ml",
       "packaging": "15 to 30 pieces",
       "price": "₹350",
-      "priceRange": "₹350 - ₹700",
+      "priceRange": "₹350.00 - ₹700.00",
       "description": "Tall form crucibles for specific applications",
       "image": "/images/products/1110.png",
       "features": [
@@ -71,7 +71,7 @@
       "capacity": "20 to 50 ml",
       "packaging": "15 to 25 pieces",
       "price": "₹800",
-      "priceRange": "₹800 - ₹1400",
+      "priceRange": "₹800.00 - ₹1400.00",
       "description": "Perforated bottom crucibles for filtration",
       "image": "/images/products/1130.png",
       "features": [
@@ -92,7 +92,7 @@
       "capacity": "20 to 250 ml",
       "packaging": "5 to 12 pieces",
       "price": "₹350",
-      "priceRange": "₹350 - ₹1800",
+      "priceRange": "₹350.00 - ₹1800.00",
       "description": "Basins with spout for laboratory applications",
       "image": "/images/products/1140.png",
       "features": [
@@ -113,7 +113,7 @@
       "capacity": "N/A",
       "packaging": "10 pieces",
       "price": "₹600",
-      "priceRange": "₹250 - ₹600",
+      "priceRange": "₹250.00 - ₹600.00",
       "description": "Specialized crucibles for volatile matter determination",
       "features": [
         "Volatile matter ready",
@@ -123,7 +123,8 @@
       ],
       "catNo": "1150 Series",
       "stockStatus": "in_stock",
-      "quantity": null
+      "quantity": null,
+      "image": "/images/products/1150.png"
     },
     {
       "id": 7,
@@ -133,7 +134,7 @@
       "capacity": "N/A",
       "packaging": "2 to 4 pieces",
       "price": "₹1000",
-      "priceRange": "₹1000 - ₹1800",
+      "priceRange": "₹1000.00 - ₹1800.00",
       "description": "Support stands for muffle furnace operations",
       "features": [
         "Stable support",
@@ -143,7 +144,8 @@
       ],
       "catNo": "1160 Series",
       "stockStatus": "in_stock",
-      "quantity": null
+      "quantity": null,
+      "image": "/images/products/1160.png"
     },
     {
       "id": 8,
@@ -153,7 +155,7 @@
       "capacity": "10 to 25 ml",
       "packaging": "20 pieces",
       "price": "₹460",
-      "priceRange": "₹460 - ₹660",
+      "priceRange": "₹460.00 - ₹660.00",
       "description": "Circular capsules for sample preparation",
       "features": [
         "Compact design",
@@ -163,7 +165,8 @@
       ],
       "catNo": "1170 Series",
       "stockStatus": "in_stock",
-      "quantity": null
+      "quantity": null,
+      "image": "/images/products/1170.png"
     },
     {
       "id": 9,
@@ -173,7 +176,7 @@
       "capacity": "12 ml",
       "packaging": "20 pieces",
       "price": "₹900",
-      "priceRange": "₹900 - ₹1100",
+      "priceRange": "₹900.00 - ₹1100.00",
       "description": "Circular capsules with ground lid for precise sealing",
       "features": [
         "Ground lid",
@@ -183,7 +186,8 @@
       ],
       "catNo": "1180 Series",
       "stockStatus": "in_stock",
-      "quantity": null
+      "quantity": null,
+      "image": "/images/products/1180.png"
     },
     {
       "id": 10,
@@ -193,7 +197,7 @@
       "capacity": "38 to 100 ml",
       "packaging": "10 pieces",
       "price": "₹230",
-      "priceRange": "₹230 - ₹380",
+      "priceRange": "₹230.00 - ₹380.00",
       "description": "Support triangles with nichrome wire",
       "features": [
         "Heat resistant wire",
@@ -203,7 +207,8 @@
       ],
       "catNo": "1190 Series",
       "stockStatus": "in_stock",
-      "quantity": null
+      "quantity": null,
+      "image": "/images/products/1190.png"
     },
     {
       "id": 11,
@@ -213,7 +218,7 @@
       "capacity": "N/A",
       "packaging": "10 pieces",
       "price": "₹400",
-      "priceRange": "₹400 - ₹750",
+      "priceRange": "₹400.00 - ₹750.00",
       "description": "Combustion boats with handle for analytical procedures",
       "features": [
         "Combustion ready",
@@ -223,7 +228,8 @@
       ],
       "catNo": "1200 Series",
       "stockStatus": "in_stock",
-      "quantity": null
+      "quantity": null,
+      "image": "/images/products/1200.png"
     }
   ],
   "productVariants": {
@@ -231,239 +237,743 @@
       "title": "Crucibles",
       "description": "High-quality fused silica crucibles for laboratory applications",
       "icon": "🧪",
+      "image": "/images/products/1100.png",
       "variants": [
         {
-          "id": "crucible-regular-15",
+          "id": 1,
           "name": "Regular Form Crucible",
-          "catNo": "1100-15",
           "capacity": "15 ml",
           "packaging": "36 pieces",
-          "price": "₹294.00",
+          "price": "₹300.00",
           "features": [
-            "High purity fused silica",
-            "Oxy-gas fired",
-            "Thermal shock resistant",
-            "Chemical inert"
+            "Standard form",
+            "General purpose",
+            "High purity"
           ],
+          "catNo": "1100/15",
           "stockStatus": "in_stock",
           "quantity": null
         },
         {
-          "id": "crucible-regular-25",
+          "id": 2,
           "name": "Regular Form Crucible",
-          "catNo": "1100-25",
           "capacity": "25 ml",
-          "packaging": "24 pieces",
-          "price": "₹294.00",
+          "packaging": "30 pieces",
+          "price": "₹320.00",
           "features": [
-            "High purity fused silica",
-            "Oxy-gas fired",
-            "Thermal shock resistant",
-            "Chemical inert"
+            "Standard form",
+            "General purpose",
+            "High purity"
           ],
+          "catNo": "1100/25",
           "stockStatus": "in_stock",
           "quantity": null
         },
         {
-          "id": "crucible-regular-50",
+          "id": 3,
           "name": "Regular Form Crucible",
-          "catNo": "1100-50",
           "capacity": "50 ml",
-          "packaging": "12 pieces",
-          "price": "₹294.00",
+          "packaging": "20 pieces",
+          "price": "₹570.00",
           "features": [
-            "High purity fused silica",
-            "Oxy-gas fired",
-            "Thermal shock resistant",
-            "Chemical inert"
+            "Standard form",
+            "General purpose",
+            "High purity"
           ],
+          "catNo": "1100/50",
           "stockStatus": "in_stock",
           "quantity": null
         },
         {
-          "id": "crucible-regular-100",
+          "id": 4,
           "name": "Regular Form Crucible",
-          "catNo": "1100-100",
+          "capacity": "80 ml",
+          "packaging": "6 pieces",
+          "price": "₹850.00",
+          "features": [
+            "Standard form",
+            "General purpose",
+            "High purity"
+          ],
+          "catNo": "1100/80",
+          "stockStatus": "in_stock",
+          "quantity": null
+        },
+        {
+          "id": 5,
+          "name": "Regular Form Crucible",
           "capacity": "100 ml",
           "packaging": "6 pieces",
-          "price": "₹294.00",
+          "price": "₹1100.00",
           "features": [
-            "High purity fused silica",
-            "Oxy-gas fired",
-            "Thermal shock resistant",
-            "Chemical inert"
+            "Standard form",
+            "General purpose",
+            "High purity"
           ],
+          "catNo": "1100/100",
           "stockStatus": "in_stock",
           "quantity": null
         },
         {
-          "id": "crucible-regular-150",
+          "id": 6,
           "name": "Regular Form Crucible",
-          "catNo": "1100-150",
           "capacity": "150 ml",
-          "packaging": "6 pieces",
-          "price": "₹294.00",
+          "packaging": "5 pieces",
+          "price": "₹1300.00",
           "features": [
-            "High purity fused silica",
-            "Oxy-gas fired",
-            "Thermal shock resistant",
-            "Chemical inert"
+            "Standard form",
+            "General purpose",
+            "High purity"
           ],
+          "catNo": "1100/150",
           "stockStatus": "in_stock",
           "quantity": null
         },
         {
-          "id": "crucible-regular-200",
+          "id": 7,
           "name": "Regular Form Crucible",
-          "catNo": "1100-200",
-          "capacity": "200 ml",
-          "packaging": "6 pieces",
-          "price": "₹294.00",
-          "features": [
-            "High purity fused silica",
-            "Oxy-gas fired",
-            "Thermal shock resistant",
-            "Chemical inert"
-          ],
-          "stockStatus": "in_stock",
-          "quantity": null
-        },
-        {
-          "id": "crucible-regular-250",
-          "name": "Regular Form Crucible",
-          "catNo": "1100-250",
           "capacity": "250 ml",
-          "packaging": "6 pieces",
-          "price": "₹294.00",
+          "packaging": "3 pieces",
+          "price": "₹1800.00",
           "features": [
-            "High purity fused silica",
-            "Oxy-gas fired",
-            "Thermal shock resistant",
-            "Chemical inert"
+            "Standard form",
+            "General purpose",
+            "High purity"
           ],
+          "catNo": "1100/250",
           "stockStatus": "in_stock",
           "quantity": null
         },
         {
-          "id": "crucible-tall-10",
+          "id": 8,
           "name": "Tall Form Crucible",
-          "catNo": "1110-10",
           "capacity": "10 ml",
           "packaging": "30 pieces",
-          "price": "₹343.00",
+          "price": "₹350.00",
           "features": [
             "Deep design",
             "Better heat distribution",
-            "Reduced evaporation",
-            "Stable base"
+            "Reduced evaporation"
           ],
+          "catNo": "1110/10",
           "stockStatus": "in_stock",
           "quantity": null
         },
         {
-          "id": "crucible-tall-15",
+          "id": 9,
           "name": "Tall Form Crucible",
-          "catNo": "1110-15",
-          "capacity": "15 ml",
-          "packaging": "24 pieces",
-          "price": "₹343.00",
-          "features": [
-            "Deep design",
-            "Better heat distribution",
-            "Reduced evaporation",
-            "Stable base"
-          ],
-          "stockStatus": "in_stock",
-          "quantity": null
-        },
-        {
-          "id": "crucible-tall-30",
-          "name": "Tall Form Crucible",
-          "catNo": "1110-30",
           "capacity": "30 ml",
-          "packaging": "15 pieces",
-          "price": "₹686.00",
+          "packaging": "20 pieces",
+          "price": "₹500.00",
           "features": [
             "Deep design",
             "Better heat distribution",
-            "Reduced evaporation",
-            "Stable base"
+            "Reduced evaporation"
           ],
+          "catNo": "1110/30",
+          "stockStatus": "in_stock",
+          "quantity": null
+        },
+        {
+          "id": 10,
+          "name": "Tall Form Crucible",
+          "capacity": "50 ml",
+          "packaging": "15 pieces",
+          "price": "₹700.00",
+          "features": [
+            "Deep design",
+            "Better heat distribution",
+            "Reduced evaporation"
+          ],
+          "catNo": "1110/50",
+          "stockStatus": "in_stock",
+          "quantity": null
+        }
+      ]
+    },
+    "lids": {
+      "title": "Lids",
+      "description": "Matching lids for crucibles with precise fit and high temperature resistance",
+      "icon": "🔒",
+      "image": "/images/products/1120.png",
+      "variants": [
+        {
+          "id": 1,
+          "name": "Quartz Silica Lid",
+          "capacity": "15 ml",
+          "packaging": "36 pieces",
+          "price": "₹300.00",
+          "features": [
+            "Perfect fit",
+            "High temperature resistant",
+            "Chemical inert"
+          ],
+          "catNo": "1120/15",
+          "stockStatus": "in_stock",
+          "quantity": null
+        },
+        {
+          "id": 2,
+          "name": "Quartz Silica Lid",
+          "capacity": "25 ml",
+          "packaging": "30 pieces",
+          "price": "₹320.00",
+          "features": [
+            "Perfect fit",
+            "High temperature resistant",
+            "Chemical inert"
+          ],
+          "catNo": "1120/25",
+          "stockStatus": "in_stock",
+          "quantity": null
+        },
+        {
+          "id": 3,
+          "name": "Quartz Silica Lid",
+          "capacity": "50 ml",
+          "packaging": "20 pieces",
+          "price": "₹550.00",
+          "features": [
+            "Perfect fit",
+            "High temperature resistant",
+            "Chemical inert"
+          ],
+          "catNo": "1120/50",
+          "stockStatus": "in_stock",
+          "quantity": null
+        },
+        {
+          "id": 4,
+          "name": "Quartz Silica Lid",
+          "capacity": "80 ml",
+          "packaging": "12 pieces",
+          "price": "₹850.00",
+          "features": [
+            "Perfect fit",
+            "High temperature resistant",
+            "Chemical inert"
+          ],
+          "catNo": "1120/80",
+          "stockStatus": "in_stock",
+          "quantity": null
+        },
+        {
+          "id": 5,
+          "name": "Quartz Silica Lid",
+          "capacity": "100 ml",
+          "packaging": "12 pieces",
+          "price": "₹1100.00",
+          "features": [
+            "Perfect fit",
+            "High temperature resistant",
+            "Chemical inert"
+          ],
+          "catNo": "1120/100",
+          "stockStatus": "in_stock",
+          "quantity": null
+        },
+        {
+          "id": 6,
+          "name": "Quartz Silica Lid",
+          "capacity": "150 ml",
+          "packaging": "6 pieces",
+          "price": "₹1300.00",
+          "features": [
+            "Perfect fit",
+            "High temperature resistant",
+            "Chemical inert"
+          ],
+          "catNo": "1120/150",
+          "stockStatus": "in_stock",
+          "quantity": null
+        },
+        {
+          "id": 7,
+          "name": "Quartz Silica Lid",
+          "capacity": "250 ml",
+          "packaging": "6 pieces",
+          "price": "₹1800.00",
+          "features": [
+            "Perfect fit",
+            "High temperature resistant",
+            "Chemical inert"
+          ],
+          "catNo": "1120/250",
+          "stockStatus": "in_stock",
+          "quantity": null
+        }
+      ]
+    },
+    "specialty": {
+      "title": "Specialty Products",
+      "description": "Specialized laboratory equipment for specific applications",
+      "icon": "⚗️",
+      "image": "/images/products/1130.png",
+      "variants": [
+        {
+          "id": 1,
+          "name": "Gooch Crucible",
+          "capacity": "20 ml",
+          "packaging": "25 pieces",
+          "price": "₹800.00",
+          "features": [
+            "Perforated base",
+            "Filtration ready",
+            "High precision"
+          ],
+          "catNo": "1130/20",
+          "stockStatus": "in_stock",
+          "quantity": null
+        },
+        {
+          "id": 2,
+          "name": "Gooch Crucible",
+          "capacity": "30 ml",
+          "packaging": "20 pieces",
+          "price": "₹1100.00",
+          "features": [
+            "Perforated base",
+            "Filtration ready",
+            "High precision"
+          ],
+          "catNo": "1130/30",
+          "stockStatus": "in_stock",
+          "quantity": null
+        },
+        {
+          "id": 3,
+          "name": "Gooch Crucible",
+          "capacity": "50 ml",
+          "packaging": "15 pieces",
+          "price": "₹1400.00",
+          "features": [
+            "Perforated base",
+            "Filtration ready",
+            "High precision"
+          ],
+          "catNo": "1130/50",
+          "stockStatus": "in_stock",
+          "quantity": null
+        },
+        {
+          "id": 4,
+          "name": "Crucible Volatile Matter Determine",
+          "capacity": "N/A",
+          "packaging": "10 pieces",
+          "price": "₹600.00",
+          "features": [
+            "Volatile matter ready",
+            "High temperature",
+            "Chemical resistant"
+          ],
+          "catNo": "1150/C",
+          "stockStatus": "in_stock",
+          "quantity": null
+        },
+        {
+          "id": 5,
+          "name": "Lid for VM Crucible",
+          "capacity": "N/A",
+          "packaging": "10 pieces",
+          "price": "₹250.00",
+          "features": [
+            "Perfect fit",
+            "High temperature",
+            "Chemical resistant"
+          ],
+          "catNo": "1150/L",
+          "stockStatus": "in_stock",
+          "quantity": null
+        },
+        {
+          "id": 6,
+          "name": "Plunger for VM Crucible",
+          "capacity": "N/A",
+          "packaging": "10 pieces",
+          "price": "₹400.00",
+          "features": [
+            "Precise fit",
+            "High temperature",
+            "Chemical resistant"
+          ],
+          "catNo": "1150/P",
+          "stockStatus": "in_stock",
+          "quantity": null
+        },
+        {
+          "id": 7,
+          "name": "Combustion Boat with Handle",
+          "capacity": "50mm x 12mm x 8mm",
+          "packaging": "10 pieces",
+          "price": "₹400.00",
+          "features": [
+            "Combustion ready",
+            "With handle",
+            "High temperature",
+            "Chemical resistant"
+          ],
+          "catNo": "1200/1",
+          "stockStatus": "in_stock",
+          "quantity": null
+        },
+        {
+          "id": 8,
+          "name": "Combustion Boat with Handle",
+          "capacity": "77mm x 12mm x 8mm",
+          "packaging": "10 pieces",
+          "price": "₹450.00",
+          "features": [
+            "Combustion ready",
+            "With handle",
+            "High temperature",
+            "Chemical resistant"
+          ],
+          "catNo": "1200/2",
+          "stockStatus": "in_stock",
+          "quantity": null
+        },
+        {
+          "id": 9,
+          "name": "Combustion Boat with Handle",
+          "capacity": "78mm x 12mm x 12mm",
+          "packaging": "10 pieces",
+          "price": "₹650.00",
+          "features": [
+            "Combustion ready",
+            "With handle",
+            "High temperature",
+            "Chemical resistant"
+          ],
+          "catNo": "1200/3",
+          "stockStatus": "in_stock",
+          "quantity": null
+        },
+        {
+          "id": 10,
+          "name": "Combustion Boat with Handle",
+          "capacity": "103mm x 12mm x 12mm",
+          "packaging": "10 pieces",
+          "price": "₹750.00",
+          "features": [
+            "Combustion ready",
+            "With handle",
+            "High temperature",
+            "Chemical resistant"
+          ],
+          "catNo": "1200/4",
           "stockStatus": "in_stock",
           "quantity": null
         }
       ]
     },
     "basins": {
-      "title": "Basins",
+      "title": "Basins with Spout",
       "description": "Fused silica basins with spout for laboratory applications",
       "icon": "🥣",
+      "image": "/images/products/1140.png",
       "variants": [
         {
-          "id": "basin-10",
+          "id": 1,
           "name": "Basin with Spout Fused Silica",
-          "catNo": "1140-10",
+          "capacity": "20 ml",
+          "packaging": "12 pieces",
+          "price": "₹350.00",
+          "features": [
+            "Spout design",
+            "Easy pouring",
+            "Uniform heating"
+          ],
+          "catNo": "1140/45",
+          "stockStatus": "in_stock",
+          "quantity": null
+        },
+        {
+          "id": 2,
+          "name": "Basin with Spout Fused Silica",
+          "capacity": "35 ml",
+          "packaging": "12 pieces",
+          "price": "₹500.00",
+          "features": [
+            "Spout design",
+            "Easy pouring",
+            "Uniform heating"
+          ],
+          "catNo": "1140/55",
+          "stockStatus": "in_stock",
+          "quantity": null
+        },
+        {
+          "id": 3,
+          "name": "Basin with Spout Fused Silica",
+          "capacity": "70 ml",
+          "packaging": "8 pieces",
+          "price": "₹800.00",
+          "features": [
+            "Spout design",
+            "Easy pouring",
+            "Uniform heating"
+          ],
+          "catNo": "1140/75",
+          "stockStatus": "in_stock",
+          "quantity": null
+        },
+        {
+          "id": 4,
+          "name": "Basin with Spout Fused Silica",
+          "capacity": "100 ml",
+          "packaging": "6 pieces",
+          "price": "₹1100.00",
+          "features": [
+            "Spout design",
+            "Easy pouring",
+            "Uniform heating"
+          ],
+          "catNo": "1140/85",
+          "stockStatus": "in_stock",
+          "quantity": null
+        },
+        {
+          "id": 5,
+          "name": "Basin with Spout Fused Silica",
+          "capacity": "150 ml",
+          "packaging": "6 pieces",
+          "price": "₹1300.00",
+          "features": [
+            "Spout design",
+            "Easy pouring",
+            "Uniform heating"
+          ],
+          "catNo": "1140/95",
+          "stockStatus": "in_stock",
+          "quantity": null
+        },
+        {
+          "id": 6,
+          "name": "Basin with Spout Fused Silica",
+          "capacity": "200 ml",
+          "packaging": "6 pieces",
+          "price": "₹1700.00",
+          "features": [
+            "Spout design",
+            "Easy pouring",
+            "Uniform heating"
+          ],
+          "catNo": "1140/103",
+          "stockStatus": "in_stock",
+          "quantity": null
+        },
+        {
+          "id": 7,
+          "name": "Basin with Spout Fused Silica",
+          "capacity": "250 ml",
+          "packaging": "5 pieces",
+          "price": "₹1800.00",
+          "features": [
+            "Spout design",
+            "Easy pouring",
+            "Uniform heating"
+          ],
+          "catNo": "1140/110",
+          "stockStatus": "in_stock",
+          "quantity": null
+        }
+      ]
+    },
+    "capsules": {
+      "title": "Capsules",
+      "description": "Circular capsules for sample preparation and analysis",
+      "icon": "💊",
+      "image": "/images/products/1170.png",
+      "variants": [
+        {
+          "id": 1,
+          "name": "Circular Capsule Quartz",
           "capacity": "10 ml",
-          "packaging": "50 pieces",
-          "price": "₹450.80",
-          "features": [
-            "Spout design",
-            "Easy pouring",
-            "Uniform heating",
-            "Chemical resistant"
-          ],
-          "stockStatus": "in_stock",
-          "quantity": null
-        },
-        {
-          "id": "basin-25",
-          "name": "Basin with Spout Fused Silica",
-          "catNo": "1140-25",
-          "capacity": "25 ml",
-          "packaging": "30 pieces",
-          "price": "₹450.80",
-          "features": [
-            "Spout design",
-            "Easy pouring",
-            "Uniform heating",
-            "Chemical resistant"
-          ],
-          "stockStatus": "in_stock",
-          "quantity": null
-        },
-        {
-          "id": "basin-50",
-          "name": "Basin with Spout Fused Silica",
-          "catNo": "1140-50",
-          "capacity": "50 ml",
           "packaging": "20 pieces",
-          "price": "₹450.80",
+          "price": "₹460.00",
           "features": [
-            "Spout design",
-            "Easy pouring",
-            "Uniform heating",
-            "Chemical resistant"
+            "Compact design",
+            "Easy handling",
+            "Uniform heating"
           ],
+          "catNo": "1170/40",
           "stockStatus": "in_stock",
           "quantity": null
         },
         {
-          "id": "basin-100",
-          "name": "Basin with Spout Fused Silica",
-          "catNo": "1140-100",
+          "id": 2,
+          "name": "Circular Capsule Quartz",
+          "capacity": "20 ml",
+          "packaging": "20 pieces",
+          "price": "₹560.00",
+          "features": [
+            "Compact design",
+            "Easy handling",
+            "Uniform heating"
+          ],
+          "catNo": "1170/48",
+          "stockStatus": "in_stock",
+          "quantity": null
+        },
+        {
+          "id": 3,
+          "name": "Circular Capsule Quartz",
+          "capacity": "25 ml",
+          "packaging": "20 pieces",
+          "price": "₹660.00",
+          "features": [
+            "Compact design",
+            "Easy handling",
+            "Uniform heating"
+          ],
+          "catNo": "1170/54",
+          "stockStatus": "in_stock",
+          "quantity": null
+        },
+        {
+          "id": 4,
+          "name": "Circular Capsule Ground Lid Quartz",
+          "capacity": "12 ml",
+          "packaging": "20 pieces",
+          "price": "₹900.00",
+          "features": [
+            "Ground lid",
+            "Precise sealing",
+            "Uniform heating"
+          ],
+          "catNo": "1180/38",
+          "stockStatus": "in_stock",
+          "quantity": null
+        },
+        {
+          "id": 5,
+          "name": "Circular Capsule Ground Lid Quartz",
+          "capacity": "12 ml",
+          "packaging": "20 pieces",
+          "price": "₹1100.00",
+          "features": [
+            "Ground lid",
+            "Precise sealing",
+            "Uniform heating"
+          ],
+          "catNo": "1180/54",
+          "stockStatus": "in_stock",
+          "quantity": null
+        }
+      ]
+    },
+    "accessories": {
+      "title": "Accessories",
+      "description": "Support equipment and accessories for laboratory operations",
+      "icon": "🔧",
+      "image": "/images/products/1160.png",
+      "variants": [
+        {
+          "id": 1,
+          "name": "Muffle Stand for 2 VM Crucible",
+          "size": "2 holes",
+          "packaging": "4 pieces",
+          "price": "₹1000.00",
+          "features": [
+            "Stable support",
+            "Heat resistant",
+            "2 holes design"
+          ],
+          "catNo": "1160/2",
+          "stockStatus": "in_stock",
+          "quantity": null
+        },
+        {
+          "id": 2,
+          "name": "Muffle Stand for 4 VM Crucible",
+          "size": "4 holes",
+          "packaging": "2 pieces",
+          "price": "₹1800.00",
+          "features": [
+            "Stable support",
+            "Heat resistant",
+            "4 holes design"
+          ],
+          "catNo": "1160/4",
+          "stockStatus": "in_stock",
+          "quantity": null
+        },
+        {
+          "id": 3,
+          "name": "Triangle on Nichrome Wire",
+          "capacity": "38 ml",
+          "packaging": "10 pieces",
+          "price": "₹230.00",
+          "features": [
+            "Heat resistant wire",
+            "Stable support",
+            "Multiple sizes"
+          ],
+          "catNo": "1190/38",
+          "stockStatus": "in_stock",
+          "quantity": null
+        },
+        {
+          "id": 4,
+          "name": "Triangle on Nichrome Wire",
+          "capacity": "50 ml",
+          "packaging": "10 pieces",
+          "price": "₹250.00",
+          "features": [
+            "Heat resistant wire",
+            "Stable support",
+            "Multiple sizes"
+          ],
+          "catNo": "1190/50",
+          "stockStatus": "in_stock",
+          "quantity": null
+        },
+        {
+          "id": 5,
+          "name": "Triangle on Nichrome Wire",
+          "capacity": "63 ml",
+          "packaging": "10 pieces",
+          "price": "₹280.00",
+          "features": [
+            "Heat resistant wire",
+            "Stable support",
+            "Multiple sizes"
+          ],
+          "catNo": "1190/63",
+          "stockStatus": "in_stock",
+          "quantity": null
+        },
+        {
+          "id": 6,
+          "name": "Triangle on Nichrome Wire",
+          "capacity": "75 ml",
+          "packaging": "10 pieces",
+          "price": "₹320.00",
+          "features": [
+            "Heat resistant wire",
+            "Stable support",
+            "Multiple sizes"
+          ],
+          "catNo": "1190/75",
+          "stockStatus": "in_stock",
+          "quantity": null
+        },
+        {
+          "id": 7,
+          "name": "Triangle on Nichrome Wire",
           "capacity": "100 ml",
           "packaging": "10 pieces",
-          "price": "₹450.80",
+          "price": "₹380.00",
           "features": [
-            "Spout design",
-            "Easy pouring",
-            "Uniform heating",
-            "Chemical resistant"
+            "Heat resistant wire",
+            "Stable support",
+            "Multiple sizes"
           ],
+          "catNo": "1190/100",
           "stockStatus": "in_stock",
           "quantity": null
         }
       ]
     }
   }
-} 
+}
