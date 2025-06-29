@@ -46,7 +46,7 @@ export default function Contact() {
           <GlassCard variant="primary" padding="large" className="w-full flex flex-col md:flex-row gap-10 items-center text-white shadow-2xl bg-gradient-to-br from-[#3a8fff]/80 to-[#2a2a72]/90">
             {/* Left: Contact Form */}
             <div className="flex-1 min-w-[260px]">
-              <Heading as="h1" gradient="linear-gradient(to right, #fff, #aee2ff)" className="mb-6 text-left" size="primary">Contact Us</Heading>
+              <Heading as="h1" gradient="var(--text-gradient-white)" className="mb-6 text-left" size="primary">Contact Us</Heading>
               <p className="text-base md:text-lg text-white/90 mb-8 max-w-md">Get in touch with our team for inquiries, quotes, and support. We'll get back to you within 24 hours.</p>
               <Suspense fallback={<div className="text-white text-center py-8">Loading form...</div>}>
                 <ContactFormWithParams />
@@ -86,7 +86,7 @@ export default function Contact() {
               </div>
               {/* Business Hours */}
               <div className="mt-8">
-                <Heading as="h3" gradient="linear-gradient(to right, #fff, #aee2ff)" className="mb-3" size="tertiary">Business Hours</Heading>
+                <Heading as="h3" gradient="var(--text-gradient-white)" className="mb-3" size="tertiary">Business Hours</Heading>
                 <div className="space-y-2">
                   {[
                     { day: "Monday - Friday", time: "9:00 AM - 6:00 PM" },
@@ -102,7 +102,7 @@ export default function Contact() {
               </div>
               {/* Quick Links */}
               <div className="mt-8">
-                <Heading as="h3" gradient="linear-gradient(to right, #fff, #aee2ff)" className="mb-3" size="tertiary">Quick Links</Heading>
+                <Heading as="h3" gradient="var(--text-gradient-white)" className="mb-3" size="tertiary">Quick Links</Heading>
                 <div className="space-y-2">
                   <GlassButton href="/company" variant="warning" size="medium" className="w-full justify-between text-white">
                     <span>About Us</span>

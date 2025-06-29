@@ -25,7 +25,7 @@ const ProductCard = ({
           <div
             className={styles["variant-card-picture"]}
             style={{
-              backgroundImage: `linear-gradient(to right bottom, rgba(41, 152, 255, 0.7), rgba(86, 67, 250, 0.7)), url('/images/products/${getBaseCatalogNumber(product.catNo)}.png')`,
+              backgroundImage: `var(--card-overlay-gradient), url('/images/products/${getBaseCatalogNumber(product.catNo)}.png')`,
               backgroundSize: 'cover',
               backgroundPosition: 'center',
               backgroundRepeat: 'no-repeat',
