@@ -23,7 +23,7 @@ body {
     from(#009ffd),
     to(#2a2a72)
   );
-  background-image: linear-gradient(to right, #009ffd, #2a2a72);
+  background-image: var(--text-gradient-primary);
   -webkit-background-clip: text;
   color: transparent;
   letter-spacing: 0.2rem;
@@ -69,9 +69,18 @@ body {
   --opacity-secondary-color: rgba(42, 42, 114, 0.75);
   --bright-secondary-color: rgba(86, 67, 250, 0.85);
   --opacity-bright-secondary-color: rgba(86, 67, 250, 0.85);
+  
+  /* Standardized gradient patterns */
   --primary-gradient: linear-gradient(to right bottom, var(--opacity-primary-color), var(--opacity-secondary-color));
   --dark-primary-gradient: linear-gradient(to right bottom, var(--primary-color), var(--secondary-color));
   --secondary-gradient: linear-gradient(to right bottom, var(--opacity-primary-color), var(--opacity-secondary-color));
   --bright-secondary-gradient: linear-gradient(to right bottom, var(--opacity-primary-color), var(--opacity-bright-secondary-color));
+  
+  /* Text gradients */
+  --text-gradient-primary: linear-gradient(to right, #009ffd, #2a2a72);
+  --text-gradient-white: linear-gradient(to right, #fff, #aee2ff);
+  
+  /* Card overlay gradients */
+  --card-overlay-gradient: linear-gradient(to right bottom, rgba(41, 152, 255, 0.7), rgba(86, 67, 250, 0.7));
 }
 
