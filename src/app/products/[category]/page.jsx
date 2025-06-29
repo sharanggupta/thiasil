@@ -4,6 +4,7 @@ import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from "react";
 import { SIDEBAR_NAVIGATION } from "../../../lib/constants/navigation";
+import { useCoupons } from "../../../lib/hooks/useCoupons";
 import { getBaseCatalogNumber } from "../../../lib/utils";
 import { GlassButton, GlassCard, GlassIcon, NeonBubblesBackground } from "../../components/Glassmorphism";
 import Modal from '../../components/Modals/Modal';
@@ -29,10 +30,17 @@ const applyDiscountToPrice = (price, discountPercent) => {
 export default function CategoryPage({ params }) {
   const [category, setCategory] = useState("");
   const [categoryData, setCategoryData] = useState(null);
-  const [couponCode, setCouponCode] = useState("");
-  const [activeCoupon, setActiveCoupon] = useState(null);
-  const [couponMessage, setCouponMessage] = useState("");
-  const [isApplyingCoupon, setIsApplyingCoupon] = useState(false);
+  
+  // Use the coupon hook instead of inline state
+  const {
+    couponCode,
+    setCouponCode,
+    activeCoupon,
+    couponMessage,
+    isApplyingCoupon,
+    applyCoupon,
+    clearCoupon
+  } = useCoupons();
   const [isLoading, setIsLoading] = useState(true);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [modalProduct, setModalProduct] = useState(null);
@@ -62,46 +70,6 @@ export default function CategoryPage({ params }) {
     }
   };
 
-  const applyCoupon = async () => {
-    if (!couponCode.trim()) {
-      setCouponMessage("Please enter a coupon code");
-      return;
-    }
-
-    setIsApplyingCoupon(true);
-    setCouponMessage("");
-
-    try {
-      const response = await fetch('/api/coupons', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ code: couponCode.trim() }),
-      });
-
-      const data = await response.json();
-
-      if (response.ok) {
-        setActiveCoupon(data.coupon);
-        setCouponMessage(`Coupon ${data.coupon.code} applied! ${data.coupon.discountPercent}% discount active.`);
-      } else {
-        setActiveCoupon(null);
-        setCouponMessage(data.error || "Invalid coupon code");
-      }
-    } catch (error) {
-      console.error('Error applying coupon:', error);
-      setCouponMessage("Error applying coupon. Please try again.");
-    } finally {
-      setIsApplyingCoupon(false);
-    }
-  };
-
-  const clearCoupon = () => {
-    setActiveCoupon(null);
-    setCouponCode("");
-    setCouponMessage("");
-  };
 
   if (isLoading) {
     return (
