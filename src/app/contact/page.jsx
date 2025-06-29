@@ -4,6 +4,7 @@ import { Suspense } from "react";
 import ContactFormGlass from "../components/ContactForm/ContactFormGlass";
 import { GlassButton, GlassCard, GlassIcon, NeonBubblesBackground } from "../components/Glassmorphism";
 import Navbar from "../components/Navbar/Navbar";
+import Breadcrumb from "../components/common/Breadcrumb";
 import Heading from "../components/common/Heading";
 
 // Contact page uses specific navigation with anchor link to products section
@@ -34,13 +35,13 @@ export default function Contact() {
       <div className="min-h-screen w-full bg-gradient-to-br from-[#3a8fff] via-[#009ffd] to-[#2a2a72] flex flex-col items-center pt-32 relative overflow-x-hidden">
         <main className="relative z-10 w-full max-w-3xl mx-auto px-4 pb-24 flex flex-col gap-12">
           {/* Breadcrumb Navigation */}
-          <nav className="pt-32 pb-4">
-            <div className="flex items-center space-x-2 text-sm text-white/80">
-              <a href="/" className="hover:text-white transition-colors">Home</a>
-              <span>/</span>
-              <span className="text-white font-medium">Contact</span>
-            </div>
-          </nav>
+          <Breadcrumb 
+            items={[
+              { href: "/", label: "Home" },
+              { label: "Contact" }
+            ]}
+            className="text-sm text-white/80"
+          />
           {/* Glassmorphic Card Panel */}
           <GlassCard variant="primary" padding="large" className="w-full flex flex-col md:flex-row gap-10 items-center text-white shadow-2xl bg-gradient-to-br from-[#3a8fff]/80 to-[#2a2a72]/90">
             {/* Left: Contact Form */}

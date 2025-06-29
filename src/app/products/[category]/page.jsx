@@ -8,6 +8,7 @@ import { getBaseCatalogNumber } from "../../../lib/utils";
 import { GlassButton, GlassCard, GlassIcon, NeonBubblesBackground } from "../../components/Glassmorphism";
 import Modal from '../../components/Modals/Modal';
 import Navbar from "../../components/Navbar/Navbar";
+import Breadcrumb from "../../components/common/Breadcrumb";
 import Heading from "../../components/common/Heading";
 
 const sidebarNav = SIDEBAR_NAVIGATION;
@@ -143,21 +144,13 @@ export default function CategoryPage({ params }) {
 
       <main className="relative z-10 max-w-7xl mx-auto px-4 pb-24 flex flex-col gap-20 ml-0 md:ml-32">
         {/* Breadcrumb Navigation */}
-        <nav className="pt-32 pb-4">
-          <div className="flex items-center space-x-2 text-sm text-white/60">
-            <Link href="/" className="hover:text-white transition-colors">
-              Home
-            </Link>
-            <span>/</span>
-            <Link href="/products" className="hover:text-white transition-colors">
-              Products
-            </Link>
-            <span>/</span>
-            <span className="text-white font-medium">
-              {categoryData.title || categoryData.name || "Category"}
-            </span>
-          </div>
-        </nav>
+        <Breadcrumb 
+          items={[
+            { href: "/", label: "Home" },
+            { href: "/products", label: "Products" },
+            { label: categoryData.title || categoryData.name || "Category" }
+          ]}
+        />
 
         {/* Hero Glass Card */}
         <section className="flex flex-col items-center justify-center pb-10">
