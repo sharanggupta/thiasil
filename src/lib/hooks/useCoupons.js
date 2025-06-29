@@ -1,6 +1,6 @@
 import { useCallback, useState } from 'react';
-import { API_ENDPOINTS, ERROR_MESSAGES } from '../constants';
-import { isExpired } from '../date';
+import { API_ENDPOINTS, ERROR_MESSAGES } from '@/lib/constants';
+import { isExpired } from '@/lib/date';
 
 export const useCoupons = () => {
   const [couponCode, setCouponCode] = useState('');

@@ -14,23 +14,18 @@
     "redis:setup": "./scripts/setup-redis.sh"
   },
   "dependencies": {
-    "@formspree/react": "^3.0.0",
-    "@tsparticles/engine": "^3.8.1",
-    "@tsparticles/react": "^3.0.0",
     "@vercel/kv": "^3.0.0",
-    "auto-text-size": "^0.2.3",
     "next": "^15.3.4",
-    "puppeteer": "^24.10.2",
+    "puppeteer": "^24.11.1",
     "react": "^19.1.0",
     "react-dom": "^19.1.0",
     "redis": "^5.5.6",
-    "swiper": "^11.2.8",
-    "three": "^0.177.0"
+    "swiper": "^11.2.10"
   },
   "devDependencies": {
-    "eslint": "^9.29.0",
+    "eslint": "^9.30.0",
     "eslint-config-next": "^15.3.4",
     "postcss": "^8.5.6",
-    "tailwindcss": "^3.4.1"
+    "tailwindcss": "^3.4.17"
   }
 }
