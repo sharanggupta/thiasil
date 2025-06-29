@@ -11,6 +11,7 @@ import {
     GlassCard,
     GlassIcon,
     GlassInput,
+    GlassContainer,
     NeonBubblesBackground
 } from "../components/Glassmorphism";
 import Navbar from "../components/Navbar/Navbar";
@@ -419,7 +420,7 @@ export default function AdminPage() {
                   </GlassCard>
                 </div>
 
-                <div className="bg-white/5 rounded-xl p-6">
+                <GlassContainer>
                   <h3 className="text-xl font-bold text-white mb-4">Quick Actions</h3>
                   <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                     <GlassButton
@@ -450,7 +451,7 @@ export default function AdminPage() {
                       <span>Add Products</span>
                     </GlassButton>
                   </div>
-                </div>
+                </GlassContainer>
               </div>
             )}
 
@@ -553,7 +554,7 @@ export default function AdminPage() {
             
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
               {products.map((product) => (
-                <div key={product.id} className="bg-white/5 rounded-xl p-4 border border-white/10">
+                <GlassContainer key={product.id} padding="small">
                   <div className="flex items-center justify-between mb-2">
                     <span className="text-xs font-medium text-white/60 uppercase tracking-wider bg-white/10 px-2 py-1 rounded-full">
                       {product.category}
@@ -587,7 +588,7 @@ export default function AdminPage() {
                       <span className="text-white">{product.packaging}</span>
                     </div>
                   </div>
-                </div>
+                </GlassContainer>
               ))}
             </div>
           </GlassCard>
