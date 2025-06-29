@@ -6,6 +6,7 @@ import HiTechSection from "./components/HiTechSection/HiTechSection";
 import Navbar from "./components/Navbar/Navbar";
 import ProductCardSection from "./components/ProductCardsSection/ProductCardSection";
 import ReviewSection from "./components/Reviews/Reviews";
+import SmoothScrollToSection from "./components/SmoothScrollToSection";
 
 export const metadata = {
   title: "Thiasil | Individually oxy-fired laboratory glassware",
@@ -29,6 +30,7 @@ export const metadata = {
 export default function Home() {
   return (
     <div className="main-margin bg-[#f7f7f7] ">
+      <SmoothScrollToSection />
       <Navbar />
       <HeroSection />
       <HiTechSection />
