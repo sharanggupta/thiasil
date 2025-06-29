@@ -10,6 +10,7 @@ import {
 import Navbar from "../components/Navbar/Navbar";
 import heroImg from "../images/thiasil-1.webp";
 
+// Company page uses specific navigation with anchor link to products section
 const sidebarNav = [
   { icon: "🏠", label: "Home", href: "/" },
   { icon: "🧪", label: "Products", href: "/#products" },
