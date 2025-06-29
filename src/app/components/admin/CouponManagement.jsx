@@ -95,7 +95,7 @@ export default function CouponManagement({
                 const isMaxedOut = coupon.maxUses && coupon.usageCount >= coupon.maxUses;
                 
                 return (
-                  <div key={coupon.code} className="bg-white/5 rounded-lg p-4 border border-white/10">
+                  <GlassContainer key={coupon.code} variant="nested" padding="small">
                     <div className="flex items-center justify-between mb-2">
                       <div className="flex items-center gap-2">
                         <span className="text-lg font-bold text-white">{coupon.code}</span>
@@ -132,7 +132,7 @@ export default function CouponManagement({
                         </GlassBadge>
                       </div>
                     </div>
-                  </div>
+                  </GlassContainer>
                 );
               })}
             </div>
