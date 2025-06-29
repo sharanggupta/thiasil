@@ -1,5 +1,5 @@
-import { getBaseCatalogNumber } from "../../../lib/utils";
-import Button from "../MainButton/Button";
+import { getBaseCatalogNumber } from "@/lib/utils";
+import Button from "@/app/components/MainButton/Button";
 import styles from "./ProductCard.module.css";
 
 const ProductCard = ({
