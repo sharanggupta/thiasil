@@ -1,6 +1,6 @@
 "use client";
 import productsData from '../../../data/products.json';
-import { GlassButton } from "../Glassmorphism";
+import { GlassButton, GlassInput } from "../Glassmorphism";
 
 export default function ProductAddition({
   categoryForm,
@@ -36,11 +36,10 @@ export default function ProductAddition({
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
           <div>
             <label className="block text-sm font-medium text-white/80 mb-2">Category Name</label>
-            <input
+            <GlassInput
               type="text"
               value={categoryForm.name}
               onChange={(e) => setCategoryForm({...categoryForm, name: e.target.value})}
-              className="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-xl text-white placeholder-white/80 focus:outline-none focus:border-[#3a8fff] transition-colors"
               placeholder="e.g., Test Tubes"
               maxLength={50}
             />
@@ -48,11 +47,10 @@ export default function ProductAddition({
 
           <div>
             <label className="block text-sm font-medium text-white/80 mb-2">Category Slug</label>
-            <input
+            <GlassInput
               type="text"
               value={categoryForm.slug}
               onChange={(e) => setCategoryForm({...categoryForm, slug: e.target.value.toLowerCase().replace(/\s+/g, '-')})}
-              className="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-xl text-white placeholder-white/80 focus:outline-none focus:border-[#3a8fff] transition-colors"
               placeholder="e.g., test-tubes"
               maxLength={30}
             />
@@ -77,21 +75,19 @@ export default function ProductAddition({
           <label className="block text-sm font-medium text-white/80 mb-2">Dimension Fields</label>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
             <div>
-              <input
+              <GlassInput
                 type="text"
                 value={newDimensionField.name}
                 onChange={(e) => setNewDimensionField({...newDimensionField, name: e.target.value})}
-                className="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-xl text-white placeholder-white/80 focus:outline-none focus:border-[#3a8fff] transition-colors"
                 placeholder="Field name (e.g., Length)"
                 maxLength={20}
               />
             </div>
             <div>
-              <input
+              <GlassInput
                 type="text"
                 value={newDimensionField.unit}
                 onChange={(e) => setNewDimensionField({...newDimensionField, unit: e.target.value})}
-                className="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-xl text-white placeholder-white/80 focus:outline-none focus:border-[#3a8fff] transition-colors"
                 placeholder="Unit (e.g., mm)"
                 maxLength={10}
               />
@@ -157,11 +153,10 @@ export default function ProductAddition({
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
           <div>
             <label className="block text-sm font-medium text-white/80 mb-2">Product Name</label>
-            <input
+            <GlassInput
               type="text"
               value={productForm.name}
               onChange={(e) => setProductForm({...productForm, name: e.target.value})}
-              className="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-xl text-white placeholder-white/80 focus:outline-none focus:border-[#3a8fff] transition-colors"
               placeholder="e.g., 15ml Test Tube"
               maxLength={100}
             />
@@ -187,11 +182,10 @@ export default function ProductAddition({
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
           <div>
             <label className="block text-sm font-medium text-white/80 mb-2">Price (₹)</label>
-            <input
+            <GlassInput
               type="number"
               value={productForm.price}
               onChange={(e) => setProductForm({...productForm, price: e.target.value})}
-              className="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-xl text-white placeholder-white/80 focus:outline-none focus:border-[#3a8fff] transition-colors"
               placeholder="0.00"
               min="0"
               step="0.01"
@@ -214,11 +208,10 @@ export default function ProductAddition({
 
           <div>
             <label className="block text-sm font-medium text-white/80 mb-2">Quantity (Optional)</label>
-            <input
+            <GlassInput
               type="number"
               value={productForm.quantity}
               onChange={(e) => setProductForm({...productForm, quantity: e.target.value})}
-              className="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-xl text-white placeholder-white/80 focus:outline-none focus:border-[#3a8fff] transition-colors"
               placeholder="Leave empty for made-to-order"
               min="0"
             />
@@ -256,11 +249,10 @@ export default function ProductAddition({
         <div className="mb-4">
           <label className="block text-sm font-medium text-white/80 mb-2">Features (Optional)</label>
           <div className="flex gap-2 mb-2">
-            <input
+            <GlassInput
               type="text"
               value={newFeature}
               onChange={e => setNewFeature(e.target.value)}
-              className="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-xl text-white placeholder-white/80 focus:outline-none focus:border-[#3a8fff] transition-colors"
               placeholder="Enter a feature and click Add"
               maxLength={100}
             />

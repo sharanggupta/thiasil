@@ -1,5 +1,5 @@
 "use client";
-import { GlassButton } from "../Glassmorphism";
+import { GlassButton, GlassInput } from "../Glassmorphism";
 
 export default function CouponManagement({
   coupons,
@@ -24,11 +24,10 @@ export default function CouponManagement({
           <div className="space-y-4">
             <div>
               <label className="block text-sm font-medium text-white/80 mb-2">Coupon Code</label>
-              <input
+              <GlassInput
                 type="text"
                 value={couponForm.code}
                 onChange={(e) => setCouponForm({...couponForm, code: e.target.value.toUpperCase()})}
-                className="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-xl text-white placeholder-white/80 focus:outline-none focus:border-[#3a8fff] transition-colors"
                 placeholder="e.g., SAVE20"
                 maxLength={20}
               />
@@ -36,11 +35,10 @@ export default function CouponManagement({
 
             <div>
               <label className="block text-sm font-medium text-white/80 mb-2">Discount Percentage</label>
-              <input
+              <GlassInput
                 type="number"
                 value={couponForm.discountPercent}
                 onChange={(e) => setCouponForm({...couponForm, discountPercent: e.target.value})}
-                className="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-xl text-white placeholder-white/80 focus:outline-none focus:border-[#3a8fff] transition-colors"
                 placeholder="20"
                 min="1"
                 max="100"
@@ -49,21 +47,19 @@ export default function CouponManagement({
 
             <div>
               <label className="block text-sm font-medium text-white/80 mb-2">Expiry Date</label>
-              <input
+              <GlassInput
                 type="date"
                 value={couponForm.expiryDate}
                 onChange={(e) => setCouponForm({...couponForm, expiryDate: e.target.value})}
-                className="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-xl text-white placeholder-white/80 focus:outline-none focus:border-[#3a8fff] transition-colors"
               />
             </div>
 
             <div>
               <label className="block text-sm font-medium text-white/80 mb-2">Max Uses (Optional)</label>
-              <input
+              <GlassInput
                 type="number"
                 value={couponForm.maxUses}
                 onChange={(e) => setCouponForm({...couponForm, maxUses: e.target.value})}
-                className="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-xl text-white placeholder-white/80 focus:outline-none focus:border-[#3a8fff] transition-colors"
                 placeholder="Leave empty for unlimited"
                 min="1"
               />
