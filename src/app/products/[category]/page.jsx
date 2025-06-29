@@ -3,17 +3,13 @@ import Image from "next/image";
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from "react";
+import { SIDEBAR_NAVIGATION } from "../../../lib/constants/navigation";
 import { GlassButton, GlassCard, GlassIcon, NeonBubblesBackground } from "../../components/Glassmorphism";
 import Modal from '../../components/Modals/Modal';
 import Navbar from "../../components/Navbar/Navbar";
 import Heading from "../../components/common/Heading";
 
-const sidebarNav = [
-  { icon: "🏠", label: "Home", href: "/" },
-  { icon: "🧪", label: "Products", href: "/products" },
-  { icon: "🏢", label: "About", href: "/company" },
-  { icon: "✉️", label: "Contact", href: "/contact" },
-];
+const sidebarNav = SIDEBAR_NAVIGATION;
 
 // Stock status display helper
 const getStockStatusDisplay = (status) => {

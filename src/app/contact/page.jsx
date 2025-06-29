@@ -6,6 +6,7 @@ import { GlassButton, GlassCard, GlassIcon, NeonBubblesBackground } from "../com
 import Navbar from "../components/Navbar/Navbar";
 import Heading from "../components/common/Heading";
 
+// Contact page uses specific navigation with anchor link to products section
 const sidebarNav = [
   { icon: "🏠", label: "Home", href: "/" },
   { icon: "🧪", label: "Products", href: "/#products" },

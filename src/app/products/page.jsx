@@ -1,17 +1,13 @@
 "use client";
 import { useMemo, useState } from "react";
 import productsData from "../../data/products.json";
+import { SIDEBAR_NAVIGATION } from "../../lib/constants/navigation";
 import Footer from "../components/Footer/Footer";
 import Button from "../components/MainButton/Button";
 import Navbar from "../components/Navbar/Navbar";
 import styles from "../products/[category]/[product]/ProductVariantCard.module.css";
 
-const sidebarNav = [
-  { icon: "🏠", label: "Home", href: "/" },
-  { icon: "🧪", label: "Products", href: "/products" },
-  { icon: "🏢", label: "About", href: "/company" },
-  { icon: "✉️", label: "Contact", href: "/contact" },
-];
+const sidebarNav = SIDEBAR_NAVIGATION;
 
 // Stock status display helper
 const getStockStatusDisplay = (status) => {

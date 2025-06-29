@@ -2,6 +2,7 @@
 import { useEffect, useState } from "react";
 import productsData from '../../data/products.json';
 import { STOCK_STATUSES } from '../../lib/constants';
+import { SIDEBAR_NAVIGATION } from '../../lib/constants/navigation';
 import { useAdminBackups } from '../../lib/hooks/useAdminBackups';
 import { useAdminCoupons } from '../../lib/hooks/useAdminCoupons';
 import { useAdminProducts } from '../../lib/hooks/useAdminProducts';
@@ -15,12 +16,7 @@ import {
 import Navbar from "../components/Navbar/Navbar";
 import Heading from "../components/common/Heading";
 
-const sidebarNav = [
-  { icon: "🏠", label: "Home", href: "/" },
-  { icon: "🧪", label: "Products", href: "/products" },
-  { icon: "🏢", label: "About", href: "/company" },
-  { icon: "✉️", label: "Contact", href: "/contact" },
-];
+const sidebarNav = SIDEBAR_NAVIGATION;
 
 // Session timeout (30 minutes)
 const SESSION_TIMEOUT = 30 * 60 * 1000;
