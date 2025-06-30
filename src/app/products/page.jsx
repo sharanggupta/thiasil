@@ -158,7 +158,8 @@ export default function Products() {
               <a
                 href="/pricelist.pdf"
                 download
-                className="flex-shrink-0 min-w-[90px] flex items-center gap-2 px-3 py-1 sm:px-5 sm:py-2 rounded-xl bg-gradient-to-r from-cyan-400 to-blue-700 text-white font-semibold text-xs sm:text-sm shadow hover:from-cyan-500 hover:to-blue-800 transition border border-blue-200 focus:outline-none focus:ring-2 focus:ring-blue-400 justify-center"
+                className="flex-shrink-0 min-w-[90px] flex items-center gap-2 px-3 py-1 sm:px-5 sm:py-2 rounded-xl text-white font-semibold text-xs sm:text-sm shadow transition border border-blue-200 focus:outline-none focus:ring-2 focus:ring-blue-400 justify-center"
+                style={{ background: 'var(--dark-primary-gradient)' }}
                 aria-label="Download Price List PDF"
                 title="Download Price List (PDF)"
               >
@@ -182,7 +183,8 @@ export default function Products() {
                   <button
                     onClick={applyCoupon}
                     disabled={isApplyingCoupon}
-                    className="px-4 py-2 bg-gradient-to-r from-cyan-400 to-blue-700 text-white font-semibold rounded-lg shadow hover:from-cyan-500 hover:to-blue-800 transition disabled:opacity-50 disabled:cursor-not-allowed"
+                    className="px-4 py-2 text-white font-semibold rounded-lg shadow transition disabled:opacity-50 disabled:cursor-not-allowed"
+                    style={{ background: 'var(--dark-primary-gradient)' }}
                   >
                     {isApplyingCoupon ? "Applying..." : "Apply"}
                   </button>

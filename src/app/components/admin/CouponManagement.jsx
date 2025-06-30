@@ -1,5 +1,5 @@
 "use client";
-import { GlassButton, GlassInput, GlassContainer, GlassBadge } from "../Glassmorphism";
+import { GlassButton, GlassInput, GlassContainer, GlassBadge } from "@/app/components/Glassmorphism";
 
 export default function CouponManagement({
   coupons,

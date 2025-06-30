@@ -232,4 +232,48 @@ export const searchProducts = (products, searchTerm) => {
     product.category.toLowerCase().includes(term) ||
     (product.catalogNo && product.catalogNo.toLowerCase().includes(term))
   );
+};
+
+// Price range calculation utilities
+export const calculatePriceRange = (variants) => {
+  if (!variants || variants.length === 0) {
+    return '₹0.00 - ₹0.00';
+  }
+
+  // Extract all valid prices from variants
+  const prices = variants
+    .map(variant => extractPriceFromString(variant.price))
+    .filter(price => price > 0);
+
+  if (prices.length === 0) {
+    return '₹0.00 - ₹0.00';
+  }
+
+  // Find min and max prices
+  const minPrice = Math.min(...prices);
+  const maxPrice = Math.max(...prices);
+
+  // Format as price range
+  if (minPrice === maxPrice) {
+    return formatPrice(minPrice);
+  } else {
+    return `${formatPrice(minPrice)} - ${formatPrice(maxPrice)}`;
+  }
+};
+
+export const updateCategoryPriceRange = (productsData, categorySlug) => {
+  const categoryVariants = productsData.productVariants?.[categorySlug]?.variants;
+  if (!categoryVariants) return;
+
+  // Calculate new price range
+  const newPriceRange = calculatePriceRange(categoryVariants);
+
+  // Find and update the main product entry
+  const mainProductIndex = productsData.products.findIndex(
+    product => product.categorySlug === categorySlug
+  );
+
+  if (mainProductIndex !== -1) {
+    productsData.products[mainProductIndex].priceRange = newPriceRange;
+  }
 }; 

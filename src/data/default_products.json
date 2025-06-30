@@ -10,7 +10,7 @@
       "price": "₹300",
       "priceRange": "₹300.00 - ₹1800.00",
       "description": "Standard crucible for general laboratory use",
-      "image": "/images/products/1100.png",
+      "image": "/images/products/1100.webp",
       "features": [
         "High purity fused silica",
         "Oxy-gas fired",
@@ -31,7 +31,7 @@
       "price": "₹300",
       "priceRange": "₹300.00 - ₹1800.00",
       "description": "Matching lids for crucibles with precise fit",
-      "image": "/images/products/1120.png",
+      "image": "/images/products/1120.webp",
       "features": [
         "Perfect fit",
         "High temperature resistant",
@@ -52,7 +52,7 @@
       "price": "₹350",
       "priceRange": "₹350.00 - ₹700.00",
       "description": "Tall form crucibles for specific applications",
-      "image": "/images/products/1110.png",
+      "image": "/images/products/1110.webp",
       "features": [
         "Deep design",
         "Better heat distribution",
@@ -73,7 +73,7 @@
       "price": "₹800",
       "priceRange": "₹800.00 - ₹1400.00",
       "description": "Perforated bottom crucibles for filtration",
-      "image": "/images/products/1130.png",
+      "image": "/images/products/1130.webp",
       "features": [
         "Perforated base",
         "Filtration ready",
@@ -94,7 +94,7 @@
       "price": "₹350",
       "priceRange": "₹350.00 - ₹1800.00",
       "description": "Basins with spout for laboratory applications",
-      "image": "/images/products/1140.png",
+      "image": "/images/products/1140.webp",
       "features": [
         "Spout design",
         "Easy pouring",
@@ -124,7 +124,7 @@
       "catNo": "1150 Series",
       "stockStatus": "in_stock",
       "quantity": null,
-      "image": "/images/products/1150.png"
+      "image": "/images/products/1150.webp"
     },
     {
       "id": 7,
@@ -145,7 +145,7 @@
       "catNo": "1160 Series",
       "stockStatus": "in_stock",
       "quantity": null,
-      "image": "/images/products/1160.png"
+      "image": "/images/products/1160.webp"
     },
     {
       "id": 8,
@@ -166,7 +166,7 @@
       "catNo": "1170 Series",
       "stockStatus": "in_stock",
       "quantity": null,
-      "image": "/images/products/1170.png"
+      "image": "/images/products/1170.webp"
     },
     {
       "id": 9,
@@ -187,7 +187,7 @@
       "catNo": "1180 Series",
       "stockStatus": "in_stock",
       "quantity": null,
-      "image": "/images/products/1180.png"
+      "image": "/images/products/1180.webp"
     },
     {
       "id": 10,
@@ -208,7 +208,7 @@
       "catNo": "1190 Series",
       "stockStatus": "in_stock",
       "quantity": null,
-      "image": "/images/products/1190.png"
+      "image": "/images/products/1190.webp"
     },
     {
       "id": 11,
@@ -229,7 +229,7 @@
       "catNo": "1200 Series",
       "stockStatus": "in_stock",
       "quantity": null,
-      "image": "/images/products/1200.png"
+      "image": "/images/products/1200.webp"
     }
   ],
   "productVariants": {
@@ -237,7 +237,7 @@
       "title": "Crucibles",
       "description": "High-quality fused silica crucibles for laboratory applications",
       "icon": "🧪",
-      "image": "/images/products/1100.png",
+      "image": "/images/products/1100.webp",
       "variants": [
         {
           "id": 1,
@@ -395,7 +395,7 @@
       "title": "Lids",
       "description": "Matching lids for crucibles with precise fit and high temperature resistance",
       "icon": "🔒",
-      "image": "/images/products/1120.png",
+      "image": "/images/products/1120.webp",
       "variants": [
         {
           "id": 1,
@@ -508,7 +508,7 @@
       "title": "Specialty Products",
       "description": "Specialized laboratory equipment for specific applications",
       "icon": "⚗️",
-      "image": "/images/products/1130.png",
+      "image": "/images/products/1130.webp",
       "variants": [
         {
           "id": 1,
@@ -670,7 +670,7 @@
       "title": "Basins with Spout",
       "description": "Fused silica basins with spout for laboratory applications",
       "icon": "🥣",
-      "image": "/images/products/1140.png",
+      "image": "/images/products/1140.webp",
       "variants": [
         {
           "id": 1,
@@ -783,7 +783,7 @@
       "title": "Capsules",
       "description": "Circular capsules for sample preparation and analysis",
       "icon": "💊",
-      "image": "/images/products/1170.png",
+      "image": "/images/products/1170.webp",
       "variants": [
         {
           "id": 1,
@@ -866,7 +866,7 @@
       "title": "Accessories",
       "description": "Support equipment and accessories for laboratory operations",
       "icon": "🔧",
-      "image": "/images/products/1160.png",
+      "image": "/images/products/1160.webp",
       "variants": [
         {
           "id": 1,

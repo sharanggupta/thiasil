@@ -1,11 +1,11 @@
 "use client";
 import { useSearchParams } from "next/navigation";
 import { Suspense } from "react";
-import ContactFormGlass from "../components/ContactForm/ContactFormGlass";
-import { GlassButton, GlassCard, GlassIcon, NeonBubblesBackground } from "../components/Glassmorphism";
-import Navbar from "../components/Navbar/Navbar";
-import Breadcrumb from "../components/common/Breadcrumb";
-import Heading from "../components/common/Heading";
+import ContactFormGlass from "@/app/components/ContactForm/ContactFormGlass";
+import { GlassButton, GlassCard, GlassIcon, NeonBubblesBackground } from "@/app/components/Glassmorphism";
+import Navbar from "@/app/components/Navbar/Navbar";
+import Breadcrumb from "@/app/components/common/Breadcrumb";
+import Heading from "@/app/components/common/Heading";
 
 // Contact page uses specific navigation with anchor link to products section
 const sidebarNav = [
@@ -29,10 +29,10 @@ function ContactFormWithParams() {
 
 export default function Contact() {
   return (
-    <div className="min-h-screen w-full bg-gradient-to-br from-[#3a8fff] via-[#009ffd] to-[#2a2a72] flex flex-col items-center pt-32 relative overflow-x-hidden">
+    <div className="min-h-screen w-full flex flex-col items-center pt-32 relative overflow-x-hidden" style={{ background: 'var(--dark-primary-gradient)' }}>
       <Navbar theme="products" />
       <NeonBubblesBackground />
-      <div className="min-h-screen w-full bg-gradient-to-br from-[#3a8fff] via-[#009ffd] to-[#2a2a72] flex flex-col items-center pt-32 relative overflow-x-hidden">
+      <div className="min-h-screen w-full flex flex-col items-center pt-32 relative overflow-x-hidden" style={{ background: 'var(--dark-primary-gradient)' }}>
         <main className="relative z-10 w-full max-w-3xl mx-auto px-4 pb-24 flex flex-col gap-12">
           {/* Breadcrumb Navigation */}
           <Breadcrumb 
@@ -43,7 +43,7 @@ export default function Contact() {
             className="text-sm text-white/80"
           />
           {/* Glassmorphic Card Panel */}
-          <GlassCard variant="primary" padding="large" className="w-full flex flex-col md:flex-row gap-10 items-center text-white shadow-2xl bg-gradient-to-br from-[#3a8fff]/80 to-[#2a2a72]/90">
+          <GlassCard variant="primary" padding="large" className="w-full flex flex-col md:flex-row gap-10 items-center text-white shadow-2xl" style={{ background: 'var(--primary-gradient)' }}>
             {/* Left: Contact Form */}
             <div className="flex-1 min-w-[260px]">
               <Heading as="h1" gradient="var(--text-gradient-white)" className="mb-6 text-left" size="primary">Contact Us</Heading>

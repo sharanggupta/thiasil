@@ -1,7 +1,8 @@
 import fs from 'fs';
 import { NextResponse } from 'next/server';
 import path from 'path';
-import { createBackup, deleteBackup, listBackups, restoreBackup } from '../../../../lib/backup-utils';
+import { createBackup, deleteBackup, listBackups, restoreBackup, restoreBackupWithCleanup } from '../../../../lib/backup-utils';
+import { performImageCleanup } from '../../../../lib/image-cleanup-utils';
 
 // Admin credentials
 const ADMIN_CREDENTIALS = {
@@ -108,20 +109,24 @@ export async function POST(request) {
           return NextResponse.json({ error: 'Backup ID required' }, { status: 400 });
         }
         
-        const restoreResult = await restoreBackup(backupId);
+        const restoreResult = await restoreBackupWithCleanup(backupId, true); // true = perform cleanup
         if (restoreResult.success) {
-          console.log('Admin restore_backup_successful:', {
+          console.log('Admin restore_backup_with_cleanup_successful:', {
             timestamp: new Date().toISOString(),
-            action: 'restore_backup_successful',
+            action: 'restore_backup_with_cleanup_successful',
             user: username,
             ip: ip,
             backupId: backupId,
-            method: restoreResult.method
+            cleanup: restoreResult.cleanup ? {
+              analyzed: restoreResult.cleanup.analysis?.totalImages,
+              removed: restoreResult.cleanup.cleanup?.removed?.length,
+              freed: restoreResult.cleanup.cleanup?.totalSize
+            } : null
           });
           return NextResponse.json({
             success: true,
             data: restoreResult.data,
-            method: restoreResult.method
+            cleanup: restoreResult.cleanup
           });
         } else {
           return NextResponse.json({ error: restoreResult.error }, { status: 500 });
@@ -296,6 +301,73 @@ export async function POST(request) {
           message: `Cleanup completed successfully. Deleted ${deletedCount} old backups, keeping the 10 most recent.`,
           deletedCount
         });
+      }
+      case 'cleanup_images': {
+        // Manual image cleanup endpoint
+        const productsPath = path.join(process.cwd(), 'src', 'data', 'products.json');
+        
+        if (!fs.existsSync(productsPath)) {
+          return NextResponse.json({ error: 'Products data file not found' }, { status: 500 });
+        }
+        
+        let productsData;
+        try {
+          productsData = JSON.parse(fs.readFileSync(productsPath, 'utf8'));
+        } catch (error) {
+          return NextResponse.json({ error: 'Error reading products data' }, { status: 500 });
+        }
+        
+        try {
+          const cleanupResult = performImageCleanup(productsData, false); // false = not dry run
+          
+          console.log('Admin cleanup_images_successful:', {
+            timestamp: new Date().toISOString(),
+            action: 'cleanup_images_successful',
+            user: username,
+            ip: ip,
+            analyzed: cleanupResult.analysis.totalImages,
+            removed: cleanupResult.cleanup.removed.length,
+            freed: cleanupResult.cleanup.totalSize
+          });
+          
+          return NextResponse.json({
+            success: true,
+            message: `Image cleanup completed. Analyzed ${cleanupResult.analysis.totalImages} images, removed ${cleanupResult.cleanup.removed.length} unused files, freed ${Math.round(cleanupResult.cleanup.totalSize/1024*100)/100}KB.`,
+            analysis: cleanupResult.analysis,
+            cleanup: cleanupResult.cleanup
+          });
+        } catch (error) {
+          console.error('Image cleanup error:', error);
+          return NextResponse.json({ error: `Image cleanup failed: ${error.message}` }, { status: 500 });
+        }
+      }
+      case 'analyze_images': {
+        // Dry run image analysis endpoint
+        const productsPath = path.join(process.cwd(), 'src', 'data', 'products.json');
+        
+        if (!fs.existsSync(productsPath)) {
+          return NextResponse.json({ error: 'Products data file not found' }, { status: 500 });
+        }
+        
+        let productsData;
+        try {
+          productsData = JSON.parse(fs.readFileSync(productsPath, 'utf8'));
+        } catch (error) {
+          return NextResponse.json({ error: 'Error reading products data' }, { status: 500 });
+        }
+        
+        try {
+          const analysisResult = performImageCleanup(productsData, true); // true = dry run
+          
+          return NextResponse.json({
+            success: true,
+            message: `Image analysis completed. Found ${analysisResult.analysis.unusedCount} unused images (${Math.round(analysisResult.analysis.savings.kb*100)/100}KB potential savings).`,
+            analysis: analysisResult.analysis
+          });
+        } catch (error) {
+          console.error('Image analysis error:', error);
+          return NextResponse.json({ error: `Image analysis failed: ${error.message}` }, { status: 500 });
+        }
       }
       case 'reset': {
         // Reset products.json to default_products.json

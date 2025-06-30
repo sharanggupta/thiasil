@@ -1,6 +1,6 @@
 "use client";
 import productsData from '../../../data/products.json';
-import { GlassButton, GlassInput, GlassContainer } from "../Glassmorphism";
+import { GlassButton, GlassInput, GlassContainer } from "@/app/components/Glassmorphism";
 
 export default function ProductAddition({
   categoryForm,
@@ -97,7 +97,8 @@ export default function ProductAddition({
                 onClick={addDimensionField}
                 variant="primary"
                 size="large"
-                className="w-full bg-gradient-to-r from-[#009ffd] to-[#3a8fff] text-white font-bold shadow-lg shadow-blue-400/30 border border-white/30 rounded-xl hover:from-[#3a8fff] hover:to-[#009ffd] transition-all"
+                className="w-full text-white font-bold shadow-lg shadow-blue-400/30 border border-white/30 rounded-xl transition-all"
+                style={{ background: 'var(--dark-primary-gradient)' }}
               >
                 <span>Add Field</span>
               </GlassButton>
@@ -179,7 +180,7 @@ export default function ProductAddition({
           </div>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
           <div>
             <label className="block text-sm font-medium text-white/80 mb-2">Price (₹)</label>
             <GlassInput
@@ -204,6 +205,19 @@ export default function ProductAddition({
               <option value="made_to_order">Made to Order</option>
               <option value="discontinued">Discontinued</option>
             </select>
+          </div>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+          <div>
+            <label className="block text-sm font-medium text-white/80 mb-2">Packaging</label>
+            <GlassInput
+              type="text"
+              value={productForm.packaging || '1 piece'}
+              onChange={(e) => setProductForm({...productForm, packaging: e.target.value})}
+              placeholder="e.g., 1 piece, 10 pieces, 1 box"
+            />
+            <p className="text-xs text-white/60 mt-1">Default: 1 piece</p>
           </div>
 
           <div>
@@ -300,31 +314,31 @@ export default function ProductAddition({
         <div className="mb-4">
           <label className="block text-sm font-medium text-white/80 mb-2">Product Image</label>
           <div className="flex gap-2 items-center">
-            <input
-              id="product-image-upload"
-              type="file"
-              accept="image/*"
-              onChange={handleImageSelect}
-              className="hidden"
-              disabled={isUploading}
-            />
-            <GlassButton
-              as="label"
+            {/* Alternative approach: Use label wrapper for better accessibility */}
+            <label
               htmlFor="product-image-upload"
-              variant="secondary"
-              size="medium"
-              className="cursor-pointer flex items-center gap-2"
-              tabIndex={0}
-              aria-label="Upload product image"
+              className="glass-button glass-button--secondary glass-button--medium cursor-pointer flex items-center gap-2 text-white font-medium transition-all"
+              style={{
+                opacity: isUploading ? '0.5' : '1',
+                pointerEvents: isUploading ? 'none' : 'auto'
+              }}
             >
-              <span>Upload</span>
+              <input
+                id="product-image-upload"
+                type="file"
+                accept="image/*"
+                onChange={handleImageSelect}
+                className="hidden"
+                disabled={isUploading}
+              />
+              <span>Choose File</span>
               <span aria-hidden="true">
                 <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
                   <path d="M10 16V4" stroke="#3a8fff" strokeWidth="2.2" strokeLinecap="round"/>
                   <path d="M6 8l4-4 4 4" stroke="#3a8fff" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round"/>
                 </svg>
               </span>
-            </GlassButton>
+            </label>
             <span className="text-white/80 text-sm truncate max-w-xs">
               {selectedImage ? selectedImage.name : "No file chosen"}
             </span>
@@ -367,6 +381,22 @@ export default function ProductAddition({
             {productForm.image && (
               <p className="text-xs text-white/60 mt-1">Image uploaded: {productForm.image}</p>
             )}
+          </div>
+        )}
+
+        {/* No Image Note */}
+        {!imagePreview && !productForm.image && (
+          <div className="mb-4 p-3 bg-blue-500/10 border border-blue-400/20 rounded-lg">
+            <div className="flex items-center gap-2 text-blue-300">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <circle cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="2"/>
+                <path d="m9 12 2 2 4-4" stroke="currentColor" strokeWidth="2"/>
+              </svg>
+              <span className="text-sm font-medium">No image selected</span>
+            </div>
+            <p className="text-xs text-blue-300/80 mt-1 ml-6">
+              Products without images will display a subtle "No Image Available" placeholder in the product cards.
+            </p>
           </div>
         )}
 

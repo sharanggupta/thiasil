@@ -1,5 +1,5 @@
 "use client";
-import { GlassButton, GlassCard, GlassContainer } from "../Glassmorphism";
+import { GlassButton, GlassCard, GlassContainer } from "@/app/components/Glassmorphism";
 
 export default function BackupManagement({
   backups,
@@ -9,7 +9,10 @@ export default function BackupManagement({
   restoreBackup,
   resetToDefault,
   cleanupBackups,
-  deleteBackup
+  deleteBackup,
+  analyzeImages,
+  cleanupImages,
+  imageAnalysis
 }) {
   return (
     <div>
@@ -18,7 +21,7 @@ export default function BackupManagement({
         Backup Management
       </h2>
       
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
         <GlassContainer>
           <h3 className="text-xl font-bold text-white mb-4">Backup Actions</h3>
           <div className="space-y-4">
@@ -76,6 +79,58 @@ export default function BackupManagement({
         </GlassContainer>
 
         <GlassContainer>
+          <h3 className="text-xl font-bold text-white mb-4">Image Management</h3>
+          <div className="space-y-4">
+            <GlassButton
+              onClick={analyzeImages}
+              variant="info"
+              size="large"
+              className="w-full"
+              disabled={isBackupLoading}
+            >
+              {isBackupLoading ? (
+                <span>Analyzing...</span>
+              ) : (
+                <>
+                  <span>Analyze Images</span>
+                  <span>🔍</span>
+                </>
+              )}
+            </GlassButton>
+            
+            <GlassButton
+              onClick={cleanupImages}
+              variant="warning"
+              size="large"
+              className="w-full"
+              disabled={isBackupLoading || !imageAnalysis?.unusedCount}
+            >
+              {isBackupLoading ? (
+                <span>Cleaning...</span>
+              ) : (
+                <>
+                  <span>Cleanup Unused Images</span>
+                  <span>🖼️</span>
+                </>
+              )}
+            </GlassButton>
+
+            {imageAnalysis && (
+              <div className="mt-4 p-3 bg-white/5 rounded-lg border border-white/10">
+                <div className="text-sm text-white/80 space-y-1">
+                  <p><strong>Total Images:</strong> {imageAnalysis.totalImages}</p>
+                  <p><strong>Referenced:</strong> {imageAnalysis.referencedCount}</p>
+                  <p><strong>Unused:</strong> {imageAnalysis.unusedCount}</p>
+                  {imageAnalysis.unusedCount > 0 && (
+                    <p><strong>Potential Savings:</strong> {imageAnalysis.savings.kb}KB</p>
+                  )}
+                </div>
+              </div>
+            )}
+          </div>
+        </GlassContainer>
+
+        <GlassContainer>
           <h3 className="text-xl font-bold text-white mb-4">Available Backups</h3>
           {backups.length > 0 ? (
             <div className="space-y-3 max-h-96 overflow-y-auto">
@@ -126,10 +181,12 @@ export default function BackupManagement({
         <h4 className="text-lg font-semibold text-white mb-3">Backup Information</h4>
         <div className="space-y-2 text-sm text-white/80">
           <p>• <strong>Auto-backup:</strong> Backups are automatically created before any changes</p>
-          <p>• <strong>Restore:</strong> Select a backup and click "Restore Backup" to revert changes</p>
+          <p>• <strong>Restore:</strong> Select a backup and click "Restore Backup" (includes automatic image cleanup)</p>
           <p>• <strong>Reset:</strong> Reset to the original default product data</p>
           <p>• <strong>Cleanup:</strong> Automatically removes old backups, keeping only the last 10</p>
           <p>• <strong>Manual Delete:</strong> Click the trash icon to delete specific backups</p>
+          <p>• <strong>Image Analysis:</strong> Scans for unused images and calculates potential savings</p>
+          <p>• <strong>Image Cleanup:</strong> Removes unused images to free up storage space</p>
         </div>
       </GlassContainer>
     </div>
