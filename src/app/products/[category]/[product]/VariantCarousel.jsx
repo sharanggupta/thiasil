@@ -1,6 +1,7 @@
 "use client";
 import 'swiper/css';
 import { Swiper, SwiperSlide } from 'swiper/react';
+import { getStockStatusDisplay } from '@/lib/utils';
 import styles from './ProductDetails.module.css';
 
 // SVG icons (copied from page.jsx)
@@ -43,7 +44,7 @@ export default function VariantCarousel({ variants }) {
             <div className={styles.variantLabel}><PriceIcon /> <span className={styles.variantPrice}>{variant.price}</span></div>
             <div className={styles.variantLabel}><CatNoIcon /> Cat No <span className={styles.variantValue}>{variant.catNo}</span></div>
             <div className={styles.variantLabel}><StockIcon inStock={variant.stockStatus === 'in_stock'} />
-              <span className={`${styles.variantStock} ${variant.stockStatus !== 'in_stock' ? styles.variantStock + ' out' : ''}`}>{variant.stockStatus.replace('_', ' ').toUpperCase()}</span>
+              <span className={`${styles.variantStock} ${variant.stockStatus !== 'in_stock' ? styles.variantStock + ' out' : ''}`}>{getStockStatusDisplay(variant.stockStatus || 'in_stock').label}</span>
             </div>
           </div>
         </SwiperSlide>
