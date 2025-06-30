@@ -1,14 +1,12 @@
 "use client";
 import { useMemo, useState } from "react";
 import productsData from "@/data/products.json";
-import { SIDEBAR_NAVIGATION } from "@/lib/constants/navigation";
 import { useCoupons } from "@/lib/hooks/useCoupons";
 import { getBaseCatalogNumber } from "@/lib/utils";
 import Footer from "@/app/components/Footer/Footer";
 import Navbar from "@/app/components/Navbar/Navbar";
 import ProductCard from "@/app/components/ui/ProductCard";
 
-const sidebarNav = SIDEBAR_NAVIGATION;
 
 // Helper function to apply discount to price range
 const applyDiscountToPriceRange = (priceRange, discountPercent) => {
