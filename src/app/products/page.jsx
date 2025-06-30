@@ -6,6 +6,7 @@ import { getBaseCatalogNumber } from "@/lib/utils";
 import Footer from "@/app/components/Footer/Footer";
 import Navbar from "@/app/components/Navbar/Navbar";
 import ProductCard from "@/app/components/ui/ProductCard";
+import Breadcrumb from "@/app/components/common/Breadcrumb";
 
 
 // Helper function to apply discount to price range
@@ -102,6 +103,15 @@ export default function Products() {
         </div>
       </div>
       <div className="max-w-6xl w-full mx-auto px-4">
+        {/* Breadcrumb Navigation */}
+        <Breadcrumb 
+          items={[
+            { href: "/", label: "Home" },
+            { label: "Products" }
+          ]}
+          className="text-sm text-gray-600 mb-6"
+        />
+
         {/* Modern Filter Bar */}
         <div className="w-full flex justify-center z-10 mb-10">
           <div className="flex flex-col sm:flex-row flex-wrap gap-2 sm:gap-4 items-center bg-white border border-blue-100 rounded-2xl shadow-lg px-2 sm:px-4 py-3 sm:py-4 mt-4 max-w-5xl w-full">
