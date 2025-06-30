@@ -1,6 +1,6 @@
 "use client";
 import { useEffect, useState } from "react";
-import { GlassButton, GlassIcon } from "../Glassmorphism";
+import { GlassButton, GlassIcon } from "@/app/components/Glassmorphism";
 
 const ContactFormGlass = ({ initialName = "", initialEmail = "", initialPhone = "" }) => {
   const [formData, setFormData] = useState({

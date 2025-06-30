@@ -5,8 +5,8 @@ import {
     GlassIcon,
     NeonBubblesBackground
 } from "../components/Glassmorphism";
-import Navbar from "../components/Navbar/Navbar";
-import Heading from "../components/common/Heading";
+import Navbar from "@/app/components/Navbar/Navbar";
+import Heading from "@/app/components/common/Heading";
 
 // Policy page uses specific navigation with anchor link to products section
 const sidebarNav = [

@@ -1,6 +1,7 @@
 .variant-card {
   width: 240px;
-  height: 340px;
+  min-height: 340px;
+  height: auto;
   perspective: 900px;
   margin: 0 auto;
   overflow: visible;
@@ -12,6 +13,7 @@
 .variant-card-inner {
   position: relative;
   width: 100%;
+  min-height: 340px;
   height: 100%;
   transition: transform 0.6s cubic-bezier(0.4,0.2,0.2,1);
   transform-style: preserve-3d;
@@ -25,7 +27,8 @@
 .variant-card-front, .variant-card-back {
   position: absolute;
   width: 100%;
-  height: 100%;
+  min-height: 340px;
+  height: auto;
   backface-visibility: hidden;
   border-top-left-radius: 16px;
   border-top-right-radius: 16px;
@@ -121,7 +124,8 @@
   overflow: visible;
   white-space: normal;
   word-break: break-word;
-  z-index: 20;
+  z-index: 30;
+  pointer-events: auto;
 }
 
 .variant-card-info {

@@ -293,7 +293,7 @@ function generateCatalogHTML(productsData, baseUrl) {
       
       ${products.map(product => {
         const baseCatalogNumber = getBaseCatalogNumber(product.catNo);
-        const imagePath = `${baseUrl}/images/products/${baseCatalogNumber}.png`;
+        const imagePath = `${baseUrl}/images/products/${baseCatalogNumber}.webp`;
         
         return `
           <div class="category-section">

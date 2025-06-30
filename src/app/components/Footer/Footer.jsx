@@ -3,8 +3,8 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
-import logo from "../../images/thiasil-13.webp"; // Replace with your logo image path
-import Modal from "../Modals/Modal";
+import logo from "@/app/images/thiasil-13.webp"; // Replace with your logo image path
+import Modal from "@/app/components/Modals/Modal";
 
 export default function Footer() {
   const [isModalOpen, setIsModalOpen] = useState(false);

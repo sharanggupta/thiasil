@@ -1,4 +1,5 @@
 import { createClient } from 'redis';
+import { performImageCleanup } from './image-cleanup-utils.js';
 
 let redisClient = null;
 
@@ -132,6 +133,46 @@ export async function restoreBackup(backupId) {
       const backup = JSON.parse(backupData);
       return { success: true, data: backup.data };
     }
+  } catch (error) {
+    return { success: false, error: error.message };
+  }
+}
+
+// Restore backup with automatic image cleanup
+export async function restoreBackupWithCleanup(backupId, performCleanup = true) {
+  try {
+    // First restore the backup
+    const restoreResult = await restoreBackup(backupId);
+    
+    if (!restoreResult.success) {
+      return restoreResult;
+    }
+    
+    let cleanupResult = null;
+    
+    // Perform image cleanup if requested
+    if (performCleanup) {
+      try {
+        console.log('Performing automatic image cleanup after backup restoration...');
+        cleanupResult = performImageCleanup(restoreResult.data, false); // false = not dry run
+        
+        console.log(`Image cleanup completed:
+          - Analyzed ${cleanupResult.analysis.totalImages} total images
+          - Found ${cleanupResult.analysis.unusedCount} unused images
+          - Removed ${cleanupResult.cleanup.removed.length} files
+          - Freed ${cleanupResult.cleanup.totalSize} bytes`);
+      } catch (cleanupError) {
+        console.error('Image cleanup failed:', cleanupError);
+        // Don't fail the restore if cleanup fails
+        cleanupResult = { error: cleanupError.message };
+      }
+    }
+    
+    return {
+      success: true,
+      data: restoreResult.data,
+      cleanup: cleanupResult
+    };
   } catch (error) {
     return { success: false, error: error.message };
   }

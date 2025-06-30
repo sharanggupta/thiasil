@@ -10,7 +10,7 @@
       "price": "₹300",
       "priceRange": "₹300.00 - ₹1800.00",
       "description": "Standard crucible for general laboratory use",
-      "image": "/images/products/1100.png",
+      "image": "/images/products/1100.webp",
       "features": [
         "High purity fused silica",
         "Oxy-gas fired",
@@ -31,7 +31,7 @@
       "price": "₹300",
       "priceRange": "₹300.00 - ₹1800.00",
       "description": "Matching lids for crucibles with precise fit",
-      "image": "/images/products/1120.png",
+      "image": "/images/products/1120.webp",
       "features": [
         "Perfect fit",
         "High temperature resistant",
@@ -52,7 +52,7 @@
       "price": "₹350",
       "priceRange": "₹350.00 - ₹700.00",
       "description": "Tall form crucibles for specific applications",
-      "image": "/images/products/1110.png",
+      "image": "/images/products/1110.webp",
       "features": [
         "Deep design",
         "Better heat distribution",
@@ -73,7 +73,7 @@
       "price": "₹800",
       "priceRange": "₹800.00 - ₹1400.00",
       "description": "Perforated bottom crucibles for filtration",
-      "image": "/images/products/1130.png",
+      "image": "/images/products/1130.webp",
       "features": [
         "Perforated base",
         "Filtration ready",
@@ -94,7 +94,7 @@
       "price": "₹350",
       "priceRange": "₹350.00 - ₹1800.00",
       "description": "Basins with spout for laboratory applications",
-      "image": "/images/products/1140.png",
+      "image": "/images/products/1140.webp",
       "features": [
         "Spout design",
         "Easy pouring",
@@ -103,7 +103,10 @@
       ],
       "catNo": "1140 Series",
       "stockStatus": "in_stock",
-      "quantity": null
+      "quantity": null,
+      "dimensions": {
+        "diameter": "48-110"
+      }
     },
     {
       "id": 6,
@@ -124,7 +127,7 @@
       "catNo": "1150 Series",
       "stockStatus": "in_stock",
       "quantity": null,
-      "image": "/images/products/1150.png"
+      "image": "/images/products/1150.webp"
     },
     {
       "id": 7,
@@ -145,7 +148,7 @@
       "catNo": "1160 Series",
       "stockStatus": "in_stock",
       "quantity": null,
-      "image": "/images/products/1160.png"
+      "image": "/images/products/1160.webp"
     },
     {
       "id": 8,
@@ -166,7 +169,11 @@
       "catNo": "1170 Series",
       "stockStatus": "in_stock",
       "quantity": null,
-      "image": "/images/products/1170.png"
+      "image": "/images/products/1170.webp",
+      "dimensions": {
+        "diameter": "28-54",
+        "height": "11-15"
+      }
     },
     {
       "id": 9,
@@ -187,7 +194,7 @@
       "catNo": "1180 Series",
       "stockStatus": "in_stock",
       "quantity": null,
-      "image": "/images/products/1180.png"
+      "image": "/images/products/1180.webp"
     },
     {
       "id": 10,
@@ -208,7 +215,7 @@
       "catNo": "1190 Series",
       "stockStatus": "in_stock",
       "quantity": null,
-      "image": "/images/products/1190.png"
+      "image": "/images/products/1190.webp"
     },
     {
       "id": 11,
@@ -229,7 +236,12 @@
       "catNo": "1200 Series",
       "stockStatus": "in_stock",
       "quantity": null,
-      "image": "/images/products/1200.png"
+      "image": "/images/products/1200.webp",
+      "dimensions": {
+        "length": "50-103",
+        "width": "12",
+        "height": "8-12"
+      }
     }
   ],
   "productVariants": {
@@ -237,7 +249,7 @@
       "title": "Crucibles",
       "description": "High-quality fused silica crucibles for laboratory applications",
       "icon": "🧪",
-      "image": "/images/products/1100.png",
+      "image": "/images/products/1100.webp",
       "variants": [
         {
           "id": 1,
@@ -395,7 +407,7 @@
       "title": "Lids",
       "description": "Matching lids for crucibles with precise fit and high temperature resistance",
       "icon": "🔒",
-      "image": "/images/products/1120.png",
+      "image": "/images/products/1120.webp",
       "variants": [
         {
           "id": 1,
@@ -508,7 +520,21 @@
       "title": "Specialty Products",
       "description": "Specialized laboratory equipment for specific applications",
       "icon": "⚗️",
-      "image": "/images/products/1130.png",
+      "image": "/images/products/1130.webp",
+      "dimensionFields": [
+        {
+          "name": "length",
+          "unit": "mm"
+        },
+        {
+          "name": "width",
+          "unit": "mm"
+        },
+        {
+          "name": "height",
+          "unit": "mm"
+        }
+      ],
       "variants": [
         {
           "id": 1,
@@ -614,7 +640,12 @@
           ],
           "catNo": "1200/1",
           "stockStatus": "in_stock",
-          "quantity": null
+          "quantity": null,
+          "dimensions": {
+            "length": "50",
+            "width": "12",
+            "height": "8"
+          }
         },
         {
           "id": 8,
@@ -630,7 +661,12 @@
           ],
           "catNo": "1200/2",
           "stockStatus": "in_stock",
-          "quantity": null
+          "quantity": null,
+          "dimensions": {
+            "length": "77",
+            "width": "12",
+            "height": "8"
+          }
         },
         {
           "id": 9,
@@ -646,7 +682,12 @@
           ],
           "catNo": "1200/3",
           "stockStatus": "in_stock",
-          "quantity": null
+          "quantity": null,
+          "dimensions": {
+            "length": "78",
+            "width": "12",
+            "height": "12"
+          }
         },
         {
           "id": 10,
@@ -662,7 +703,12 @@
           ],
           "catNo": "1200/4",
           "stockStatus": "in_stock",
-          "quantity": null
+          "quantity": null,
+          "dimensions": {
+            "length": "103",
+            "width": "12",
+            "height": "12"
+          }
         }
       ]
     },
@@ -670,7 +716,13 @@
       "title": "Basins with Spout",
       "description": "Fused silica basins with spout for laboratory applications",
       "icon": "🥣",
-      "image": "/images/products/1140.png",
+      "image": "/images/products/1140.webp",
+      "dimensionFields": [
+        {
+          "name": "diameter",
+          "unit": "mm"
+        }
+      ],
       "variants": [
         {
           "id": 1,
@@ -685,7 +737,10 @@
           ],
           "catNo": "1140/45",
           "stockStatus": "in_stock",
-          "quantity": null
+          "quantity": null,
+          "dimensions": {
+            "diameter": "48-52"
+          }
         },
         {
           "id": 2,
@@ -700,7 +755,10 @@
           ],
           "catNo": "1140/55",
           "stockStatus": "in_stock",
-          "quantity": null
+          "quantity": null,
+          "dimensions": {
+            "diameter": "55-60"
+          }
         },
         {
           "id": 3,
@@ -715,7 +773,10 @@
           ],
           "catNo": "1140/75",
           "stockStatus": "in_stock",
-          "quantity": null
+          "quantity": null,
+          "dimensions": {
+            "diameter": "70-75"
+          }
         },
         {
           "id": 4,
@@ -730,7 +791,10 @@
           ],
           "catNo": "1140/85",
           "stockStatus": "in_stock",
-          "quantity": null
+          "quantity": null,
+          "dimensions": {
+            "diameter": "80-85"
+          }
         },
         {
           "id": 5,
@@ -745,7 +809,10 @@
           ],
           "catNo": "1140/95",
           "stockStatus": "in_stock",
-          "quantity": null
+          "quantity": null,
+          "dimensions": {
+            "diameter": "90-95"
+          }
         },
         {
           "id": 6,
@@ -760,7 +827,10 @@
           ],
           "catNo": "1140/103",
           "stockStatus": "in_stock",
-          "quantity": null
+          "quantity": null,
+          "dimensions": {
+            "diameter": "98-103"
+          }
         },
         {
           "id": 7,
@@ -775,7 +845,10 @@
           ],
           "catNo": "1140/110",
           "stockStatus": "in_stock",
-          "quantity": null
+          "quantity": null,
+          "dimensions": {
+            "diameter": "107-110"
+          }
         }
       ]
     },
@@ -783,7 +856,17 @@
       "title": "Capsules",
       "description": "Circular capsules for sample preparation and analysis",
       "icon": "💊",
-      "image": "/images/products/1170.png",
+      "image": "/images/products/1170.webp",
+      "dimensionFields": [
+        {
+          "name": "diameter",
+          "unit": "mm"
+        },
+        {
+          "name": "height",
+          "unit": "mm"
+        }
+      ],
       "variants": [
         {
           "id": 1,
@@ -798,7 +881,11 @@
           ],
           "catNo": "1170/40",
           "stockStatus": "in_stock",
-          "quantity": null
+          "quantity": null,
+          "dimensions": {
+            "diameter": "40",
+            "height": "15"
+          }
         },
         {
           "id": 2,
@@ -813,7 +900,11 @@
           ],
           "catNo": "1170/48",
           "stockStatus": "in_stock",
-          "quantity": null
+          "quantity": null,
+          "dimensions": {
+            "diameter": "48",
+            "height": "15"
+          }
         },
         {
           "id": 3,
@@ -828,7 +919,11 @@
           ],
           "catNo": "1170/54",
           "stockStatus": "in_stock",
-          "quantity": null
+          "quantity": null,
+          "dimensions": {
+            "diameter": "54",
+            "height": "15"
+          }
         },
         {
           "id": 4,
@@ -843,7 +938,11 @@
           ],
           "catNo": "1180/38",
           "stockStatus": "in_stock",
-          "quantity": null
+          "quantity": null,
+          "dimensions": {
+            "diameter": "28",
+            "height": "11"
+          }
         },
         {
           "id": 5,
@@ -858,7 +957,11 @@
           ],
           "catNo": "1180/54",
           "stockStatus": "in_stock",
-          "quantity": null
+          "quantity": null,
+          "dimensions": {
+            "diameter": "54",
+            "height": "12"
+          }
         }
       ]
     },
@@ -866,7 +969,7 @@
       "title": "Accessories",
       "description": "Support equipment and accessories for laboratory operations",
       "icon": "🔧",
-      "image": "/images/products/1160.png",
+      "image": "/images/products/1160.webp",
       "variants": [
         {
           "id": 1,

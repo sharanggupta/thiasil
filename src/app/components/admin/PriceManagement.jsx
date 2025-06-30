@@ -1,5 +1,5 @@
 "use client";
-import { GlassButton, GlassInput, GlassContainer } from "../Glassmorphism";
+import { GlassButton, GlassInput, GlassContainer } from "@/app/components/Glassmorphism";
 
 export default function PriceManagement({
   categories,

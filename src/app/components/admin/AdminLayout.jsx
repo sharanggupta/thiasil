@@ -1,7 +1,7 @@
 "use client";
-import { GlassCard, GlassIcon, NeonBubblesBackground } from "../Glassmorphism";
-import Navbar from "../Navbar/Navbar";
-import Heading from "../common/Heading";
+import { GlassCard, GlassIcon, NeonBubblesBackground } from "@/app/components/Glassmorphism";
+import Navbar from "@/app/components/Navbar/Navbar";
+import Heading from "@/app/components/common/Heading";
 
 export default function AdminLayout({ children, isAuthenticated, username, handleLogout }) {
   return (

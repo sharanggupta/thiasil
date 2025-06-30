@@ -1,9 +1,11 @@
 "use client";
+import { use } from "react";
 import Footer from "@/app/components/Footer/Footer";
 import "@/app/components/HeroSection/Hero.css";
 import Button from "@/app/components/MainButton/Button";
 import Navbar from "@/app/components/Navbar/Navbar";
 import { getBaseCatalogNumber } from "@/lib/utils";
+import { getProductImageInfo } from "@/lib/image-utils";
 import productsData from "@/data/products.json";
 import Image from "next/image";
 import styles from "./ProductVariantCard.module.css";
@@ -51,24 +53,53 @@ function ProductVariantCard({ variant, productImage }) {
     window.location.href = `/contact?message=${prefillMessage}`;
   };
 
-  // Determine image URL
-  const imageUrl = variant.image || productImage || "/images/catalog/catalog-000.jpg";
+  // Get image info using dynamic utility with productImage as fallback
+  const { url: imageUrl, hasImage } = getProductImageInfo(variant, productImage);
 
   return (
     <div className={`${styles["variant-card"]} ${isOutOfStock ? styles["out-of-stock"] : ""}`}>
       <div className={styles["variant-card-inner"]}>
         {/* Front Side */}
         <div className={styles["variant-card-front"]}>
-          <div
-            className={styles["variant-card-picture"]}
-            style={{
-              backgroundImage: `linear-gradient(to right bottom, rgba(41, 152, 255, 0.7), rgba(86, 67, 250, 0.7)), url('${imageUrl}')`,
-              backgroundSize: 'cover',
-              backgroundPosition: 'center',
-              backgroundRepeat: 'no-repeat',
-              backgroundBlendMode: 'screen',
-            }}
-          />
+          {hasImage ? (
+            <div
+              className={styles["variant-card-picture"]}
+              style={{
+                backgroundImage: `linear-gradient(to right bottom, rgba(41, 152, 255, 0.7), rgba(86, 67, 250, 0.7)), url('${imageUrl}')`,
+                backgroundSize: 'cover',
+                backgroundPosition: 'center',
+                backgroundRepeat: 'no-repeat',
+                backgroundBlendMode: 'screen',
+              }}
+            />
+          ) : (
+            /* Image placeholder - shown when no image available */
+            <div
+              className={styles["variant-card-picture"]}
+              style={{
+                background: 'linear-gradient(to right bottom, rgba(41, 152, 255, 0.3), rgba(86, 67, 250, 0.3)), linear-gradient(135deg, rgba(58, 143, 255, 0.08) 0%, rgba(134, 103, 250, 0.08) 100%), repeating-linear-gradient(45deg, rgba(255,255,255,0.03) 0px, rgba(255,255,255,0.03) 1px, transparent 1px, transparent 20px)',
+                backgroundBlendMode: 'screen',
+                display: 'flex',
+                alignItems: 'flex-end',
+                justifyContent: 'center'
+              }}
+            >
+              <div className="flex flex-col items-center justify-center text-gray-400 mb-2">
+                <svg 
+                  width="40" 
+                  height="40" 
+                  viewBox="0 0 24 24" 
+                  fill="none" 
+                  xmlns="http://www.w3.org/2000/svg"
+                  className="opacity-40"
+                >
+                  <rect x="3" y="3" width="18" height="18" rx="2" stroke="currentColor" strokeWidth="1.5" fill="none"/>
+                  <circle cx="8.5" cy="8.5" r="1.5" fill="currentColor" opacity="0.6"/>
+                  <path d="m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21" stroke="currentColor" strokeWidth="1.5" fill="none" opacity="0.6"/>
+                </svg>
+              </div>
+            </div>
+          )}
           <div className={styles["variant-card-labelContainer"]}>
             <span className={styles["variant-card-label"]}>
               {variant.capacity ? `${variant.capacity}` : variant.name}
@@ -76,8 +107,19 @@ function ProductVariantCard({ variant, productImage }) {
           </div>
           <div className={styles["variant-card-info"]}>
             <p>Cat No: {variant.catNo}</p>
-            {variant.capacity && <p>capacity: {variant.capacity}</p>}
-            {variant.packaging && <p>packaging: {variant.packaging}</p>}
+            {variant.capacity && variant.capacity !== 'N/A' && variant.capacity !== 'Custom' && <p>capacity: {variant.capacity}</p>}
+            {variant.dimensions && Object.keys(variant.dimensions).length > 0 && (
+              <p>
+                {Object.entries(variant.dimensions)
+                  .filter(([key, value]) => value && value !== 'N/A' && value.toString().trim() !== '')
+                  .map(([key, value]) => {
+                    const shortKey = key === 'length' ? 'L' : key === 'width' ? 'W' : key === 'height' ? 'H' : key === 'diameter' ? 'D' : key.charAt(0).toUpperCase();
+                    return `${shortKey}: ${value}`;
+                  })
+                  .join('mm, ')}mm
+              </p>
+            )}
+            {variant.packaging && variant.packaging !== 'N/A' && <p>packaging: {variant.packaging}</p>}
             <p>pricing: {variant.price ? variant.price : 'varies with size'}</p>
           </div>
         </div>
@@ -108,12 +150,29 @@ function ProductVariantCard({ variant, productImage }) {
 }
 
 export default function ProductDetailsPage({ params }) {
-  // Get product from params
-  const { product } = params || {};
+  // Get product from params using React.use()
+  const resolvedParams = use(params);
+  const { product } = resolvedParams || {};
   const productData = productsData.products.find(
     (p) => p.catNo.toLowerCase() === decodeURIComponent(product || "").toLowerCase()
   );
-  if (!productData) return null;
+  
+  if (!productData) {
+    // Debug info for development
+    console.log('Product not found:', {
+      searchingFor: decodeURIComponent(product || "").toLowerCase(),
+      availableProducts: productsData.products.map(p => ({ name: p.name, catNo: p.catNo }))
+    });
+    return (
+      <div className="main-margin bg-[#f7f7f7] min-h-screen flex items-center justify-center">
+        <div className="text-center">
+          <h1 className="text-2xl font-bold text-gray-800 mb-4">Product Not Found</h1>
+          <p className="text-gray-600">The requested product "{decodeURIComponent(product || "")}" could not be found.</p>
+          <p className="text-sm text-gray-500 mt-2">Available products: {productsData.products.map(p => p.catNo).join(', ')}</p>
+        </div>
+      </div>
+    );
+  }
 
   // Get the base catalog number for this product (e.g., "1170" from "1170 Series")
   const baseCatalogNumber = getBaseCatalogNumber(productData.catNo);
@@ -122,9 +181,25 @@ export default function ProductDetailsPage({ params }) {
   // that belong to this specific product (matching the base catalog number)
   const allVariants = productsData.productVariants?.[productData.categorySlug]?.variants || [];
   const variants = allVariants.filter(variant => {
-    // Extract the base catalog number from the variant's catNo (e.g., "1170" from "1170/40")
+    // For variants without catNo (new admin-created products), show all variants in the category
+    if (!variant.catNo) {
+      return true;
+    }
+    
+    // For legacy variants with catNo, filter by matching base catalog number
     const variantBaseNumber = getBaseCatalogNumber(variant.catNo);
     return variantBaseNumber === baseCatalogNumber;
+  });
+  
+  // Debug logging for development
+  console.log('Product Details Debug:', {
+    productName: productData.name,
+    productCatNo: productData.catNo,
+    baseCatalogNumber,
+    categorySlug: productData.categorySlug,
+    allVariantsCount: allVariants.length,
+    filteredVariantsCount: variants.length,
+    variants: variants.map(v => ({ name: v.name, catNo: v.catNo }))
   });
 
   return (

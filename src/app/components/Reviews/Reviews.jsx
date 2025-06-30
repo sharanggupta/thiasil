@@ -1,6 +1,6 @@
 import Image from "next/image";
-import img1 from "../../images/thiasil-10.jpg";
-import img2 from "../../images/thiasil-11.jpg";
+import img1 from "../../images/thiasil-10.webp";
+import img2 from "../../images/thiasil-11.webp";
 import "./Reviews.css";
 
 export default function Reviews() {

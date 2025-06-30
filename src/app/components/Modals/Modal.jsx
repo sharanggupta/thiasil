@@ -1,7 +1,7 @@
 "use client";
 import Image from "next/image";
-import image1 from "../../images/thiasil-10.jpg";
-import image2 from "../../images/thiasil-11.jpg";
+import image1 from "../../images/thiasil-10.webp";
+import image2 from "../../images/thiasil-11.webp";
 import Button from "../MainButton/Button";
 
 export default function Modal({ isOpen, onClose }) {

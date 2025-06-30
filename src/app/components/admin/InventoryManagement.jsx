@@ -1,6 +1,6 @@
 "use client";
 import { STOCK_STATUSES } from '../../../lib/constants';
-import { GlassButton, GlassInput, GlassContainer } from "../Glassmorphism";
+import { GlassButton, GlassInput, GlassContainer } from "@/app/components/Glassmorphism";
 
 export default function InventoryManagement({
   categories,

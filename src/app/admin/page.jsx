@@ -1,11 +1,11 @@
 "use client";
 import { useEffect, useState } from "react";
-import productsData from '../../data/products.json';
-import { SIDEBAR_NAVIGATION } from '../../lib/constants/navigation';
-import { useAdminBackups } from '../../lib/hooks/useAdminBackups';
-import { useAdminCoupons } from '../../lib/hooks/useAdminCoupons';
-import { useAdminProducts } from '../../lib/hooks/useAdminProducts';
-import { useAdminSession } from '../../lib/hooks/useAdminSession';
+import productsData from '@/data/products.json';
+import { SIDEBAR_NAVIGATION } from '@/lib/constants/navigation';
+import { useAdminBackups } from '@/lib/hooks/useAdminBackups';
+import { useAdminCoupons } from '@/lib/hooks/useAdminCoupons';
+import { useAdminProducts } from '@/lib/hooks/useAdminProducts';
+import { useAdminSession } from '@/lib/hooks/useAdminSession';
 import {
     GlassButton,
     GlassCard,
@@ -13,16 +13,16 @@ import {
     GlassInput,
     GlassContainer,
     NeonBubblesBackground
-} from "../components/Glassmorphism";
-import Navbar from "../components/Navbar/Navbar";
-import Heading from "../components/common/Heading";
-import StockStatusBadge from "../components/common/StockStatusBadge";
-import AdminLayout from "../components/admin/AdminLayout";
-import BackupManagement from "../components/admin/BackupManagement";
-import PriceManagement from "../components/admin/PriceManagement";
-import InventoryManagement from "../components/admin/InventoryManagement";
-import ProductAddition from "../components/admin/ProductAddition";
-import CouponManagement from "../components/admin/CouponManagement";
+} from "@/app/components/Glassmorphism";
+import Navbar from "@/app/components/Navbar/Navbar";
+import Heading from "@/app/components/common/Heading";
+import StockStatusBadge from "@/app/components/common/StockStatusBadge";
+import AdminLayout from "@/app/components/admin/AdminLayout";
+import BackupManagement from "@/app/components/admin/BackupManagement";
+import PriceManagement from "@/app/components/admin/PriceManagement";
+import InventoryManagement from "@/app/components/admin/InventoryManagement";
+import ProductAddition from "@/app/components/admin/ProductAddition";
+import CouponManagement from "@/app/components/admin/CouponManagement";
 
 const sidebarNav = SIDEBAR_NAVIGATION;
 
@@ -136,6 +136,10 @@ export default function AdminPage() {
   const [stockStatus, setStockStatus] = useState("in_stock");
   const [quantity, setQuantity] = useState("");
 
+  // Image cleanup states
+  const [imageAnalysis, setImageAnalysis] = useState(null);
+  const [isImageLoading, setIsImageLoading] = useState(false);
+
   useEffect(() => {
     if (isAuthenticated) {
       loadProducts();
@@ -245,6 +249,89 @@ export default function AdminPage() {
       setMessage("Network error. Please try again.");
     } finally {
       setIsLoading(false);
+    }
+  };
+
+  // Image cleanup functions
+  const analyzeImages = async () => {
+    if (!isAuthenticated) {
+      setMessage("Please login first");
+      return;
+    }
+
+    setIsImageLoading(true);
+    setMessage("");
+
+    try {
+      const response = await fetch('/api/admin/backup-management', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          username,
+          password,
+          action: 'analyze_images'
+        }),
+      });
+
+      const data = await response.json();
+
+      if (response.ok) {
+        setImageAnalysis(data.analysis);
+        setMessage(data.message);
+      } else {
+        setMessage(data.error || "Failed to analyze images");
+      }
+    } catch (error) {
+      console.error('Error analyzing images:', error);
+      setMessage("Network error. Please try again.");
+    } finally {
+      setIsImageLoading(false);
+    }
+  };
+
+  const cleanupImages = async () => {
+    if (!isAuthenticated) {
+      setMessage("Please login first");
+      return;
+    }
+
+    if (!imageAnalysis?.unusedCount) {
+      setMessage("No unused images found. Run analysis first.");
+      return;
+    }
+
+    setIsImageLoading(true);
+    setMessage("");
+
+    try {
+      const response = await fetch('/api/admin/backup-management', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          username,
+          password,
+          action: 'cleanup_images'
+        }),
+      });
+
+      const data = await response.json();
+
+      if (response.ok) {
+        setMessage(data.message);
+        // Refresh analysis after cleanup
+        setTimeout(() => analyzeImages(), 1000);
+      } else {
+        setMessage(data.error || "Failed to cleanup images");
+      }
+    } catch (error) {
+      console.error('Error cleaning up images:', error);
+      setMessage("Network error. Please try again.");
+    } finally {
+      setIsImageLoading(false);
     }
   };
 
@@ -519,11 +606,14 @@ export default function AdminPage() {
                 backups={backups}
                 selectedBackup={selectedBackup}
                 setSelectedBackup={setSelectedBackup}
-                isBackupLoading={isBackupLoading}
+                isBackupLoading={isBackupLoading || isImageLoading}
                 restoreBackup={restoreBackup}
                 resetToDefault={resetToDefault}
                 cleanupBackups={cleanupBackups}
                 deleteBackup={deleteBackup}
+                analyzeImages={analyzeImages}
+                cleanupImages={cleanupImages}
+                imageAnalysis={imageAnalysis}
               />
             )}
 

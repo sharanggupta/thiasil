@@ -1,15 +1,15 @@
 "use client";
 import Image from "next/image";
-import Heading from "../components/common/Heading";
-import Breadcrumb from "../components/common/Breadcrumb";
+import Heading from "@/app/components/common/Heading";
+import Breadcrumb from "@/app/components/common/Breadcrumb";
 import {
     GlassButton,
     GlassCard,
     GlassIcon,
     NeonBubblesBackground
-} from "../components/Glassmorphism";
-import Navbar from "../components/Navbar/Navbar";
-import heroImg from "../images/thiasil-1.webp";
+} from "@/app/components/Glassmorphism";
+import Navbar from "@/app/components/Navbar/Navbar";
+import heroImg from "@/app/images/thiasil-1.webp";
 
 // Company page uses specific navigation with anchor link to products section
 const sidebarNav = [

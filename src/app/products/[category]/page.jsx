@@ -1,11 +1,13 @@
 "use client";
+import { use } from "react";
 import Image from "next/image";
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from "react";
 import { SIDEBAR_NAVIGATION } from "@/lib/constants/navigation";
 import { useCoupons } from "@/lib/hooks/useCoupons";
-import { getBaseCatalogNumber } from "@/lib/utils";
+import { getBaseCatalogNumber, getStockStatusDisplay } from "@/lib/utils";
+import { getProductImageInfo } from "@/lib/image-utils";
 import { GlassButton, GlassCard, GlassIcon, NeonBubblesBackground } from "@/app/components/Glassmorphism";
 import Modal from '@/app/components/Modals/Modal';
 import Navbar from "@/app/components/Navbar/Navbar";
@@ -28,6 +30,9 @@ const applyDiscountToPrice = (price, discountPercent) => {
 };
 
 export default function CategoryPage({ params }) {
+  // Get category from params using React.use()
+  const resolvedParams = use(params);
+  const { category: categorySlug } = resolvedParams || {};
   const [category, setCategory] = useState("");
   const [categoryData, setCategoryData] = useState(null);
   
@@ -47,11 +52,11 @@ export default function CategoryPage({ params }) {
   const router = useRouter();
 
   useEffect(() => {
-    if (params?.category) {
-      setCategory(params.category);
-      fetchCategoryData(params.category);
+    if (categorySlug) {
+      setCategory(categorySlug);
+      fetchCategoryData(categorySlug);
     }
-  }, [params]);
+  }, [categorySlug]);
 
   const fetchCategoryData = async (categorySlug) => {
     try {
@@ -73,7 +78,7 @@ export default function CategoryPage({ params }) {
 
   if (isLoading) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 relative overflow-hidden">
+      <div className="min-h-screen relative overflow-hidden" style={{ background: 'var(--dark-primary-gradient)' }}>
         <NeonBubblesBackground />
         <div className="relative z-10 container mx-auto px-4 py-16">
           <div className="text-center">
@@ -87,7 +92,7 @@ export default function CategoryPage({ params }) {
 
   if (!categoryData) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 relative overflow-hidden">
+      <div className="min-h-screen relative overflow-hidden" style={{ background: 'var(--dark-primary-gradient)' }}>
         <NeonBubblesBackground />
         <div className="relative z-10 container mx-auto px-4 py-16">
           <div className="text-center">
@@ -105,10 +110,10 @@ export default function CategoryPage({ params }) {
   }
 
   return (
-    <div className="relative min-h-screen bg-gradient-to-br from-[#009ffd] via-[#3a8fff] to-[#2a2a72] overflow-x-hidden">
+    <div className="relative min-h-screen overflow-x-hidden" style={{ background: 'var(--dark-primary-gradient)' }}>
       <Navbar />
       <NeonBubblesBackground />
-      <div className="absolute inset-0 bg-gradient-to-br from-[#009ffd]/30 via-[#3a8fff]/20 to-[#2a2a72]/80 pointer-events-none z-0" />
+      <div className="absolute inset-0 pointer-events-none z-0" style={{ background: 'var(--primary-gradient)', opacity: 0.3 }} />
 
       <main className="relative z-10 max-w-7xl mx-auto px-4 pb-24 flex flex-col gap-20 ml-0 md:ml-32">
         {/* Breadcrumb Navigation */}
@@ -226,26 +231,33 @@ export default function CategoryPage({ params }) {
         </section>
 
         {/* Product Variants Grid */}
-        <section className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 items-stretch">
+        <section className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10 items-stretch">
           {categoryData.variants.map((variant) => (
             <GlassCard key={variant.id} variant="secondary" padding="default" className="group hover:scale-105 transition-transform duration-300 h-full flex flex-col">
               <div className="flex flex-col h-full">
-                {/* Product Image - Use catalog number from variant */}
-                {variant.catNo && (
-                  <div className="mb-4 relative">
-                    <div className="aspect-square w-full h-24 overflow-hidden rounded-xl border border-white/20 shadow-lg bg-gradient-to-br from-white/10 to-white/5">
-                      <Image
-                        src={`/images/products/${getBaseCatalogNumber(variant.catNo).replace(/[^\d]+/g, "")}.png`}
-                        alt={variant.name}
-                        width={200}
-                        height={200}
-                        className="w-full h-full object-cover object-center"
-                      />
-                      {/* Light overlay */}
-                      <div className="absolute inset-0 bg-gradient-to-t from-black/20 via-transparent to-transparent"></div>
+                {/* Product Image - Use dynamic image utility */}
+                {(() => {
+                  const { url: imageUrl, hasImage } = getProductImageInfo(variant);
+                  return hasImage ? (
+                    <div className="mb-4 relative">
+                      <div className="aspect-square w-full h-24 overflow-hidden rounded-xl border border-white/20 shadow-lg bg-gradient-to-br from-white/10 to-white/5">
+                        <Image
+                          src={imageUrl}
+                          alt={variant.name}
+                          width={200}
+                          height={200}
+                          className="w-full h-full object-cover object-center"
+                          onError={(e) => {
+                            // Hide image if it fails to load
+                            e.target.style.display = 'none';
+                          }}
+                        />
+                        {/* Light overlay */}
+                        <div className="absolute inset-0 bg-gradient-to-t from-black/20 via-transparent to-transparent"></div>
+                      </div>
                     </div>
-                  </div>
-                )}
+                  ) : null;
+                })()}
                 
                 {/* Product Header */}
                 <div className="mb-4">
@@ -258,12 +270,41 @@ export default function CategoryPage({ params }) {
                       <span className="text-white/80">CAT. NO.: <span className="text-white font-mono font-medium">{variant.catNo}</span></span>
                     </div>
                   )}
-                  <div className="flex items-center gap-2 text-sm mb-2">
-                    <GlassIcon icon="📏" variant="accent" size="small" />
-                    <span className="text-white/80">
-                      {variant.capacity || variant.size}
-                    </span>
-                  </div>
+                  {/* Capacity */}
+                  {variant.capacity && variant.capacity !== 'N/A' && variant.capacity !== 'Custom' && (
+                    <div className="flex items-center gap-2 text-sm mb-2">
+                      <GlassIcon icon="🧪" variant="accent" size="small" />
+                      <span className="text-white/80">
+                        Capacity: {variant.capacity}
+                      </span>
+                    </div>
+                  )}
+                  
+                  {/* Dimensions */}
+                  {variant.dimensions && Object.keys(variant.dimensions).length > 0 && (
+                    <div className="flex items-center gap-2 text-sm mb-2">
+                      <GlassIcon icon="📏" variant="accent" size="small" />
+                      <span className="text-white/80">
+                        {Object.entries(variant.dimensions)
+                          .filter(([key, value]) => value && value !== 'N/A' && value.toString().trim() !== '')
+                          .map(([key, value]) => {
+                            const shortKey = key === 'length' ? 'L' : key === 'width' ? 'W' : key === 'height' ? 'H' : key === 'diameter' ? 'D' : key.charAt(0).toUpperCase();
+                            return `${shortKey}: ${value}`;
+                          })
+                          .join('mm, ')}mm
+                      </span>
+                    </div>
+                  )}
+                  
+                  {/* Fallback to size if neither capacity nor dimensions */}
+                  {!variant.capacity && (!variant.dimensions || Object.keys(variant.dimensions).length === 0) && variant.size && (
+                    <div className="flex items-center gap-2 text-sm mb-2">
+                      <GlassIcon icon="📏" variant="accent" size="small" />
+                      <span className="text-white/80">
+                        Size: {variant.size}
+                      </span>
+                    </div>
+                  )}
                   <div className="flex items-center gap-2 text-sm">
                     <GlassIcon icon="📦" variant="accent" size="small" />
                     <span className="text-white/80">
@@ -284,7 +325,7 @@ export default function CategoryPage({ params }) {
 
                 {/* Price */}
                 <div className="mb-6">
-                  <div className="bg-gradient-to-r from-[#3a8fff]/20 to-[#a259ff]/20 rounded-xl p-4 border border-white/20">
+                  <div className="rounded-xl p-4 border border-white/20" style={{ background: 'var(--primary-gradient)', opacity: 0.2 }}>
                     <div className="text-center">
                       <p className="text-sm text-white/60 mb-1">Price per piece</p>
                       <p className="text-3xl font-bold text-white">{variant.price}</p>
@@ -319,7 +360,8 @@ export default function CategoryPage({ params }) {
                 </div>
 
                 <button
-                  className="mt-4 px-4 py-2 rounded-lg bg-gradient-to-r from-[#009ffd] to-[#2a2a72] text-white font-bold shadow hover:from-[#2a2a72] hover:to-[#009ffd] transition-all"
+                  className="mt-4 px-4 py-2 rounded-lg text-white font-bold shadow transition-all"
+                  style={{ background: 'var(--dark-primary-gradient)' }}
                   onClick={e => { e.stopPropagation(); setModalProduct(variant); setIsModalOpen(true); }}
                 >
                   Get Quote
@@ -357,7 +399,8 @@ export default function CategoryPage({ params }) {
           <h2 className="text-xl font-bold mb-4">Terms & Conditions</h2>
           <p className="mb-6 text-sm text-gray-700">By proceeding, you agree to our terms and conditions for product inquiries and purchases.</p>
           <button
-            className="px-6 py-2 rounded-lg bg-gradient-to-r from-[#009ffd] to-[#2a2a72] text-white font-bold shadow hover:from-[#2a2a72] hover:to-[#009ffd] transition-all"
+            className="px-6 py-2 rounded-lg text-white font-bold shadow transition-all"
+            style={{ background: 'var(--dark-primary-gradient)' }}
             onClick={() => {
               setIsModalOpen(false);
               router.push(`/contact?product=${encodeURIComponent(modalProduct?.name || '')}`);

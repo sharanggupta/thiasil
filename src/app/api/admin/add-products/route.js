@@ -2,6 +2,7 @@ import fs from 'fs';
 import { NextResponse } from 'next/server';
 import path from 'path';
 import { createBackup } from '../../../../lib/backup-utils';
+import { updateCategoryPriceRange } from '../../../../lib/utils';
 
 // Get admin credentials from environment variables (required)
 const ADMIN_CREDENTIALS = {
@@ -135,14 +136,6 @@ export async function POST(request) {
         return NextResponse.json({ error: 'Category already exists' }, { status: 400 });
       }
       
-      // Add category to productVariants
-      productsData.productVariants[slug] = {
-        name: name,
-        description: description || '',
-        dimensionFields: dimensionFields || [],
-        variants: []
-      };
-      
       // Add category to main products list
       productsData.products.push({
         id: productsData.products.length + 1,
@@ -151,7 +144,7 @@ export async function POST(request) {
         categorySlug: slug,
         description: description || '',
         priceRange: '₹0.00 - ₹0.00',
-        image: '/images/default-product.jpg',
+        image: null, // No default image - will show placeholder
         stockStatus: 'in_stock',
         quantity: null,
         capacity: 'N/A',
@@ -162,8 +155,10 @@ export async function POST(request) {
       
       // Add category to productVariants for category page
       productsData.productVariants[slug] = {
-        name: name,
+        title: name,
         description: description || '',
+        icon: '🧪', // Default icon for new categories
+        image: null, // No default image - will show placeholder
         dimensionFields: dimensionFields,
         variants: []
       };
@@ -176,21 +171,36 @@ export async function POST(request) {
       
     } else if (action === 'add_product') {
       // Add new product variant
-      const { name, category, price, stockStatus, quantity, dimensions, features, image } = productData;
+      const { name, category, price, stockStatus, quantity, dimensions, features, image, packaging } = productData;
       
       // Check if category exists
       if (!productsData.productVariants[category]) {
         return NextResponse.json({ error: 'Category does not exist' }, { status: 400 });
       }
       
-      // Create new variant
+      // Get the main product to extract base catalog number
+      const mainProduct = productsData.products.find(p => p.categorySlug === category);
+      const baseCatalogNumber = mainProduct ? mainProduct.catNo.split(/[\s\/]/)[0] : '1000';
+      
+      // Generate variant-specific catalog number
+      const variantCatNo = `${baseCatalogNumber}/${Date.now().toString().slice(-3)}`;
+      
+      // Extract capacity from dimensions if available
+      const capacity = dimensions && Object.keys(dimensions).length > 0 
+        ? Object.entries(dimensions).map(([key, value]) => `${key}: ${value}`).join(', ')
+        : 'Custom';
+      
+      // Create new variant with both new and legacy fields for compatibility
       const newVariant = {
         id: Date.now(),
         name,
-        price,
+        catNo: variantCatNo, // Legacy compatibility
+        capacity: capacity, // Legacy compatibility  
+        packaging: packaging || '1 piece', // Default packaging for new variants
+        price: `₹${price}`, // Ensure proper format
         stockStatus: stockStatus || 'in_stock',
         quantity: quantity || null,
-        dimensions: dimensions || {},
+        dimensions: dimensions || {}, // New admin structure
         features: Array.isArray(features) ? features : [],
         image: image || null
       };
@@ -202,6 +212,9 @@ export async function POST(request) {
       if (image && !productsData.productVariants[category].image) {
         productsData.productVariants[category].image = image;
       }
+      
+      // Update category price range based on all variants
+      updateCategoryPriceRange(productsData, category);
       
       result = {
         success: true,
