@@ -77,6 +77,7 @@ export default function ProductAddition({
         addProduct={addProduct}
         handleImageSelect={handleImageSelect}
         handleImageUpload={handleImageUpload}
+        dimensionFields={categoryForm.dimensionFields || []}
       />
 
       {/* Information */}
