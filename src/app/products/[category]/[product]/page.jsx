@@ -2,7 +2,8 @@
 import { use } from "react";
 import Footer from "@/app/components/Footer/Footer";
 import "@/app/components/HeroSection/Hero.css";
-import Button from "@/app/components/MainButton/Button";\nimport ProductCard from "@/app/components/ui/ProductCard";
+import Button from "@/app/components/MainButton/Button";
+import ProductCard from "@/app/components/ui/ProductCard";
 import Navbar from "@/app/components/Navbar/Navbar";
 import { getBaseCatalogNumber } from "@/lib/utils";
 import { getProductImageInfo } from "@/lib/image-utils";

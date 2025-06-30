@@ -48,8 +48,14 @@ export const getProductImageInfo = (catNoOrProduct, fallbackImage = null) => {
 };
 
 /**
- * Component to handle image loading with fallback
- * This can be used in React components to gracefully handle missing images
+ * React component to handle product image loading with fallback
+ * @param {string} catNo - Product catalog number
+ * @param {string} productImage - Direct product image URL
+ * @param {string} alt - Alt text for the image
+ * @param {string} className - CSS classes to apply
+ * @param {React.Component} fallbackComponent - Component to show when no image
+ * @param {Object} props - Additional props to pass to img element
+ * @returns {React.Component} Image component or fallback
  */
 export const ProductImage = ({ 
   catNo, 
