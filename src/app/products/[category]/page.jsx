@@ -4,7 +4,6 @@ import Image from "next/image";
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from "react";
-import { SIDEBAR_NAVIGATION } from "@/lib/constants/navigation";
 import { useCoupons } from "@/lib/hooks/useCoupons";
 import { getBaseCatalogNumber, getStockStatusDisplay } from "@/lib/utils";
 import { getProductImageInfo } from "@/lib/image-utils";
@@ -14,7 +13,6 @@ import Navbar from "@/app/components/Navbar/Navbar";
 import Breadcrumb from "@/app/components/common/Breadcrumb";
 import Heading from "@/app/components/common/Heading";
 
-const sidebarNav = SIDEBAR_NAVIGATION;
 
 // Helper function to apply discount to price
 const applyDiscountToPrice = (price, discountPercent) => {

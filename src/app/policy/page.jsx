@@ -8,13 +8,6 @@ import {
 import Navbar from "@/app/components/Navbar/Navbar";
 import Heading from "@/app/components/common/Heading";
 
-// Policy page uses specific navigation with anchor link to products section
-const sidebarNav = [
-  { icon: "🏠", label: "Home", href: "/" },
-  { icon: "🧪", label: "Products", href: "/#products" },
-  { icon: "🏢", label: "About", href: "/company" },
-  { icon: "✉️", label: "Contact", href: "/contact" },
-];
 
 export default function Policy() {
   return (

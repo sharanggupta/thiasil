@@ -11,13 +11,6 @@ import {
 import Navbar from "@/app/components/Navbar/Navbar";
 import heroImg from "@/app/images/thiasil-1.webp";
 
-// Company page uses specific navigation with anchor link to products section
-const sidebarNav = [
-  { icon: "🏠", label: "Home", href: "/" },
-  { icon: "🧪", label: "Products", href: "/#products" },
-  { icon: "🏢", label: "About", href: "/company" },
-  { icon: "✉️", label: "Contact", href: "/contact" },
-];
 
 export default function Company() {
   return (
