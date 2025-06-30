@@ -5,13 +5,14 @@ import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from "react";
 import { useCoupons } from "@/lib/hooks/useCoupons";
-import { getBaseCatalogNumber, getStockStatusDisplay } from "@/lib/utils";
+import { getBaseCatalogNumber } from "@/lib/utils";
 import { getProductImageInfo } from "@/lib/image-utils";
 import { GlassButton, GlassCard, GlassIcon, NeonBubblesBackground } from "@/app/components/Glassmorphism";
 import Modal from '@/app/components/Modals/Modal';
 import Navbar from "@/app/components/Navbar/Navbar";
 import Breadcrumb from "@/app/components/common/Breadcrumb";
 import Heading from "@/app/components/common/Heading";
+import StockStatusBadge from "@/app/components/common/StockStatusBadge";
 
 
 // Helper function to apply discount to price
@@ -313,7 +314,7 @@ export default function CategoryPage({ params }) {
 
                 {/* Stock Status */}
                 <div className="mb-4">
-                  {getStockStatusDisplay(variant.stockStatus || 'in_stock')}
+                  <StockStatusBadge status={variant.stockStatus || 'in_stock'} />
                   {variant.quantity !== undefined && variant.quantity !== null && (
                     <span className="ml-2 text-sm text-white/60">
                       Qty: {variant.quantity}
