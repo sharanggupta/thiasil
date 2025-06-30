@@ -1,4 +1,4 @@
-import { extractPriceFromString } from './price';
+import { extractPriceFromString } from './utils';
 
 export const filterProducts = (products, filters) => {
   return products.filter((product) => {
