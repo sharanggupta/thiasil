@@ -40,8 +40,8 @@ export default function CouponManagement({
                 value={couponForm.discountPercent}
                 onChange={(e) => setCouponForm({...couponForm, discountPercent: e.target.value})}
                 placeholder="20"
-                min="1"
-                max="100"
+                min={1}
+                max={100}
               />
             </div>
 
@@ -61,7 +61,7 @@ export default function CouponManagement({
                 value={couponForm.maxUses}
                 onChange={(e) => setCouponForm({...couponForm, maxUses: e.target.value})}
                 placeholder="Leave empty for unlimited"
-                min="1"
+                min={1}
               />
             </div>
 

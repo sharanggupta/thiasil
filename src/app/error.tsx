@@ -4,7 +4,12 @@ import { useEffect } from 'react';
 import Link from 'next/link';
 import { logError, ERROR_CATEGORIES, ERROR_LEVELS } from '@/lib/error';
 
-export default function Error({ error, reset }) {
+interface ErrorProps {
+  error: Error & { digest?: string };
+  reset: () => void;
+}
+
+export default function Error({ error, reset }: ErrorProps) {
   useEffect(() => {
     // Log the error
     logError(error, {

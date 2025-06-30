@@ -66,12 +66,12 @@ export default function Reviews() {
 
         {/* Button */}
         <div className="flex justify-center mt-6">
-          <button
+          <a
             href="#"
             className="custom-link text-sm inline-flex items-center justify-center p-2 text-custom-blue hover:bg-custom-blue hover:text-white hover:shadow-md hover:translate-y-[-4px] transition duration-300 ease-in-out"
           >
             Read all stories →
-          </button>
+          </a>
         </div>
       </div>
     </div>

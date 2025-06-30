@@ -1,8 +1,16 @@
 'use client';
 
 import { useState } from 'react';
-import Image from 'next/image';
+import Image, { ImageProps } from 'next/image';
 import { logError, ERROR_CATEGORIES, ERROR_LEVELS } from '@/lib/error';
+
+interface SafeImageProps extends Omit<ImageProps, 'src' | 'onError' | 'onLoad'> {
+  src: string;
+  alt: string;
+  fallbackSrc?: string;
+  showPlaceholder?: boolean;
+  className?: string;
+}
 
 export default function SafeImage({
   src,
@@ -11,12 +19,12 @@ export default function SafeImage({
   showPlaceholder = true,
   className = '',
   ...props
-}) {
+}: SafeImageProps) {
   const [imgSrc, setImgSrc] = useState(src);
   const [isLoading, setIsLoading] = useState(true);
   const [hasError, setHasError] = useState(false);
 
-  const handleError = (error) => {
+  const handleError = (error?: any) => {
     // Log the image loading error
     logError(error || new Error('Image failed to load'), {
       category: ERROR_CATEGORIES.NETWORK,

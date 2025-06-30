@@ -130,7 +130,7 @@ export default function AdminPage() {
   const [activeTab, setActiveTab] = useState('dashboard');
   
   // Unified management states
-  const [priceChangePercent, setPriceChangePercent] = useState(10);
+  const [priceChangePercent, setPriceChangePercent] = useState("10");
   const [stockStatus, setStockStatus] = useState("in_stock");
   const [quantity, setQuantity] = useState("");
 

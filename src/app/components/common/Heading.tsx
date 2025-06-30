@@ -1,10 +1,20 @@
+import React from 'react';
+
+interface HeadingProps {
+  children: any;
+  gradient?: string;
+  as?: any;
+  className?: string;
+  [key: string]: any;
+}
+
 const Heading = ({
   children,
   gradient = "var(--primary-gradient)",
   as: Tag = "h1",
   className = "",
   ...props
-}) => {
+}: HeadingProps) => {
   return (
     <Tag
       className={`heading ${className}`}
