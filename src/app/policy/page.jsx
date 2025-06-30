@@ -8,14 +8,15 @@ import {
 import Navbar from "@/app/components/Navbar/Navbar";
 import Heading from "@/app/components/common/Heading";
 import Breadcrumb from "@/app/components/common/Breadcrumb";
+import { GRADIENTS } from "@/lib/constants/gradients";
 
 
 export default function Policy() {
   return (
-    <div className="relative min-h-screen bg-gradient-to-br from-[#009ffd] via-[#3a8fff] to-[#2a2a72] overflow-x-hidden">
+    <div className={`relative min-h-screen ${GRADIENTS.BG_PRIMARY} overflow-x-hidden`}>
       <Navbar />
       <NeonBubblesBackground />
-      <div className="absolute inset-0 bg-gradient-to-br from-[#009ffd]/30 via-[#3a8fff]/20 to-[#2a2a72]/80 pointer-events-none z-0" />
+      <div className={`absolute inset-0 ${GRADIENTS.BG_PRIMARY_OVERLAY} pointer-events-none z-0`} />
 
       <main className="relative z-10 max-w-7xl mx-auto px-4 pb-24 flex flex-col gap-20 ml-0 md:ml-32">
         {/* Breadcrumb Navigation */}
@@ -30,7 +31,7 @@ export default function Policy() {
         {/* Hero Glass Card */}
         <section className="flex flex-col items-center justify-center pt-32 pb-10">
           <GlassCard variant="accent" padding="large" className="w-full max-w-xl flex flex-col items-center text-center">
-            <Heading as="h1" gradient="linear-gradient(to right, #009ffd, #2a2a72)" className="mb-4" size="primary">
+            <Heading as="h1" gradient="var(--text-gradient-primary)" className="mb-4" size="primary">
               Privacy Policy
             </Heading>
             <p className="text-lg text-white/80 mb-8 max-w-md mx-auto">
@@ -114,7 +115,7 @@ export default function Policy() {
                 <GlassCard key={index} variant={section.variant} padding="default">
                   <div className="flex items-center gap-4 mb-6">
                     <GlassIcon icon={section.icon} variant={section.variant} size="large" />
-                    <Heading as="h3" gradient="linear-gradient(to right, #009ffd, #2a2a72)" className="tracking-wider" size="secondary">
+                    <Heading as="h3" gradient="var(--text-gradient-primary)" className="tracking-wider" size="secondary">
                       {section.title}
                     </Heading>
                   </div>

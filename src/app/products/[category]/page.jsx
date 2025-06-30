@@ -95,7 +95,7 @@ export default function CategoryPage({ params }) {
         <NeonBubblesBackground />
         <div className="relative z-10 container mx-auto px-4 py-16">
           <div className="text-center">
-            <Heading as="h1" gradient="linear-gradient(to right, #009ffd, #2a2a72)" className="mb-4" size="primary">
+            <Heading as="h1" gradient="var(--text-gradient-primary)" className="mb-4" size="primary">
               Category Not Found
             </Heading>
             <p className="text-gray-300 mb-8">The requested category could not be found.</p>
@@ -129,7 +129,7 @@ export default function CategoryPage({ params }) {
           <GlassCard variant="primary" padding="large" className="w-full max-w-4xl flex flex-col items-center text-center">
             <div className="flex items-center gap-4 mb-6">
               <GlassIcon icon={categoryData.icon || "🧪"} variant="primary" size="large" />
-              <Heading as="h1" gradient="linear-gradient(to right, #009ffd, #2a2a72)" className="mb-4" size="primary">
+              <Heading as="h1" gradient="var(--text-gradient-primary)" className="mb-4" size="primary">
                 {categoryData.title || categoryData.name || "Product Category"}
               </Heading>
             </div>
