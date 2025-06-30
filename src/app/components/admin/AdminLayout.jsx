@@ -2,13 +2,14 @@
 import { GlassCard, GlassIcon, NeonBubblesBackground } from "@/app/components/Glassmorphism";
 import Navbar from "@/app/components/Navbar/Navbar";
 import Heading from "@/app/components/common/Heading";
+import { GRADIENTS } from "@/lib/constants/gradients";
 
 export default function AdminLayout({ children, isAuthenticated, username, handleLogout }) {
   return (
-    <div className="relative min-h-screen bg-gradient-to-br from-[#3a8fff] via-[#009ffd] to-[#2a2a72] overflow-x-hidden">
+    <div className={`relative min-h-screen ${GRADIENTS.BG_PRIMARY} overflow-x-hidden`}>
       <Navbar theme={isAuthenticated ? "products" : undefined} />
       <NeonBubblesBackground />
-      <div className="absolute inset-0 bg-gradient-to-br from-[#009ffd]/30 via-[#3a8fff]/20 to-[#2a2a72]/80 pointer-events-none z-0" />
+      <div className={`absolute inset-0 ${GRADIENTS.BG_PRIMARY_OVERLAY} pointer-events-none z-0`} />
 
       <main className="relative z-10 max-w-7xl mx-auto px-4 pb-24 flex flex-col gap-8 ml-0 md:ml-32">
         {isAuthenticated && (
@@ -18,7 +19,7 @@ export default function AdminLayout({ children, isAuthenticated, username, handl
                 <GlassIcon icon="⚙️" variant="primary" size="large" />
                 <Heading
                   as="h1"
-                  gradient="linear-gradient(90deg, #fff, #009ffd 60%, #2a2a72 100%)"
+                  gradient="var(--text-gradient-white)"
                   className="mb-4 drop-shadow-lg font-extrabold text-4xl md:text-5xl text-transparent bg-clip-text"
                   size="primary"
                 >

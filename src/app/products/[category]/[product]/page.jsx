@@ -7,6 +7,7 @@ import Navbar from "@/app/components/Navbar/Navbar";
 import { getBaseCatalogNumber } from "@/lib/utils";
 import { getProductImageInfo } from "@/lib/image-utils";
 import productsData from "@/data/products.json";
+import { GRADIENTS } from "@/lib/constants/gradients";
 import Image from "next/image";
 import styles from "./ProductVariantCard.module.css";
 import productDetailsStyles from "./ProductDetails.module.css";
@@ -65,7 +66,7 @@ function ProductVariantCard({ variant, productImage }) {
             <div
               className={styles["variant-card-picture"]}
               style={{
-                backgroundImage: `linear-gradient(to right bottom, rgba(41, 152, 255, 0.7), rgba(86, 67, 250, 0.7)), url('${imageUrl}')`,
+                backgroundImage: `var(--card-overlay-gradient), url('${imageUrl}')`,
                 backgroundSize: 'cover',
                 backgroundPosition: 'center',
                 backgroundRepeat: 'no-repeat',
@@ -77,7 +78,7 @@ function ProductVariantCard({ variant, productImage }) {
             <div
               className={styles["variant-card-picture"]}
               style={{
-                background: 'linear-gradient(to right bottom, rgba(41, 152, 255, 0.3), rgba(86, 67, 250, 0.3)), linear-gradient(135deg, rgba(58, 143, 255, 0.08) 0%, rgba(134, 103, 250, 0.08) 100%), repeating-linear-gradient(45deg, rgba(255,255,255,0.03) 0px, rgba(255,255,255,0.03) 1px, transparent 1px, transparent 20px)',
+                background: 'var(--card-overlay-gradient)',
                 backgroundBlendMode: 'screen',
                 display: 'flex',
                 alignItems: 'flex-end',

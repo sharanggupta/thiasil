@@ -6,7 +6,7 @@ export const GRADIENTS = {
   PRIMARY_DARK: 'linear-gradient(to right bottom, rgba(41, 152, 255), rgba(42, 42, 114))',
   
   // Background gradients
-  BG_PRIMARY: 'bg-gradient-to-br from-[#009ffd] via-[#3a8fff] to-[#2a2a72]',
+  BG_PRIMARY: 'bg-gradient-to-br from-[#3a8fff] via-[#009ffd] to-[#2a2a72]',
   BG_PRIMARY_OVERLAY: 'bg-gradient-to-br from-[#009ffd]/30 via-[#3a8fff]/20 to-[#2a2a72]/80',
   BG_DARK: 'bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900',
   
