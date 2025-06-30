@@ -1,5 +1,54 @@
 import { STOCK_STATUSES, VALIDATION } from './constants';
 
+// Type definitions
+export interface StockStatusConfig {
+  label: string;
+  color: string;
+  bg: string;
+}
+
+export interface StockStatusDisplay {
+  label: string;
+  className: string;
+}
+
+export interface ValidationResult {
+  valid: boolean;
+  error?: string;
+}
+
+export interface SessionData {
+  timestamp: number;
+  username: string;
+  password: string;
+}
+
+export interface ProductVariant {
+  price: string | number;
+  [key: string]: any;
+}
+
+export interface ProductsData {
+  products: Array<{
+    categorySlug: string;
+    priceRange: string;
+    [key: string]: any;
+  }>;
+  productVariants?: {
+    [categorySlug: string]: {
+      variants: ProductVariant[];
+    };
+  };
+}
+
+export interface ProductFilters {
+  category?: string;
+  stockStatus?: string;
+  packaging?: string;
+  minPrice?: string;
+  maxPrice?: string;
+}
+
 /**
  * Utility functions for common operations
  */
@@ -9,7 +58,7 @@ import { STOCK_STATUSES, VALIDATION } from './constants';
  * @param {string|any} input - The input to sanitize
  * @returns {string|any} Sanitized input string or original value if not string
  */
-export const sanitizeInput = (input) => {
+export const sanitizeInput = (input: string | any): string | any => {
   if (typeof input !== 'string') return input;
   return input.replace(/[<>]/g, '').trim();
 };
@@ -19,7 +68,7 @@ export const sanitizeInput = (input) => {
  * @param {string|number} priceString - Price string like '₹343.00' or '₹343.00 - ₹686.00'
  * @returns {number} Extracted price value or 0 if invalid
  */
-export const extractPriceFromString = (priceString) => {
+export const extractPriceFromString = (priceString: string | number): number => {
   if (!priceString) return 0;
   
   if (typeof priceString === 'number') return priceString;
@@ -34,7 +83,7 @@ export const extractPriceFromString = (priceString) => {
  * @param {number|string} price - Price value to format
  * @returns {string} Formatted price string like '₹123.45'
  */
-export const formatPrice = (price) => {
+export const formatPrice = (price: number | string): string => {
   if (!price) return '₹0.00';
   
   const numPrice = typeof price === 'string' ? extractPriceFromString(price) : price;
@@ -47,8 +96,8 @@ export const formatPrice = (price) => {
  * @param {number} discountPercent - Discount percentage (e.g., 10 for 10%)
  * @returns {string} Discounted price as formatted string
  */
-export const applyDiscountToPrice = (price, discountPercent) => {
-  if (!price || !discountPercent) return price;
+export const applyDiscountToPrice = (price: string | number, discountPercent: number): string => {
+  if (!price || !discountPercent) return typeof price === 'string' ? price : formatPrice(price);
   
   const numPrice = extractPriceFromString(price);
   const discountedPrice = numPrice * (1 - discountPercent / 100);
@@ -61,7 +110,7 @@ export const applyDiscountToPrice = (price, discountPercent) => {
  * @param {number} discountPercent - Discount percentage (e.g., 10 for 10%)
  * @returns {string} Discounted price range string
  */
-export const applyDiscountToPriceRange = (priceRange, discountPercent) => {
+export const applyDiscountToPriceRange = (priceRange: string, discountPercent: number): string => {
   if (!priceRange || !discountPercent) return priceRange;
   
   // Extract numbers from price range (e.g., "₹294.00 - ₹0.98" -> [294.00, 0.98])
@@ -82,7 +131,7 @@ export const applyDiscountToPriceRange = (priceRange, discountPercent) => {
  * @param {string} catNo - Catalog number like '1100 Series' or '1100/50'
  * @returns {string} Base catalog number like '1100'
  */
-export const getBaseCatalogNumber = (catNo) => {
+export const getBaseCatalogNumber = (catNo: string): string => {
   if (!catNo) return '';
   // Handle both "1100 Series" and "1100/50" formats
   return catNo.split(/[\s\/]/)[0];
@@ -93,7 +142,7 @@ export const getBaseCatalogNumber = (catNo) => {
  * @param {string} status - Stock status ('in_stock', 'out_of_stock', etc.)
  * @returns {Object} Stock status configuration with label, color, and bg properties
  */
-export const getStockStatusConfig = (status) => {
+export const getStockStatusConfig = (status: string): StockStatusConfig => {
   const statusMap = {
     'in_stock': STOCK_STATUSES.IN_STOCK,
     'out_of_stock': STOCK_STATUSES.OUT_OF_STOCK,
@@ -109,7 +158,7 @@ export const getStockStatusConfig = (status) => {
  * @param {string} status - Stock status ('in_stock', 'out_of_stock', etc.)
  * @returns {Object} Display object with label and className properties
  */
-export const getStockStatusDisplay = (status) => {
+export const getStockStatusDisplay = (status: string): StockStatusDisplay => {
   const config = getStockStatusConfig(status);
   return {
     label: config.label,
@@ -122,7 +171,7 @@ export const getStockStatusDisplay = (status) => {
  * @param {string} email - Email address to validate
  * @returns {boolean} True if email format is valid
  */
-export const validateEmail = (email) => {
+export const validateEmail = (email: string): boolean => {
   return VALIDATION.EMAIL_REGEX.test(email);
 };
 
@@ -131,7 +180,7 @@ export const validateEmail = (email) => {
  * @param {string} price - Price string to validate
  * @returns {boolean} True if price format is valid
  */
-export const validatePrice = (price) => {
+export const validatePrice = (price: string): boolean => {
   return VALIDATION.PRICE_REGEX.test(price);
 };
 
@@ -140,7 +189,7 @@ export const validatePrice = (price) => {
  * @param {string} value - Value to validate
  * @returns {boolean} True if value is not empty
  */
-export const validateRequired = (value) => {
+export const validateRequired = (value: string): boolean => {
   return value && value.trim().length > 0;
 };
 
@@ -150,7 +199,7 @@ export const validateRequired = (value) => {
  * @param {number} maxLength - Maximum allowed length
  * @returns {boolean} True if value is within length limit
  */
-export const validateLength = (value, maxLength) => {
+export const validateLength = (value: string, maxLength: number): boolean => {
   return value && value.length <= maxLength;
 };
 
@@ -160,7 +209,7 @@ export const validateLength = (value, maxLength) => {
  * @param {string} key - Key to extract unique values from
  * @returns {Array} Array of unique values
  */
-export const getUniqueValues = (array, key) => {
+export const getUniqueValues = <T>(array: T[], key: keyof T): any[] => {
   return [...new Set(array.map(item => item[key]).filter(Boolean))];
 };
 
@@ -170,15 +219,15 @@ export const getUniqueValues = (array, key) => {
  * @param {string} key - Key to group by
  * @returns {Object} Object with grouped items
  */
-export const groupBy = (array, key) => {
+export const groupBy = <T>(array: T[], key: keyof T): Record<string, T[]> => {
   return array.reduce((groups, item) => {
-    const group = item[key];
+    const group = String(item[key]);
     if (!groups[group]) {
       groups[group] = [];
     }
     groups[group].push(item);
     return groups;
-  }, {});
+  }, {} as Record<string, T[]>);
 };
 
 /**
@@ -186,7 +235,7 @@ export const groupBy = (array, key) => {
  * @param {Date|string} date - Date to format
  * @returns {string} Formatted date string
  */
-export const formatDate = (date) => {
+export const formatDate = (date: Date | string): string => {
   if (!date) return '';
   
   const d = new Date(date);
@@ -204,7 +253,7 @@ export const formatDate = (date) => {
  * @param {Date|string} date - Date to check
  * @returns {boolean} True if date is expired
  */
-export const isExpired = (date) => {
+export const isExpired = (date: Date | string): boolean => {
   if (!date) return false;
   return new Date(date) < new Date();
 };
@@ -214,7 +263,7 @@ export const isExpired = (date) => {
  * @param {number} bytes - File size in bytes
  * @returns {string} Formatted file size like '1.5 MB'
  */
-export const formatFileSize = (bytes) => {
+export const formatFileSize = (bytes: number): string => {
   if (bytes === 0) return '0 Bytes';
   
   const k = 1024;
@@ -229,7 +278,7 @@ export const formatFileSize = (bytes) => {
  * @param {File} file - File object to validate
  * @returns {Object} Validation result with valid boolean and error message
  */
-export const validateImageFile = (file) => {
+export const validateImageFile = (file: File): ValidationResult => {
   const validTypes = ['image/jpeg', 'image/jpg', 'image/png', 'image/webp'];
   const maxSize = 5 * 1024 * 1024; // 5MB
   
@@ -249,7 +298,7 @@ export const validateImageFile = (file) => {
  * @param {string} username - Username to save
  * @param {string} password - Password to save
  */
-export const saveSession = (username, password) => {
+export const saveSession = (username: string, password: string): void => {
   const session = {
     timestamp: Date.now(),
     username,
@@ -261,7 +310,7 @@ export const saveSession = (username, password) => {
 /**
  * Clears user session data from localStorage
  */
-export const clearSession = () => {
+export const clearSession = (): void => {
   localStorage.removeItem('adminSession');
 };
 
@@ -270,7 +319,7 @@ export const clearSession = () => {
  * @param {Object} session - Session object with timestamp
  * @returns {boolean} True if session is valid
  */
-export const isSessionValid = (session) => {
+export const isSessionValid = (session: SessionData | null): boolean => {
   if (!session) return false;
   
   const { timestamp } = session;
@@ -286,7 +335,7 @@ export const isSessionValid = (session) => {
  * @param {number} delay - Delay in milliseconds
  * @returns {Function} Debounced function
  */
-export const debounce = (func, delay) => {
+export const debounce = <T extends (...args: any[]) => any>(func: T, delay: number): (...args: Parameters<T>) => void => {
   let timeoutId;
   return (...args) => {
     clearTimeout(timeoutId);
@@ -299,7 +348,7 @@ export const debounce = (func, delay) => {
  * @param {Error} error - Error object from API call
  * @returns {string} User-friendly error message
  */
-export const handleApiError = (error) => {
+export const handleApiError = (error: Error): string => {
   console.error('API Error:', error);
   
   if (error.name === 'TypeError' && error.message.includes('fetch')) {
@@ -315,7 +364,7 @@ export const handleApiError = (error) => {
  * @param {Object} filters - Filter criteria object
  * @returns {Array<Object>} Filtered products array
  */
-export const filterProducts = (products, filters) => {
+export const filterProducts = (products: any[], filters: ProductFilters): any[] => {
   return products.filter((product) => {
     // Category filter
     if (filters.category && product.category !== filters.category) return false;
@@ -341,7 +390,7 @@ export const filterProducts = (products, filters) => {
  * @param {string} searchTerm - Search term to match
  * @returns {Array<Object>} Filtered products array
  */
-export const searchProducts = (products, searchTerm) => {
+export const searchProducts = (products: any[], searchTerm: string): any[] => {
   if (!searchTerm) return products;
   
   const term = searchTerm.toLowerCase();
@@ -357,7 +406,7 @@ export const searchProducts = (products, searchTerm) => {
  * @param {Array<Object>} variants - Array of variant objects with price property
  * @returns {string} Formatted price range string
  */
-export const calculatePriceRange = (variants) => {
+export const calculatePriceRange = (variants: ProductVariant[]): string => {
   if (!variants || variants.length === 0) {
     return '₹0.00 - ₹0.00';
   }
@@ -388,7 +437,7 @@ export const calculatePriceRange = (variants) => {
  * @param {Object} productsData - Products data object containing products and variants
  * @param {string} categorySlug - Category slug to update
  */
-export const updateCategoryPriceRange = (productsData, categorySlug) => {
+export const updateCategoryPriceRange = (productsData: ProductsData, categorySlug: string): void => {
   const categoryVariants = productsData.productVariants?.[categorySlug]?.variants;
   if (!categoryVariants) return;
 
