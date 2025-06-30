@@ -28,10 +28,14 @@ const applyDiscountToPrice = (price, discountPercent) => {
   return `₹${discountedPrice.toFixed(2)}`;
 };
 
-export default function CategoryPage({ params }) {
+interface PageProps {
+  params: Promise<{ category: string }>;
+}
+
+export default function CategoryPage({ params }: PageProps) {
   // Get category from params using React.use()
   const resolvedParams = use(params);
-  const { category: categorySlug } = resolvedParams || {};
+  const { category: categorySlug } = resolvedParams;
   const [category, setCategory] = useState("");
   const [categoryData, setCategoryData] = useState(null);
   
@@ -248,7 +252,7 @@ export default function CategoryPage({ params }) {
                           className="w-full h-full object-cover object-center"
                           onError={(e) => {
                             // Hide image if it fails to load
-                            e.target.style.display = 'none';
+                            (e.target as HTMLImageElement).style.display = 'none';
                           }}
                         />
                         {/* Light overlay */}

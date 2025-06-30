@@ -1,26 +1,23 @@
 "use client";
-import { STOCK_STATUSES } from '../../../lib/constants';
 import { GlassButton, GlassInput, GlassContainer } from "@/app/components/Glassmorphism";
 
-export default function InventoryManagement({
+export default function PriceManagement({
   categories,
   selectedCategory,
   setSelectedCategory,
   categoryProducts,
   selectedProductId,
   setSelectedProductId,
-  stockStatus,
-  setStockStatus,
-  quantity,
-  setQuantity,
-  updateInventory,
+  priceChangePercent,
+  setPriceChangePercent,
+  updatePrices,
   isLoading
 }) {
   return (
     <div>
       <h2 className="text-3xl font-bold text-white mb-6 flex items-center gap-2">
-        <span>📦</span>
-        Inventory Management
+        <span>💰</span>
+        Price Management
       </h2>
       
       {/* Category and Product Selection */}
@@ -61,39 +58,26 @@ export default function InventoryManagement({
         )}
       </div>
 
-      {/* Inventory Update Form */}
+      {/* Price Update Form */}
       <GlassContainer className="mb-8">
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-4">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-4">
           <div>
-            <label className="block text-sm font-medium text-white/80 mb-2">Stock Status</label>
-            <select
-              value={stockStatus}
-              onChange={(e) => setStockStatus(e.target.value)}
-              className="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-xl text-white placeholder-white/80 focus:outline-none focus:border-[#3a8fff] transition-colors"
-            >
-              {Object.values(STOCK_STATUSES).map((status) => (
-                <option key={status.value} value={status.value}>
-                  {status.label}
-                </option>
-              ))}
-            </select>
-          </div>
-
-          <div>
-            <label className="block text-sm font-medium text-white/80 mb-2">Quantity (Optional)</label>
+            <label className="block text-sm font-medium text-white/80 mb-2">Price Change (%)</label>
             <GlassInput
               type="number"
-              value={quantity}
-              onChange={(e) => setQuantity(e.target.value)}
-              placeholder="Leave empty for made-to-order"
-              min="0"
+              value={priceChangePercent}
+              onChange={(e) => setPriceChangePercent(e.target.value)}
+              placeholder="10"
+              min={-50}
+              max={100}
+              step={0.1}
             />
-            <p className="text-xs text-white/60 mt-1">Leave empty for made-to-order</p>
+            <p className="text-xs text-white/60 mt-1">Range: -50% to +100%</p>
           </div>
 
           <div className="flex items-end">
             <GlassButton
-              onClick={updateInventory}
+              onClick={updatePrices}
               variant="accent"
               size="large"
               className="w-full"
@@ -103,27 +87,13 @@ export default function InventoryManagement({
                 <span>Updating...</span>
               ) : (
                 <>
-                  <span>Update Inventory</span>
+                  <span>Update Prices</span>
                   <span>→</span>
                 </>
               )}
             </GlassButton>
           </div>
         </div>
-
-        {/* Stock Status Legend */}
-        <GlassContainer padding="small">
-          <h4 className="text-lg font-semibold text-white mb-3">Stock Status Guide</h4>
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-            {Object.values(STOCK_STATUSES).map((status) => (
-              <div key={status.value} className="flex items-center gap-2">
-                <span className={`inline-block px-3 py-1 rounded-full text-xs font-medium ${status.bg} ${status.color} min-w-[100px] text-center`}>
-                  {status.label}
-                </span>
-              </div>
-            ))}
-          </div>
-        </GlassContainer>
       </GlassContainer>
     </div>
   );

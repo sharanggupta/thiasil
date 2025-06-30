@@ -1,10 +1,18 @@
 "use client";
+import { ReactNode } from 'react';
 import { GlassCard, GlassIcon, NeonBubblesBackground } from "@/app/components/Glassmorphism";
 import Navbar from "@/app/components/Navbar/Navbar";
 import Heading from "@/app/components/common/Heading";
 import { GRADIENTS } from "@/lib/constants/gradients";
 
-export default function AdminLayout({ children, isAuthenticated, username, handleLogout }) {
+interface AdminLayoutProps {
+  children: ReactNode;
+  isAuthenticated: boolean;
+  username?: string;
+  handleLogout?: () => void;
+}
+
+export default function AdminLayout({ children, isAuthenticated, username, handleLogout }: AdminLayoutProps) {
   return (
     <div className={`relative min-h-screen ${GRADIENTS.BG_PRIMARY} overflow-x-hidden`}>
       <Navbar theme={isAuthenticated ? "products" : undefined} />

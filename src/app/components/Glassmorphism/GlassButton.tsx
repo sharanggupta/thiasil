@@ -1,5 +1,17 @@
 "use client";
+import React from 'react';
 import "./Glassmorphism.css";
+
+interface GlassButtonProps {
+  children: any;
+  className?: string;
+  variant?: string;
+  size?: string;
+  href?: string;
+  onClick?: any;
+  disabled?: boolean;
+  [key: string]: any;
+}
 
 const GlassButton = ({ 
   children, 
@@ -10,7 +22,7 @@ const GlassButton = ({
   onClick,
   disabled = false,
   ...props 
-}) => {
+}: GlassButtonProps) => {
   const buttonClasses = [
     "glass-button",
     `glass-button--${variant}`,

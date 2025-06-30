@@ -140,6 +140,8 @@ function ProductVariantCard({ variant, productImage }) {
               color="#0A6EBD"
               bgColor="#fff"
               size="medium"
+              padding="px-4 py-2"
+              textSize="text-sm"
               className="w-full max-w-[140px] mx-auto mt-2"
               onClick={isOutOfStock ? undefined : handleBuyNow}
               disabled={isOutOfStock}
@@ -151,10 +153,14 @@ function ProductVariantCard({ variant, productImage }) {
   );
 }
 
-export default function ProductDetailsPage({ params }) {
+interface PageProps {
+  params: Promise<{ category: string; product: string }>;
+}
+
+export default function ProductDetailsPage({ params }: PageProps) {
   // Get product from params using React.use()
   const resolvedParams = use(params);
-  const { product } = resolvedParams || {};
+  const { product } = resolvedParams;
   const productData = productsData.products.find(
     (p) => p.catNo.toLowerCase() === decodeURIComponent(product || "").toLowerCase()
   );

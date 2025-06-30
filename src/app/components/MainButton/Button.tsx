@@ -1,6 +1,20 @@
 "use client";
+import React from 'react';
 import { useRouter } from "next/navigation";
 import "./Button.css";
+
+interface ButtonProps {
+  name: any;
+  color?: string;
+  bgColor?: string;
+  padding: any;
+  textSize: any;
+  className?: string;
+  onClick?: any;
+  href?: any;
+  size?: string;
+  [key: string]: any;
+}
 
 const Button = ({
   name,
@@ -13,7 +27,7 @@ const Button = ({
   href,
   size = "medium", // new prop
   ...props
-}) => {
+}: ButtonProps) => {
   const router = useRouter();
   // Set default padding/textSize based on size prop if not provided
   let defaultPadding = "px-7 py-3";

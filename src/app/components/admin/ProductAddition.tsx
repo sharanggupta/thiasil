@@ -65,7 +65,7 @@ export default function ProductAddition({
             onChange={(e) => setCategoryForm({...categoryForm, description: e.target.value})}
             className="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-xl text-white placeholder-white/80 focus:outline-none focus:border-[#3a8fff] transition-colors"
             placeholder="Category description..."
-            rows="3"
+            rows={3}
             maxLength={200}
           />
         </div>
@@ -188,8 +188,8 @@ export default function ProductAddition({
               value={productForm.price}
               onChange={(e) => setProductForm({...productForm, price: e.target.value})}
               placeholder="0.00"
-              min="0"
-              step="0.01"
+              min={0}
+              step={0.01}
             />
           </div>
 
@@ -227,7 +227,7 @@ export default function ProductAddition({
               value={productForm.quantity}
               onChange={(e) => setProductForm({...productForm, quantity: e.target.value})}
               placeholder="Leave empty for made-to-order"
-              min="0"
+              min={0}
             />
           </div>
         </div>

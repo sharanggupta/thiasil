@@ -37,8 +37,8 @@ export default function NavMenuItems({
           ) : (
             <a
               href={item.href}
-              target={item.external ? "_blank" : "_self"}
-              rel={item.external ? "noopener noreferrer" : ""}
+              target={(item as any).external ? "_blank" : "_self"}
+              rel={(item as any).external ? "noopener noreferrer" : ""}
               className={`navbar-link relative text-white text-nowrap text-xl md:text-4xl font-light py-2 px-3 md:px-6 inline-block transition-all duration-300 ease-in-out ${
                 active && !closing
                   ? "menu-item-open"
