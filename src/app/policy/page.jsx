@@ -7,6 +7,7 @@ import {
 } from "../components/Glassmorphism";
 import Navbar from "@/app/components/Navbar/Navbar";
 import Heading from "@/app/components/common/Heading";
+import Breadcrumb from "@/app/components/common/Breadcrumb";
 
 
 export default function Policy() {
@@ -17,6 +18,15 @@ export default function Policy() {
       <div className="absolute inset-0 bg-gradient-to-br from-[#009ffd]/30 via-[#3a8fff]/20 to-[#2a2a72]/80 pointer-events-none z-0" />
 
       <main className="relative z-10 max-w-7xl mx-auto px-4 pb-24 flex flex-col gap-20 ml-0 md:ml-32">
+        {/* Breadcrumb Navigation */}
+        <Breadcrumb 
+          items={[
+            { href: "/", label: "Home" },
+            { label: "Privacy Policy" }
+          ]}
+          className="text-base md:text-lg font-semibold text-white/90"
+        />
+
         {/* Hero Glass Card */}
         <section className="flex flex-col items-center justify-center pt-32 pb-10">
           <GlassCard variant="accent" padding="large" className="w-full max-w-xl flex flex-col items-center text-center">
