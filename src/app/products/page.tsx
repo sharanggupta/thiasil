@@ -1,7 +1,8 @@
 "use client";
-import { useMemo, useState } from "react";
+import { useState } from "react";
 import productsData from "@/data/products.json";
 import { useCoupons } from "@/lib/hooks/useCoupons";
+import { useProductManager } from "@/lib/hooks/useProductManager";
 import { getBaseCatalogNumber } from "@/lib/utils";
 import Footer from "@/app/components/Footer/Footer";
 import Navbar from "@/app/components/Navbar/Navbar";
@@ -27,7 +28,7 @@ const applyDiscountToPriceRange = (priceRange, discountPercent) => {
 };
 
 export default function Products() {
-  const [products, setProducts] = useState(productsData.products);
+  const [products] = useState(productsData.products);
   
   // Use the coupon hook instead of inline state
   const {
@@ -40,15 +41,15 @@ export default function Products() {
     clearCoupon
   } = useCoupons();
 
-  // Extract unique categories
-  const categories = useMemo(() => [
-    ...new Set(products.map((p) => p.category))
-  ], [products]);
+  // Use the new product manager hook for filtering, search, and sorting
+  const productManager = useProductManager(products, {
+    enableSearch: false, // We'll add search later if needed
+    enableSort: false,   // We'll add sorting later if needed
+    enableFilters: true,
+  });
 
-  // Extract unique packaging options
-  const packagingOptions = useMemo(() => [
-    ...new Set(products.map((p) => p.packaging).filter(Boolean))
-  ], [products]);
+  const { filters } = productManager;
+  const filteredProducts = productManager.products;
 
   // Only two stock status filters: All and Out of Stock
   const stockStatusFilters = [
@@ -58,35 +59,12 @@ export default function Products() {
   const [stockStatusIndex, setStockStatusIndex] = useState(0);
   const selectedStock = stockStatusFilters[stockStatusIndex].value;
 
-  // Filter state
-  const [selectedCategory, setSelectedCategory] = useState('');
-  const [selectedPackaging, setSelectedPackaging] = useState('');
-  const [minPrice, setMinPrice] = useState('');
-  const [maxPrice, setMaxPrice] = useState('');
-
-  // Filtering logic
-  const filteredProducts = useMemo(() => {
-    return products.filter((product) => {
-      // Category filter
-      if (selectedCategory && product.category !== selectedCategory) return false;
-      // Stock status filter
-      if (selectedStock && product.stockStatus !== selectedStock) return false;
-      // Packaging filter
-      if (selectedPackaging && product.packaging !== selectedPackaging) return false;
-      // Price range filter (use lowest price)
-      let price = 0;
-      if (typeof product.price === 'string') {
-        // Handle price range string like '₹343.00 - ₹686.00'
-        const match = product.price.match(/₹([\d,.]+)/);
-        if (match) price = parseFloat(match[1].replace(/,/g, ''));
-      } else if (typeof product.price === 'number') {
-        price = product.price;
-      }
-      if (minPrice && price < parseFloat(minPrice)) return false;
-      if (maxPrice && price > parseFloat(maxPrice)) return false;
-      return true;
-    });
-  }, [products, selectedCategory, selectedStock, selectedPackaging, minPrice, maxPrice]);
+  // Update stock status when button is clicked
+  const handleStockStatusChange = () => {
+    const newIndex = (stockStatusIndex + 1) % stockStatusFilters.length;
+    setStockStatusIndex(newIndex);
+    filters.updateFilter('stockStatus', stockStatusFilters[newIndex].value);
+  };
 
   return (
     <div className="main-margin bg-[#f7f7f7]">
@@ -119,28 +97,28 @@ export default function Products() {
             <div className="flex w-full gap-2 mb-2 sm:mb-0">
               <select
                 className="flex-1 px-2 py-1 sm:px-4 sm:py-2 text-xs sm:text-base text-gray-800 rounded-xl border border-blue-100 shadow-sm bg-white focus:outline-none"
-                value={selectedCategory}
-                onChange={e => setSelectedCategory(e.target.value)}
+                value={filters.filters.category}
+                onChange={e => filters.updateFilter('category', e.target.value)}
               >
                 <option value="">Category: All</option>
-                {categories.map(category => (
+                {filters.filterOptions.categories.map(category => (
                   <option key={category} value={category}>{category}</option>
                 ))}
               </select>
               <button
                 type="button"
                 className="flex-1 px-2 py-1 sm:px-4 sm:py-2 text-xs sm:text-base font-semibold text-gray-800 rounded-xl border border-blue-100 shadow-sm transition bg-white focus:outline-none hover:bg-blue-50"
-                onClick={() => setStockStatusIndex((stockStatusIndex + 1) % stockStatusFilters.length)}
+                onClick={handleStockStatusChange}
               >
                 Availability: {stockStatusFilters[stockStatusIndex].label}
               </button>
               <select
                 className="flex-1 px-2 py-1 sm:px-4 sm:py-2 text-xs sm:text-base text-gray-800 rounded-xl border border-blue-100 shadow-sm bg-white focus:outline-none"
-                value={selectedPackaging}
-                onChange={e => setSelectedPackaging(e.target.value)}
+                value={filters.filters.packaging}
+                onChange={e => filters.updateFilter('packaging', e.target.value)}
               >
                 <option value="">Packaging: All</option>
-                {packagingOptions.map(opt => (
+                {filters.filterOptions.packagingOptions.map(opt => (
                   <option key={opt} value={opt}>{opt}</option>
                 ))}
               </select>
@@ -151,16 +129,16 @@ export default function Products() {
                 type="number"
                 className="flex-1 px-2 py-1 sm:px-4 sm:py-2 text-xs sm:text-base text-gray-800 rounded-xl border border-blue-100 shadow-sm bg-white focus:outline-none"
                 placeholder="Min Price"
-                value={minPrice}
-                onChange={e => setMinPrice(e.target.value)}
+                value={filters.filters.minPrice}
+                onChange={e => filters.updateFilter('minPrice', e.target.value)}
                 min={0}
               />
               <input
                 type="number"
                 className="flex-1 px-2 py-1 sm:px-4 sm:py-2 text-xs sm:text-base text-gray-800 rounded-xl border border-blue-100 shadow-sm bg-white focus:outline-none"
                 placeholder="Max Price"
-                value={maxPrice}
-                onChange={e => setMaxPrice(e.target.value)}
+                value={filters.filters.maxPrice}
+                onChange={e => filters.updateFilter('maxPrice', e.target.value)}
                 min={0}
               />
               <a
