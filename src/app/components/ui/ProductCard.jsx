@@ -8,6 +8,10 @@ const ProductCard = ({
   displayPrice = null,
   onCardClick = null,
   className = "",
+  backContent = null,
+  buttonText = null,
+  buttonHref = null,
+  buttonOnClick = null,
   ...props
 }) => {
   const isOutOfStock = product.stockStatus !== 'in_stock';
@@ -90,26 +94,34 @@ const ProductCard = ({
         {/* Back Side */}
         <div className={styles["variant-card-backRect"]}>
           <div className="flex flex-col justify-center items-center w-full h-full">
-            {/* Price Display */}
-            <div style={{ fontSize: "1.2rem", fontWeight: 600, marginBottom: 18 }}>
-              {displayPrice ? displayPrice : "Contact for pricing"}
-              {activeCoupon && (
-                <div style={{ fontSize: "0.8rem", color: "#10b981", marginTop: 4 }}>
-                  {activeCoupon.discountPercent}% off with {activeCoupon.code}
+            {/* Custom back content or default price display */}
+            {backContent ? (
+              backContent
+            ) : (
+              <>
+                {/* Price Display */}
+                <div style={{ fontSize: "1.2rem", fontWeight: 600, marginBottom: 18 }}>
+                  {displayPrice ? displayPrice : "Contact for pricing"}
+                  {activeCoupon && (
+                    <div style={{ fontSize: "0.8rem", color: "#10b981", marginTop: 4 }}>
+                      {activeCoupon.discountPercent}% off with {activeCoupon.code}
+                    </div>
+                  )}
                 </div>
-              )}
-            </div>
-            
-            {/* Action Button */}
-            <Button
-              name={isOutOfStock ? "Unavailable" : "Details"}
-              color="#0A6EBD"
-              bgColor="#fff"
-              size="medium"
-              className="w-full max-w-[140px] mx-auto mt-2"
-              href={isOutOfStock ? undefined : `/products/${product.categorySlug || product.category.toLowerCase()}/${encodeURIComponent(product.catNo)}`}
-              disabled={isOutOfStock}
-            />
+                
+                {/* Action Button */}
+                <Button
+                  name={isOutOfStock ? "Unavailable" : (buttonText || "Details")}
+                  color="#0A6EBD"
+                  bgColor="#fff"
+                  size="medium"
+                  className="w-full max-w-[140px] mx-auto mt-2"
+                  href={isOutOfStock ? undefined : (buttonHref || `/products/${product.categorySlug || product.category.toLowerCase()}/${encodeURIComponent(product.catNo)}`)}
+                  onClick={buttonOnClick}
+                  disabled={isOutOfStock}
+                />
+              </>
+            )}
           </div>
         </div>
       </div>
