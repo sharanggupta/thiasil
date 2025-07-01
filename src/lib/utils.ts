@@ -190,7 +190,7 @@ export const validatePrice = (price: string): boolean => {
  * @returns {boolean} True if value is not empty
  */
 export const validateRequired = (value: string): boolean => {
-  return value && value.trim().length > 0;
+  return Boolean(value && value.trim().length > 0);
 };
 
 /**
