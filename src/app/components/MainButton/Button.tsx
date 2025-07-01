@@ -26,8 +26,10 @@ const Button = ({
   onClick,
   href,
   size = "medium", // new prop
-  ...props
+  ...allProps
 }: ButtonProps) => {
+  // Filter out non-DOM props to prevent React warnings
+  const { loading, ...props } = allProps;
   const router = useRouter();
   // Set default padding/textSize based on size prop if not provided
   let defaultPadding = "px-7 py-3";

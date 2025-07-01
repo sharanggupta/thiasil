@@ -1,9 +1,9 @@
 "use client";
 import { useEffect, useState } from "react";
 import productsData from '@/data/products.json';
-import { useAdminBackupsEnhanced } from '@/lib/hooks/useAdminBackupsEnhanced';
-import { useAdminCouponsEnhanced } from '@/lib/hooks/useAdminCouponsEnhanced';
-import { useAdminProductsEnhanced } from '@/lib/hooks/useAdminProductsEnhanced';
+import { useAdminBackups } from '@/lib/hooks/useAdminBackups';
+import { useAdminCoupons } from '@/lib/hooks/useAdminCoupons';
+import { useAdminProducts } from '@/lib/hooks/useAdminProducts';
 import { useAdminSession } from '@/lib/hooks/useAdminSession';
 import { GlassCard, GlassIcon, GlassInput } from "@/app/components/Glassmorphism";
 import AdminLayout from "@/app/components/admin/AdminLayout";
@@ -43,8 +43,8 @@ export default function AdminPage() {
     handleLogout
   } = session;
 
-  // Use the enhanced products hook
-  const productsApi = useAdminProductsEnhanced({ username, password }, setMessage);
+  // Use the products hook
+  const productsApi = useAdminProducts({ username, password }, setMessage);
   const {
     products,
     categories,
@@ -73,8 +73,8 @@ export default function AdminPage() {
     loadProducts
   } = productsApi;
 
-  // Use the enhanced backups hook
-  const backupsApi = useAdminBackupsEnhanced({ username, password }, setMessage);
+  // Use the backups hook
+  const backupsApi = useAdminBackups({ username, password }, setMessage);
   const {
     backups,
     isLoading: isBackupLoading,
@@ -87,8 +87,8 @@ export default function AdminPage() {
     uploadAndRestoreBackup
   } = backupsApi;
 
-  // Use the enhanced coupons hook
-  const couponsApi = useAdminCouponsEnhanced({ username, password }, setMessage);
+  // Use the coupons hook
+  const couponsApi = useAdminCoupons({ username, password }, setMessage);
   const {
     coupons,
     couponForm,

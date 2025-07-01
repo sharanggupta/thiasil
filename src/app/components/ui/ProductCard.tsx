@@ -12,8 +12,10 @@ const ProductCard = ({
   buttonText = null,
   buttonHref = null,
   buttonOnClick = null,
-  ...props
+  ...allProps
 }) => {
+  // Filter out non-DOM props to prevent React warnings
+  const { loading, ...props } = allProps;
   const isOutOfStock = product.stockStatus !== 'in_stock';
   
   // Get image info using dynamic utility
