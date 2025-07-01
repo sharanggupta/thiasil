@@ -200,7 +200,7 @@ export const validateRequired = (value: string): boolean => {
  * @returns {boolean} True if value is within length limit
  */
 export const validateLength = (value: string, maxLength: number): boolean => {
-  return value && value.length <= maxLength;
+  return Boolean(value && value.length <= maxLength);
 };
 
 /**
