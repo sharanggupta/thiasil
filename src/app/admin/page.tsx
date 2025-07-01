@@ -1,9 +1,9 @@
 "use client";
 import { useEffect, useState } from "react";
 import productsData from '@/data/products.json';
-import { useAdminBackups } from '@/lib/hooks/useAdminBackups';
-import { useAdminCoupons } from '@/lib/hooks/useAdminCoupons';
-import { useAdminProducts } from '@/lib/hooks/useAdminProducts';
+import { useAdminBackupsEnhanced } from '@/lib/hooks/useAdminBackupsEnhanced';
+import { useAdminCouponsEnhanced } from '@/lib/hooks/useAdminCouponsEnhanced';
+import { useAdminProductsEnhanced } from '@/lib/hooks/useAdminProductsEnhanced';
 import { useAdminSession } from '@/lib/hooks/useAdminSession';
 import { GlassCard, GlassIcon, GlassInput } from "@/app/components/Glassmorphism";
 import AdminLayout from "@/app/components/admin/AdminLayout";
@@ -43,8 +43,8 @@ export default function AdminPage() {
     handleLogout
   } = session;
 
-  // Use the custom products hook
-  const productsApi = useAdminProducts({ isAuthenticated, setMessage, username, password });
+  // Use the enhanced products hook
+  const productsApi = useAdminProductsEnhanced({ username, password }, setMessage);
   const {
     products,
     categories,
@@ -60,7 +60,7 @@ export default function AdminPage() {
     setNewDimensionField,
     newFeature,
     setNewFeature,
-    isAddLoading,
+    isAdding: isAddLoading,
     isUploading,
     selectedImage,
     imagePreview,
@@ -73,11 +73,11 @@ export default function AdminPage() {
     loadProducts
   } = productsApi;
 
-  // Use the custom backups hook
-  const backupsApi = useAdminBackups({ setMessage, loadProducts, username, password });
+  // Use the enhanced backups hook
+  const backupsApi = useAdminBackupsEnhanced({ username, password }, setMessage);
   const {
     backups,
-    isBackupLoading,
+    isLoading: isBackupLoading,
     createBackup,
     downloadBackup,
     deleteBackup,
@@ -87,13 +87,13 @@ export default function AdminPage() {
     uploadAndRestoreBackup
   } = backupsApi;
 
-  // Use the custom coupons hook
-  const couponsApi = useAdminCoupons({ setMessage, username, password });
+  // Use the enhanced coupons hook
+  const couponsApi = useAdminCouponsEnhanced({ username, password }, setMessage);
   const {
     coupons,
     couponForm,
     setCouponForm,
-    isCouponLoading,
+    isLoading: isCouponLoading,
     createCoupon,
     deleteCoupon
   } = couponsApi;
@@ -109,6 +109,14 @@ export default function AdminPage() {
   // Image cleanup states
   const [imageAnalysis, setImageAnalysis] = useState(null);
   const [isImageLoading, setIsImageLoading] = useState(false);
+
+  // Load data when authenticated
+  useEffect(() => {
+    if (isAuthenticated && username && password) {
+      // Load all admin data
+      loadProducts();
+    }
+  }, [isAuthenticated, username, password, loadProducts]);
 
   // Auto-logout timer
   useEffect(() => {
@@ -290,9 +298,9 @@ export default function AdminPage() {
   // Update selected product when category changes
   useEffect(() => {
     if (selectedCategory && selectedCategory !== "all") {
-      const categoryProducts = products.filter(p => p.category === selectedCategory);
+      const categoryProducts = products.filter(p => p.categorySlug === selectedCategory);
       if (categoryProducts.length > 0) {
-        setSelectedProductId(categoryProducts[0].catNo);
+        setSelectedProductId(String(categoryProducts[0].id));
       } else {
         setSelectedProductId("all");
       }

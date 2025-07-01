@@ -1,45 +1,16 @@
 "use client";
 import { useState } from "react";
 import productsData from "@/data/products.json";
-import { useCoupons } from "@/lib/hooks/useCoupons";
 import { useProductManager } from "@/lib/hooks/useProductManager";
 import { getBaseCatalogNumber } from "@/lib/utils";
 import Footer from "@/app/components/Footer/Footer";
 import Navbar from "@/app/components/Navbar/Navbar";
 import ProductCard from "@/app/components/ui/ProductCard";
 import Breadcrumb from "@/app/components/common/Breadcrumb";
-
-
-// Helper function to apply discount to price range
-const applyDiscountToPriceRange = (priceRange, discountPercent) => {
-  if (!priceRange || !discountPercent) return priceRange;
-  
-  // Extract numbers from price range (e.g., "₹294.00 - ₹0.98" -> [294.00, 0.98])
-  const numbers = priceRange.match(/₹(\d+\.?\d*)/g);
-  if (!numbers || numbers.length === 0) return priceRange;
-  
-  const discountedPrices = numbers.map(price => {
-    const numPrice = parseFloat(price.replace('₹', ''));
-    const discountedPrice = numPrice * (1 - discountPercent / 100);
-    return `₹${discountedPrice.toFixed(2)}`;
-  });
-  
-  return discountedPrices.join(' - ');
-};
+import { CouponInput, CouponDisplay } from "@/app/components/coupons";
 
 export default function Products() {
   const [products] = useState(productsData.products);
-  
-  // Use the coupon hook instead of inline state
-  const {
-    couponCode,
-    setCouponCode,
-    activeCoupon,
-    couponMessage,
-    isApplyingCoupon,
-    applyCoupon,
-    clearCoupon
-  } = useCoupons();
 
   // Use the new product manager hook for filtering, search, and sorting
   const productManager = useProductManager(products, {
@@ -155,39 +126,26 @@ export default function Products() {
                 <span className="sm:inline hidden">Download Price List (PDF)</span>
                 <span className="inline sm:hidden">PDF</span>
               </a>
-              {/* Coupon input and button group */}
+              {/* Coupon input */}
               <div className="flex flex-shrink-0 w-full sm:w-auto ml-0 sm:ml-2 mt-2 sm:mt-0">
-                <div className="flex w-full bg-white border border-blue-200 rounded-xl shadow px-2 py-1 gap-2 items-center">
-                  <input
-                    type="text"
-                    value={couponCode}
-                    onChange={(e) => setCouponCode(e.target.value.toUpperCase())}
-                    placeholder="Enter coupon code"
-                    className="flex-1 min-w-0 px-2 py-2 bg-transparent text-gray-800 placeholder-gray-500 focus:outline-none focus:border-blue-400 transition-colors"
-                    maxLength={20}
-                  />
-                  <button
-                    onClick={applyCoupon}
-                    disabled={isApplyingCoupon}
-                    className="px-4 py-2 text-white font-semibold rounded-lg shadow transition disabled:opacity-50 disabled:cursor-not-allowed"
-                    style={{ background: 'var(--dark-primary-gradient)' }}
-                  >
-                    {isApplyingCoupon ? "Applying..." : "Apply"}
-                  </button>
-                </div>
+                <CouponInput 
+                  compact={true}
+                  placeholder="Enter coupon code"
+                  showLastUsed={true}
+                  className="w-full"
+                />
               </div>
             </div>
-            {/* Coupon feedback message */}
-            {couponMessage && (
-              <div className={`w-full mt-2 p-2 rounded-lg text-sm ${
-                couponMessage.includes('applied') || couponMessage.includes('active') 
-                  ? 'bg-green-100 text-green-700 border border-green-200' 
-                  : 'bg-red-100 text-red-700 border border-red-200'
-              }`}>
-                {couponMessage}
-              </div>
-            )}
           </div>
+        </div>
+        
+        {/* Active Coupon Display */}
+        <div className="mb-6">
+          <CouponDisplay 
+            compact={true}
+            showDetails={false}
+            className="max-w-md"
+          />
         </div>
         
         {/* Product Grid with PDP-style Flip Cards */}
@@ -206,21 +164,11 @@ export default function Products() {
               if (match) fromPrice = `From ₹${match[1]}`;
             }
             
-            // Apply discount if coupon is active
-            let displayPrice = fromPrice;
-            if (activeCoupon && fromPrice) {
-              const discountedPriceRange = applyDiscountToPriceRange(product.priceRange || product.price, activeCoupon.discountPercent);
-              if (discountedPriceRange) {
-                displayPrice = `From ${discountedPriceRange.split(' - ')[0]}`;
-              }
-            }
-            
             return (
               <ProductCard
                 key={product.catNo || (product.name + '-' + index)}
                 product={product}
-                activeCoupon={activeCoupon}
-                displayPrice={displayPrice}
+                displayPrice={fromPrice}
               />
             );
           })}

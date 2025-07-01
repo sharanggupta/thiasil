@@ -1,11 +1,12 @@
 "use client";
 import React from 'react';
-import Image from 'next/image';
 import { GlassCard, GlassButton, GlassIcon } from "@/app/components/Glassmorphism";
-import StockStatusBadge from "@/app/components/common/StockStatusBadge";
 import { ProductPrice } from "@/app/components/coupons";
+import StockStatusBadge from "@/app/components/common/StockStatusBadge";
+import Image from 'next/image';
 
-export interface ProductLayoutCardProps {
+// Example of how to migrate an existing ProductCard to use centralized coupon state
+interface MigratedProductCardProps {
   product: {
     id: string | number;
     name: string;
@@ -31,7 +32,7 @@ export interface ProductLayoutCardProps {
   className?: string;
 }
 
-export default function ProductLayoutCard({
+export default function MigratedProductCard({
   product,
   variant = 'card',
   showImage = true,
@@ -41,7 +42,8 @@ export default function ProductLayoutCard({
   onQuoteClick,
   onViewClick,
   className = ''
-}: ProductLayoutCardProps) {
+}: MigratedProductCardProps) {
+  
   const renderCompactView = () => (
     <div className={`flex items-center gap-4 p-4 bg-white/5 border border-white/10 rounded-lg hover:bg-white/10 transition-colors ${className}`}>
       {/* Image */}
@@ -64,12 +66,20 @@ export default function ProductLayoutCard({
           <p className="text-xs text-white/60">CAT: {product.catNo}</p>
         )}
         <div className="flex items-center gap-4 mt-2">
+          {/* BEFORE: Manual price logic with props
+          <span className="font-bold text-green-300">
+            {activeCoupon ? applyDiscountToPrice(product.price, activeCoupon.discountPercent) : product.price}
+          </span>
+          */}
+          
+          {/* AFTER: Centralized coupon-aware price display */}
           <ProductPrice 
             price={product.price}
             variant="list"
             showSavings={false}
             showDiscountBadge={false}
           />
+          
           {product.stockStatus && (
             <StockStatusBadge status={product.stockStatus} />
           )}
@@ -165,11 +175,29 @@ export default function ProductLayoutCard({
           </div>
         )}
 
-        {/* Price */}
+        {/* Price Section - MIGRATED */}
         <div className="mb-6">
           <div className="rounded-xl p-4 border border-white/20" style={{ background: 'var(--primary-gradient)', opacity: 0.2 }}>
             <div className="text-center">
               <p className="text-sm text-white/60 mb-1">Price per piece</p>
+              
+              {/* BEFORE: Manual coupon logic
+              {activeCoupon ? (
+                <div>
+                  <p className="text-lg text-white/60 line-through">{product.price}</p>
+                  <p className="text-3xl font-bold text-green-300">
+                    {applyDiscountToPrice(product.price, activeCoupon.discountPercent)}
+                  </p>
+                  <p className="text-sm text-green-300/80">
+                    {activeCoupon.discountPercent}% discount applied
+                  </p>
+                </div>
+              ) : (
+                <p className="text-3xl font-bold text-white">{product.price}</p>
+              )}
+              */}
+              
+              {/* AFTER: Centralized coupon-aware pricing */}
               <ProductPrice 
                 price={product.price}
                 priceRange={product.priceRange}
@@ -237,8 +265,36 @@ export default function ProductLayoutCard({
     case 'compact':
       return renderCompactView();
     case 'detailed':
-      return renderCardView(); // For now, same as card - could be enhanced
+      return renderCardView();
     default:
       return renderCardView();
   }
 }
+
+// Example migration notes:
+/*
+MIGRATION STEPS FROM LEGACY COUPON USAGE:
+
+1. REMOVE coupon props from component interface:
+   ❌ Remove: activeCoupon, onProductOrder, onProductQuote props
+   
+2. REPLACE manual price calculations:
+   ❌ Old: {activeCoupon ? applyDiscountToPrice(product.price, activeCoupon.discountPercent) : product.price}
+   ✅ New: <ProductPrice price={product.price} variant="card" />
+
+3. REMOVE coupon prop drilling:
+   ❌ Old: <ProductCard activeCoupon={activeCoupon} onProductOrder={handleOrder} />
+   ✅ New: <ProductCard /> // Automatically gets coupon state from context
+
+4. UPDATE parent components:
+   ❌ Old: const { activeCoupon } = useCoupons(); <ProductCard activeCoupon={activeCoupon} />
+   ✅ New: <ProductCard /> // No coupon props needed
+
+5. BENEFITS after migration:
+   ✅ Coupon state persists across navigation
+   ✅ No prop drilling required
+   ✅ Consistent discount calculations
+   ✅ Automatic price updates when coupons change
+   ✅ Built-in coupon validation and error handling
+   ✅ Enhanced UX with coupon history and suggestions
+*/
