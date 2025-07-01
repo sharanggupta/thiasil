@@ -27,7 +27,7 @@ interface BackupProgress {
   message: string;
 }
 
-interface UseAdminBackupsEnhancedResult {
+interface UseAdminBackupsResult {
   // Data
   backups: Backup[];
   
@@ -96,10 +96,10 @@ const initialProgress: BackupProgress = {
   message: ''
 };
 
-export function useAdminBackupsEnhanced(
+export function useAdminBackups(
   credentials: AdminCredentials,
   setMessage?: (message: string) => void
-): UseAdminBackupsEnhancedResult {
+): UseAdminBackupsResult {
   // Data fetching with enhanced error handling - NO immediate loading
   const {
     data: backupsData,
@@ -183,6 +183,11 @@ export function useAdminBackupsEnhanced(
     backups.reduce((total, backup) => total + parseBackupSize(backup.size), 0)
   );
 
+  // Utility functions (defined early for use in actions)
+  const getBackupByFilename = useCallback((filename: string): Backup | undefined => {
+    return backups.find(backup => backup.filename === filename);
+  }, [backups]);
+
   // Progress simulation for long operations
   const simulateProgress = useCallback((operation: 'create' | 'restore' | 'upload', duration: number = 5000) => {
     setProgress({ operation, progress: 0, message: `Starting ${operation}...` });
@@ -231,6 +236,19 @@ export function useAdminBackupsEnhanced(
     setLoadingStates(prev => ({ ...prev, creating: true }));
     const clearProgress = simulateProgress('create', 8000);
     
+    // Optimistic update - add backup immediately to UI
+    const now = new Date();
+    const optimisticBackup: Backup = {
+      filename: `manual_backup_${now.getTime()}.json`,
+      size: 'Calculating...',
+      date: now.toISOString(),
+      type: 'manual',
+      status: 'in_progress',
+      description: description || `Manual backup created on ${now.toLocaleDateString()}`
+    };
+
+    setBackups(prev => [optimisticBackup, ...prev]);
+    
     try {
       await backupOperationsApi.executeAsAdmin(credentials, {
         action: ADMIN_ACTIONS.CREATE_BACKUP,
@@ -240,15 +258,27 @@ export function useAdminBackupsEnhanced(
       setProgress({ operation: null, progress: 100, message: 'Backup created successfully!' });
       setTimeout(() => setProgress(initialProgress), 2000);
       clearProgress();
+      
+      // Update the optimistic backup to completed status
+      setBackups(prev => prev.map(backup => 
+        backup.filename === optimisticBackup.filename 
+          ? { ...backup, status: 'completed' as const, size: 'Unknown' }
+          : backup
+      ));
+      
+      // Refetch to get real backup data
+      setTimeout(() => refetchBackups(), 1000);
       return true;
     } catch (error) {
       clearProgress();
       setProgress(initialProgress);
+      // Remove the optimistic backup on error
+      setBackups(prev => prev.filter(b => b.filename !== optimisticBackup.filename));
       return false;
     } finally {
       setLoadingStates(prev => ({ ...prev, creating: false }));
     }
-  }, [backupOperationsApi, credentials, simulateProgress]);
+  }, [backupOperationsApi, credentials, simulateProgress, refetchBackups]);
 
   const restoreBackup = useCallback(async (filename: string): Promise<boolean> => {
     setLoadingStates(prev => ({ ...prev, restoring: true }));
@@ -274,6 +304,12 @@ export function useAdminBackupsEnhanced(
   }, [backupOperationsApi, credentials, simulateProgress]);
 
   const deleteBackup = useCallback(async (filename: string): Promise<boolean> => {
+    // Store the backup for potential rollback
+    const backupToDelete = getBackupByFilename(filename);
+    if (!backupToDelete) return false;
+
+    // Optimistic update - remove backup immediately from UI
+    setBackups(prev => prev.filter(b => b.filename !== filename));
     setLoadingStates(prev => ({ ...prev, deleting: true }));
     
     try {
@@ -281,13 +317,16 @@ export function useAdminBackupsEnhanced(
         action: ADMIN_ACTIONS.DELETE_BACKUP,
         filename
       });
+      // Success - no need to refetch, optimistic update was correct
       return true;
     } catch (error) {
+      // Rollback optimistic update on error
+      setBackups(prev => [...prev, backupToDelete]);
       return false;
     } finally {
       setLoadingStates(prev => ({ ...prev, deleting: false }));
     }
-  }, [backupOperationsApi, credentials]);
+  }, [backupOperationsApi, credentials, getBackupByFilename]);
 
   const downloadBackup = useCallback(async (filename: string): Promise<boolean> => {
     setLoadingStates(prev => ({ ...prev, downloading: true }));
@@ -378,6 +417,11 @@ export function useAdminBackupsEnhanced(
   }, [credentials, setMessage, refetchBackups, simulateProgress]);
 
   const bulkDeleteBackups = useCallback(async (filenames: string[]): Promise<boolean> => {
+    // Store backups for potential rollback
+    const backupsToDelete = filenames.map(filename => getBackupByFilename(filename)).filter(Boolean) as Backup[];
+    
+    // Optimistic update - remove all backups immediately from UI
+    setBackups(prev => prev.filter(b => !filenames.includes(b.filename)));
     setLoadingStates(prev => ({ ...prev, deleting: true }));
     
     try {
@@ -390,14 +434,17 @@ export function useAdminBackupsEnhanced(
       
       await Promise.all(deletePromises);
       setMessage?.(`Successfully deleted ${filenames.length} backups`);
+      // Success - no need to rollback, optimistic update was correct
       return true;
     } catch (error) {
+      // Rollback optimistic update on error
+      setBackups(prev => [...prev, ...backupsToDelete]);
       setMessage?.('Some backups failed to delete');
       return false;
     } finally {
       setLoadingStates(prev => ({ ...prev, deleting: false }));
     }
-  }, [backupOperationsApi, credentials, setMessage]);
+  }, [backupOperationsApi, credentials, setMessage, getBackupByFilename]);
 
   // File management
   const handleBackupFileSelect = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
@@ -425,11 +472,7 @@ export function useAdminBackupsEnhanced(
     setSelectedBackupFile(null);
   }, []);
 
-  // Utility functions
-  const getBackupByFilename = useCallback((filename: string): Backup | undefined => {
-    return backups.find(backup => backup.filename === filename);
-  }, [backups]);
-
+  // Additional utility functions
   const getBackupsByType = useCallback((type: 'manual' | 'automatic'): Backup[] => {
     return backups.filter(backup => backup.type === type);
   }, [backups]);

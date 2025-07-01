@@ -37,7 +37,7 @@ interface LoadingStates {
   deactivating: boolean;
 }
 
-interface UseAdminCouponsEnhancedResult {
+interface UseAdminCouponsResult {
   // Data
   coupons: Coupon[];
   activeCoupons: Coupon[];
@@ -110,10 +110,10 @@ const initialLoadingStates: LoadingStates = {
   deactivating: false
 };
 
-export function useAdminCouponsEnhanced(
+export function useAdminCoupons(
   credentials: AdminCredentials,
   setMessage?: (message: string) => void
-): UseAdminCouponsEnhancedResult {
+): UseAdminCouponsResult {
   // Data fetching with enhanced error handling - NO immediate loading
   const {
     data: couponsData,
@@ -193,6 +193,15 @@ export function useAdminCouponsEnhanced(
   const expiredCoupons = coupons.filter(coupon => isExpired(coupon));
   const totalUsage = coupons.reduce((sum, coupon) => sum + (coupon.usedCount || 0), 0);
 
+  // Utility functions (defined early for use in actions)
+  const getCouponById = useCallback((id: string): Coupon | undefined => {
+    return coupons.find(coupon => coupon.id === id);
+  }, [coupons]);
+
+  const getCouponByCode = useCallback((code: string): Coupon | undefined => {
+    return coupons.find(coupon => coupon.code.toLowerCase() === code.toLowerCase());
+  }, [coupons]);
+
   // Helper functions
   function isExpired(coupon: Coupon): boolean {
     if (!coupon.expiryDate) return false;
@@ -225,20 +234,41 @@ export function useAdminCouponsEnhanced(
       return false;
     }
 
+    // Optimistic update - add coupon immediately to UI
+    const optimisticCoupon: Coupon = {
+      id: `temp-${Date.now()}`,
+      code: couponForm.code.toUpperCase(),
+      discountPercent: couponForm.discountPercent,
+      expiryDate: couponForm.expiryDate,
+      maxUses: couponForm.maxUses,
+      usedCount: 0,
+      isActive: couponForm.isActive,
+      description: couponForm.description,
+      minOrderValue: couponForm.minOrderValue,
+      applicableCategories: couponForm.applicableCategories,
+      createdAt: new Date().toISOString()
+    };
+
+    setCoupons(prev => [...prev, optimisticCoupon]);
     setLoadingStates(prev => ({ ...prev, creating: true }));
+
     try {
       await createCouponApi.executeAsAdmin(credentials, {
         action: ADMIN_ACTIONS.CREATE_COUPON,
         ...couponForm
       });
       setCouponForm(initialCouponForm);
+      // Refetch to get the real data and replace optimistic update
+      await refetchCoupons();
       return true;
     } catch (error) {
+      // Rollback optimistic update on error
+      setCoupons(prev => prev.filter(c => c.id !== optimisticCoupon.id));
       return false;
     } finally {
       setLoadingStates(prev => ({ ...prev, creating: false }));
     }
-  }, [couponForm, createCouponApi, credentials, setMessage]);
+  }, [couponForm, createCouponApi, credentials, setMessage, refetchCoupons]);
 
   const updateCoupon = useCallback(async (id: string, data: Partial<CouponForm>): Promise<boolean> => {
     setLoadingStates(prev => ({ ...prev, updating: true }));
@@ -257,19 +287,29 @@ export function useAdminCouponsEnhanced(
   }, [updateCouponApi, credentials]);
 
   const deleteCoupon = useCallback(async (id: string): Promise<boolean> => {
+    // Store the coupon for potential rollback
+    const couponToDelete = getCouponById(id);
+    if (!couponToDelete) return false;
+
+    // Optimistic update - remove coupon immediately from UI
+    setCoupons(prev => prev.filter(c => c.id !== id));
     setLoadingStates(prev => ({ ...prev, deleting: true }));
+
     try {
       await deleteCouponApi.executeAsAdmin(credentials, {
         action: ADMIN_ACTIONS.DELETE_COUPON,
         couponId: id
       });
+      // Success - no need to refetch, optimistic update was correct
       return true;
     } catch (error) {
+      // Rollback optimistic update on error
+      setCoupons(prev => [...prev, couponToDelete]);
       return false;
     } finally {
       setLoadingStates(prev => ({ ...prev, deleting: false }));
     }
-  }, [deleteCouponApi, credentials]);
+  }, [deleteCouponApi, credentials, getCouponById]);
 
   const activateCoupon = useCallback(async (id: string): Promise<boolean> => {
     setLoadingStates(prev => ({ ...prev, activating: true }));
@@ -306,7 +346,13 @@ export function useAdminCouponsEnhanced(
   }, [updateCouponApi, credentials, setMessage]);
 
   const bulkDeleteCoupons = useCallback(async (ids: string[]): Promise<boolean> => {
+    // Store coupons for potential rollback
+    const couponsToDelete = ids.map(id => getCouponById(id)).filter(Boolean) as Coupon[];
+    
+    // Optimistic update - remove all coupons immediately from UI
+    setCoupons(prev => prev.filter(c => !ids.includes(c.id)));
     setLoadingStates(prev => ({ ...prev, deleting: true }));
+    
     try {
       const deletePromises = ids.map(id => 
         deleteCouponApi.executeAsAdmin(credentials, {
@@ -317,14 +363,17 @@ export function useAdminCouponsEnhanced(
       
       await Promise.all(deletePromises);
       setMessage?.(`Successfully deleted ${ids.length} coupons`);
+      // Success - no need to rollback, optimistic update was correct
       return true;
     } catch (error) {
+      // Rollback optimistic update on error
+      setCoupons(prev => [...prev, ...couponsToDelete]);
       setMessage?.('Some coupons failed to delete');
       return false;
     } finally {
       setLoadingStates(prev => ({ ...prev, deleting: false }));
     }
-  }, [deleteCouponApi, credentials, setMessage]);
+  }, [deleteCouponApi, credentials, setMessage, getCouponById]);
 
   // Form management
   const updateCouponForm = useCallback((form: Partial<CouponForm>) => {
@@ -379,14 +428,7 @@ export function useAdminCouponsEnhanced(
     };
   }, [couponForm]);
 
-  // Utility functions
-  const getCouponById = useCallback((id: string): Coupon | undefined => {
-    return coupons.find(coupon => coupon.id === id);
-  }, [coupons]);
-
-  const getCouponByCode = useCallback((code: string): Coupon | undefined => {
-    return coupons.find(coupon => coupon.code.toLowerCase() === code.toLowerCase());
-  }, [coupons]);
+  // Additional utility functions
 
   const getExpiringSoonCoupons = useCallback((days: number = 7): Coupon[] => {
     return coupons.filter(coupon => getExpiringSoon(coupon, days));

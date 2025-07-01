@@ -43,7 +43,7 @@ interface LoadingStates {
   deleting: boolean;
 }
 
-interface UseAdminProductsEnhancedResult {
+interface UseAdminProductsResult {
   // Data
   products: Product[];
   categories: Category[];
@@ -129,10 +129,10 @@ const initialLoadingStates: LoadingStates = {
   deleting: false
 };
 
-export function useAdminProductsEnhanced(
+export function useAdminProducts(
   credentials: AdminCredentials,
   setMessage?: (message: string) => void
-): UseAdminProductsEnhancedResult {
+): UseAdminProductsResult {
   // Data fetching with enhanced error handling - NO immediate loading
   const {
     data: productsData,
@@ -280,17 +280,31 @@ export function useAdminProductsEnhanced(
       return false;
     }
 
+    // Optimistic update - add category immediately to UI
+    const optimisticCategory: Category = {
+      name: categoryForm.name,
+      slug: categoryForm.slug,
+      description: categoryForm.description,
+      dimensionFields: categoryForm.dimensionFields
+    };
+
+    setCategories(prev => [...prev, optimisticCategory]);
     setLoadingStates(prev => ({ ...prev, adding: true }));
+
     try {
       await addCategoryApi.executeAsAdmin(credentials, { categoryData: categoryForm });
       setCategoryForm(initialCategoryForm);
+      // Refetch to get the real data and replace optimistic update
+      await refetchProducts();
       return true;
     } catch (error) {
+      // Rollback optimistic update on error
+      setCategories(prev => prev.filter(c => c.slug !== optimisticCategory.slug));
       return false;
     } finally {
       setLoadingStates(prev => ({ ...prev, adding: false }));
     }
-  }, [categoryForm, addCategoryApi, credentials, setMessage]);
+  }, [categoryForm, addCategoryApi, credentials, setMessage, refetchProducts]);
 
   const addProduct = useCallback(async (): Promise<boolean> => {
     if (!productForm.name || !productForm.category) {
