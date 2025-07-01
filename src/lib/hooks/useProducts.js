@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
-import { getUniqueValues } from '../array';
+import { getUniqueValues } from '../utils';
 import { API_ENDPOINTS } from '../constants';
 import { filterProducts, searchProducts } from '../productFilter';
 
