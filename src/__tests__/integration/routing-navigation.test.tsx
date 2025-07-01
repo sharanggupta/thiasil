@@ -32,7 +32,7 @@ afterAll(() => {
   global.fetch = originalFetch
 })
 
-describe('Routing and Navigation Integration Tests', () => {
+describe('Routing and Navigation Integration Testing Suite', () => {
   beforeEach(() => {
     clearAllMocks()
     mockPush.mockClear()
@@ -41,8 +41,8 @@ describe('Routing and Navigation Integration Tests', () => {
     mockForward.mockClear()
   })
 
-  describe('Product Navigation Flow', () => {
-    it('handles complete product browsing navigation', async () => {
+  describe('when testing Product Navigation and Breadcrumb workflows', () => {
+    it('should successfully navigate through complete product browsing hierarchy', async () => {
       const TestComponent = () => {
         const [products, setProducts] = React.useState(mockProducts)
         const [selectedCategory, setSelectedCategory] = React.useState('')
@@ -141,53 +141,56 @@ describe('Routing and Navigation Integration Tests', () => {
         )
       }
 
+      // Given: Product catalog requiring hierarchical navigation system
       render(<TestComponent />)
 
-      // Verify initial state
+      // Then: Initial navigation state shows homepage with proper breadcrumb
       expect(screen.getByTestId('breadcrumb-0')).toHaveTextContent('Home')
       expect(screen.getByTestId('breadcrumb-0')).toHaveClass('active')
       expect(screen.getByText('All Products')).toBeInTheDocument()
       expect(screen.getByTestId('navigation-state')).toHaveTextContent('Current Category: None')
 
-      // Navigate to category
+      // When: User navigates to specific product category
       const beakersButton = screen.getByTestId('nav-beakers')
       await user.click(beakersButton)
 
-      // Verify category navigation
+      // Then: Category navigation updates URL and breadcrumb state
       expect(mockPush).toHaveBeenCalledWith('/products/beakers')
       expect(screen.getByTestId('breadcrumb-2')).toHaveTextContent('beakers')
       expect(screen.getByTestId('breadcrumb-2')).toHaveClass('active')
       expect(screen.getByText('beakers Products')).toBeInTheDocument()
       expect(screen.getByTestId('navigation-state')).toHaveTextContent('Current Category: beakers')
 
-      // Verify filtered products
+      // Then: Product filtering reflects category selection
       expect(screen.getByTestId('product-item-beaker-500ml')).toBeInTheDocument()
       expect(screen.queryByTestId('product-item-flask-250ml')).not.toBeInTheDocument()
 
-      // Navigate to product details
+      // When: User navigates to individual product details
       const viewProductButton = screen.getByTestId('view-product-beaker-500ml')
       await user.click(viewProductButton)
 
+      // Then: Product detail navigation extends breadcrumb hierarchy
       expect(mockPush).toHaveBeenCalledWith('/products/beakers/beaker-500ml')
       expect(screen.getByTestId('breadcrumb-3')).toHaveTextContent('Test Beaker')
 
-      // Navigate back via breadcrumbs
+      // When: User navigates back using breadcrumb navigation
       const productsButton = screen.getByTestId('breadcrumb-1')
       await user.click(productsButton)
 
+      // Then: Breadcrumb navigation restores previous application state
       expect(mockPush).toHaveBeenCalledWith('/products')
       expect(screen.getByTestId('breadcrumb-1')).toHaveClass('active')
       expect(screen.getByText('All Products')).toBeInTheDocument()
       expect(screen.getByTestId('navigation-state')).toHaveTextContent('Current Category: None')
 
-      // Verify all products are shown again
+      // Then: Product catalog returns to unfiltered complete view
       expect(screen.getByTestId('product-item-beaker-500ml')).toBeInTheDocument()
       expect(screen.getByTestId('product-item-flask-250ml')).toBeInTheDocument()
     })
   })
 
-  describe('Search and Filter Navigation', () => {
-    it('integrates search functionality with URL updates', async () => {
+  describe('when testing Search Integration and URL synchronization workflows', () => {
+    it('should maintain search state and sorting preferences through URL management', async () => {
       const TestComponent = () => {
         const [searchTerm, setSearchTerm] = React.useState('')
         const [sortBy, setSortBy] = React.useState('name')
@@ -284,17 +287,19 @@ describe('Routing and Navigation Integration Tests', () => {
         )
       }
 
+      // Given: Search interface requiring URL synchronization with filter state
       render(<TestComponent />)
 
-      // Verify initial state
+      // Then: Initial catalog state shows all products with default sorting
       expect(screen.getByTestId('results-count')).toHaveTextContent('Found 3 products')
       expect(screen.getByTestId('result-name-0')).toHaveTextContent('Test Beaker')
       expect(screen.getByTestId('current-url')).toHaveTextContent('Last URL: /products')
 
-      // Test search functionality
+      // When: User searches for specific product type
       const searchInput = screen.getByTestId('search-input')
       await user.type(searchInput, 'beaker')
 
+      // Then: Search results filter products and update URL parameters
       await waitFor(() => {
         expect(screen.getByTestId('results-count')).toHaveTextContent('Found 1 products')
       })
@@ -303,20 +308,21 @@ describe('Routing and Navigation Integration Tests', () => {
       expect(screen.getByTestId('result-name-0')).toHaveTextContent('Test Beaker')
       expect(screen.queryByText('Test Flask')).not.toBeInTheDocument()
 
-      // Test sort functionality
+      // When: User changes sorting preference during active search
       const sortSelect = screen.getByTestId('sort-select')
       await user.selectOptions(sortSelect, 'price')
 
+      // Then: URL preserves search term while adding sort parameter
       expect(mockReplace).toHaveBeenCalledWith('/products?search=beaker&sort=price')
 
-      // Clear search to test sorting
+      // When: User clears search to see all products with new sorting
       await user.clear(searchInput)
 
       await waitFor(() => {
         expect(screen.getByTestId('results-count')).toHaveTextContent('Found 3 products')
       })
 
-      // Products should be sorted by price: Pipette (₹150), Flask (₹250), Beaker (₹300)
+      // Then: Price sorting arranges products by ascending cost
       expect(screen.getByTestId('result-name-0')).toHaveTextContent('Test Pipette')
       expect(screen.getByTestId('result-price-0')).toHaveTextContent('₹150.00')
       expect(screen.getByTestId('result-name-1')).toHaveTextContent('Test Flask')
@@ -324,15 +330,17 @@ describe('Routing and Navigation Integration Tests', () => {
 
       expect(mockReplace).toHaveBeenCalledWith('/products?sort=price')
 
-      // Test navigation to product
+      // When: User selects product from search results
       const selectButton = screen.getByTestId('select-result-0')
       await user.click(selectButton)
 
+      // Then: Selection navigates to individual product detail page
       expect(mockPush).toHaveBeenCalledWith('/products/pipettes/pipette-out-of-stock')
 
-      // Test no results
+      // When: User searches for non-existent product
       await user.type(searchInput, 'nonexistent')
 
+      // Then: No results state provides clear feedback to user
       await waitFor(() => {
         expect(screen.getByTestId('no-results')).toBeInTheDocument()
       })
@@ -341,8 +349,8 @@ describe('Routing and Navigation Integration Tests', () => {
     })
   })
 
-  describe('Multi-Page Navigation Flow', () => {
-    it('handles complex navigation between different app sections', async () => {
+  describe('when testing Multi-Page Application Navigation and History Management', () => {
+    it('should maintain navigation history and enable back button functionality across application sections', async () => {
       const TestComponent = () => {
         const [currentPage, setCurrentPage] = React.useState('home')
         const [navigationHistory, setNavigationHistory] = React.useState(['home'])
@@ -533,71 +541,81 @@ describe('Routing and Navigation Integration Tests', () => {
         )
       }
 
+      // Given: Multi-page application requiring complex navigation and history tracking
       render(<TestComponent />)
 
-      // Verify initial state
+      // Then: Initial application state shows homepage with empty navigation history
       expect(screen.getByTestId('home-page')).toBeInTheDocument()
       expect(screen.getByTestId('current-page')).toHaveTextContent('Current: home')
       expect(screen.getByTestId('nav-history')).toHaveTextContent('History: home')
       expect(screen.getByTestId('back-button')).toBeDisabled()
 
-      // Navigate to products
+      // When: User navigates to product catalog section
       await user.click(screen.getByTestId('nav-to-products'))
 
+      // Then: Product page loads with updated navigation history
       expect(screen.getByTestId('products-page')).toBeInTheDocument()
       expect(mockPush).toHaveBeenCalledWith('/products')
       expect(screen.getByTestId('nav-history')).toHaveTextContent('History: home → products')
 
-      // Navigate to product details
+      // When: User selects specific product for detailed view
       await user.click(screen.getByTestId('view-details-beaker-500ml'))
 
+      // Then: Product detail page shows complete product information
       expect(screen.getByTestId('product-details-page')).toBeInTheDocument()
       expect(screen.getByTestId('product-name')).toHaveTextContent('Test Beaker')
       expect(mockPush).toHaveBeenCalledWith('/products/beakers/beaker-500ml')
 
-      // Navigate to cart
+      // When: User adds product to shopping cart
       await user.click(screen.getByTestId('add-to-cart'))
 
+      // Then: Cart page loads with proper URL navigation
       expect(screen.getByTestId('cart-page')).toBeInTheDocument()
       expect(mockPush).toHaveBeenCalledWith('/cart')
 
-      // Go back to previous page
+      // When: User uses back button to return to previous page
       await user.click(screen.getByTestId('back-button'))
 
+      // Then: Back navigation restores previous application state
       expect(screen.getByTestId('product-details-page')).toBeInTheDocument()
       expect(mockBack).toHaveBeenCalled()
 
-      // Go back again
+      // When: User continues using back navigation
       await user.click(screen.getByTestId('back-button'))
 
+      // Then: Navigation continues through history stack
       expect(screen.getByTestId('products-page')).toBeInTheDocument()
 
-      // Navigate to about page
+      // When: User navigates to company information section
       await user.click(screen.getByTestId('back-button')) // Back to home
       await user.click(screen.getByTestId('nav-to-about'))
 
+      // Then: About page provides company information
       expect(screen.getByTestId('about-page')).toBeInTheDocument()
       expect(mockPush).toHaveBeenCalledWith('/about')
 
-      // Navigate to contact from about
+      // When: User navigates to contact form from about page
       await user.click(screen.getByTestId('nav-to-contact-from-about'))
 
+      // Then: Contact page enables user communication
       expect(screen.getByTestId('contact-page')).toBeInTheDocument()
       expect(mockPush).toHaveBeenCalledWith('/contact')
 
-      // Submit contact form
+      // When: User submits contact form message
       await user.click(screen.getByTestId('submit-contact'))
 
+      // Then: Thank you page confirms message submission
       expect(screen.getByTestId('thank-you-page')).toBeInTheDocument()
       expect(mockPush).toHaveBeenCalledWith('/thank-you')
 
-      // Return to home
+      // When: User returns to homepage after completing workflow
       await user.click(screen.getByTestId('return-home'))
 
+      // Then: Navigation completes full application cycle
       expect(screen.getByTestId('home-page')).toBeInTheDocument()
       expect(mockPush).toHaveBeenCalledWith('/')
 
-      // Verify final navigation history
+      // Then: Navigation history accurately reflects complete user journey
       expect(screen.getByTestId('nav-history')).toHaveTextContent(
         'History: home → about → contact → thank-you → home'
       )

@@ -13,12 +13,12 @@ afterAll(() => {
   global.fetch = originalFetch
 })
 
-describe('Form Submission Integration Tests', () => {
+describe('Form Submission Integration Testing Suite', () => {
   beforeEach(() => {
     clearAllMocks()
   })
 
-  describe('Contact Form Integration', () => {
+  describe('when testing Contact Form submission workflows', () => {
     const ContactFormComponent = () => {
       const [formData, setFormData] = React.useState({
         name: '',
@@ -176,16 +176,18 @@ describe('Form Submission Integration Tests', () => {
       )
     }
 
-    it('completes successful form submission workflow', async () => {
+    it('should successfully complete end-to-end contact form submission', async () => {
+      // Given: Contact form API accepting valid submissions
       mockFetch({ success: true, message: 'Message sent successfully' })
 
+      // When: User loads contact form interface
       render(<ContactFormComponent />)
 
-      // Verify initial form state
+      // Then: Initial form state is ready for user input
       expect(screen.getByText('Contact Us')).toBeInTheDocument()
       expect(screen.getByTestId('contact-form')).toBeInTheDocument()
 
-      // Fill out form fields
+      // When: User fills out complete contact information
       const nameField = document.getElementById('field-name') as HTMLInputElement
       const emailField = document.getElementById('field-email') as HTMLInputElement
       const companyField = document.getElementById('field-company') as HTMLInputElement
@@ -196,28 +198,26 @@ describe('Form Submission Integration Tests', () => {
       await user.type(companyField, 'ACME Corp')
       await user.type(messageField, 'I am interested in your laboratory equipment.')
 
-      // Verify form data is entered
+      // Then: Form captures user input correctly
       expect(nameField.value).toBe('John Doe')
       expect(emailField.value).toBe('john@example.com')
       expect(companyField.value).toBe('ACME Corp')
       expect(messageField.value).toBe('I am interested in your laboratory equipment.')
 
-      // Submit form
+      // When: User submits completed form
       const submitButton = screen.getByTestId('submit-button')
       await user.click(submitButton)
 
-      // Note: Loading state is too fast to catch with mocked fetch
-
-      // Wait for submission to complete
+      // Then: Submission succeeds and shows confirmation
       await waitFor(() => {
         expect(screen.getByTestId('success-message')).toBeInTheDocument()
       })
 
-      // Verify success state
+      // Then: Success message provides clear confirmation to user
       expect(screen.getByText('Thank You!')).toBeInTheDocument()
       expect(screen.getByText('Your message has been sent successfully.')).toBeInTheDocument()
 
-      // Verify API call was made
+      // Then: API receives correctly formatted contact data
       expect(global.fetch).toHaveBeenCalledWith('/api/contact', {
         method: 'POST',
         headers: {
@@ -231,58 +231,61 @@ describe('Form Submission Integration Tests', () => {
         }),
       })
 
-      // Test "Send Another" functionality
+      // When: User wants to send another message
       const sendAnotherButton = screen.getByTestId('send-another-button')
       await user.click(sendAnotherButton)
 
-      // Verify form is shown again with empty fields
+      // Then: Form resets for new message entry
       await waitFor(() => {
         expect(screen.getByTestId('contact-form')).toBeInTheDocument()
       })
 
+      // Then: Form fields are cleared for new input
       const resetNameField = document.getElementById('field-name') as HTMLInputElement
       expect(resetNameField.value).toBe('')
     })
 
-    it('handles client-side validation errors', async () => {
+    it('should prevent submission with client-side validation errors', async () => {
+      // Given: Empty contact form requiring validation
       render(<ContactFormComponent />)
 
-      // Try to submit empty form
+      // When: User attempts to submit empty form
       const submitButton = screen.getByTestId('submit-button')
       await user.click(submitButton)
 
-      // Verify validation errors prevent submission
+      // Then: Client validation prevents API call
       await waitFor(() => {
         expect(global.fetch).not.toHaveBeenCalled()
       })
       
-      // Form should still be visible for corrections
+      // Then: Form remains available for user corrections
       expect(screen.getByTestId('contact-form')).toBeInTheDocument()
-
-      // Verify form was not submitted
       expect(global.fetch).not.toHaveBeenCalled()
 
-      // Test invalid email validation
+      // When: User provides invalid email format
       const emailField = document.getElementById('field-email') as HTMLInputElement
       await user.type(emailField, 'invalid-email')
       await user.click(submitButton)
 
+      // Then: Email validation prevents submission
       await waitFor(() => {
         expect(global.fetch).not.toHaveBeenCalled()
       })
 
-      // Test short message validation
+      // When: User provides insufficient message content
       const messageField = document.getElementById('field-message') as HTMLTextAreaElement
       await user.clear(messageField)
       await user.type(messageField, 'short')
       await user.click(submitButton)
 
+      // Then: Message length validation prevents submission
       await waitFor(() => {
         expect(global.fetch).not.toHaveBeenCalled()
       })
     })
 
-    it('handles server-side validation errors', async () => {
+    it('should display server-side validation errors clearly', async () => {
+      // Given: Server returning field-specific validation errors
       mockFetch({
         success: false,
         errors: {
@@ -291,9 +294,9 @@ describe('Form Submission Integration Tests', () => {
         }
       }, false, 0, 400)
 
+      // When: User submits form with server-rejected data
       render(<ContactFormComponent />)
 
-      // Fill out form with valid data
       const nameField = document.getElementById('field-name') as HTMLInputElement
       const emailField = document.getElementById('field-email') as HTMLInputElement
       const messageField = document.getElementById('field-message') as HTMLTextAreaElement
@@ -301,10 +304,9 @@ describe('Form Submission Integration Tests', () => {
       await user.type(emailField, 'existing@example.com')
       await user.type(messageField, 'This message has issues')
 
-      // Submit form
       await user.click(screen.getByTestId('submit-button'))
 
-      // Wait for server errors to appear
+      // Then: Server validation errors are displayed on relevant fields
       await waitFor(() => {
         const emailField = document.getElementById('field-email') as HTMLInputElement
         const messageField = document.getElementById('field-message') as HTMLTextAreaElement
@@ -312,16 +314,17 @@ describe('Form Submission Integration Tests', () => {
         expect(messageField.parentElement?.querySelector('.text-red-300')).toBeInTheDocument()
       })
 
-      // Verify form is still visible for corrections
+      // Then: Form remains available for user corrections
       expect(screen.getByTestId('contact-form')).toBeInTheDocument()
     })
 
-    it('handles network errors gracefully', async () => {
+    it('should provide helpful feedback for network connectivity issues', async () => {
+      // Given: Network connectivity problems preventing submission
       simulateNetworkError()
 
+      // When: User submits form during network issues
       render(<ContactFormComponent />)
 
-      // Fill out form
       const nameField = document.getElementById('field-name') as HTMLInputElement
       const emailField = document.getElementById('field-email') as HTMLInputElement
       const messageField = document.getElementById('field-message') as HTMLTextAreaElement
@@ -329,32 +332,34 @@ describe('Form Submission Integration Tests', () => {
       await user.type(emailField, 'john@example.com')
       await user.type(messageField, 'Test message content')
 
-      // Submit form
       await user.click(screen.getByTestId('submit-button'))
 
-      // Wait for network error
+      // Then: Network error message guides user to retry
       await waitFor(() => {
         expect(screen.getByTestId('submit-error')).toBeInTheDocument()
       })
 
+      // Then: Clear error message helps user understand connectivity issue
       expect(screen.getByText('Network error. Please try again.')).toBeInTheDocument()
 
-      // Verify form data is preserved
+      // Then: Form data is preserved for retry without re-entry
       expect(nameField.value).toBe('John Doe')
       expect(emailField.value).toBe('john@example.com')
     })
 
-    it('validates complete form integration workflow', async () => {
+    it('should demonstrate complete validation workflow progression', async () => {
+      // Given: Contact form requiring progressive validation testing
       render(<ContactFormComponent />)
 
-      // Test 1: Empty form should not submit
+      // When: Empty form submission is attempted
       await user.click(screen.getByTestId('submit-button'))
       
+      // Then: Empty form validation prevents submission
       await waitFor(() => {
         expect(global.fetch).not.toHaveBeenCalled()
       })
       
-      // Test 2: Partial valid input should still not submit
+      // When: Partial valid input with invalid email is submitted
       const nameField = document.getElementById('field-name') as HTMLInputElement
       const emailField = document.getElementById('field-email') as HTMLInputElement
       
@@ -363,22 +368,23 @@ describe('Form Submission Integration Tests', () => {
       
       await user.click(screen.getByTestId('submit-button'))
       
+      // Then: Invalid email validation prevents submission
       await waitFor(() => {
         expect(global.fetch).not.toHaveBeenCalled()
       })
       
-      // Test 3: Complete valid form should submit
+      // When: Complete valid form data is provided
       await user.clear(emailField)
       await user.type(emailField, 'john@example.com')
       
       const messageField = document.getElementById('field-message') as HTMLTextAreaElement
       await user.type(messageField, 'This is a valid message with enough characters.')
       
-      // Mock successful submission
       mockFetch({ success: true, message: 'Message sent successfully' })
       
       await user.click(screen.getByTestId('submit-button'))
       
+      // Then: Valid form successfully submits to API
       await waitFor(() => {
         expect(global.fetch).toHaveBeenCalledWith('/api/contact', {
           method: 'POST',
@@ -392,14 +398,14 @@ describe('Form Submission Integration Tests', () => {
         })
       })
       
-      // Verify success state
+      // Then: Success confirmation is displayed to user
       await waitFor(() => {
         expect(screen.getByTestId('success-message')).toBeInTheDocument()
       })
     })
   })
 
-  describe('Admin Product Form Integration', () => {
+  describe('when testing Admin Product Form complex data workflows', () => {
     const ProductFormComponent = () => {
       const [formData, setFormData] = React.useState({
         name: '',
@@ -617,12 +623,13 @@ describe('Form Submission Integration Tests', () => {
       )
     }
 
-    it('completes product creation workflow with dynamic features', async () => {
+    it('should handle complex product creation with dynamic feature management', async () => {
+      // Given: Admin API accepting new product submissions
       mockFetch({ success: true, product: { id: 'new-product-001' } })
 
+      // When: Admin user creates new product with complete information
       render(<ProductFormComponent />)
 
-      // Fill basic product information
       const nameField = document.getElementById('field-name') as HTMLInputElement
       const catNoField = document.getElementById('field-catNo') as HTMLInputElement
       const categoryField = document.getElementById('field-category') as HTMLSelectElement
@@ -637,44 +644,42 @@ describe('Form Submission Integration Tests', () => {
       await user.type(descriptionField, 'High-quality laboratory beaker')
       await user.type(capacityField, '500ml')
 
-      // Test features functionality
+      // When: Admin manages dynamic product features
       const firstFeatureInput = screen.getByTestId('feature-input-0')
       await user.type(firstFeatureInput, 'Borosilicate glass')
 
-      // Add another feature
       const addFeatureButton = screen.getByTestId('add-feature-button')
       await user.click(addFeatureButton)
 
-      // Verify second feature input appears
+      // Then: Dynamic feature inputs are created correctly
       expect(screen.getByTestId('feature-input-1')).toBeInTheDocument()
       expect(screen.getByTestId('remove-feature-1')).toBeInTheDocument()
 
-      // Fill second feature
       await user.type(screen.getByTestId('feature-input-1'), 'Graduated markings')
 
-      // Add and fill third feature
       await user.click(addFeatureButton)
       await user.type(screen.getByTestId('feature-input-2'), 'Heat resistant')
 
-      // Remove second feature to test removal
+      // When: Admin removes middle feature to test array management
       await user.click(screen.getByTestId('remove-feature-1'))
 
-      // Verify feature was removed
+      // Then: Feature removal correctly updates array indices
       await waitFor(() => {
         expect(screen.queryByTestId('feature-input-2')).not.toBeInTheDocument()
       })
 
-      // Submit form
+      // When: Admin submits complete product form
       await user.click(screen.getByTestId('submit-product-button'))
 
-      // Wait for success
+      // Then: Product creation succeeds with confirmation
       await waitFor(() => {
         expect(screen.getByTestId('success-alert')).toBeInTheDocument()
       })
 
+      // Then: Success message confirms product was added
       expect(screen.getByText('Product added successfully!')).toBeInTheDocument()
 
-      // Verify API call with correct data structure
+      // Then: API receives correctly structured product data
       expect(global.fetch).toHaveBeenCalledWith('/api/admin/products', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -685,16 +690,17 @@ describe('Form Submission Integration Tests', () => {
           price: 299.99,
           description: 'High-quality laboratory beaker',
           capacity: '500ml',
-          features: ['Borosilicate glass', 'Heat resistant'] // Note: second feature was removed
+          features: ['Borosilicate glass', 'Heat resistant'] // Dynamic array with removed feature
         })
       })
 
-      // Verify form fields are reset
+      // Then: Form resets for next product entry
       const resetNameField = document.getElementById('field-name') as HTMLInputElement
       expect(resetNameField.value).toBe('')
     })
 
-    it('handles complex validation errors', async () => {
+    it('should handle complex business rule validation from server', async () => {
+      // Given: Server enforcing business rules on product data
       mockFetch({
         success: false,
         errors: {
@@ -703,23 +709,22 @@ describe('Form Submission Integration Tests', () => {
         }
       }, false, 0, 400)
 
+      // When: Admin submits product data violating business rules
       render(<ProductFormComponent />)
 
-      // Fill form with potentially problematic data
       const nameField = document.getElementById('field-name') as HTMLInputElement
       const catNoField = document.getElementById('field-catNo') as HTMLInputElement
       const categoryField = document.getElementById('field-category') as HTMLSelectElement
       const priceField = document.getElementById('field-price') as HTMLInputElement
       
       await user.type(nameField, 'Duplicate Product')
-      await user.type(catNoField, 'EXISTING001')
+      await user.type(catNoField, 'EXISTING001') // Duplicate catalog number
       await user.selectOptions(categoryField, 'beakers')
       await user.type(priceField, '-50') // Invalid negative price
 
-      // Submit form
       await user.click(screen.getByTestId('submit-product-button'))
 
-      // Wait for server validation errors
+      // Then: Server validation errors are displayed on problematic fields
       await waitFor(() => {
         const catNoField = document.getElementById('field-catNo') as HTMLInputElement
         const priceField = document.getElementById('field-price') as HTMLInputElement
@@ -727,7 +732,7 @@ describe('Form Submission Integration Tests', () => {
         expect(priceField.parentElement?.querySelector('.text-red-300')).toBeInTheDocument()
       })
 
-      // Verify form data is preserved
+      // Then: Form data is preserved for admin to make corrections
       const preservedNameField = document.getElementById('field-name') as HTMLInputElement
       const preservedCatNoField = document.getElementById('field-catNo') as HTMLInputElement
       expect(preservedNameField.value).toBe('Duplicate Product')

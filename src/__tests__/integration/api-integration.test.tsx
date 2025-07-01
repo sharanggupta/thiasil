@@ -26,13 +26,14 @@ afterAll(() => {
   global.fetch = originalFetch
 })
 
-describe('API Integration Tests', () => {
+describe('API Integration Testing Suite', () => {
   beforeEach(() => {
     clearAllMocks()
   })
 
-  describe('Product API Integration', () => {
-    it('successfully loads products from API', async () => {
+  describe('when integrating with Product API endpoints', () => {
+    it('should successfully fetch and display product data from backend', async () => {
+      // Given: Product API returning valid product data
       mockFetch(mockApiResponses.products)
 
       // Create a simple component that fetches products
@@ -74,27 +75,29 @@ describe('API Integration Tests', () => {
         )
       }
 
+      // When: Component fetches products from API
       render(<TestComponent />)
 
-      // Verify loading state
+      // Then: Loading state provides immediate user feedback
       expect(screen.getByText('Loading products...')).toBeInTheDocument()
 
-      // Wait for API call to complete
+      // Then: Products are successfully loaded and displayed
       await waitFor(() => {
         expect(screen.getByText('Products')).toBeInTheDocument()
       })
 
-      // Verify API was called correctly
+      // Then: API is called with correct endpoint
       expect(global.fetch).toHaveBeenCalledWith('/api/products')
 
-      // Verify products are displayed
+      // Then: Product data is correctly rendered for user browsing
       expect(screen.getByTestId('product-beaker-500ml')).toBeInTheDocument()
       expect(screen.getByText('Test Beaker')).toBeInTheDocument()
       expect(screen.getByText('₹300.00')).toBeInTheDocument()
       expect(screen.getByTestId('stock-beaker-500ml')).toHaveTextContent('in_stock')
     })
 
-    it('handles API errors gracefully', async () => {
+    it('should provide clear error messaging when API requests fail', async () => {
+      // Given: Product API returning error response
       mockFetchError('Failed to fetch products')
 
       const TestComponent = () => {
@@ -123,18 +126,20 @@ describe('API Integration Tests', () => {
         return <div>Products loaded</div>
       }
 
+      // When: Component attempts to fetch products
       render(<TestComponent />)
 
-      // Wait for error state
+      // Then: Error state provides helpful feedback to user
       await waitFor(() => {
         expect(screen.getByTestId('error-message')).toBeInTheDocument()
       })
 
+      // Then: Clear error message helps user understand issue
       expect(screen.getByText('Error: Failed to fetch products')).toBeInTheDocument()
     })
 
-    it('handles network timeout correctly', async () => {
-      // Mock slow network response (10 second delay)
+    it('should provide timeout feedback for slow network connections', async () => {
+      // Given: Slow network causing extended loading time
       mockFetch(mockProducts, true, 10000)
 
       const TestComponent = () => {
@@ -167,19 +172,20 @@ describe('API Integration Tests', () => {
         return <div>Products loaded</div>
       }
 
+      // When: Component loads with slow network
       render(<TestComponent />)
 
-      // Initially should show loading
+      // Then: Initial loading state appears immediately
       expect(screen.getByText('Loading products...')).toBeInTheDocument()
 
-      // After timeout, should show slow loading message
+      // Then: Extended loading message helps manage user expectations
       await waitFor(() => {
         expect(screen.getByTestId('slow-loading')).toBeInTheDocument()
       }, { timeout: 4000 })
     })
 
-    it('handles malformed API responses', async () => {
-      // Mock a response that will fail JSON parsing
+    it('should handle corrupted API responses without breaking user experience', async () => {
+      // Given: API returning malformed JSON data
       const mockBadResponse = {
         ok: true,
         json: () => Promise.reject(new Error('Invalid JSON'))
@@ -210,16 +216,20 @@ describe('API Integration Tests', () => {
         return <div>Success</div>
       }
 
+      // When: Component attempts to parse corrupted response
       render(<TestComponent />)
 
+      // Then: Parse error is handled gracefully
       await waitFor(() => {
         expect(screen.getByTestId('parse-error')).toBeInTheDocument()
       })
 
+      // Then: User-friendly error message is displayed
       expect(screen.getByText('Failed to parse response')).toBeInTheDocument()
     })
 
-    it('respects rate limiting', async () => {
+    it('should handle API rate limiting with appropriate user guidance', async () => {
+      // Given: API enforcing rate limits with 429 status
       mockFetch({ error: 'Rate limit exceeded' }, false, 0, 429)
 
       const TestComponent = () => {
@@ -247,18 +257,21 @@ describe('API Integration Tests', () => {
         return <div>Success</div>
       }
 
+      // When: Component encounters rate limiting
       render(<TestComponent />)
 
+      // Then: Rate limit error is detected and handled
       await waitFor(() => {
         expect(screen.getByTestId('rate-limit-error')).toBeInTheDocument()
       })
 
+      // Then: User receives clear guidance about rate limiting
       expect(screen.getByText('Too many requests. Please try again later.')).toBeInTheDocument()
     })
   })
 
-  describe('Coupon API Integration', () => {
-    it('validates coupon codes successfully', async () => {
+  describe('when integrating with Coupon validation API', () => {
+    it('should successfully validate and apply valid coupon codes', async () => {
       const TestComponent = () => {
         const [couponCode, setCouponCode] = React.useState('')
         const [validation, setValidation] = React.useState(null)
@@ -313,29 +326,27 @@ describe('API Integration Tests', () => {
         )
       }
 
-      // Mock successful coupon validation
+      // Given: Valid coupon code available for validation
       mockFetch(mockApiResponses.couponValidation('SAVE10'))
 
+      // When: User enters and validates coupon code
       render(<TestComponent />)
 
-      // Enter coupon code
       const input = screen.getByTestId('coupon-input')
       await user.type(input, 'SAVE10')
 
-      // Click validate button
       const validateButton = screen.getByTestId('validate-button')
       await user.click(validateButton)
 
-      // Note: Loading state might be too fast to catch, so we'll skip this assertion
-
-      // Wait for validation to complete
+      // Then: Validation succeeds and discount is applied
       await waitFor(() => {
         expect(screen.getByTestId('coupon-success')).toBeInTheDocument()
       })
 
+      // Then: User sees confirmation of successful coupon application
       expect(screen.getByText('Coupon applied! 10% off')).toBeInTheDocument()
 
-      // Verify API call
+      // Then: API is called with correct validation parameters
       expect(global.fetch).toHaveBeenCalledWith('/api/coupons', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -343,7 +354,7 @@ describe('API Integration Tests', () => {
       })
     })
 
-    it('handles invalid coupon codes', async () => {
+    it('should provide clear feedback for invalid coupon codes', async () => {
       const TestComponent = () => {
         const [validation, setValidation] = React.useState(null)
 
@@ -378,21 +389,24 @@ describe('API Integration Tests', () => {
         )
       }
 
-      // Mock invalid coupon response
+      // Given: Invalid coupon code submitted for validation
       mockFetch(mockApiResponses.couponValidation('INVALID'))
 
+      // When: Component validates invalid coupon
       render(<TestComponent />)
 
+      // Then: Invalid coupon error is displayed
       await waitFor(() => {
         expect(screen.getByTestId('invalid-coupon')).toBeInTheDocument()
       })
 
+      // Then: Clear error message guides user to try different code
       expect(screen.getByText('Invalid coupon code')).toBeInTheDocument()
     })
   })
 
-  describe('Error Recovery and Retry', () => {
-    it('allows retry after API failure', async () => {
+  describe('when implementing error recovery and retry mechanisms', () => {
+    it('should enable users to retry failed API requests successfully', async () => {
       let callCount = 0
       const mockFetchWithRetry = jest.fn().mockImplementation(() => {
         callCount++
@@ -449,29 +463,31 @@ describe('API Integration Tests', () => {
         )
       }
 
+      // When: Component experiences initial failure then retries
       render(<TestComponent />)
 
-      // Wait for initial error
+      // Then: Initial error state provides retry option
       await waitFor(() => {
         expect(screen.getByTestId('error-message')).toBeInTheDocument()
       })
 
-      // Click retry button
+      // When: User clicks retry button
       const retryButton = screen.getByTestId('retry-button')
       await user.click(retryButton)
 
-      // Wait for success after retry
+      // Then: Retry succeeds and data loads properly
       await waitFor(() => {
         expect(screen.getByTestId('products-loaded')).toBeInTheDocument()
       })
 
+      // Then: Successful retry loads expected data
       expect(screen.getByText('Products loaded: 3')).toBeInTheDocument()
       expect(mockFetchWithRetry).toHaveBeenCalledTimes(2)
     })
   })
 
-  describe('API Performance', () => {
-    it('tracks API response times', async () => {
+  describe('when monitoring API performance and response times', () => {
+    it('should accurately measure and report API response times', async () => {
       const performanceData = {
         startTime: 0,
         endTime: 0,
@@ -506,19 +522,21 @@ describe('API Integration Tests', () => {
         )
       }
 
-      // Mock a response with 200ms delay
+      // Given: API with known 200ms response delay
       mockFetch(mockProducts, true, 200)
 
+      // When: Component measures API response time
       render(<TestComponent />)
 
+      // Then: Response time is accurately measured and displayed
       await waitFor(() => {
         const responseTimeElement = screen.getByTestId('response-time')
         expect(responseTimeElement).toBeInTheDocument()
         
-        // Response time should be approximately 200ms (with some tolerance)
+        // Then: Measured time reflects actual API delay with reasonable tolerance
         const timeText = responseTimeElement.textContent || ''
         const time = parseFloat(timeText.match(/[\d.]+/)?.[0] || '0')
-        expect(time).toBeGreaterThan(190) // Allow some tolerance
+        expect(time).toBeGreaterThan(190) // Allow some tolerance for test execution
       })
     })
   })

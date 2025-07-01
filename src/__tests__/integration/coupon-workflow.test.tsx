@@ -14,7 +14,7 @@ afterAll(() => {
   global.fetch = originalFetch
 })
 
-describe('Coupon Integration Workflow', () => {
+describe('Coupon Integration Workflow Testing Suite', () => {
   beforeEach(() => {
     clearAllMocks()
     localStorage.clear()
@@ -29,8 +29,8 @@ describe('Coupon Integration Workflow', () => {
     )
   }
 
-  describe('Complete Coupon Application Workflow', () => {
-    it('completes full coupon application and removal workflow', async () => {
+  describe('when testing complete coupon lifecycle management', () => {
+    it('should successfully handle full coupon application and removal workflow', async () => {
       const TestComponent = () => {
         const [couponCode, setCouponCode] = React.useState('')
         const [appliedCoupon, setAppliedCoupon] = React.useState(null)
@@ -159,80 +159,80 @@ describe('Coupon Integration Workflow', () => {
         )
       }
 
-      // Mock successful coupon validation
+      // Given: Valid coupon available for application
       mockFetch(mockApiResponses.couponValidation('SAVE10'))
 
+      // When: Component renders with coupon functionality
       renderWithCouponProvider(<TestComponent />)
 
-      // Verify initial state
+      // Then: Initial state shows interface ready for coupon input
       expect(screen.getByText('Products with Coupon Support')).toBeInTheDocument()
       expect(screen.getByTestId('coupon-input')).toBeInTheDocument()
-      // Button should be disabled initially when coupon code is empty
       expect(screen.getByTestId('apply-coupon-button')).toBeDisabled()
 
-      // Verify products are displayed without discount
+      // Then: Products display original pricing without discounts
       expect(screen.getByTestId('product-beaker-500ml')).toBeInTheDocument()
       expect(screen.getByTestId('original-price-beaker-500ml')).toHaveTextContent('Original: ₹300.00')
       expect(screen.queryByTestId('discounted-price-beaker-500ml')).not.toBeInTheDocument()
 
-      // Enter coupon code
+      // When: User enters valid coupon code
       const couponInput = screen.getByTestId('coupon-input')
       await user.type(couponInput, 'SAVE10')
 
-      // Verify button is now enabled after typing
+      // Then: Apply button becomes enabled with valid input
       await waitFor(() => {
         expect(screen.getByTestId('apply-coupon-button')).not.toBeDisabled()
       })
 
-      // Apply coupon
+      // When: User applies the coupon
       const applyButton = screen.getByTestId('apply-coupon-button')
       await user.click(applyButton)
 
       // Note: Loading state might be too fast to catch with mock data
 
-      // Wait for coupon application to complete
+      // Then: Coupon application succeeds with visual confirmation
       await waitFor(() => {
         expect(screen.getByTestId('applied-coupon')).toBeInTheDocument()
       })
 
-      // Verify API call was made
+      // Then: API is called with correct validation parameters
       expect(global.fetch).toHaveBeenCalledWith('/api/coupons', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ code: 'SAVE10', orderValue: 300 })
       })
 
-      // Verify coupon is applied
+      // Then: Applied coupon information is clearly displayed
       expect(screen.getByTestId('coupon-info')).toHaveTextContent('Coupon: SAVE10 - 10% off')
       expect(screen.getByTestId('remove-coupon-button')).toBeInTheDocument()
 
-      // Verify input is disabled after application
+      // Then: Input controls are disabled to prevent multiple applications
       expect(screen.getByTestId('coupon-input')).toBeDisabled()
       expect(screen.getByTestId('apply-coupon-button')).toBeDisabled()
 
-      // Verify discounted prices are shown
+      // Then: Discounted prices and savings are prominently displayed
       expect(screen.getByTestId('discounted-price-beaker-500ml')).toHaveTextContent('Discounted: ₹270.00')
       expect(screen.getByTestId('savings-beaker-500ml')).toHaveTextContent('You save: ₹30.00')
 
-      // Remove coupon
+      // When: User removes the applied coupon
       const removeButton = screen.getByTestId('remove-coupon-button')
       await user.click(removeButton)
 
-      // Verify coupon is removed
+      // Then: Coupon is successfully removed from interface
       await waitFor(() => {
         expect(screen.queryByTestId('applied-coupon')).not.toBeInTheDocument()
       })
 
-      // Verify input is re-enabled but button disabled since input is empty
+      // Then: Input controls return to initial state for new coupon entry
       expect(screen.getByTestId('coupon-input')).not.toBeDisabled()
       expect(screen.getByTestId('apply-coupon-button')).toBeDisabled()
 
-      // Verify discounted prices are hidden
+      // Then: Pricing returns to original state without discounts
       expect(screen.queryByTestId('discounted-price-beaker-500ml')).not.toBeInTheDocument()
       expect(screen.queryByTestId('savings-beaker-500ml')).not.toBeInTheDocument()
     })
 
-    it('handles invalid coupon codes gracefully', async () => {
+    it('should provide clear feedback for invalid coupon submissions', async () => {
       const TestComponent = () => {
         const [couponCode, setCouponCode] = React.useState('')
         const [error, setError] = React.useState('')
@@ -285,28 +285,28 @@ describe('Coupon Integration Workflow', () => {
         )
       }
 
-      // Mock invalid coupon response
+      // Given: Invalid coupon code for validation testing
       mockFetch(mockApiResponses.couponValidation('INVALID'))
 
+      // When: User attempts to apply invalid coupon
       renderWithCouponProvider(<TestComponent />)
 
-      // Enter invalid coupon
       const input = screen.getByTestId('coupon-input')
       await user.type(input, 'INVALID')
 
-      // Apply coupon
       const applyButton = screen.getByTestId('apply-button')
       await user.click(applyButton)
 
-      // Verify error is displayed
+      // Then: Clear error message guides user to try different code
       await waitFor(() => {
         expect(screen.getByTestId('error-message')).toBeInTheDocument()
       })
 
+      // Then: Specific error message helps user understand validation failure
       expect(screen.getByText('Invalid coupon code')).toBeInTheDocument()
     })
 
-    it('persists coupon state across component re-renders', async () => {
+    it('should maintain coupon state during navigation and re-renders', async () => {
       const TestComponent = ({ testKey }: { testKey?: string }) => {
         const [appliedCoupon, setAppliedCoupon] = React.useState(null)
         const [couponCode, setCouponCode] = React.useState('')
@@ -356,12 +356,12 @@ describe('Coupon Integration Workflow', () => {
         )
       }
 
-      // Mock successful coupon validation
+      // Given: Applied coupon requiring persistence across navigation
       mockFetch(mockApiResponses.couponValidation('SAVE10'))
 
       const { rerender } = renderWithCouponProvider(<TestComponent />)
 
-      // Apply coupon
+      // When: User applies coupon and navigates to different component
       const input = screen.getByTestId('coupon-input')
       await user.type(input, 'SAVE10')
       await user.click(screen.getByTestId('apply-button'))
@@ -370,20 +370,20 @@ describe('Coupon Integration Workflow', () => {
         expect(screen.getByTestId('persisted-coupon')).toBeInTheDocument()
       })
 
-      // Simulate component re-render (navigation, etc.)
+      // When: Component re-renders (simulating navigation)
       rerender(
         <CouponProvider enablePersistence={false}>
           <TestComponent testKey="rerendered" />
         </CouponProvider>
       )
 
-      // Verify coupon persisted across re-render
+      // Then: Coupon state persists across component lifecycle changes
       expect(screen.getByTestId('component-key')).toHaveTextContent('rerendered')
       expect(screen.getByTestId('persisted-coupon')).toBeInTheDocument()
       expect(screen.getByText('Applied: SAVE10')).toBeInTheDocument()
     })
 
-    it('handles multiple rapid coupon applications', async () => {
+    it('should handle concurrent coupon validation requests correctly', async () => {
       const TestComponent = () => {
         const [results, setResults] = React.useState<string[]>([])
         const [loading, setLoading] = React.useState(false)
@@ -432,7 +432,7 @@ describe('Coupon Integration Workflow', () => {
         )
       }
 
-      // Mock different responses for different codes
+      // Given: Multiple coupon codes requiring concurrent validation
       let callCount = 0
       const mockFetchMultiple = jest.fn().mockImplementation(() => {
         callCount++
@@ -450,31 +450,31 @@ describe('Coupon Integration Workflow', () => {
 
       global.fetch = mockFetchMultiple
 
+      // When: Multiple coupon validations are triggered simultaneously
       renderWithCouponProvider(<TestComponent />)
 
-      // Trigger rapid applications
       const button = screen.getByTestId('rapid-test-button')
       await user.click(button)
 
-      // Wait for all results
+      // Then: All validation requests complete successfully
       await waitFor(() => {
         expect(screen.getByTestId('result-0')).toBeInTheDocument()
         expect(screen.getByTestId('result-1')).toBeInTheDocument()
         expect(screen.getByTestId('result-2')).toBeInTheDocument()
       })
 
-      // Verify results
+      // Then: Each validation result is correctly categorized
       expect(screen.getByText('SAVE10: Valid')).toBeInTheDocument()
       expect(screen.getByText('INVALID1: Invalid')).toBeInTheDocument()
       expect(screen.getByText('INVALID2: Invalid')).toBeInTheDocument()
 
-      // Verify all API calls were made
+      // Then: All API calls are properly executed
       expect(mockFetchMultiple).toHaveBeenCalledTimes(3)
     })
   })
 
-  describe('Coupon Context Integration', () => {
-    it('integrates with CouponProvider context', async () => {
+  describe('when integrating with CouponProvider context system', () => {
+    it('should seamlessly work with centralized coupon state management', async () => {
       const TestComponent = () => {
         const [contextCoupon, setContextCoupon] = React.useState(null)
 
@@ -514,17 +514,21 @@ describe('Coupon Integration Workflow', () => {
         )
       }
 
+      // Given: CouponProvider context managing application-wide coupon state
       mockFetch(mockApiResponses.couponValidation('SAVE10'))
 
+      // When: Component applies coupon through context system
       renderWithCouponProvider(<TestComponent />)
 
       const button = screen.getByTestId('apply-context-coupon')
       await user.click(button)
 
+      // Then: Coupon state is properly managed through context
       await waitFor(() => {
         expect(screen.getByTestId('context-coupon')).toBeInTheDocument()
       })
 
+      // Then: Context provides centralized access to coupon information
       expect(screen.getByText('Context Coupon: SAVE10')).toBeInTheDocument()
     })
   })

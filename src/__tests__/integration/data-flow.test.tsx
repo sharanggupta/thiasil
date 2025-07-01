@@ -13,13 +13,13 @@ afterAll(() => {
   global.fetch = originalFetch
 })
 
-describe('Data Flow and State Management Integration Tests', () => {
+describe('Data Flow and State Management Integration Testing Suite', () => {
   beforeEach(() => {
     clearAllMocks()
   })
 
-  describe('Product Data Flow', () => {
-    it('handles product loading and basic filtering', async () => {
+  describe('when testing Product Data Flow and filtering workflows', () => {
+    it('should manage complete product loading and filtering state transitions', async () => {
       const TestComponent = () => {
         const [products, setProducts] = React.useState([])
         const [filteredProducts, setFilteredProducts] = React.useState([])
@@ -157,84 +157,93 @@ describe('Data Flow and State Management Integration Tests', () => {
         )
       }
 
-      // Mock API response
+      // Given: Product API returning catalog data
       mockFetch(mockApiResponses.products)
 
+      // When: Product catalog component loads
       render(<TestComponent />)
 
-      // Verify loading state
+      // Then: Loading state provides immediate user feedback
       expect(screen.getByTestId('loading')).toBeInTheDocument()
 
-      // Wait for products to load
+      // Then: Products load successfully with catalog interface
       await waitFor(() => {
         expect(screen.getByText('Product Catalog')).toBeInTheDocument()
         expect(screen.queryByTestId('loading')).not.toBeInTheDocument()
       })
 
-      // Verify products are loaded and displayed
+      // Then: All products are displayed with accurate summary counts
       await waitFor(() => {
         expect(screen.getByTestId('summary')).toHaveTextContent('Total Products: 3 | Filtered: 3')
       })
       
-      // Verify products are actually displayed
+      // Then: Individual products are accessible in catalog
       expect(screen.getByTestId('product-beaker-500ml')).toBeInTheDocument()
       expect(screen.getByTestId('product-flask-250ml')).toBeInTheDocument()
       expect(screen.getByTestId('product-pipette-out-of-stock')).toBeInTheDocument()
 
-      // Test category filtering
+      // When: User filters by category to narrow product selection
       const categoryFilter = screen.getByTestId('category-filter')
       await user.selectOptions(categoryFilter, 'beakers')
 
+      // Then: Only beaker products are displayed
       await waitFor(() => {
         expect(screen.getByTestId('product-beaker-500ml')).toBeInTheDocument()
         expect(screen.queryByTestId('product-flask-250ml')).not.toBeInTheDocument()
         expect(screen.queryByTestId('product-pipette-out-of-stock')).not.toBeInTheDocument()
       })
 
+      // Then: Summary reflects filtered product count
       expect(screen.getByTestId('summary')).toHaveTextContent('Total Products: 3 | Filtered: 1')
 
-      // Test stock status filtering
+      // When: User filters by stock availability to find unavailable items
       await user.selectOptions(categoryFilter, '') // Clear category filter
       const stockFilter = screen.getByTestId('stock-filter')
       await user.selectOptions(stockFilter, 'out_of_stock')
 
+      // Then: Only out-of-stock products are displayed
       await waitFor(() => {
         expect(screen.queryByTestId('product-beaker-500ml')).not.toBeInTheDocument()
         expect(screen.queryByTestId('product-flask-250ml')).not.toBeInTheDocument()
         expect(screen.getByTestId('product-pipette-out-of-stock')).toBeInTheDocument()
       })
 
+      // Then: Filter count reflects stock status selection
       expect(screen.getByTestId('summary')).toHaveTextContent('Total Products: 3 | Filtered: 1')
 
-      // Test price filtering
+      // When: User filters by price range for budget-conscious shopping
       await user.selectOptions(stockFilter, 'all') // Clear stock filter
       const priceFilter = screen.getByTestId('price-filter')
       await user.selectOptions(priceFilter, 'under-200')
 
+      // Then: Only products under price threshold are shown
       await waitFor(() => {
         expect(screen.queryByTestId('product-beaker-500ml')).not.toBeInTheDocument() // ₹300
         expect(screen.queryByTestId('product-flask-250ml')).not.toBeInTheDocument() // ₹250
         expect(screen.getByTestId('product-pipette-out-of-stock')).toBeInTheDocument() // ₹150
       })
 
+      // Then: Price filtering accurately counts matching products
       expect(screen.getByTestId('summary')).toHaveTextContent('Total Products: 3 | Filtered: 1')
 
-      // Test clear filters
+      // When: User clears all filters to see complete catalog
       const clearButton = screen.getByTestId('clear-filters')
       await user.click(clearButton)
 
+      // Then: All products are displayed again
       await waitFor(() => {
         expect(screen.getByTestId('product-beaker-500ml')).toBeInTheDocument()
         expect(screen.getByTestId('product-flask-250ml')).toBeInTheDocument()
         expect(screen.getByTestId('product-pipette-out-of-stock')).toBeInTheDocument()
       })
 
+      // Then: Filter state resets to show all products
       expect(screen.getByTestId('summary')).toHaveTextContent('Total Products: 3 | Filtered: 3')
     })
   })
 
-  describe('Shopping Cart State Management', () => {
-    it('manages cart state across operations', async () => {
+  describe('when testing Shopping Cart State Management workflows', () => {
+    it('should handle complex cart state transitions and calculations', async () => {
       const TestComponent = () => {
         const [cart, setCart] = React.useState<any[]>([])
         const [products] = React.useState(mockProducts.slice(0, 2)) // Only in-stock products
@@ -352,98 +361,113 @@ describe('Data Flow and State Management Integration Tests', () => {
         )
       }
 
+      // Given: Empty shopping cart requiring state management testing
       render(<TestComponent />)
 
-      // Verify initial empty state
+      // Then: Initial cart state shows empty status
       expect(screen.getByTestId('empty-cart')).toBeInTheDocument()
       expect(screen.getByTestId('cart-items')).toHaveTextContent('Items: 0')
       expect(screen.getByTestId('cart-total')).toHaveTextContent('Total: ₹0.00')
 
-      // Add first product to cart
+      // When: User adds first product to cart
       const addBeakerButton = screen.getByTestId('add-to-cart-beaker-500ml')
       await user.click(addBeakerButton)
 
+      // Then: Cart transitions from empty to containing product
       await waitFor(() => {
         expect(screen.queryByTestId('empty-cart')).not.toBeInTheDocument()
         expect(screen.getByTestId('cart-item-beaker-500ml')).toBeInTheDocument()
       })
 
+      // Then: Cart calculations reflect single item addition
       expect(screen.getByTestId('cart-items')).toHaveTextContent('Items: 1')
       expect(screen.getByTestId('cart-total')).toHaveTextContent('Total: ₹300.00')
       expect(screen.getByTestId('quantity-beaker-500ml')).toHaveTextContent('1')
       expect(screen.getByTestId('subtotal-beaker-500ml')).toHaveTextContent('Subtotal: ₹300.00')
 
-      // Add same product again (should increase quantity)
+      // When: User adds same product again to increase quantity
       await user.click(addBeakerButton)
 
+      // Then: Cart consolidates identical products by increasing quantity
       await waitFor(() => {
         expect(screen.getByTestId('quantity-beaker-500ml')).toHaveTextContent('2')
       })
 
+      // Then: Cart totals update to reflect quantity multiplication
       expect(screen.getByTestId('cart-items')).toHaveTextContent('Items: 2')
       expect(screen.getByTestId('cart-total')).toHaveTextContent('Total: ₹600.00')
       expect(screen.getByTestId('subtotal-beaker-500ml')).toHaveTextContent('Subtotal: ₹600.00')
 
-      // Add different product
+      // When: User adds different product to diversify cart
       const addFlaskButton = screen.getByTestId('add-to-cart-flask-250ml')
       await user.click(addFlaskButton)
 
+      // Then: Cart adds new product as separate line item
       await waitFor(() => {
         expect(screen.getByTestId('cart-item-flask-250ml')).toBeInTheDocument()
       })
 
+      // Then: Cart totals aggregate all product subtotals
       expect(screen.getByTestId('cart-items')).toHaveTextContent('Items: 3')
       expect(screen.getByTestId('cart-total')).toHaveTextContent('Total: ₹850.00') // 600 + 250
 
-      // Test quantity controls
+      // When: User increases quantity using cart controls
       const increaseFlaskButton = screen.getByTestId('increase-flask-250ml')
       await user.click(increaseFlaskButton)
 
+      // Then: Quantity controls update individual line item
       await waitFor(() => {
         expect(screen.getByTestId('quantity-flask-250ml')).toHaveTextContent('2')
       })
 
+      // Then: Total calculations reflect quantity adjustments
       expect(screen.getByTestId('cart-items')).toHaveTextContent('Items: 4')
       expect(screen.getByTestId('cart-total')).toHaveTextContent('Total: ₹1100.00') // 600 + 500
 
-      // Test decrease quantity
+      // When: User decreases quantity to adjust purchase amount
       const decreaseBeakerButton = screen.getByTestId('decrease-beaker-500ml')
       await user.click(decreaseBeakerButton)
 
+      // Then: Quantity decrease updates line item correctly
       await waitFor(() => {
         expect(screen.getByTestId('quantity-beaker-500ml')).toHaveTextContent('1')
       })
 
+      // Then: Cart recalculates totals based on quantity reduction
       expect(screen.getByTestId('cart-items')).toHaveTextContent('Items: 3')
       expect(screen.getByTestId('cart-total')).toHaveTextContent('Total: ₹800.00') // 300 + 500
 
-      // Test remove item
+      // When: User removes item completely from cart
       const removeBeakerButton = screen.getByTestId('remove-beaker-500ml')
       await user.click(removeBeakerButton)
 
+      // Then: Item is completely removed from cart display
       await waitFor(() => {
         expect(screen.queryByTestId('cart-item-beaker-500ml')).not.toBeInTheDocument()
       })
 
+      // Then: Cart totals exclude removed item from calculations
       expect(screen.getByTestId('cart-items')).toHaveTextContent('Items: 2')
       expect(screen.getByTestId('cart-total')).toHaveTextContent('Total: ₹500.00')
 
-      // Test clear cart
+      // When: User clears entire cart to start over
       const clearCartButton = screen.getByTestId('clear-cart')
       await user.click(clearCartButton)
 
+      // Then: Cart returns to initial empty state
       await waitFor(() => {
         expect(screen.getByTestId('empty-cart')).toBeInTheDocument()
         expect(screen.queryByTestId('cart-item-flask-250ml')).not.toBeInTheDocument()
       })
 
+      // Then: All cart calculations reset to zero values
       expect(screen.getByTestId('cart-items')).toHaveTextContent('Items: 0')
       expect(screen.getByTestId('cart-total')).toHaveTextContent('Total: ₹0.00')
     })
   })
 
-  describe('Cross-Component State Synchronization', () => {
-    it('synchronizes state between multiple components', async () => {
+  describe('when testing Cross-Component State Synchronization patterns', () => {
+    it('should maintain consistent state across multiple interconnected components', async () => {
       // Parent component managing shared state
       const ParentComponent = () => {
         const [selectedProduct, setSelectedProduct] = React.useState<any>(null)
@@ -565,78 +589,90 @@ describe('Data Flow and State Management Integration Tests', () => {
         </div>
       )
 
+      // Given: Multi-component interface requiring state synchronization
       render(<ParentComponent />)
 
-      // Verify initial state
+      // Then: Initial state is consistent across all components
       expect(screen.getByTestId('no-selection')).toBeInTheDocument()
       expect(screen.getByTestId('favorite-count')).toHaveTextContent('Favorites: 0')
       expect(screen.getByTestId('product-list')).toHaveClass('view-grid')
 
-      // Test product selection
+      // When: User selects product to view details
       const beakerProduct = screen.getByTestId('product-beaker-500ml')
       await user.click(beakerProduct)
 
+      // Then: Selection state synchronizes across list and detail components
       await waitFor(() => {
         expect(screen.queryByTestId('no-selection')).not.toBeInTheDocument()
         expect(screen.getByTestId('selected-name')).toHaveTextContent('Test Beaker')
       })
 
+      // Then: Product details update to match selected item
       expect(screen.getByTestId('selected-price')).toHaveTextContent('₹300.00')
       expect(beakerProduct).toHaveClass('selected')
 
-      // Test view mode change
+      // When: User changes view mode preference
       const listViewButton = screen.getByTestId('list-view')
       await user.click(listViewButton)
 
+      // Then: View mode state updates across control and display components
       await waitFor(() => {
         expect(screen.getByTestId('product-list')).toHaveClass('view-list')
       })
 
+      // Then: Active view indicator reflects current state
       expect(listViewButton).toHaveClass('active')
 
-      // Test favorite toggle from product list
+      // When: User toggles favorite status from product list
       const favoriteButton = screen.getByTestId('favorite-beaker-500ml')
       await user.click(favoriteButton)
 
+      // Then: Favorite state synchronizes across all component locations
       await waitFor(() => {
         expect(screen.getByTestId('favorite-count')).toHaveTextContent('Favorites: 1')
       })
 
+      // Then: Favorite indicators update consistently everywhere
       expect(favoriteButton).toHaveClass('favorited')
       expect(favoriteButton).toHaveTextContent('❤️')
       expect(screen.getByTestId('favorite-selected')).toHaveClass('favorited')
       expect(screen.getByTestId('favorite-selected')).toHaveTextContent('Remove from Favorites')
 
-      // Test favorite toggle from details panel
+      // When: User toggles favorite status from details panel
       const detailsFavoriteButton = screen.getByTestId('favorite-selected')
       await user.click(detailsFavoriteButton)
 
+      // Then: State change propagates back to all component instances
       await waitFor(() => {
         expect(screen.getByTestId('favorite-count')).toHaveTextContent('Favorites: 0')
       })
 
+      // Then: All favorite indicators reflect updated state
       expect(favoriteButton).not.toHaveClass('favorited')
       expect(favoriteButton).toHaveTextContent('🤍')
       expect(detailsFavoriteButton).not.toHaveClass('favorited')
       expect(detailsFavoriteButton).toHaveTextContent('Add to Favorites')
 
-      // Test multiple favorites
+      // When: User manages multiple favorites across products
       await user.click(favoriteButton) // Beaker
       const flaskFavoriteButton = screen.getByTestId('favorite-flask-250ml')
       await user.click(flaskFavoriteButton) // Flask
 
+      // Then: Favorite count accurately reflects multiple selections
       await waitFor(() => {
         expect(screen.getByTestId('favorite-count')).toHaveTextContent('Favorites: 2')
       })
 
-      // Switch selection and verify state consistency
+      // When: User switches selection to verify state consistency
       const flaskProduct = screen.getByTestId('product-flask-250ml')
       await user.click(flaskProduct)
 
+      // Then: Selection state updates while preserving favorite states
       await waitFor(() => {
         expect(screen.getByTestId('selected-name')).toHaveTextContent('Test Flask')
       })
 
+      // Then: State consistency is maintained across component transitions
       expect(beakerProduct).not.toHaveClass('selected')
       expect(flaskProduct).toHaveClass('selected')
       expect(screen.getByTestId('favorite-selected')).toHaveClass('favorited') // Flask is favorited
