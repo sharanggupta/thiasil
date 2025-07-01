@@ -15,10 +15,6 @@ export interface ProductLayoutProps {
   onProductOrder?: (product: any) => void;
   onProductQuote?: (product: any) => void;
   onProductView?: (product: any) => void;
-  activeCoupon?: {
-    code: string;
-    discountPercent: number;
-  };
   emptyState?: React.ReactNode;
   className?: string;
   gridProps?: {
@@ -43,7 +39,6 @@ export default function ProductLayout({
   onProductOrder,
   onProductQuote,
   onProductView,
-  activeCoupon,
   emptyState,
   className = '',
   gridProps = {},
@@ -60,7 +55,6 @@ export default function ProductLayout({
         onOrderClick={onProductOrder}
         onQuoteClick={onProductQuote}
         onViewClick={onProductView}
-        activeCoupon={activeCoupon}
       />
     ));
 
