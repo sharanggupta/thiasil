@@ -343,19 +343,33 @@ export const debounce = <T extends (...args: any[]) => any>(func: T, delay: numb
   };
 };
 
+// Constants for error handling
+const ERROR_MESSAGES = {
+  NETWORK: 'Network error. Please check your connection.',
+  DEFAULT: 'An unexpected error occurred.',
+} as const;
+
+// Helper functions for error classification
+function isNetworkError(error: Error): boolean {
+  return error.name === 'TypeError' && error.message.includes('fetch');
+}
+
+function getErrorMessage(error: Error): string {
+  if (isNetworkError(error)) {
+    return ERROR_MESSAGES.NETWORK;
+  }
+  
+  return error.message || ERROR_MESSAGES.DEFAULT;
+}
+
 /**
  * Handles API errors and returns user-friendly messages
- * @param {Error} error - Error object from API call
- * @returns {string} User-friendly error message
+ * @param error - Error object from API call
+ * @returns User-friendly error message
  */
 export const handleApiError = (error: Error): string => {
   console.error('API Error:', error);
-  
-  if (error.name === 'TypeError' && error.message.includes('fetch')) {
-    return 'Network error. Please check your connection.';
-  }
-  
-  return error.message || 'An unexpected error occurred.';
+  return getErrorMessage(error);
 };
 
 /**
@@ -406,30 +420,54 @@ export const searchProducts = (products: any[], searchTerm: string): any[] => {
  * @param {Array<Object>} variants - Array of variant objects with price property
  * @returns {string} Formatted price range string
  */
-export const calculatePriceRange = (variants: ProductVariant[]): string => {
-  if (!variants || variants.length === 0) {
-    return '₹0.00 - ₹0.00';
-  }
+// Constants for price calculations
+const PRICE_CONSTANTS = {
+  DEFAULT_RANGE: '₹0.00 - ₹0.00',
+  MINIMUM_VALID_PRICE: 0,
+} as const;
 
-  // Extract all valid prices from variants
-  const prices = variants
+// Helper functions for price range calculation
+function hasValidVariants(variants: ProductVariant[]): boolean {
+  return variants && variants.length > 0;
+}
+
+function extractValidPrices(variants: ProductVariant[]): number[] {
+  return variants
     .map(variant => extractPriceFromString(variant.price))
-    .filter(price => price > 0);
+    .filter(price => price > PRICE_CONSTANTS.MINIMUM_VALID_PRICE);
+}
 
-  if (prices.length === 0) {
-    return '₹0.00 - ₹0.00';
-  }
+function hasValidPrices(prices: number[]): boolean {
+  return prices.length > 0;
+}
 
-  // Find min and max prices
-  const minPrice = Math.min(...prices);
-  const maxPrice = Math.max(...prices);
+function calculateMinMaxPrices(prices: number[]): { min: number; max: number } {
+  return {
+    min: Math.min(...prices),
+    max: Math.max(...prices),
+  };
+}
 
-  // Format as price range
+function formatPriceRange(minPrice: number, maxPrice: number): string {
   if (minPrice === maxPrice) {
     return formatPrice(minPrice);
-  } else {
-    return `${formatPrice(minPrice)} - ${formatPrice(maxPrice)}`;
   }
+  return `${formatPrice(minPrice)} - ${formatPrice(maxPrice)}`;
+}
+
+export const calculatePriceRange = (variants: ProductVariant[]): string => {
+  if (!hasValidVariants(variants)) {
+    return PRICE_CONSTANTS.DEFAULT_RANGE;
+  }
+
+  const validPrices = extractValidPrices(variants);
+  
+  if (!hasValidPrices(validPrices)) {
+    return PRICE_CONSTANTS.DEFAULT_RANGE;
+  }
+
+  const { min, max } = calculateMinMaxPrices(validPrices);
+  return formatPriceRange(min, max);
 };
 
 /**

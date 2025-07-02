@@ -1,57 +1,69 @@
 "use client";
 import { usePathname, useRouter } from "next/navigation";
-import { useState } from "react";
+import { useState, useCallback } from "react";
 import "./Navbar.css";
 import HamburgerIcon from "./HamburgerIcon";
 import FullscreenMenu from "./FullscreenMenu";
+import { NavbarErrorBoundary } from "./ErrorBoundary";
 
-const Navbar = ({ theme = "default" }) => {
+import { TIMING, HOME_PATH } from "./constants";
+
+interface NavbarProps {
+  theme?: "default" | "products";
+}
+
+const Navbar = ({ theme = "default" }: NavbarProps) => {
   const [active, setActive] = useState(false);
   const [closing, setClosing] = useState(false);
   const router = useRouter();
   const pathname = usePathname();
 
-  const handleClick = () => {
+  const handleClick = useCallback(() => {
     if (active) {
       handleCloseMenu();
     } else {
       setActive(true);
     }
-  };
+  }, [active]);
 
-  const handleCloseMenu = () => {
+  const handleCloseMenu = useCallback(() => {
     setClosing(true);
     setTimeout(() => {
       setActive(false);
       setClosing(false);
-    }, 700);
-  };
+    }, TIMING.MENU_CLOSE_DELAY);
+  }, []);
 
-  const handleNavItemClick = () => {
+  const handleNavItemClick = useCallback(() => {
     handleCloseMenu();
-  };
+  }, [handleCloseMenu]);
 
-  const handleSmoothScroll = (sectionId) => {
-    handleCloseMenu();
-    if (pathname === "/") {
-      setTimeout(() => {
-        const el = document.getElementById(sectionId);
-        if (el) {
-          el.scrollIntoView({ behavior: "smooth" });
-        }
-      }, 400);
-    } else {
-      router.push("/#" + sectionId);
+  // Helper function for smooth scrolling to a section
+  const scrollToSection = useCallback((sectionId: string) => {
+    const element = document.getElementById(sectionId);
+    if (element) {
+      element.scrollIntoView({ behavior: "smooth" });
     }
-  };
+  }, []);
+
+  const handleSmoothScroll = useCallback((sectionId: string) => {
+    handleCloseMenu();
+    if (pathname === HOME_PATH) {
+      setTimeout(() => scrollToSection(sectionId), TIMING.SCROLL_DELAY);
+    } else {
+      router.push(`/#${sectionId}`);
+    }
+  }, [pathname, handleCloseMenu, scrollToSection, router]);
 
   return (
     <div className="relative">
-      <HamburgerIcon
-        active={active}
-        onClick={handleClick}
-        theme={theme}
-      />
+      <NavbarErrorBoundary fallback={<div className="fixed z-40 right-[1rem] top-[1.1rem] text-red-500">Menu Error</div>}>
+        <HamburgerIcon
+          active={active}
+          onClick={handleClick}
+          theme={theme}
+        />
+      </NavbarErrorBoundary>
       
       <FullscreenMenu
         active={active}
@@ -65,9 +77,3 @@ const Navbar = ({ theme = "default" }) => {
 };
 
 export default Navbar;
-
-<style jsx global>{`
-  .products-nav-link {
-    text-shadow: 0 2px 8px rgba(30,58,138,0.18), 0 1px 0 rgba(255,255,255,0.12);
-  }
-`}</style>
