@@ -119,13 +119,13 @@ export async function POST(request) {
     
     if (backupResult.success) {
       backupCreated = true;
-      console.log(`Backup created: ${backupResult.backupId} (${backupResult.method})`);
+      console.log(`Backup created: ${backupResult.backupId}`);
     } else {
       console.error('Failed to create backup:', backupResult.error);
       // Don't fail the request if backup fails
     }
     
-    let result = {};
+    let result: { message?: string; [key: string]: any } = {};
     
     if (action === 'add_category') {
       // Add new category
@@ -250,9 +250,9 @@ export async function POST(request) {
     
     return NextResponse.json({
       success: true,
-      message: result.message,
+      message: result.message || 'Operation completed successfully',
       data: result,
-      backup: backupResult.backupId
+      backup: backupResult.success ? backupResult.backupId : null
     });
     
   } catch (error) {

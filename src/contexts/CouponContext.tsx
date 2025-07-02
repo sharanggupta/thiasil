@@ -184,11 +184,78 @@ export function CouponProvider({
     }
   }, [couponHook.clearCoupon, enablePersistence]);
 
+  // Additional utility functions
+  const validateCoupon = React.useCallback((coupon: Coupon, orderValue?: number): CouponValidationResult => {
+    if (!coupon) {
+      return { valid: false, message: 'Invalid coupon' };
+    }
+
+    if (!couponHook.isCouponValid(coupon)) {
+      return { valid: false, message: 'Coupon is expired or invalid' };
+    }
+
+    if (coupon.minOrderValue && orderValue && orderValue < coupon.minOrderValue) {
+      return { 
+        valid: false, 
+        message: `Minimum order value of $${coupon.minOrderValue} required` 
+      };
+    }
+
+    const discountAmount = couponHook.getCouponDiscount(coupon, orderValue || 0);
+    return {
+      valid: true,
+      coupon,
+      message: `Coupon applied successfully`,
+      discountAmount
+    };
+  }, [couponHook]);
+
+  const getDiscountedPrice = React.useCallback((coupon: Coupon | null, price: string | number): number => {
+    const originalPrice = typeof price === 'string' ? parseFloat(price.replace(/[^\d.]/g, '')) : price;
+    const discount = couponHook.getCouponDiscount(coupon, price);
+    return originalPrice - discount;
+  }, [couponHook]);
+
+  const getDiscountDisplay = React.useCallback((coupon: Coupon | null): string => {
+    if (!coupon) return '';
+    return `${coupon.discountPercent}% OFF`;
+  }, []);
+
+  const formatCouponMessage = React.useCallback((coupon: Coupon): string => {
+    return `Coupon ${coupon.code} applied! ${coupon.discountPercent}% discount active.`;
+  }, []);
+
+  const checkCouponExpiry = React.useCallback((coupon: Coupon): { isExpired: boolean; daysLeft?: number } => {
+    if (!coupon.expiryDate && !coupon.expiresAt) {
+      return { isExpired: false };
+    }
+
+    const expiryDate = new Date(coupon.expiryDate || coupon.expiresAt!);
+    const now = new Date();
+    const isExpired = expiryDate < now;
+    
+    if (isExpired) {
+      return { isExpired: true };
+    }
+
+    const timeDiff = expiryDate.getTime() - now.getTime();
+    const daysLeft = Math.ceil(timeDiff / (1000 * 3600 * 24));
+    
+    return { isExpired: false, daysLeft };
+  }, []);
+
   // Context value
   const contextValue: CouponContextType = {
     // Base hook functionality
     ...couponHook,
     clearCoupon: enhancedClearCoupon,
+    
+    // Additional utility functions
+    validateCoupon,
+    getDiscountedPrice,
+    getDiscountDisplay,
+    formatCouponMessage,
+    checkCouponExpiry,
     
     // Additional context features
     isPersistent: enablePersistence,

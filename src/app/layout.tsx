@@ -1,3 +1,4 @@
+import { Metadata } from "next";
 import { Lato } from "next/font/google";
 import "./globals.css";
 import { CouponProvider } from "@/contexts/CouponContext";
@@ -10,13 +11,17 @@ const lato = Lato({
   variable: "--font-lato", // CSS variable to reference the font
 });
 
-export const metadata = {
+export const metadata: Metadata = {
   title: "Thiasil | Quality Silica",
   keywords: ["Thiasil", "Individually OXY-GAS fired", "Silica", "Quartz", "crucibles", "glass", "cheap", "india"],
   description: "Individually OXY-GAS fired laboratory glass with quality rivalling international standards and cheapest price made in India"
 };
 
-export default function RootLayout({ children }) {
+interface RootLayoutProps {
+  children: React.ReactNode;
+}
+
+export default function RootLayout({ children }: RootLayoutProps) {
   return (
     <html lang="en">
       <body className={`${lato.variable} antialiased`}>

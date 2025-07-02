@@ -7,7 +7,7 @@ import { useEffect } from "react";
 
 const SCROLL_DELAY_MS = 100;
 
-export default function SmoothScrollToSection() {
+export default function SmoothScrollToSection(): null {
   useEffect(() => {
     if (typeof window !== "undefined" && window.location.hash) {
       const sectionId = window.location.hash.replace('#', '');

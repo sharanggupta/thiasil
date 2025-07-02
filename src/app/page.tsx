@@ -1,3 +1,4 @@
+import { Metadata } from "next";
 import ContactForm from "./components/ContactForm/ContactForm";
 import FeaturesSection from "./components/FeatureSection/FeatureSection";
 import Footer from "./components/Footer/Footer";
@@ -8,7 +9,7 @@ import ProductCardSection from "./components/ProductCardsSection/ProductCardSect
 import ReviewSection from "./components/Reviews/Reviews";
 import SmoothScrollToSection from "./components/SmoothScrollToSection";
 
-export const metadata = {
+export const metadata: Metadata = {
   title: "Thiasil | Individually oxy-fired laboratory glassware",
   description:
     "Manufacturers of individually oxy-fired laboratory glassware including crucibles, lids, basin",

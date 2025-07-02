@@ -5,13 +5,32 @@ const SESSION_TIMEOUT = 30 * 60 * 1000;
 const LOCKOUT_DURATION = 15 * 60 * 1000;
 const MAX_ATTEMPTS = 5;
 
-export function useAdminSession() {
+interface AdminSessionState {
+  isAuthenticated: boolean;
+  username: string;
+  setUsername: (username: string) => void;
+  password: string;
+  setPassword: (password: string) => void;
+  loginAttempts: number;
+  isLocked: boolean;
+  lockTimeRemaining: number;
+  message: string;
+  setMessage: (message: string) => void;
+  isLoading: boolean;
+  setIsAuthenticated: (auth: boolean) => void;
+  handleLogin: (e?: React.FormEvent) => Promise<boolean>;
+  handleLogout: () => void;
+  setIsLoading: (loading: boolean) => void;
+}
+
+export function useAdminSession(): AdminSessionState {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [loginAttempts, setLoginAttempts] = useState(0);
   const [isLocked, setIsLocked] = useState(false);
-  const [sessionTimer, setSessionTimer] = useState(null);
+  const [lockTimeRemaining, setLockTimeRemaining] = useState(0);
+  const [sessionTimer, setSessionTimer] = useState<NodeJS.Timeout | null>(null);
   const [message, setMessage] = useState("");
   const [isLoading, setIsLoading] = useState(false);
 
@@ -54,17 +73,17 @@ export function useAdminSession() {
     }
   }, [sessionTimer]);
 
-  const handleLogin = useCallback(async (e) => {
+  const handleLogin = useCallback(async (e: React.FormEvent<Element>): Promise<boolean> => {
     e.preventDefault();
     if (isLocked) {
       setMessage("Account is temporarily locked. Please try again later.");
-      return;
+      return false;
     }
     const sanitizedUsername = sanitizeInput(username);
     const sanitizedPassword = sanitizeInput(password);
     if (!sanitizedUsername || !sanitizedPassword) {
       setMessage("Please enter both username and password.");
-      return;
+      return false;
     }
     setIsLoading(true);
     setMessage("");
@@ -92,6 +111,7 @@ export function useAdminSession() {
         } else {
           setMessage(`Invalid credentials. ${MAX_ATTEMPTS - newAttempts} attempts remaining.`);
         }
+        return false;
       } else if (response.ok) {
         setIsAuthenticated(true);
         setLoginAttempts(0);
@@ -105,13 +125,16 @@ export function useAdminSession() {
         };
         localStorage.setItem('adminSession', JSON.stringify(session));
         startSessionTimer();
+        return true;
       } else {
         const data = await response.json();
         setMessage(data.error || "Login failed");
+        return false;
       }
     } catch (error) {
       console.error('Error during login:', error);
       setMessage("Network error. Please try again.");
+      return false;
     } finally {
       setIsLoading(false);
     }
@@ -135,14 +158,13 @@ export function useAdminSession() {
     setPassword,
     loginAttempts,
     isLocked,
+    lockTimeRemaining,
     message,
     setMessage,
     isLoading,
     setIsLoading,
     handleLogin,
     handleLogout,
-    startSessionTimer,
-    clearSessionTimer,
     setIsAuthenticated
   };
 } 

@@ -1,7 +1,37 @@
-import { createClient } from 'redis';
-import { performImageCleanup } from './image-cleanup-utils.js';
+import { createClient, RedisClientType } from 'redis';
+import { performImageCleanup } from './image-cleanup-utils';
 
-let redisClient = null;
+// TypeScript interfaces
+interface BackupResult {
+  success: boolean;
+  data?: any;
+  error?: any;
+  backupId?: string;
+  method?: string;
+  timestamp?: number;
+}
+
+interface ListBackupsResult {
+  success: boolean;
+  backups?: any[];
+  error?: string;
+}
+
+interface CleanupResult {
+  analysis?: {
+    totalImages: number;
+  };
+  cleanup?: {
+    removed?: any[];
+    totalSize?: number;
+  };
+}
+
+interface RestoreWithCleanupResult extends BackupResult {
+  cleanup?: CleanupResult;
+}
+
+let redisClient: RedisClientType | null = null;
 
 // Initialize Redis client
 async function initializeRedis() {
@@ -31,7 +61,7 @@ async function initializeRedis() {
 }
 
 // Backup utility that uses Redis everywhere
-export async function createBackup(data, operation = 'backup') {
+export async function createBackup(data: any, operation: string = 'backup'): Promise<BackupResult> {
   const timestamp = Date.now();
   const backupId = `${operation}_${timestamp}`;
   const backupData = {
@@ -54,14 +84,14 @@ export async function createBackup(data, operation = 'backup') {
       await redis.client.set(`backup:${backupId}`, JSON.stringify(backupData));
     }
     
-    return { success: true, backupId, timestamp };
+    return { success: true, backupId, timestamp, method: redis.isVercel ? 'vercel-kv' : 'redis' };
   } catch (error) {
-    return { success: false, error: error.message };
+    return { success: false, error: (error as any).message };
   }
 }
 
 // List all backups
-export async function listBackups() {
+export async function listBackups(): Promise<ListBackupsResult> {
   try {
     const redis = await initializeRedis();
     
@@ -73,7 +103,7 @@ export async function listBackups() {
       for (const key of keys) {
         const backupData = await redis.kv.get(key);
         if (backupData) {
-          const backup = JSON.parse(backupData);
+          const backup = JSON.parse(backupData as string);
           backups.push({
             filename: `${backup.id}.json`,
             size: JSON.stringify(backup).length,
@@ -83,7 +113,7 @@ export async function listBackups() {
         }
       }
       
-      return { success: true, backups: backups.sort((a, b) => b.created - a.created) };
+      return { success: true, backups: backups.sort((a: any, b: any) => b.created - a.created) };
     } else {
       // Use local Redis in development
       const keys = await redis.client.keys('backup:*');
@@ -92,7 +122,7 @@ export async function listBackups() {
       for (const key of keys) {
         const backupData = await redis.client.get(key);
         if (backupData) {
-          const backup = JSON.parse(backupData);
+          const backup = JSON.parse(backupData as string);
           backups.push({
             filename: `${backup.id}.json`,
             size: JSON.stringify(backup).length,
@@ -102,15 +132,15 @@ export async function listBackups() {
         }
       }
       
-      return { success: true, backups: backups.sort((a, b) => b.created - a.created) };
+      return { success: true, backups: backups.sort((a: any, b: any) => b.created - a.created) };
     }
-  } catch (error) {
-    return { success: false, error: error.message };
+  } catch (error: any) {
+    return { success: false, error: (error as any).message };
   }
 }
 
 // Restore backup
-export async function restoreBackup(backupId) {
+export async function restoreBackup(backupId: string): Promise<BackupResult> {
   try {
     const redis = await initializeRedis();
     
@@ -121,7 +151,7 @@ export async function restoreBackup(backupId) {
         return { success: false, error: 'Backup not found' };
       }
       
-      const backup = JSON.parse(backupData);
+      const backup = JSON.parse(backupData as string);
       return { success: true, data: backup.data };
     } else {
       // Use local Redis in development
@@ -130,16 +160,16 @@ export async function restoreBackup(backupId) {
         return { success: false, error: 'Backup not found' };
       }
       
-      const backup = JSON.parse(backupData);
+      const backup = JSON.parse(backupData as string);
       return { success: true, data: backup.data };
     }
   } catch (error) {
-    return { success: false, error: error.message };
+    return { success: false, error: (error as any).message };
   }
 }
 
 // Restore backup with automatic image cleanup
-export async function restoreBackupWithCleanup(backupId, performCleanup = true) {
+export async function restoreBackupWithCleanup(backupId: string, performCleanup: boolean = true): Promise<RestoreWithCleanupResult> {
   try {
     // First restore the backup
     const restoreResult = await restoreBackup(backupId);
@@ -174,12 +204,12 @@ export async function restoreBackupWithCleanup(backupId, performCleanup = true) 
       cleanup: cleanupResult
     };
   } catch (error) {
-    return { success: false, error: error.message };
+    return { success: false, error: (error as any).message };
   }
 }
 
 // Delete backup
-export async function deleteBackup(backupId) {
+export async function deleteBackup(backupId: string): Promise<BackupResult> {
   try {
     const redis = await initializeRedis();
     
@@ -193,12 +223,12 @@ export async function deleteBackup(backupId) {
     
     return { success: true };
   } catch (error) {
-    return { success: false, error: error.message };
+    return { success: false, error: (error as any).message };
   }
 }
 
 // Close Redis connection (for cleanup)
-export async function closeRedisConnection() {
+export async function closeRedisConnection(): Promise<void> {
   if (redisClient) {
     await redisClient.quit();
     redisClient = null;

@@ -1,160 +1,157 @@
-import { useProductsApi, useProductStats, useProductQueries } from './useProductsApi';
-import { useProductsFilter } from './useProductsFilter';
+import { useCallback, useEffect, useMemo, useState } from 'react';
+import { getUniqueValues } from '../utils';
+import { API_ENDPOINTS } from '../constants';
+import { filterProducts, searchProducts } from '../productFilter';
 
-// Combined hook that provides full products functionality
-export function useProducts() {
-  // Get products from API
-  const {
-    products,
-    categories,
-    packagingOptions,
-    isLoading,
-    error,
-    refetch,
-    invalidateCache
-  } = useProductsApi();
+export const useProducts = () => {
+  const [products, setProducts] = useState([]);
+  const [categories, setCategories] = useState([]);
+  const [packagingOptions, setPackagingOptions] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState('');
 
-  // Get filtering capabilities
-  const {
-    filters,
-    filteredProducts,
-    searchResults,
-    isFiltered,
-    updateFilter,
-    updateFilters,
-    clearFilters,
-    clearFilter,
-    applyFilters,
-    getFilterCount,
-    exportFilters,
-    importFilters
-  } = useProductsFilter(products);
+  // Filter state
+  const [filters, setFilters] = useState({
+    category: '',
+    stockStatus: '',
+    packaging: '',
+    minPrice: '',
+    maxPrice: '',
+    searchTerm: '',
+  });
 
-  // Get product statistics
-  const productStats = useProductStats(filteredProducts);
+  // Load products on mount
+  useEffect(() => {
+    loadProducts();
+  }, []);
 
-  // Get product query functions
-  const productQueries = useProductQueries(products);
+  // Extract categories and packaging options when products change
+  useEffect(() => {
+    if (products.length > 0) {
+      const uniqueCategories = getUniqueValues(products, 'category');
+      const uniquePackaging = getUniqueValues(products, 'packaging');
+      
+      setCategories(uniqueCategories);
+      setPackagingOptions(uniquePackaging);
+    }
+  }, [products]);
 
-  return {
-    // Data
-    products,
-    filteredProducts,
-    searchResults,
-    categories,
-    packagingOptions,
-    
-    // State
-    isLoading,
-    error,
-    filters,
-    isFiltered,
-    productStats,
-    
-    // API Actions
-    refetch,
-    invalidateCache,
-    
-    // Filter Actions
-    updateFilter,
-    updateFilters,
-    clearFilters,
-    clearFilter,
-    applyFilters,
-    getFilterCount,
-    exportFilters,
-    importFilters,
-    
-    // Query Functions
-    ...productQueries
-  };
-}
+  const loadProducts = useCallback(async () => {
+    setIsLoading(true);
+    setError('');
 
-// Simplified hook for basic product needs
-export function useProductsBasic() {
-  const { products, categories, isLoading, error, refetch } = useProductsApi();
-  
-  return {
-    products,
-    categories,
-    isLoading,
-    error,
-    refetch
-  };
-}
+    try {
+      const response = await fetch(API_ENDPOINTS.PRODUCTS);
+      
+      if (!response.ok) {
+        throw new Error('Failed to fetch products');
+      }
+      
+      const data = await response.json();
+      setProducts(data.products || []);
+    } catch (error) {
+      console.error('Error loading products:', error);
+      setError('Failed to load products. Please try again.');
+    } finally {
+      setIsLoading(false);
+    }
+  }, []);
 
-// Hook for specific category
-export function useProductsByCategory(categorySlug: string) {
-  const { products, isLoading, error, refetch } = useProductsApi();
-  const { getProductsByCategory } = useProductQueries(products);
-  
-  const categoryProducts = getProductsByCategory(categorySlug);
-  const categoryStats = useProductStats(categoryProducts);
-  
-  return {
-    products: categoryProducts,
-    stats: categoryStats,
-    isLoading,
-    error,
-    refetch
-  };
-}
+  // Filtered products
+  const filteredProducts = useMemo(() => {
+    let result = products;
 
-// Hook for search functionality
-export function useProductSearch() {
-  const { products, isLoading, error } = useProductsApi();
-  const { searchProducts } = useProductQueries(products);
-  
-  return {
-    searchProducts,
-    allProducts: products,
-    isLoading,
-    error
-  };
-}
+    // Apply search filter
+    if (filters.searchTerm) {
+      result = searchProducts(result, filters.searchTerm);
+    }
 
-// Legacy compatibility - matches the old useProducts interface
-export function useProductsLegacy() {
-  const api = useProductsApi();
-  const filter = useProductsFilter(api.products);
-  const stats = useProductStats(filter.filteredProducts);
-  const queries = useProductQueries(api.products);
+    // Apply other filters
+    result = filterProducts(result, filters);
 
-  // Stock status options for legacy compatibility
-  const stockOptions = [
+    return result;
+  }, [products, filters]);
+
+  // Stock status options
+  const stockOptions = useMemo(() => [
     { value: '', label: 'All' },
     { value: 'in_stock', label: 'In Stock' },
     { value: 'out_of_stock', label: 'Out of Stock' },
     { value: 'made_to_order', label: 'Made to Order' },
     { value: 'limited_stock', label: 'Limited Stock' },
-  ];
+  ], []);
+
+  // Update filters
+  const updateFilter = useCallback((key, value) => {
+    setFilters(prev => ({
+      ...prev,
+      [key]: value,
+    }));
+  }, []);
+
+  // Clear all filters
+  const clearFilters = useCallback(() => {
+    setFilters({
+      category: '',
+      stockStatus: '',
+      packaging: '',
+      minPrice: '',
+      maxPrice: '',
+      searchTerm: '',
+    });
+  }, []);
+
+  // Get products by category
+  const getProductsByCategory = useCallback((category) => {
+    return products.filter(product => product.category === category);
+  }, [products]);
+
+  // Get product by ID
+  const getProductById = useCallback((id) => {
+    return products.find(product => product.id === id);
+  }, [products]);
+
+  // Get products by stock status
+  const getProductsByStockStatus = useCallback((status) => {
+    return products.filter(product => product.stockStatus === status);
+  }, [products]);
+
+  // Get product statistics
+  const getProductStats = useMemo(() => {
+    const total = products.length;
+    const inStock = products.filter(p => p.stockStatus === 'in_stock').length;
+    const outOfStock = products.filter(p => p.stockStatus === 'out_of_stock').length;
+    const madeToOrder = products.filter(p => p.stockStatus === 'made_to_order').length;
+    const limitedStock = products.filter(p => p.stockStatus === 'limited_stock').length;
+
+    return {
+      total,
+      inStock,
+      outOfStock,
+      madeToOrder,
+      limitedStock,
+      categories: categories.length,
+    };
+  }, [products, categories]);
 
   return {
-    // Legacy state (exact match)
-    products: api.products,
-    filteredProducts: filter.filteredProducts,
-    categories: api.categories,
-    packagingOptions: api.packagingOptions,
+    // State
+    products,
+    filteredProducts,
+    categories,
+    packagingOptions,
     stockOptions,
-    filters: filter.filters,
-    isLoading: api.isLoading,
-    error: api.error,
-    productStats: stats,
+    filters,
+    isLoading,
+    error,
+    productStats: getProductStats,
 
-    // Legacy actions (exact match)
-    loadProducts: api.refetch,
-    updateFilter: filter.updateFilter,
-    clearFilters: filter.clearFilters,
-    getProductsByCategory: queries.getProductsByCategory,
-    getProductById: queries.getProductById,
-    getProductsByStockStatus: queries.getProductsByStockStatus,
+    // Actions
+    loadProducts,
+    updateFilter,
+    clearFilters,
+    getProductsByCategory,
+    getProductById,
+    getProductsByStockStatus,
   };
-}
-
-// Export individual parts for flexibility
-export {
-  useProductsApi,
-  useProductsFilter,
-  useProductStats,
-  useProductQueries
-};
+}; 

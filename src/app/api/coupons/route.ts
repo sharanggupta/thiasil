@@ -1,12 +1,25 @@
 import fs from 'fs/promises';
-import { NextResponse } from 'next/server';
+import { NextRequest, NextResponse } from 'next/server';
 import path from 'path';
+
+interface Coupon {
+  code: string;
+  discountPercent: number;
+  maxUses?: number;
+  currentUses: number;
+  isActive: boolean;
+  expiryDate: string;
+}
+
+interface CouponRequest {
+  code: string;
+}
 
 const COUPONS_FILE = path.join(process.cwd(), 'src', 'data', 'coupons.json');
 
-export async function POST(request) {
+export async function POST(request: NextRequest): Promise<NextResponse> {
   try {
-    const { code } = await request.json();
+    const { code }: CouponRequest = await request.json();
 
     if (!code) {
       return NextResponse.json(
@@ -16,7 +29,7 @@ export async function POST(request) {
     }
 
     // Read coupons file
-    let coupons = [];
+    let coupons: Coupon[] = [];
     try {
       const existingCoupons = await fs.readFile(COUPONS_FILE, 'utf8');
       coupons = JSON.parse(existingCoupons);
@@ -86,10 +99,10 @@ export async function POST(request) {
   }
 }
 
-export async function GET() {
+export async function GET(): Promise<NextResponse> {
   try {
     // Read coupons file
-    let coupons = [];
+    let coupons: Coupon[] = [];
     try {
       const existingCoupons = await fs.readFile(COUPONS_FILE, 'utf8');
       coupons = JSON.parse(existingCoupons);

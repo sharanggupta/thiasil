@@ -1,5 +1,5 @@
 // Standardized gradient patterns for the application
-export const GRADIENTS = {
+export const GRADIENTS: Record<string, string> = {
   // Primary brand gradients
   PRIMARY: 'linear-gradient(to right, #009ffd, #2a2a72)',
   PRIMARY_TO_BR: 'linear-gradient(to right bottom, rgba(41, 152, 255, 0.85), rgba(42, 42, 114, 0.75))',
@@ -28,7 +28,7 @@ export const GRADIENTS = {
 };
 
 // CSS custom properties that can be used directly
-export const CSS_GRADIENTS = {
+export const CSS_GRADIENTS: Record<string, string> = {
   PRIMARY: 'var(--primary-gradient)',
   DARK_PRIMARY: 'var(--dark-primary-gradient)',
   SECONDARY: 'var(--secondary-gradient)',
@@ -36,13 +36,13 @@ export const CSS_GRADIENTS = {
 };
 
 // Helper function to get gradient CSS
-export const getGradient = (gradientKey) => {
+export const getGradient = (gradientKey: string): string => {
   return GRADIENTS[gradientKey] || gradientKey;
 };
 
 // Helper function to get Tailwind gradient classes
-export const getTailwindGradient = (gradientKey) => {
-  const tailwindGradients = {
+export const getTailwindGradient = (gradientKey: string): string => {
+  const tailwindGradients: Record<string, string> = {
     BG_PRIMARY: GRADIENTS.BG_PRIMARY,
     BG_PRIMARY_OVERLAY: GRADIENTS.BG_PRIMARY_OVERLAY,
     BG_DARK: GRADIENTS.BG_DARK,

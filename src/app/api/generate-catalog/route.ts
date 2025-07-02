@@ -1,9 +1,30 @@
 import fs from 'fs';
-import { NextResponse } from 'next/server';
+import { NextRequest, NextResponse } from 'next/server';
 import path from 'path';
 import puppeteer from 'puppeteer';
 
-export async function GET(request) {
+interface ProductVariant {
+  name: string;
+  capacity?: string;
+  packaging?: string;
+  price: string;
+  stockStatus?: 'in_stock' | 'out_of_stock' | 'made_to_order' | 'limited_stock';
+}
+
+interface Product {
+  name: string;
+  category: string;
+  categorySlug: string;
+  catNo?: string;
+  description?: string;
+}
+
+interface ProductsData {
+  products: Product[];
+  productVariants: Record<string, { variants: ProductVariant[] }>;
+}
+
+export async function GET(request: NextRequest): Promise<NextResponse> {
   try {
     // Read current product data
     const productsPath = path.join(process.cwd(), 'src/data/products.json');
@@ -19,7 +40,7 @@ export async function GET(request) {
 
     // Launch puppeteer
     const browser = await puppeteer.launch({
-      headless: 'new',
+      headless: true,
       args: ['--no-sandbox', '--disable-setuid-sandbox', '--disable-web-security']
     });
 
@@ -33,7 +54,7 @@ export async function GET(request) {
     
     // Wait for images to load or fail
     await page.evaluate(() => {
-      return new Promise((resolve) => {
+      return new Promise<void>((resolve) => {
         const images = document.querySelectorAll('img');
         let loadedImages = 0;
         const totalImages = images.length;
@@ -93,11 +114,11 @@ export async function GET(request) {
   }
 }
 
-function generateCatalogHTML(productsData, baseUrl) {
+function generateCatalogHTML(productsData: ProductsData, baseUrl: string): string {
   const { products, productVariants } = productsData;
   
   // Helper function to get base catalog number for image paths
-  const getBaseCatalogNumber = (catNo) => {
+  const getBaseCatalogNumber = (catNo: string | undefined): string => {
     if (!catNo) return '';
     // Handle both "1100 Series" and "1100/50" formats
     return catNo.split(/[\s\/]/)[0];
@@ -350,7 +371,7 @@ function generateCatalogHTML(productsData, baseUrl) {
   `;
 }
 
-function getStockStatusText(status) {
+function getStockStatusText(status?: string): string {
   switch (status) {
     case 'in_stock': return 'In Stock';
     case 'out_of_stock': return 'Out of Stock';

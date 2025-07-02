@@ -3,15 +3,32 @@ import { APP_CONFIG, ERROR_MESSAGES } from '../constants';
 import { clearSession, isSessionValid, saveSession } from '../session';
 import { sanitizeInput } from '../validation';
 
-export const useAuth = () => {
+interface AuthState {
+  isAuthenticated: boolean;
+  username: string;
+  password: string;
+  loginAttempts: number;
+  isLocked: boolean;
+  lockTimeRemaining: number;
+  isLoading: boolean;
+  message: string;
+  setUsername: (username: string) => void;
+  setPassword: (password: string) => void;
+  setMessage: (message: string) => void;
+  handleLogin: (e?: React.FormEvent) => Promise<boolean>;
+  handleLogout: () => void;
+}
+
+export const useAuth = (): AuthState => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [loginAttempts, setLoginAttempts] = useState(0);
   const [isLocked, setIsLocked] = useState(false);
+  const [lockTimeRemaining, setLockTimeRemaining] = useState(0);
   const [isLoading, setIsLoading] = useState(false);
   const [message, setMessage] = useState('');
-  const [sessionTimer, setSessionTimer] = useState(null);
+  const [sessionTimer, setSessionTimer] = useState<NodeJS.Timeout | null>(null);
 
   // Check for existing session on mount
   useEffect(() => {
@@ -54,7 +71,7 @@ export const useAuth = () => {
     return () => clearSessionTimer();
   }, [clearSessionTimer]);
 
-  const handleLogin = useCallback(async (e) => {
+  const handleLogin = useCallback(async (e?: React.FormEvent): Promise<boolean> => {
     e?.preventDefault();
     
     if (isLocked) {
@@ -141,6 +158,7 @@ export const useAuth = () => {
     password,
     loginAttempts,
     isLocked,
+    lockTimeRemaining,
     isLoading,
     message,
     

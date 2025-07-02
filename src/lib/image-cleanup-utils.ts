@@ -1,6 +1,24 @@
 import fs from 'fs';
 import path from 'path';
 
+// TypeScript interfaces
+interface ProductVariant {
+  image?: string;
+  [key: string]: any;
+}
+
+interface ProductCategory {
+  image?: string;
+  variants?: ProductVariant[];
+  [key: string]: any;
+}
+
+interface ProductsData {
+  products?: any[];
+  productVariants?: Record<string, ProductCategory>;
+  [key: string]: any;
+}
+
 /**
  * Scans for all image files in the public/images directory
  * @returns {Array} Array of image file paths
@@ -46,8 +64,8 @@ export function scanImageFiles() {
  * @param {Object} productsData - Current products data
  * @returns {Set} Set of referenced image URLs
  */
-export function findReferencedImages(productsData) {
-  const referencedImages = new Set();
+export function findReferencedImages(productsData: ProductsData): Set<string> {
+  const referencedImages = new Set<string>();
   
   // Add images from product data
   if (productsData && productsData.products) {
@@ -60,13 +78,13 @@ export function findReferencedImages(productsData) {
   
   // Add images from product variants
   if (productsData && productsData.productVariants) {
-    Object.values(productsData.productVariants).forEach(category => {
+    Object.values(productsData.productVariants).forEach((category: ProductCategory) => {
       if (category.image) {
         referencedImages.add(category.image);
       }
       
       if (category.variants) {
-        category.variants.forEach(variant => {
+        category.variants.forEach((variant: ProductVariant) => {
           if (variant.image) {
             referencedImages.add(variant.image);
           }

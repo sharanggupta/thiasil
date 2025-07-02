@@ -1,5 +1,5 @@
 import fs from 'fs';
-import { NextResponse } from 'next/server';
+import { NextRequest, NextResponse } from 'next/server';
 import path from 'path';
 import { createBackup, deleteBackup, listBackups, restoreBackup, restoreBackupWithCleanup } from '../../../../lib/backup-utils';
 import { performImageCleanup } from '../../../../lib/image-cleanup-utils';
@@ -17,7 +17,7 @@ const RATE_LIMIT_MAX_REQUESTS = 10;
 
 const COUPONS_FILE = path.join(process.cwd(), 'src', 'data', 'coupons.json');
 
-function checkRateLimit(ip) {
+function checkRateLimit(ip: string): boolean {
   const now = Date.now();
   const userRequests = rateLimitMap.get(ip) || [];
   
@@ -35,7 +35,7 @@ function checkRateLimit(ip) {
   return true;
 }
 
-function readCoupons() {
+function readCoupons(): any[] {
   try {
     if (!fs.existsSync(COUPONS_FILE)) {
       return [];
@@ -47,11 +47,11 @@ function readCoupons() {
   }
 }
 
-function writeCoupons(coupons) {
+function writeCoupons(coupons: any[]): void {
   fs.writeFileSync(COUPONS_FILE, JSON.stringify(coupons, null, 2), 'utf-8');
 }
 
-export async function POST(request) {
+export async function POST(request: NextRequest): Promise<NextResponse> {
   const body = await request.json();
   try {
     const ip = request.headers.get('x-forwarded-for') || request.headers.get('x-real-ip') || 'unknown';
@@ -96,8 +96,7 @@ export async function POST(request) {
           });
           return NextResponse.json({
             success: true,
-            backups: listResult.backups,
-            method: listResult.method
+            backups: listResult.backups
           });
         } else {
           return NextResponse.json({ error: listResult.error }, { status: 500 });
@@ -259,7 +258,7 @@ export async function POST(request) {
         }
         
         // Sort by creation date (newest first) and keep only the 10 most recent
-        const sortedBackups = backups.sort((a, b) => new Date(b.created) - new Date(a.created));
+        const sortedBackups = backups.sort((a: any, b: any) => new Date(b.created).getTime() - new Date(a.created).getTime());
         const backupsToDelete = sortedBackups.slice(10);
         
         let deletedCount = 0;

@@ -94,9 +94,10 @@ export const ProductImage = ({
       className={className}
       onError={(e) => {
         // If image fails to load, hide it and show fallback
-        e.target.style.display = 'none';
-        if (e.target.nextSibling && fallbackComponent) {
-          e.target.nextSibling.style.display = 'block';
+        const target = e.target as HTMLImageElement;
+        target.style.display = 'none';
+        if (target.nextSibling && fallbackComponent) {
+          (target.nextSibling as HTMLElement).style.display = 'block';
         }
       }}
       {...props}
