@@ -3,11 +3,19 @@ import { useState } from "react";
 import productsData from "@/data/products.json";
 import { useProductManager } from "@/lib/hooks/useProductManager";
 import { getBaseCatalogNumber } from "@/lib/utils";
+import dynamic from "next/dynamic";
 import Footer from "@/app/components/Footer/Footer";
 import Navbar from "@/app/components/Navbar/Navbar";
-import ProductCard from "@/app/components/ui/ProductCard";
 import Breadcrumb from "@/app/components/common/Breadcrumb";
-import { CouponInput, CouponDisplay } from "@/app/components/coupons";
+import ProductCard from "@/app/components/ui/ProductCard";
+
+const CouponInput = dynamic(() => import("@/app/components/coupons").then(mod => ({ default: mod.CouponInput })), {
+  loading: () => <div className="animate-pulse bg-gray-200 h-16 rounded-lg"></div>
+});
+
+const CouponDisplay = dynamic(() => import("@/app/components/coupons").then(mod => ({ default: mod.CouponDisplay })), {
+  loading: () => <div className="animate-pulse bg-gray-200 h-12 rounded-lg"></div>
+});
 
 export default function Products() {
   const [products] = useState(productsData.products);
@@ -149,7 +157,7 @@ export default function Products() {
         </div>
         
         {/* Product Grid with PDP-style Flip Cards */}
-        <div className="grid z-10 grid-cols-1 gap-12 mt-8 mb-20 sm:grid-cols-2 md:grid-cols-3">
+        <div className="grid z-10 grid-cols-1 gap-12 mt-8 mb-20 sm:grid-cols-2 md:grid-cols-3" style={{ contain: 'layout' }}>
           {filteredProducts.length === 0 && (
             <div className="col-span-full py-12 text-lg text-center text-blue-900/80">No products found.</div>
           )}

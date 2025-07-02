@@ -2,9 +2,17 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Font display optimization for CLS improvement */
+@font-face {
+  font-family: 'Lato';
+  font-display: swap; /* Improves font loading performance */
+}
+
 body {
   font-family: var(--font-lato), sans-serif; /* Use the CSS variable for the Lato font */
   font-size: 16px;
+  /* Prevent layout shift during font loading */
+  font-display: swap;
 }
 .custom-link {
   font-weight: 600; /* Equivalent to 'font-semibold' in Tailwind */

@@ -10,6 +10,8 @@ interface SafeImageProps extends Omit<ImageProps, 'src' | 'onError' | 'onLoad'> 
   fallbackSrc?: string;
   showPlaceholder?: boolean;
   className?: string;
+  priority?: boolean;
+  lazy?: boolean;
 }
 
 export default function SafeImage({
@@ -18,8 +20,12 @@ export default function SafeImage({
   fallbackSrc = '/images/placeholder.webp',
   showPlaceholder = true,
   className = '',
+  priority = false,
+  lazy = true,
   ...props
 }: SafeImageProps) {
+  // Filter out loading prop to prevent conflicts
+  const { loading: propsLoading, ...imageProps } = props;
   const [imgSrc, setImgSrc] = useState(src);
   const [isLoading, setIsLoading] = useState(true);
   const [hasError, setHasError] = useState(false);
@@ -64,10 +70,10 @@ export default function SafeImage({
   }
 
   return (
-    <div className={`relative ${className}`}>
+    <div className={`relative ${className}`} style={{ aspectRatio: imageProps.width && imageProps.height ? `${imageProps.width}/${imageProps.height}` : '1' }}>
       {isLoading && (
-        <div className="absolute inset-0 flex items-center justify-center bg-white/5 rounded-lg">
-          <div className="w-6 h-6 border-2 border-white/30 border-t-white rounded-full animate-spin"></div>
+        <div className="absolute inset-0 flex items-center justify-center bg-gray-100 rounded-lg">
+          <div className="w-6 h-6 border-2 border-gray-300 border-t-blue-500 rounded-full animate-spin"></div>
         </div>
       )}
       
@@ -76,8 +82,11 @@ export default function SafeImage({
         alt={alt}
         onError={handleError}
         onLoad={handleLoad}
-        className={`transition-opacity duration-300 ${isLoading ? 'opacity-0' : 'opacity-100'}`}
-        {...props}
+        className={`transition-opacity duration-200 ${isLoading ? 'opacity-0' : 'opacity-100'}`}
+        priority={priority}
+        loading={lazy ? 'lazy' : 'eager'}
+        style={{ aspectRatio: imageProps.width && imageProps.height ? `${imageProps.width}/${imageProps.height}` : '1' }}
+        {...imageProps}
       />
     </div>
   );

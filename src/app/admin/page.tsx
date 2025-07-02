@@ -6,9 +6,20 @@ import { useAdminCoupons } from '@/lib/hooks/useAdminCoupons';
 import { useAdminProducts } from '@/lib/hooks/useAdminProducts';
 import { useAdminSession } from '@/lib/hooks/useAdminSession';
 import { GlassCard, GlassIcon, GlassInput } from "@/app/components/Glassmorphism";
-import AdminLayout from "@/app/components/admin/AdminLayout";
-import AdminTabNavigation from "@/app/components/admin/AdminTabNavigation";
-import AdminTabContent from "@/app/components/admin/AdminTabContent";
+import dynamic from "next/dynamic";
+
+// Dynamic imports for admin components to reduce initial bundle size
+const AdminLayout = dynamic(() => import("@/app/components/admin/AdminLayout"), {
+  loading: () => <div className="animate-pulse bg-gray-200 h-96 rounded-lg" style={{ aspectRatio: '16/9', minHeight: '400px' }}></div>
+});
+
+const AdminTabNavigation = dynamic(() => import("@/app/components/admin/AdminTabNavigation"), {
+  loading: () => <div className="animate-pulse bg-gray-200 h-16 rounded-lg" style={{ height: '64px' }}></div>
+});
+
+const AdminTabContent = dynamic(() => import("@/app/components/admin/AdminTabContent"), {
+  loading: () => <div className="animate-pulse bg-gray-200 h-96 rounded-lg" style={{ aspectRatio: '16/9', minHeight: '400px' }}></div>
+});
 
 // Session timeout (30 minutes)
 const SESSION_TIMEOUT = 30 * 60 * 1000;
@@ -16,6 +27,7 @@ const SESSION_TIMEOUT = 30 * 60 * 1000;
 // Admin tabs configuration
 const ADMIN_TABS = [
   { id: 'dashboard', label: 'Dashboard', icon: '📊' },
+  { id: 'performance', label: 'Performance', icon: '⚡' },
   { id: 'prices', label: 'Price Management', icon: '💰' },
   { id: 'inventory', label: 'Inventory', icon: '📦' },
   { id: 'add-products', label: 'Add Products', icon: '➕' },

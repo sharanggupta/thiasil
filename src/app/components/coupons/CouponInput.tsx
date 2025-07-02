@@ -32,14 +32,17 @@ export default function CouponInput({
   const [showSuggestions, setShowSuggestions] = useState(false);
 
   const handleApplyCoupon = async () => {
-    const success = await applyCoupon();
-    
-    if (success) {
-      onApplySuccess?.();
-      setShowSuggestions(false);
-    } else {
-      onApplyError?.();
-    }
+    // Use setTimeout to defer the heavy operation and improve responsiveness
+    setTimeout(async () => {
+      const success = await applyCoupon();
+      
+      if (success) {
+        onApplySuccess?.();
+        setShowSuggestions(false);
+      } else {
+        onApplyError?.();
+      }
+    }, 0);
   };
 
   const handleInputChange = (value: string) => {

@@ -16,7 +16,8 @@
     "redis:stop": "docker-compose down",
     "redis:logs": "docker-compose logs -f redis",
     "redis:cli": "docker exec -it thiasil-redis redis-cli",
-    "redis:setup": "./scripts/setup-redis.sh"
+    "redis:setup": "./scripts/setup-redis.sh",
+    "analyze": "ANALYZE=true npm run build"
   },
   "dependencies": {
     "@vercel/kv": "^3.0.0",
@@ -25,9 +26,11 @@
     "react": "^19.1.0",
     "react-dom": "^19.1.0",
     "redis": "^5.5.6",
-    "swiper": "^11.2.10"
+    "swiper": "^11.2.10",
+    "web-vitals": "^5.0.3"
   },
   "devDependencies": {
+    "@next/bundle-analyzer": "^15.3.4",
     "@next/env": "^15.3.4",
     "@testing-library/jest-dom": "^6.6.3",
     "@testing-library/react": "^16.3.0",

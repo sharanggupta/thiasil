@@ -8,7 +8,9 @@ export default function HeroBackground({ backgroundImage }) {
         alt="Lab Background"
         fill
         className="object-cover"
-        quality={100}
+        quality={85}
+        priority
+        sizes="100vw"
       />
       <div className="absolute inset-0 bg-gradient-clip-path"></div>
     </div>

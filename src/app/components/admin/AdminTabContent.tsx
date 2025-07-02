@@ -2,6 +2,7 @@
 import React from 'react';
 import { GlassCard } from "@/app/components/Glassmorphism";
 import AdminDashboard from './AdminDashboard';
+import PerformanceDashboard from './PerformanceDashboard';
 import PriceManagement from './PriceManagement';
 import InventoryManagement from './InventoryManagement';
 import ProductAddition from './ProductAddition';
@@ -151,6 +152,11 @@ export default function AdminTabContent({
             coupons={coupons}
             onTabChange={onTabChange}
           />
+        )}
+
+        {/* Performance Dashboard Tab */}
+        {activeTab === 'performance' && (
+          <PerformanceDashboard />
         )}
 
         {/* Price Management Tab */}

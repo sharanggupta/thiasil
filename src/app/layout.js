@@ -1,6 +1,7 @@
 import { Lato } from "next/font/google";
 import "./globals.css";
 import { CouponProvider } from "@/contexts/CouponContext";
+import PerformanceMonitor from "@/components/PerformanceMonitor";
 
 // Importing the Lato Google Font
 const lato = Lato({
@@ -20,6 +21,7 @@ export default function RootLayout({ children }) {
     <html lang="en">
       <body className={`${lato.variable} antialiased`}>
         <CouponProvider enablePersistence={true} maxHistorySize={10}>
+          <PerformanceMonitor />
           {children}
         </CouponProvider>
       </body>
