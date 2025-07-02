@@ -87,9 +87,9 @@ export const PRODUCT_CARD_CONFIG = {
     DEFAULT_CATEGORY: 'uncategorized'
   },
   EXCLUDED_VALUES: {
-    CAPACITY: ['N/A', 'Custom'],
-    PACKAGING: ['N/A', '1 piece'],
-    DIMENSION: ['N/A', '']
+    CAPACITY: ['N/A', 'Custom'] as readonly string[],
+    PACKAGING: ['N/A', '1 piece'] as readonly string[],
+    DIMENSION: ['N/A', ''] as readonly string[]
   },
   BUTTON_DEFAULTS: {
     TEXT: 'Details',
