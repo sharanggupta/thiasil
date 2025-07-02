@@ -1,5 +1,5 @@
 import { useState, useMemo, useCallback } from 'react';
-import { Product } from './useProductFilters';
+import { Product } from '@/app/components/ui/types';
 
 export type SortDirection = 'asc' | 'desc';
 export type SortField = keyof Product | 'price_numeric' | 'name_alpha' | 'category_alpha';

@@ -1,5 +1,5 @@
 import { useState, useMemo, useCallback, useEffect } from 'react';
-import { Product } from './useProductFilters';
+import { Product } from '@/app/components/ui/types';
 
 export interface SearchOptions {
   searchFields: (keyof Product)[];

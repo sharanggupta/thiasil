@@ -9,7 +9,6 @@ const ADMIN_CREDENTIALS = {
   password: process.env.ADMIN_PASSWORD
 };
 
-console.log('DEBUG ADMIN CREDS', ADMIN_CREDENTIALS);
 
 // Validate that credentials are set
 if (!ADMIN_CREDENTIALS.username || !ADMIN_CREDENTIALS.password) {
@@ -84,7 +83,6 @@ export async function POST(request) {
     
     // Parse and validate request body
     const body = await request.json();
-    console.log('DEBUG LOGIN BODY', body);
     
     // Validate input
     const validation = validateInput(body);

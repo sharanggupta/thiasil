@@ -53,7 +53,6 @@ function writeCoupons(coupons) {
 
 export async function POST(request) {
   const body = await request.json();
-  console.log('DEBUG BACKUP BODY', body);
   try {
     const ip = request.headers.get('x-forwarded-for') || request.headers.get('x-real-ip') || 'unknown';
     

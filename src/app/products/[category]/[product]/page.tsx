@@ -166,11 +166,6 @@ export default function ProductDetailsPage({ params }: PageProps) {
   );
   
   if (!productData) {
-    // Debug info for development
-    console.log('Product not found:', {
-      searchingFor: decodeURIComponent(product || "").toLowerCase(),
-      availableProducts: productsData.products.map(p => ({ name: p.name, catNo: p.catNo }))
-    });
     return (
       <div className="main-margin bg-[#f7f7f7] min-h-screen flex items-center justify-center">
         <div className="text-center">
@@ -199,16 +194,6 @@ export default function ProductDetailsPage({ params }: PageProps) {
     return variantBaseNumber === baseCatalogNumber;
   });
   
-  // Debug logging for development
-  console.log('Product Details Debug:', {
-    productName: productData.name,
-    productCatNo: productData.catNo,
-    baseCatalogNumber,
-    categorySlug: productData.categorySlug,
-    allVariantsCount: allVariants.length,
-    filteredVariantsCount: variants.length,
-    variants: variants.map(v => ({ name: v.name, catNo: v.catNo }))
-  });
 
   return (
     <div className="main-margin bg-[#f7f7f7] min-h-screen">

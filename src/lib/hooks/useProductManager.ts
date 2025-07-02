@@ -1,5 +1,6 @@
 import { useMemo } from 'react';
-import { useProductFilters, Product, ProductFilters } from './useProductFilters';
+import { useProductFilters, ProductFilters } from './useProductFilters';
+import { Product } from '@/app/components/ui/types';
 import { useProductSearch, SearchOptions } from './useProductSearch';
 import { useProductSort, SortConfig, SortOption } from './useProductSort';
 

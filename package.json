@@ -7,6 +7,9 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
+    "type-check": "tsc --noEmit",
+    "build-check": "npm run type-check && npm run build",
+    "check-debug": "rg 'console\\.log.*DEBUG|DEBUG.*console\\.log' --type js --type ts || echo 'No DEBUG statements found ✅'",
     "test": "jest",
     "test:watch": "jest --watch",
     "test:coverage": "jest --coverage",
@@ -17,7 +20,8 @@
     "redis:logs": "docker-compose logs -f redis",
     "redis:cli": "docker exec -it thiasil-redis redis-cli",
     "redis:setup": "./scripts/setup-redis.sh",
-    "analyze": "ANALYZE=true npm run build"
+    "analyze": "ANALYZE=true npm run build",
+    "prepare": "husky"
   },
   "dependencies": {
     "@vercel/kv": "^3.0.0",
@@ -40,6 +44,7 @@
     "@types/react": "^19.1.8",
     "eslint": "^9.30.0",
     "eslint-config-next": "^15.3.4",
+    "husky": "^9.1.7",
     "jest": "^30.0.3",
     "jest-environment-jsdom": "^30.0.2",
     "next-router-mock": "^1.0.2",

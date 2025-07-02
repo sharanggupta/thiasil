@@ -189,7 +189,7 @@ export default function ProductsDataTable({
             <GlassButton
               onClick={() => {
                 const selectedProducts = tableState.getSelectedItems();
-                console.log('Bulk action on:', selectedProducts);
+                // Bulk action implementation would go here
               }}
               variant="primary"
               size="small"

@@ -89,7 +89,7 @@ describe('Routing and Navigation Integration Testing Suite', () => {
                   >
                     {crumb}
                   </button>
-                  {index < breadcrumbs.length - 1 && <span> > </span>}
+                  {index < breadcrumbs.length - 1 && <span> &gt; </span>}
                 </span>
               ))}
             </nav>
