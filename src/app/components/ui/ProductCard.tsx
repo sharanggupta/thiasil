@@ -116,7 +116,7 @@ const ProductCard = memo(function ProductCard(props: ProductCardProps) {
             </span>
           </div>
           <div className={styles["variant-card-info"]}>
-            <p>Cat No: {safeProduct.catNo}</p>
+            {safeProduct.catNo && <p>Cat No: {safeProduct.catNo}</p>}
             {shouldShowCapacity(safeProduct.capacity) && <p>capacity: {safeProduct.capacity}</p>}
             {displayInfo.formattedDimensions && (
               <p>{displayInfo.formattedDimensions}</p>

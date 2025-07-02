@@ -68,7 +68,7 @@ function getShortDimensionKey(key: string): string {
 export function isValidProduct(product: any): product is Product {
   return product && 
          typeof product === 'object' &&
-         (product.name || product.catNo);
+         (product.name || product.catNo || product.catalogNo || product.id);
 }
 
 /**
@@ -134,7 +134,7 @@ export function getProductDisplayName(product: Product): string {
       return PRODUCT_CARD_CONFIG.FALLBACK_VALUES.UNKNOWN_PRODUCT;
     }
     
-    return product.name || product.catNo || PRODUCT_CARD_CONFIG.FALLBACK_VALUES.UNKNOWN_PRODUCT;
+    return product.name || product.catNo || product.catalogNo || `Product-${product.id}` || PRODUCT_CARD_CONFIG.FALLBACK_VALUES.UNKNOWN_PRODUCT;
   } catch (error) {
     console.error('Error getting product display name:', error);
     return PRODUCT_CARD_CONFIG.FALLBACK_VALUES.UNKNOWN_PRODUCT;

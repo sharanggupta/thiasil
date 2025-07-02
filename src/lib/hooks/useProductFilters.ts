@@ -1,4 +1,5 @@
 import { useState, useMemo, useCallback } from 'react';
+import { Product } from '@/app/components/ui/types';
 
 export interface ProductFilters {
   category: string;
@@ -7,18 +8,6 @@ export interface ProductFilters {
   minPrice: string;
   maxPrice: string;
   searchTerm: string;
-}
-
-export interface Product {
-  id: string | number;
-  name: string;
-  category: string;
-  stockStatus?: string;
-  packaging?: string;
-  price: string;
-  catalogNo?: string;
-  catNo?: string;
-  [key: string]: any;
 }
 
 export const defaultFilters: ProductFilters = {

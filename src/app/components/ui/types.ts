@@ -24,10 +24,16 @@ export interface ProductDimensions {
  * Represents a product with all its properties
  */
 export interface Product {
+  /** Product ID */
+  id?: string | number;
   /** Product display name */
   name?: string;
-  /** Catalog number (required identifier) */
-  catNo: string;
+  /** Catalog number (primary identifier) */
+  catNo?: string;
+  /** Alternative catalog number field for compatibility */
+  catalogNo?: string;
+  /** Product price */
+  price?: string;
   /** Current stock availability status */
   stockStatus?: 'in_stock' | 'out_of_stock' | string;
   /** Product capacity information */
