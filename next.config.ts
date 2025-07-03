@@ -74,15 +74,15 @@ const withPWAConfig = withPWA({
 const nextConfig: NextConfig = {
   // Next.js 15 Performance Optimizations
   experimental: {
-    // Enable Turbopack for faster development (Next.js 15)
-    turbo: process.env.NODE_ENV === 'development' ? {} : undefined,
-    
     // Enable React Compiler for automatic optimizations (experimental)
     reactCompiler: process.env.NEXT_REACT_COMPILER === 'true',
     
     // Enable optimized package imports
     optimizePackageImports: ['@/lib', '@/components'],
   },
+  
+  // Turbopack configuration (stable in Next.js 15)
+  turbopack: process.env.NODE_ENV === 'development' ? {} : undefined,
   
   // Next.js 15 Build Optimizations
   output: 'standalone',
