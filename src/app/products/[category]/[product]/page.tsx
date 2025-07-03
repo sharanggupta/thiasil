@@ -170,7 +170,7 @@ export default function ProductDetailsPage({ params }: PageProps) {
       <div className="main-margin bg-[#f7f7f7] min-h-screen flex items-center justify-center">
         <div className="text-center">
           <h1 className="text-2xl font-bold text-gray-800 mb-4">Product Not Found</h1>
-          <p className="text-gray-600">The requested product "{decodeURIComponent(product || "")}" could not be found.</p>
+          <p className="text-gray-600">The requested product &quot;{decodeURIComponent(product || "")}&quot; could not be found.</p>
           <p className="text-sm text-gray-500 mt-2">Available products: {productsData.products.map(p => p.catNo).join(', ')}</p>
         </div>
       </div>

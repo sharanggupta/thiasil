@@ -21,11 +21,14 @@
     "redis:cli": "docker exec -it thiasil-redis redis-cli",
     "redis:setup": "./scripts/setup-redis.sh",
     "analyze": "ANALYZE=true npm run build",
-    "prepare": "husky"
+    "prepare": "husky",
+    "storybook": "storybook dev -p 6006",
+    "build-storybook": "storybook build"
   },
   "dependencies": {
     "@vercel/kv": "^3.0.0",
     "next": "^15.3.4",
+    "next-pwa": "^5.6.0",
     "puppeteer": "^24.11.1",
     "react": "^19.1.0",
     "react-dom": "^19.1.0",
@@ -36,6 +39,9 @@
   "devDependencies": {
     "@next/bundle-analyzer": "^15.3.4",
     "@next/env": "^15.3.4",
+    "@storybook/addon-docs": "^9.0.15",
+    "@storybook/addon-onboarding": "^9.0.15",
+    "@storybook/nextjs": "^9.0.15",
     "@testing-library/jest-dom": "^6.6.3",
     "@testing-library/react": "^16.3.0",
     "@testing-library/user-event": "^14.6.1",
@@ -44,12 +50,19 @@
     "@types/react": "^19.1.8",
     "eslint": "^9.30.0",
     "eslint-config-next": "^15.3.4",
+    "eslint-plugin-storybook": "^9.0.15",
     "husky": "^9.1.7",
     "jest": "^30.0.3",
     "jest-environment-jsdom": "^30.0.2",
     "next-router-mock": "^1.0.2",
     "postcss": "^8.5.6",
+    "storybook": "^9.0.15",
     "tailwindcss": "^3.4.17",
     "typescript": "^5.8.3"
+  },
+  "eslintConfig": {
+    "extends": [
+      "plugin:storybook/recommended"
+    ]
   }
 }

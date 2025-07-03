@@ -1,0 +1,103 @@
+{
+  "name": "Thiasil - Laboratory Glassware",
+  "short_name": "Thiasil",
+  "description": "Premium laboratory glassware and scientific equipment manufacturing company. Quality fused silica products for research and industry.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#0A6EBD",
+  "theme_color": "#0A6EBD",
+  "orientation": "portrait-primary",
+  "icons": [
+    {
+      "src": "/icons/icon-72x72.png",
+      "sizes": "72x72",
+      "type": "image/png",
+      "purpose": "maskable any"
+    },
+    {
+      "src": "/icons/icon-96x96.png",
+      "sizes": "96x96",
+      "type": "image/png",
+      "purpose": "maskable any"
+    },
+    {
+      "src": "/icons/icon-128x128.png",
+      "sizes": "128x128",
+      "type": "image/png",
+      "purpose": "maskable any"
+    },
+    {
+      "src": "/icons/icon-144x144.png",
+      "sizes": "144x144",
+      "type": "image/png",
+      "purpose": "maskable any"
+    },
+    {
+      "src": "/icons/icon-152x152.png",
+      "sizes": "152x152",
+      "type": "image/png",
+      "purpose": "maskable any"
+    },
+    {
+      "src": "/icons/icon-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "maskable any"
+    },
+    {
+      "src": "/icons/icon-384x384.png",
+      "sizes": "384x384",
+      "type": "image/png",
+      "purpose": "maskable any"
+    },
+    {
+      "src": "/icons/icon-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable any"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "View Products",
+      "short_name": "Products",
+      "description": "Browse our laboratory glassware catalog",
+      "url": "/products",
+      "icons": [
+        {
+          "src": "/icons/shortcut-products.png",
+          "sizes": "192x192"
+        }
+      ]
+    },
+    {
+      "name": "Contact Us",
+      "short_name": "Contact",
+      "description": "Get in touch with our team",
+      "url": "/contact",
+      "icons": [
+        {
+          "src": "/icons/shortcut-contact.png",
+          "sizes": "192x192"
+        }
+      ]
+    },
+    {
+      "name": "About Company",
+      "short_name": "About",
+      "description": "Learn more about Thiasil",
+      "url": "/company",
+      "icons": [
+        {
+          "src": "/icons/shortcut-about.png",
+          "sizes": "192x192"
+        }
+      ]
+    }
+  ],
+  "categories": ["business", "productivity", "shopping"],
+  "lang": "en",
+  "dir": "ltr",
+  "scope": "/",
+  "prefer_related_applications": false
+}
