@@ -93,6 +93,13 @@ export function useProductCard(props: ProductCardProps) {
     product, 
     onCardClick, 
     buttonOnClick,
+    activeCoupon,
+    displayPrice,
+    className,
+    backContent,
+    buttonText,
+    buttonHref,
+    loading,
     ...restProps 
   } = props;
 

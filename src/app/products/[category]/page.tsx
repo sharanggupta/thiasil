@@ -1,79 +1,70 @@
-"use client";
-import { use } from "react";
-import { useCoupons } from "@/lib/hooks/useCoupons";
-import { useCategoryData } from "@/lib/hooks/useCategoryData";
-import { NeonBubblesBackground } from "@/app/components/Glassmorphism";
-import Navbar from "@/app/components/Navbar/Navbar";
-import Breadcrumb from "@/app/components/common/Breadcrumb";
-import CategoryLoadingState from "@/app/components/category/CategoryLoadingState";
-import CategoryNotFound from "@/app/components/category/CategoryNotFound";
-import CategoryHero from "@/app/components/category/CategoryHero";
-import CategoryProductGrid from "@/app/components/category/CategoryProductGrid";
+import { Metadata } from "next";
+import { CategoryPageClient } from "./CategoryPageClient";
+import productsData from "@/data/products.json";
 
 interface PageProps {
   params: Promise<{ category: string }>;
 }
 
-export default function CategoryPage({ params }: PageProps) {
-  // Get category from params using React.use()
-  const resolvedParams = use(params);
+export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
+  const resolvedParams = await params;
   const { category: categorySlug } = resolvedParams;
   
-  // Use custom hooks for data fetching and coupon management
-  const { categoryData, isLoading, error } = useCategoryData(categorySlug);
-  const {
-    couponCode,
-    setCouponCode,
-    activeCoupon,
-    couponMessage,
-    isApplyingCoupon,
-    applyCoupon,
-    clearCoupon
-  } = useCoupons();
-
-
-  if (isLoading) {
-    return <CategoryLoadingState />;
-  }
-
-  if (error || !categoryData) {
-    return <CategoryNotFound error={error} />;
-  }
-
-  return (
-    <div className="relative min-h-screen overflow-x-hidden" style={{ background: 'var(--dark-primary-gradient)' }}>
-      <Navbar />
-      <NeonBubblesBackground />
-      <div className="absolute inset-0 pointer-events-none z-0" style={{ background: 'var(--primary-gradient)', opacity: 0.3 }} />
-
-      <main className="relative z-10 max-w-7xl mx-auto px-4 pb-24 flex flex-col gap-20 ml-0 md:ml-32">
-        {/* Breadcrumb Navigation */}
-        <Breadcrumb 
-          items={[
-            { href: "/", label: "Home" },
-            { href: "/products", label: "Products" },
-            { label: categoryData.title || categoryData.name || "Category" }
-          ]}
-        />
-
-        {/* Hero Section */}
-        <CategoryHero
-          categoryData={categoryData}
-          couponCode={couponCode}
-          setCouponCode={setCouponCode}
-          activeCoupon={activeCoupon}
-          couponMessage={couponMessage}
-          isApplyingCoupon={isApplyingCoupon}
-          applyCoupon={applyCoupon}
-          clearCoupon={clearCoupon}
-        />
-
-        {/* Product Grid */}
-        <CategoryProductGrid
-          variants={categoryData.variants}
-          activeCoupon={activeCoupon}
-        />
-      </main>
-    </div>
+  // Find products in this category to get category info
+  const categoryProducts = productsData.products.filter(
+    product => product.categorySlug === categorySlug
   );
+  
+  if (categoryProducts.length === 0) {
+    return {
+      title: "Category Not Found | Thiasil",
+      description: "The requested category was not found.",
+    };
+  }
+  
+  const categoryName = categoryProducts[0].category || categorySlug;
+  const title = `${categoryName} | Thiasil Laboratory Glassware`;
+  const description = `Explore our ${categoryName} collection of premium laboratory glassware and equipment. High-quality products for scientific research and analytical chemistry.`;
+  
+  return {
+    title,
+    description,
+    keywords: [
+      categoryName.toLowerCase(),
+      "laboratory glassware",
+      "scientific equipment",
+      "thiasil products",
+      "analytical chemistry",
+      "research equipment",
+      "premium glassware",
+      "laboratory supplies"
+    ],
+    openGraph: {
+      title,
+      description,
+      url: `https://thiasil.com/products/${categorySlug}`,
+      type: "website",
+      images: [
+        {
+          url: "/images/category-og.jpg",
+          width: 1200,
+          height: 630,
+          alt: `${categoryName} - Thiasil Laboratory Glassware`,
+        },
+      ],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title,
+      description,
+      images: ["/images/category-og.jpg"],
+    },
+    alternates: {
+      canonical: `https://thiasil.com/products/${categorySlug}`,
+    },
+  };
+}
+
+export default function CategoryPage({ params }: PageProps) {
+  return <CategoryPageClient params={params} />;
 } 

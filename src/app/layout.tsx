@@ -7,6 +7,7 @@ import PWAInstallPrompt from "@/app/components/pwa/PWAInstallPrompt";
 import OfflineStatus from "@/app/components/pwa/OfflineStatus";
 import ServiceWorkerRegistration from "@/app/components/pwa/ServiceWorkerRegistration";
 import PWADevIndicator from "@/app/components/pwa/PWADevIndicator";
+import { OrganizationStructuredData, WebSiteStructuredData } from "@/app/components/seo/StructuredData";
 
 // Importing the Lato Google Font
 const lato = Lato({
@@ -16,9 +17,53 @@ const lato = Lato({
 });
 
 export const metadata: Metadata = {
-  title: "Thiasil | Quality Silica",
-  keywords: ["Thiasil", "Individually OXY-GAS fired", "Silica", "Quartz", "crucibles", "glass", "cheap", "india"],
-  description: "Individually OXY-GAS fired laboratory glass with quality rivalling international standards and cheapest price made in India",
+  title: {
+    default: "Thiasil | Premium Laboratory Glassware & Silica Crucibles",
+    template: "%s | Thiasil - Quality Laboratory Glassware"
+  },
+  keywords: [
+    "Thiasil", "laboratory glassware", "silica crucibles", "oxy-gas fired", 
+    "quartz crucibles", "laboratory equipment", "scientific glassware", 
+    "premium quality", "India manufacturer", "analytical chemistry"
+  ],
+  description: "Thiasil manufactures premium individually oxy-gas fired laboratory glassware and silica crucibles. Quality rivaling international standards with competitive pricing. Trusted by laboratories worldwide.",
+  authors: [{ name: "Thiasil", url: "https://thiasil.com" }],
+  creator: "Thiasil",
+  publisher: "Thiasil",
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-video-preview": -1,
+      "max-image-preview": "large",
+      "max-snippet": -1,
+    },
+  },
+  openGraph: {
+    type: "website",
+    locale: "en_US",
+    url: "https://thiasil.com",
+    siteName: "Thiasil",
+    title: "Thiasil | Premium Laboratory Glassware & Silica Crucibles",
+    description: "Premium individually oxy-gas fired laboratory glassware and silica crucibles. Quality rivaling international standards.",
+    images: [
+      {
+        url: "/images/og-image.jpg",
+        width: 1200,
+        height: 630,
+        alt: "Thiasil Laboratory Glassware",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Thiasil | Premium Laboratory Glassware & Silica Crucibles",
+    description: "Premium individually oxy-gas fired laboratory glassware and silica crucibles. Quality rivaling international standards.",
+    images: ["/images/og-image.jpg"],
+    creator: "@thiasil",
+  },
   manifest: "/manifest.json",
   appleWebApp: {
     capable: true,
@@ -35,6 +80,7 @@ export const metadata: Metadata = {
       { url: "/icons/icon-192x192.png", sizes: "192x192", type: "image/png" },
     ],
   },
+  category: "laboratory equipment",
 };
 
 export const viewport = {
@@ -52,6 +98,10 @@ interface RootLayoutProps {
 export default function RootLayout({ children }: RootLayoutProps) {
   return (
     <html lang="en">
+      <head>
+        <OrganizationStructuredData />
+        <WebSiteStructuredData />
+      </head>
       <body className={`${lato.variable} antialiased`}>
         <CouponProvider enablePersistence={true} maxHistorySize={10}>
           <PerformanceMonitor />

@@ -4,7 +4,7 @@ import { useState } from 'react';
 import Image, { ImageProps } from 'next/image';
 import { logError, ERROR_CATEGORIES, ERROR_LEVELS } from '@/lib/error';
 
-interface SafeImageProps extends Omit<ImageProps, 'src' | 'onError' | 'onLoad'> {
+interface SafeImageProps extends Omit<ImageProps, 'src' | 'onError' | 'onLoad' | 'loading'> {
   src: string;
   alt: string;
   fallbackSrc?: string;
@@ -22,10 +22,9 @@ export default function SafeImage({
   className = '',
   priority = false,
   lazy = true,
-  ...props
+  ...imageProps
 }: SafeImageProps) {
-  // Filter out loading prop to prevent conflicts
-  const { loading: propsLoading, ...imageProps } = props;
+  // imageProps now only contains valid Image component props
   const [imgSrc, setImgSrc] = useState(src);
   const [isLoading, setIsLoading] = useState(true);
   const [hasError, setHasError] = useState(false);
@@ -58,7 +57,7 @@ export default function SafeImage({
   // If both original and fallback failed, show placeholder
   if (hasError && imgSrc === fallbackSrc) {
     return showPlaceholder ? (
-      <div className={`flex items-center justify-center bg-white/5 rounded-lg ${className}`} {...props}>
+      <div className={`flex items-center justify-center bg-white/5 rounded-lg ${className}`}>
         <div className="text-center p-4">
           <div className="text-2xl mb-2">🖼️</div>
           <div className="text-xs text-white/60">

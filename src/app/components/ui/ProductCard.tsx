@@ -58,15 +58,37 @@ const ProductCard = memo(function ProductCard(props: ProductCardProps) {
     );
   }
 
-  // Filter out non-DOM props to prevent React warnings
-  const { loading, ...domProps } = restProps;
+  // Extract only valid DOM props from restProps
+  const {
+    // Data attributes
+    'data-testid': dataTestId,
+    // Event handlers (valid DOM props)
+    onMouseEnter,
+    onMouseLeave,
+    onFocus,
+    onBlur,
+    // Style props
+    style,
+    // Aria attributes would be included here if needed
+    // Filter out everything else that's not a standard DOM prop
+    ...invalidProps
+  } = restProps;
+
+  const validDOMProps = {
+    ...(dataTestId && { 'data-testid': dataTestId }),
+    ...(onMouseEnter && { onMouseEnter }),
+    ...(onMouseLeave && { onMouseLeave }),
+    ...(onFocus && { onFocus }),
+    ...(onBlur && { onBlur }),
+    ...(style && { style }),
+  };
   
   return (
     <div 
       key={safeProduct.catNo || safeProduct.name} 
       className={`${styles["variant-card"]} ${isOutOfStock ? styles["out-of-stock"] : ""} ${className}`}
       onClick={handleCardClick}
-      {...domProps}
+      {...validDOMProps}
     > 
       <div className={styles["variant-card-inner"]}>
         {/* Front Side */}
