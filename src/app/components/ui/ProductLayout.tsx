@@ -92,7 +92,7 @@ export default function ProductLayout({
         <div className="text-4xl mb-4">📦</div>
         <h3 className="text-xl font-semibold text-white/90 mb-2">No Products Found</h3>
         <p className="text-white/70 max-w-md mx-auto">
-          We couldn't find any products matching your criteria. Try adjusting your filters or search terms.
+          We couldn&apos;t find any products matching your criteria. Try adjusting your filters or search terms.
         </p>
       </div>
     );

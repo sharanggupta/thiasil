@@ -40,7 +40,7 @@ export default function Contact() {
             {/* Left: Contact Form */}
             <div className="flex-1 min-w-[260px]">
               <Heading as="h1" gradient="var(--text-gradient-white)" className="mb-6 text-left" size="primary">Contact Us</Heading>
-              <p className="text-base md:text-lg text-white/90 mb-8 max-w-md">Get in touch with our team for inquiries, quotes, and support. We'll get back to you within 24 hours.</p>
+              <p className="text-base md:text-lg text-white/90 mb-8 max-w-md">Get in touch with our team for inquiries, quotes, and support. We&apos;ll get back to you within 24 hours.</p>
               <Suspense fallback={<div className="text-white text-center py-8">Loading form...</div>}>
                 <ContactFormWithParams />
               </Suspense>

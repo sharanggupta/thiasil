@@ -12,7 +12,7 @@ export default function LayoutErrorBoundary({ children }) {
             <div className="text-4xl mb-4">⚠️</div>
             <h2 className="text-xl font-semibold text-white mb-4">Page Layout Error</h2>
             <p className="text-white/80 mb-6">
-              We're experiencing technical difficulties. Please try again.
+              We&apos;re experiencing technical difficulties. Please try again.
             </p>
             <div className="flex gap-3 justify-center">
               <button 
