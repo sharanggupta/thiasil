@@ -2,17 +2,11 @@ import fs from 'fs';
 import { NextResponse } from 'next/server';
 import path from 'path';
 import { createBackup } from '../../../../lib/backup-utils';
-
-// Get admin credentials from environment variables (required)
-const ADMIN_CREDENTIALS = {
-  username: process.env.ADMIN_USERNAME,
-  password: process.env.ADMIN_PASSWORD
-};
-
+import { authenticateAdmin } from '../../../../lib/auth';
 
 // Validate that credentials are set
-if (!ADMIN_CREDENTIALS.username || !ADMIN_CREDENTIALS.password) {
-  console.error('Admin credentials not configured. Please set ADMIN_USERNAME and ADMIN_PASSWORD in .env.local');
+if (!process.env.ADMIN_USERNAME || !process.env.ADMIN_PASSWORD_HASH) {
+  console.error('Admin credentials not configured. Please set ADMIN_USERNAME and ADMIN_PASSWORD_HASH in .env.local');
 }
 
 // Simple in-memory rate limiting (in production, use Redis or similar)
@@ -36,7 +30,7 @@ function checkRateLimit(ip) {
   return true;
 }
 
-function validateInput(data) {
+async function validateInput(data) {
   const { username, password, category, priceChangePercent } = data;
   
   // Check required fields
@@ -44,14 +38,10 @@ function validateInput(data) {
     return { valid: false, error: 'Missing required fields' };
   }
   
-  // Validate username format
-  if (typeof username !== 'string' || username.length < 3 || username.length > 50) {
-    return { valid: false, error: 'Invalid username format' };
-  }
-  
-  // Validate password format
-  if (typeof password !== 'string' || password.length < 6) {
-    return { valid: false, error: 'Invalid password format' };
+  // Validate credentials using secure authentication
+  const authResult = await authenticateAdmin(username, password);
+  if (!authResult.success) {
+    return { valid: false, error: authResult.error || 'Unauthorized' };
   }
   
   // Validate category
@@ -85,22 +75,15 @@ export async function POST(request) {
     const body = await request.json();
     
     // Validate input
-    const validation = validateInput(body);
+    const validation = await validateInput(body);
     if (!validation.valid) {
       return NextResponse.json({ error: validation.error }, { status: 400 });
     }
     
     const { username, password, category, priceChangePercent } = body;
     
-    // Authenticate the request
-    if (username !== ADMIN_CREDENTIALS.username || password !== ADMIN_CREDENTIALS.password) {
-      // Log failed login attempt
-      console.warn(`Failed admin login attempt from IP: ${ip}, username: ${username}`);
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
-    }
-    
     // Log successful authentication
-    console.log(`Admin login successful from IP: ${ip}, username: ${username}`);
+    console.log(`Admin price update request from IP: ${ip}, username: ${username}`);
     
     // Read the current products data
     const productsPath = path.join(process.cwd(), 'src', 'data', 'products.json');

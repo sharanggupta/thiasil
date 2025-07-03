@@ -2,16 +2,11 @@ import fs from 'fs';
 import { NextResponse } from 'next/server';
 import path from 'path';
 import { createBackup } from '../../../../lib/backup-utils';
-
-// Get admin credentials from environment variables (required)
-const ADMIN_CREDENTIALS = {
-  username: process.env.ADMIN_USERNAME,
-  password: process.env.ADMIN_PASSWORD
-};
+import { authenticateAdmin } from '../../../../lib/auth';
 
 // Validate that credentials are set
-if (!ADMIN_CREDENTIALS.username || !ADMIN_CREDENTIALS.password) {
-  console.error('Admin credentials not configured. Please set ADMIN_USERNAME and ADMIN_PASSWORD in .env.local');
+if (!process.env.ADMIN_USERNAME || !process.env.ADMIN_PASSWORD_HASH) {
+  console.error('Admin credentials not configured. Please set ADMIN_USERNAME and ADMIN_PASSWORD_HASH in .env.local');
 }
 
 // Simple in-memory rate limiting
@@ -35,7 +30,7 @@ function checkRateLimit(ip) {
   return true;
 }
 
-function validateInventoryInput(data) {
+async function validateInventoryInput(data) {
   const { username, password, category, stockStatus, quantity } = data;
   
   // Check required fields
@@ -43,14 +38,10 @@ function validateInventoryInput(data) {
     return { valid: false, error: 'Missing required fields' };
   }
   
-  // Validate username format
-  if (typeof username !== 'string' || username.length < 3 || username.length > 50) {
-    return { valid: false, error: 'Invalid username format' };
-  }
-  
-  // Validate password format
-  if (typeof password !== 'string' || password.length < 6) {
-    return { valid: false, error: 'Invalid password format' };
+  // Validate credentials using secure authentication
+  const authResult = await authenticateAdmin(username, password);
+  if (!authResult.success) {
+    return { valid: false, error: authResult.error || 'Unauthorized' };
   }
   
   // Validate category
@@ -97,19 +88,12 @@ export async function POST(request) {
     }
     
     // Validate input
-    const validation = validateInventoryInput(body);
+    const validation = await validateInventoryInput(body);
     if (!validation.valid) {
       return NextResponse.json({ error: validation.error }, { status: 400 });
     }
     
     const { username, password, category, stockStatus, quantity, productId } = body;
-    
-    // Authenticate the request
-    if (username !== ADMIN_CREDENTIALS.username || password !== ADMIN_CREDENTIALS.password) {
-      // Log failed login attempt
-      console.warn(`Failed admin inventory update attempt from IP: ${ip}, username: ${username}`);
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
-    }
     
     // Log successful authentication
     console.log(`Admin inventory update from IP: ${ip}, username: ${username}`);

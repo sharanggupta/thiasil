@@ -1,6 +1,7 @@
 import fs from 'fs/promises';
 import { NextRequest, NextResponse } from 'next/server';
 import path from 'path';
+import { sanitizeInput, SANITIZATION_CONFIGS } from '../../../lib/input-sanitization';
 
 interface Coupon {
   code: string;
@@ -19,13 +20,24 @@ const COUPONS_FILE = path.join(process.cwd(), 'src', 'data', 'coupons.json');
 
 export async function POST(request: NextRequest): Promise<NextResponse> {
   try {
-    const { code }: CouponRequest = await request.json();
+    const body = await request.json();
+    const { code }: CouponRequest = body;
 
     if (!code) {
       return NextResponse.json(
         { error: 'Coupon code is required' },
         { status: 400 }
       );
+    }
+
+    // Sanitize the coupon code input
+    const sanitizationResult = sanitizeInput(code, SANITIZATION_CONFIGS.PLAIN_TEXT);
+    const sanitizedCode = sanitizationResult.sanitized;
+    
+    // Log if sanitization was applied
+    if (sanitizationResult.wasModified) {
+      const ip = request.headers.get('x-forwarded-for') || 'unknown';
+      console.warn(`Coupon code sanitization applied for IP: ${ip}`, sanitizationResult.removedContent);
     }
 
     // Read coupons file
@@ -40,8 +52,8 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
       );
     }
 
-    // Find the coupon
-    const coupon = coupons.find(c => c.code === code.toUpperCase());
+    // Find the coupon using sanitized code
+    const coupon = coupons.find(c => c.code === sanitizedCode.toUpperCase());
 
     if (!coupon) {
       return NextResponse.json(

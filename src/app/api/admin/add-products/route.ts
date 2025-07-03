@@ -3,16 +3,12 @@ import { NextResponse } from 'next/server';
 import path from 'path';
 import { createBackup } from '../../../../lib/backup-utils';
 import { updateCategoryPriceRange } from '../../../../lib/utils';
-
-// Get admin credentials from environment variables (required)
-const ADMIN_CREDENTIALS = {
-  username: process.env.ADMIN_USERNAME,
-  password: process.env.ADMIN_PASSWORD
-};
+import { authenticateAdmin } from '../../../../lib/auth';
+import { sanitizeObject, SANITIZATION_CONFIGS } from '../../../../lib/input-sanitization';
 
 // Validate that credentials are set
-if (!ADMIN_CREDENTIALS.username || !ADMIN_CREDENTIALS.password) {
-  console.error('Admin credentials not configured. Please set ADMIN_USERNAME and ADMIN_PASSWORD in .env.local');
+if (!process.env.ADMIN_USERNAME || !process.env.ADMIN_PASSWORD_HASH) {
+  console.error('Admin credentials not configured. Please set ADMIN_USERNAME and ADMIN_PASSWORD_HASH in .env.local');
 }
 
 // Simple in-memory rate limiting
@@ -34,7 +30,7 @@ function checkRateLimit(ip) {
   return true;
 }
 
-function validateInput(data) {
+async function validateInput(data) {
   const { username, password, action, categoryData, productData } = data;
   
   // Check required fields
@@ -42,9 +38,10 @@ function validateInput(data) {
     return { valid: false, error: 'Missing required fields' };
   }
   
-  // Validate credentials
-  if (username !== ADMIN_CREDENTIALS.username || password !== ADMIN_CREDENTIALS.password) {
-    return { valid: false, error: 'Unauthorized' };
+  // Validate credentials using secure authentication
+  const authResult = await authenticateAdmin(username, password);
+  if (!authResult.success) {
+    return { valid: false, error: authResult.error || 'Unauthorized' };
   }
   
   // Validate action
@@ -87,12 +84,25 @@ export async function POST(request) {
     }
     
     // Validate input
-    const validation = validateInput(body);
+    const validation = await validateInput(body);
     if (!validation.valid) {
       return NextResponse.json({ error: validation.error }, { status: 400 });
     }
     
-    const { username, password, action, categoryData, productData } = body;
+    // Comprehensive input sanitization
+    const sanitizationConfig: Record<string, any> = {
+      username: SANITIZATION_CONFIGS.PLAIN_TEXT,
+      action: SANITIZATION_CONFIGS.PLAIN_TEXT,
+    };
+    
+    const { sanitized: sanitizedBody, modifications } = sanitizeObject(body, sanitizationConfig);
+    
+    // Log any sanitization that occurred
+    if (Object.keys(modifications).length > 0) {
+      console.warn(`Input sanitization applied for IP: ${ip}`, modifications);
+    }
+    
+    const { username, password, action, categoryData, productData } = sanitizedBody;
     
     // Log successful authentication
     console.log(`Admin add products action from IP: ${ip}, username: ${username}, action: ${action}`);

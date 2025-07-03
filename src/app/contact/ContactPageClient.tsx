@@ -63,11 +63,11 @@ export function ContactPageClient() {
                 </div>
               </div>
               <div className="flex items-start gap-4">
-                <div className="glass-icon glass-icon--accent glass-icon--medium">
-                  <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg" className="glass-icon__emoji">
-                    <ellipse cx="16" cy="12" rx="7" ry="7" fill="#3a8fff" fillOpacity="0.8"/>
-                    <ellipse cx="16" cy="12" rx="3" ry="3" fill="#fff"/>
-                    <path d="M16 29c5-7 9-11.5 9-17A9 9 0 1 0 7 12c0 5.5 4 10 9 17z" stroke="#3a8fff" strokeWidth="2" fill="none"/>
+                <div className="glass-icon glass-icon--accent glass-icon--medium flex-shrink-0" style={{ minWidth: '60px', minHeight: '60px', width: '60px', height: '60px' }}>
+                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" className="glass-icon__emoji" style={{ width: '24px', height: '24px', margin: 'auto' }}>
+                    <circle cx="12" cy="10" r="4" fill="#3a8fff" fillOpacity="0.8"/>
+                    <circle cx="12" cy="10" r="1.5" fill="#fff"/>
+                    <path d="M12 21c3.5-5 6-8.5 6-11a6 6 0 1 0-12 0c0 2.5 2.5 6 6 11z" stroke="#3a8fff" strokeWidth="1.5" fill="none"/>
                   </svg>
                 </div>
                 <div>

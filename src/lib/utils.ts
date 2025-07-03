@@ -53,15 +53,7 @@ export interface ProductFilters {
  * Utility functions for common operations
  */
 
-/**
- * Sanitizes user input by removing potentially dangerous characters
- * @param {string|any} input - The input to sanitize
- * @returns {string|any} Sanitized input string or original value if not string
- */
-export const sanitizeInput = (input: string | any): string | any => {
-  if (typeof input !== 'string') return input;
-  return input.replace(/[<>]/g, '').trim();
-};
+// Deprecated sanitizeInput function removed - use input-sanitization.ts instead
 
 /**
  * Extracts numeric price value from a price string

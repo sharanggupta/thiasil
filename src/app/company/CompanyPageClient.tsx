@@ -81,33 +81,101 @@ export default function CompanyPageClient({
 
         {/* Glassmorphism Feature Row */}
         <section className="flex flex-col md:flex-row items-center justify-center gap-8">
-          <GlassCard variant="primary" padding="default" className="w-full md:max-w-xs md:p-4 flex flex-col items-center text-center">
-            <GlassIcon icon="⚡" variant="primary" size="medium" className="mb-2" />
-            <Heading as="h3" gradient="var(--text-gradient-primary)" className="mb-1 text-base md:text-lg" size="tertiary">
+          <GlassCard
+            variant="primary"
+            padding="default"
+            className="w-full md:max-w-xs md:p-4 flex flex-col items-center text-center"
+          >
+            <GlassIcon
+              icon="⚡"
+              variant="primary"
+              size="medium"
+              className="mb-2"
+            />
+            <Heading
+              as="h3"
+              gradient="var(--text-gradient-primary)"
+              className="mb-1 text-base md:text-lg"
+              size="tertiary"
+            >
               Precision Engineered
             </Heading>
-            <p className="text-white/80 text-base mb-4">Every piece is crafted with advanced technology and strict quality control.</p>
+            <p className="text-white/80 text-base mb-4">
+              Every piece is crafted with advanced technology and strict quality
+              control.
+            </p>
           </GlassCard>
-          <GlassCard variant="success" padding="large" className="w-full md:max-w-[320px] md:p-6 flex flex-col items-center text-center">
-            <GlassIcon icon="🏆" variant="success" size="large" className="mb-4" />
-            <Heading as="h3" gradient="var(--text-gradient-primary)" className="mb-2" size="tertiary">
+          <GlassCard
+            variant="success"
+            padding="large"
+            className="w-full md:max-w-[320px] md:p-6 flex flex-col items-center text-center"
+          >
+            <GlassIcon
+              icon="🏆"
+              variant="success"
+              size="large"
+              className="mb-4"
+            />
+            <Heading
+              as="h3"
+              gradient="var(--text-gradient-primary)"
+              className="mb-2"
+              size="tertiary"
+            >
               Award-Winning Quality
             </Heading>
-            <p className="text-white/80 text-base mb-4">Recognized for reliability and value by leading labs and institutions.</p>
+            <p className="text-white/80 text-base mb-4">
+              Recognized for reliability and value by leading labs and
+              institutions.
+            </p>
           </GlassCard>
-          <GlassCard variant="secondary" padding="large" className="w-full md:max-w-[400px] md:p-8 flex flex-col items-center text-center">
-            <GlassIcon icon="🔥" variant="secondary" size="large" className="mb-4" />
-            <Heading as="h3" gradient="var(--text-gradient-primary)" className="mb-2" size="tertiary">
+          <GlassCard
+            variant="secondary"
+            padding="large"
+            className="w-full md:max-w-[400px] md:p-8 flex flex-col items-center text-center"
+          >
+            <GlassIcon
+              icon="🔥"
+              variant="secondary"
+              size="large"
+              className="mb-4"
+            />
+            <Heading
+              as="h3"
+              gradient="var(--text-gradient-primary)"
+              className="mb-2"
+              size="tertiary"
+            >
               Oxy-Gas Fired Purity
             </Heading>
-            <p className="text-white/80 text-base mb-4">Each product is individually oxy-gas fired to ensure unparalleled purity and performance.</p>
+            <p className="text-white/80 text-base mb-4">
+              Each product is individually oxy-gas fired to ensure unparalleled
+              purity and performance.
+            </p>
           </GlassCard>
-          <GlassCard variant="accent" padding="large" className="w-full md:max-w-[480px] md:p-10 flex flex-col items-center text-center">
-            <GlassIcon icon="💎" variant="accent" size="large" className="mb-4" />
-            <Heading as="h3" gradient="var(--text-gradient-primary)" className="mb-2" size="tertiary">
+          <GlassCard
+            variant="accent"
+            padding="large"
+            className="w-full md:max-w-[480px] md:p-10 flex flex-col items-center text-center"
+          >
+            <GlassIcon
+              icon="💎"
+              variant="accent"
+              size="large"
+              className="mb-4"
+            />
+            <Heading
+              as="h3"
+              gradient="var(--text-gradient-primary)"
+              className="mb-2"
+              size="tertiary"
+            >
               Ultra Pure Silica
             </Heading>
-            <p className="text-white/80 text-base mb-4">Made from the purest Indian raw materials for unmatched clarity and performance.</p>
+            <p className="text-white/80 text-base mb-4">
+              Made from the purest Indian raw materials for unmatched clarity
+              and performance.
+            </p>
           </GlassCard>
         </section>
       </main>
