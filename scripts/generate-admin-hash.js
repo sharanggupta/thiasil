@@ -28,8 +28,9 @@ async function generateHash() {
     
     console.log('\n✅ Password hash generated successfully!');
     console.log('\nAdd this to your .env.local file:');
-    console.log(`ADMIN_PASSWORD_HASH=${hash}`);
+    console.log(`ADMIN_PASSWORD_HASH=${hash.replace(/\$/g, '\\$')}`);
     console.log('\nRemove the old ADMIN_PASSWORD variable from .env.local');
+    console.log('\nNote: The $ characters are escaped with backslashes to prevent shell variable interpretation');
     console.log('\nSecurity note: Keep this hash secure and never commit it to version control');
     
   } catch (error) {
