@@ -43,6 +43,9 @@
     "**/__tests__/**/*",
     "src/__tests__/**/*",
     "jest.config.js",
-    "jest.setup.js"
+    "jest.setup.js",
+    "playwright.config.ts",
+    "tests/**/*",
+    "docs/**/*"
   ]
 }
