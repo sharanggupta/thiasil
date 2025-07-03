@@ -1,13 +1,19 @@
 import { Metadata } from "next";
 import { Lato } from "next/font/google";
 import "./globals.css";
-import { CouponProvider } from "@/contexts/CouponContext";
-import PerformanceMonitor from "@/components/PerformanceMonitor";
-import PWAInstallPrompt from "@/app/components/pwa/PWAInstallPrompt";
-import OfflineStatus from "@/app/components/pwa/OfflineStatus";
-import ServiceWorkerRegistration from "@/app/components/pwa/ServiceWorkerRegistration";
-import PWADevIndicator from "@/app/components/pwa/PWADevIndicator";
-import { OrganizationStructuredData, WebSiteStructuredData } from "@/app/components/seo/StructuredData";
+
+// Import structured data components
+import { OrganizationStructuredData, WebSiteStructuredData } from './components/seo/StructuredData';
+
+// Import context providers
+import { CouponProvider } from '../contexts/CouponContext';
+
+// Import PWA and monitoring components
+import PerformanceMonitor from './components/monitoring/PerformanceMonitor';
+import ServiceWorkerRegistration from './components/pwa/ServiceWorkerRegistration';
+import OfflineStatus from './components/pwa/OfflineStatus';
+import PWAInstallPrompt from './components/pwa/PWAInstallPrompt';
+import PWADevIndicator from './components/pwa/PWADevIndicator';
 
 // Importing the Lato Google Font
 const lato = Lato({
@@ -19,14 +25,22 @@ const lato = Lato({
 export const metadata: Metadata = {
   title: {
     default: "Thiasil | Premium Laboratory Glassware & Silica Crucibles",
-    template: "%s | Thiasil - Quality Laboratory Glassware"
+    template: "%s | Thiasil - Quality Laboratory Glassware",
   },
   keywords: [
-    "Thiasil", "laboratory glassware", "silica crucibles", "oxy-gas fired", 
-    "quartz crucibles", "laboratory equipment", "scientific glassware", 
-    "premium quality", "India manufacturer", "analytical chemistry"
+    "Thiasil",
+    "laboratory glassware",
+    "silica crucibles",
+    "oxy-gas fired",
+    "quartz crucibles",
+    "laboratory equipment",
+    "scientific glassware",
+    "premium quality",
+    "India manufacturer",
+    "analytical chemistry",
   ],
-  description: "Thiasil manufactures premium individually oxy-gas fired laboratory glassware and silica crucibles. Quality rivaling international standards with competitive pricing. Trusted by laboratories worldwide.",
+  description:
+    "Thiasil manufactures premium individually oxy-gas fired laboratory glassware and silica crucibles. Quality rivaling international standards with competitive pricing. Trusted by laboratories worldwide.",
   authors: [{ name: "Thiasil", url: "https://thiasil.com" }],
   creator: "Thiasil",
   publisher: "Thiasil",
@@ -47,7 +61,8 @@ export const metadata: Metadata = {
     url: "https://thiasil.com",
     siteName: "Thiasil",
     title: "Thiasil | Premium Laboratory Glassware & Silica Crucibles",
-    description: "Premium individually oxy-gas fired laboratory glassware and silica crucibles. Quality rivaling international standards.",
+    description:
+      "Premium individually oxy-gas fired laboratory glassware and silica crucibles. Quality rivaling international standards.",
     images: [
       {
         url: "/images/og-image.jpg",
@@ -60,7 +75,8 @@ export const metadata: Metadata = {
   twitter: {
     card: "summary_large_image",
     title: "Thiasil | Premium Laboratory Glassware & Silica Crucibles",
-    description: "Premium individually oxy-gas fired laboratory glassware and silica crucibles. Quality rivaling international standards.",
+    description:
+      "Premium individually oxy-gas fired laboratory glassware and silica crucibles. Quality rivaling international standards.",
     images: ["/images/og-image.jpg"],
     creator: "@thiasil",
   },

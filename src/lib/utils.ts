@@ -54,11 +54,12 @@ export interface ProductFilters {
  */
 
 /**
- * Sanitizes user input by removing potentially dangerous characters
- * @param {string|any} input - The input to sanitize
- * @returns {string|any} Sanitized input string or original value if not string
+ * @deprecated Use sanitizeInput from input-sanitization.ts for comprehensive security
+ * Legacy sanitization function - kept for backward compatibility
+ * This function only provides basic sanitization and should be replaced
  */
 export const sanitizeInput = (input: string | any): string | any => {
+  console.warn('Using deprecated sanitizeInput. Please migrate to input-sanitization.ts');
   if (typeof input !== 'string') return input;
   return input.replace(/[<>]/g, '').trim();
 };

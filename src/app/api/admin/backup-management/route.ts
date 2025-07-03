@@ -3,12 +3,12 @@ import { NextRequest, NextResponse } from 'next/server';
 import path from 'path';
 import { createBackup, deleteBackup, listBackups, restoreBackup, restoreBackupWithCleanup } from '../../../../lib/backup-utils';
 import { performImageCleanup } from '../../../../lib/image-cleanup-utils';
+import { authenticateAdmin } from '../../../../lib/auth';
 
-// Admin credentials
-const ADMIN_CREDENTIALS = {
-  username: process.env.ADMIN_USERNAME,
-  password: process.env.ADMIN_PASSWORD
-};
+// Validate that credentials are set
+if (!process.env.ADMIN_USERNAME || !process.env.ADMIN_PASSWORD_HASH) {
+  console.error('Admin credentials not configured. Please set ADMIN_USERNAME and ADMIN_PASSWORD_HASH in .env.local');
+}
 
 // Rate limiting
 const rateLimitMap = new Map();
@@ -64,14 +64,16 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
     const { username, password, action, backupId, backupFile, coupon, code } = body;
     
     // Authentication
-    if (username !== ADMIN_CREDENTIALS.username || password !== ADMIN_CREDENTIALS.password) {
+    const authResult = await authenticateAdmin(username, password);
+    if (!authResult.success) {
       console.log('Admin login_failed:', {
         timestamp: new Date().toISOString(),
         action: 'login_failed',
         user: username,
-        ip: ip
+        ip: ip,
+        error: authResult.error
       });
-      return NextResponse.json({ error: 'Invalid credentials' }, { status: 401 });
+      return NextResponse.json({ error: authResult.error || 'Invalid credentials' }, { status: 401 });
     }
     
     console.log('Admin backup_management:', {
