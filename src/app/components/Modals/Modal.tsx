@@ -26,7 +26,7 @@ export default function Modal({ isOpen, onClose, children }: ModalProps) {
       <div className="relative p-8 w-full max-w-lg bg-white rounded-2xl shadow-xl" tabIndex={0}>
         <button
           type="button"
-          className="absolute top-4 right-4 text-gray-500 hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-[#3a8fff]"
+          className="absolute top-4 right-4 text-gray-500 hover:text-gray-900 focus:outline-hidden focus:ring-2 focus:ring-[#3a8fff]"
           aria-label="Close modal"
           onClick={onClose}
         >
@@ -38,14 +38,14 @@ export default function Modal({ isOpen, onClose, children }: ModalProps) {
             <div className="flex flex-col gap-4 items-center md:flex-row md:gap-6 md:items-start">
               {/* Images */}
               <div className="flex flex-row md:flex-col md:items-center md:w-1/3 md:space-y-0">
-                <div className=" w-[10rem] h-[10rem] md:w-full md:h-auto flex-shrink-0">
+                <div className=" w-40 h-40 md:w-full md:h-auto shrink-0">
                   <Image
                     src={image1}
                     alt="Scientist"
                     className="object-cover w-full h-full"
                   />
                 </div>
-                <div className=" w-[10rem] h-[10rem] md:w-full md:h-auto flex-shrink-0">
+                <div className=" w-40 h-40 md:w-full md:h-auto shrink-0">
                   <Image
                     src={image2}
                     alt="Smiling Man"

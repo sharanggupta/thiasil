@@ -6,14 +6,14 @@ export const GRADIENTS: Record<string, string> = {
   PRIMARY_DARK: 'linear-gradient(to right bottom, rgba(41, 152, 255), rgba(42, 42, 114))',
   
   // Background gradients
-  BG_PRIMARY: 'bg-gradient-to-br from-[#3a8fff] via-[#009ffd] to-[#2a2a72]',
-  BG_PRIMARY_OVERLAY: 'bg-gradient-to-br from-[#009ffd]/30 via-[#3a8fff]/20 to-[#2a2a72]/80',
-  BG_DARK: 'bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900',
+  BG_PRIMARY: 'bg-linear-to-br from-[#3a8fff] via-[#009ffd] to-[#2a2a72]',
+  BG_PRIMARY_OVERLAY: 'bg-linear-to-br from-[#009ffd]/30 via-[#3a8fff]/20 to-[#2a2a72]/80',
+  BG_DARK: 'bg-linear-to-br from-slate-900 via-purple-900 to-slate-900',
   
   // Button gradients
-  BTN_PRIMARY: 'bg-gradient-to-r from-cyan-400 to-blue-700',
+  BTN_PRIMARY: 'bg-linear-to-r from-cyan-400 to-blue-700',
   BTN_PRIMARY_HOVER: 'hover:from-cyan-500 hover:to-blue-800',
-  BTN_SECONDARY: 'bg-gradient-to-r from-[#009ffd] to-[#3a8fff]',
+  BTN_SECONDARY: 'bg-linear-to-r from-[#009ffd] to-[#3a8fff]',
   BTN_SECONDARY_HOVER: 'hover:from-[#3a8fff] hover:to-[#009ffd]',
   
   // Text gradients

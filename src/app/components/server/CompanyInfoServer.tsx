@@ -1,6 +1,8 @@
 // Server component for company information
 // This component fetches and renders static company data on the server
 
+import { GlassCard } from "@/app/components/Glassmorphism";
+
 interface CompanyInfo {
   name: string;
   founded: string;

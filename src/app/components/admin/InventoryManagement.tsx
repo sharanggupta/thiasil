@@ -30,7 +30,7 @@ export default function InventoryManagement({
           <select
             value={selectedCategory}
             onChange={(e) => setSelectedCategory(e.target.value)}
-            className="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-xl text-white placeholder-white/80 focus:outline-none focus:border-[#3a8fff] transition-colors"
+            className="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-xl text-white placeholder-white/80 focus:outline-hidden focus:border-[#3a8fff] transition-colors"
           >
             <option value="all">All Categories</option>
             {categories.map((category) => (
@@ -48,7 +48,7 @@ export default function InventoryManagement({
             <select
               value={selectedProductId}
               onChange={(e) => setSelectedProductId(e.target.value)}
-              className="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-xl text-white placeholder-white/80 focus:outline-none focus:border-[#3a8fff] transition-colors"
+              className="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-xl text-white placeholder-white/80 focus:outline-hidden focus:border-[#3a8fff] transition-colors"
             >
               <option value="all">All in Category</option>
               {categoryProducts.map((prod) => (
@@ -69,7 +69,7 @@ export default function InventoryManagement({
             <select
               value={stockStatus}
               onChange={(e) => setStockStatus(e.target.value)}
-              className="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-xl text-white placeholder-white/80 focus:outline-none focus:border-[#3a8fff] transition-colors"
+              className="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-xl text-white placeholder-white/80 focus:outline-hidden focus:border-[#3a8fff] transition-colors"
             >
               {Object.values(STOCK_STATUSES).map((status) => (
                 <option key={status.value} value={status.value}>

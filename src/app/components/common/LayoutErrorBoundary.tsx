@@ -6,7 +6,7 @@ export default function LayoutErrorBoundary({ children }) {
       title="Layout Error"
       message="There was a problem loading the page layout. This might be a temporary issue."
       fallback={(error, retry) => (
-        <div className="min-h-screen flex items-center justify-center p-8 bg-gradient-to-br from-blue-900 via-purple-900 to-pink-900">
+        <div className="min-h-screen flex items-center justify-center p-8 bg-linear-to-br from-blue-900 via-purple-900 to-pink-900">
           <div className="glass-effect rounded-2xl p-8 max-w-lg text-center">
             <h1 className="text-3xl font-bold text-white mb-6">Thiasil</h1>
             <div className="text-4xl mb-4">⚠️</div>

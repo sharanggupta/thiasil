@@ -71,8 +71,8 @@ export function useProductsApi(): UseProductsApiResult {
   });
 
   // Extract derived data
-  const products = data?.products || [];
-  const categories = data?.categories || [];
+  const products = useMemo(() => data?.products || [], [data?.products]);
+  const categories = useMemo(() => data?.categories || [], [data?.categories]);
   
   // Extract packaging options from products
   const packagingOptions = useMemo(() => {

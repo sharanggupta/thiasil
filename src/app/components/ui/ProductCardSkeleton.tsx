@@ -25,7 +25,7 @@ export default function ProductCardSkeleton({
             {/* Image Skeleton */}
             <div className="mb-4 relative">
               <SkeletonLoader
-                variant="rounded"
+                variant="rounded-sm"
                 width="100%"
                 height="6rem"
                 className="bg-white/10"
@@ -94,7 +94,7 @@ export default function ProductCardSkeleton({
             {/* Stock Status */}
             <div className="mb-4">
               <SkeletonLoader
-                variant="rounded"
+                variant="rounded-sm"
                 width="5rem"
                 height="1.5rem"
                 className="bg-white/10"
@@ -122,7 +122,7 @@ export default function ProductCardSkeleton({
             </div>
 
             {/* Features */}
-            <div className="mb-6 flex-grow space-y-2">
+            <div className="mb-6 grow space-y-2">
               <SkeletonLoader
                 variant="text"
                 width="30%"
@@ -152,13 +152,13 @@ export default function ProductCardSkeleton({
             {/* Action Buttons */}
             <div className="mt-auto space-y-2">
               <SkeletonLoader
-                variant="rounded"
+                variant="rounded-sm"
                 width="100%"
                 height="2.5rem"
                 className="bg-white/10"
               />
               <SkeletonLoader
-                variant="rounded"
+                variant="rounded-sm"
                 width="100%"
                 height="2.5rem"
                 className="bg-white/10"

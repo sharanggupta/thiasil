@@ -34,7 +34,7 @@ export default function CouponDisplay({
 
   if (compact) {
     return (
-      <div className={`inline-flex items-center gap-2 px-3 py-1 rounded-full bg-gradient-to-r from-green-500/20 to-blue-500/20 border border-green-500/30 ${className}`}>
+      <div className={`inline-flex items-center gap-2 px-3 py-1 rounded-full bg-linear-to-r from-green-500/20 to-blue-500/20 border border-green-500/30 ${className}`}>
         <GlassIcon icon="🎫" size="small" variant="accent" />
         <span className="text-sm font-medium text-white">
           {couponInfo.code} ({couponInfo.displayText})
@@ -65,7 +65,7 @@ export default function CouponDisplay({
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-3">
             <div className={`w-10 h-10 rounded-full flex items-center justify-center ${
-              isExpired ? 'bg-red-500/20' : 'bg-gradient-to-r from-green-400 to-blue-500'
+              isExpired ? 'bg-red-500/20' : 'bg-linear-to-r from-green-400 to-blue-500'
             }`}>
               {isExpired ? (
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">

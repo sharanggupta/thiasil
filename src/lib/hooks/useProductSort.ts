@@ -75,7 +75,7 @@ export function useProductSort(
     ...initialSort,
   });
 
-  const allSortOptions = [...defaultSortOptions, ...customSortOptions];
+  const allSortOptions = useMemo(() => [...defaultSortOptions, ...customSortOptions], [customSortOptions]);
 
   // Memoized sorted products
   const sortedProducts = useMemo(() => {

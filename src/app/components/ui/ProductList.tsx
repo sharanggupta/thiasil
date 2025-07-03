@@ -58,10 +58,10 @@ export default function ProductList({
         <div className="flex items-center gap-4 p-4 bg-white/5 border border-white/10 rounded-lg">
           {/* Image skeleton */}
           <SkeletonLoader
-            variant="rounded"
+            variant="rounded-sm"
             width="80px"
             height="80px"
-            className="bg-white/10 flex-shrink-0"
+            className="bg-white/10 shrink-0"
           />
           
           {/* Content skeleton */}
@@ -87,15 +87,15 @@ export default function ProductList({
           </div>
           
           {/* Action skeleton */}
-          <div className="flex-shrink-0 space-y-2">
+          <div className="shrink-0 space-y-2">
             <SkeletonLoader
-              variant="rounded"
+              variant="rounded-sm"
               width="80px"
               height="2rem"
               className="bg-white/10"
             />
             <SkeletonLoader
-              variant="rounded"
+              variant="rounded-sm"
               width="60px"
               height="1.5rem"
               className="bg-white/10"
