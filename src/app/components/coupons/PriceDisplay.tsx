@@ -72,7 +72,7 @@ export default function PriceDisplay({
       <div className={`price-display space-y-1 ${className}`}>
         {/* Discount Badge */}
         {showDiscountBadge && hasActiveCoupon && (
-          <div className={`inline-block bg-gradient-to-r from-green-500 to-green-600 text-white font-bold rounded-full ${classes.badge}`}>
+          <div className={`inline-block bg-linear-to-r from-green-500 to-green-600 text-white font-bold rounded-full ${classes.badge}`}>
             {DiscountCalculator.getDiscountBadge(discountedRange.discount.percent)}
           </div>
         )}
@@ -109,7 +109,7 @@ export default function PriceDisplay({
     <div className={`price-display space-y-1 ${className}`}>
       {/* Discount Badge */}
       {showDiscountBadge && isDiscounted && (
-        <div className={`inline-block bg-gradient-to-r from-green-500 to-green-600 text-white font-bold rounded-full ${classes.badge}`}>
+        <div className={`inline-block bg-linear-to-r from-green-500 to-green-600 text-white font-bold rounded-full ${classes.badge}`}>
           {DiscountCalculator.getDiscountBadge(discountResult.discountPercent)}
         </div>
       )}

@@ -30,7 +30,7 @@ export const NAVIGATION_ITEMS: NavigationItem[] = [
 export const CSS_CLASSES = {
   container: "absolute left-1/2 transform list-none text-center",
   listItem: "my-1",
-  navLink: "navbar-link relative text-white text-nowrap text-xl md:text-4xl font-light py-2 px-3 md:px-6 inline-block transition-all duration-300 ease-in-out focus:outline-none focus:ring-2 focus:ring-[#3a8fff]",
+  navLink: "navbar-link relative text-white text-nowrap text-xl md:text-4xl font-light py-2 px-3 md:px-6 inline-block transition-all duration-300 ease-in-out focus:outline-hidden focus:ring-2 focus:ring-[#3a8fff]",
   productsTheme: "products-nav-link",
   menuItemOpen: "menu-item-open",
   menuItemClose: "menu-item-close",

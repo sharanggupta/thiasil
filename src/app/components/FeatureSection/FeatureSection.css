@@ -1,6 +1,6 @@
 /* Card hover effect */
-.Feature-section{
-   height: 50rem;
+.Feature-section {
+  height: 50rem;
 }
 .card {
   transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
@@ -32,16 +32,15 @@
   clip-path: polygon(0 18.5%, 100% 0, 100% 87%, 0% 100%);
 }
 @media (max-width: 438px) {
-  .Feature-section{
+  .Feature-section {
     height: 80rem !important;
-    
- }
- 
+  }
+
   .feature-box__icon {
     width: 40px;
     height: 40px;
   }
- 
+
   .bg-image-clip-path {
     clip-path: polygon(0 4%, 100% 0, 100% 96%, 0% 100%);
   }
@@ -51,12 +50,10 @@
   }
 }
 
-@media (max-width:899px)
-{
-  .Feature-section{
+@media (max-width: 899px) {
+  .Feature-section {
     height: 120rem;
-    
- }
+  }
 }
 
 /* Responsive image sizing for FeatureSection */
@@ -103,5 +100,19 @@
   }
   .card p {
     font-size: 0.8rem;
+  }
+}
+
+.card h3 {
+  font-size: 1rem;
+}
+@media (max-width: 900px) {
+  .card h3 {
+    font-size: 0.95rem;
+  }
+}
+@media (max-width: 600px) {
+  .card h3 {
+    font-size: 0.85rem;
   }
 }

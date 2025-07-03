@@ -30,7 +30,7 @@ const ContactForm = () => {
   };
 
   return (
-    <div className="contact-form-container h-[40rem] " id="order-now">
+    <div className="contact-form-container h-160 " id="order-now">
       {/* Background image container */}
       <div className="contact-form-bg-image">
         {/* The actual form */}
@@ -44,7 +44,7 @@ const ContactForm = () => {
                 name="name"
                 type="text"
                 placeholder="Full name"
-                className="input-field focus:outline-none focus:ring-2 focus:ring-[#3a8fff]"
+                className="input-field focus:outline-hidden focus:ring-2 focus:ring-[#3a8fff]"
                 value={formData.name}
                 onChange={handleChange}
                 required
@@ -58,7 +58,7 @@ const ContactForm = () => {
                 name="email"
                 type="email"
                 placeholder="Email address"
-                className="input-field focus:outline-none focus:ring-2 focus:ring-[#3a8fff]"
+                className="input-field focus:outline-hidden focus:ring-2 focus:ring-[#3a8fff]"
                 value={formData.email}
                 onChange={handleChange}
                 required
@@ -72,7 +72,7 @@ const ContactForm = () => {
                 name="phone"
                 type="tel"
                 placeholder="Phone Number"
-                className="input-field focus:outline-none focus:ring-2 focus:ring-[#3a8fff]"
+                className="input-field focus:outline-hidden focus:ring-2 focus:ring-[#3a8fff]"
                 value={formData.phone}
                 onChange={handleChange}
                 required
@@ -85,7 +85,7 @@ const ContactForm = () => {
               bgColor="#2196f3"
               textSize="text-sm md:text-base"
               padding="px-3 md:px-5 py-2 md:py-3"
-              className="mt-5 w-1/2 md:w-1/3 text-center focus:outline-none focus:ring-2 focus:ring-[#3a8fff]"
+              className="mt-5 w-1/2 md:w-1/3 text-center focus:outline-hidden focus:ring-2 focus:ring-[#3a8fff]"
               type="submit"
             />
           </form>

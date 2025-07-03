@@ -20,10 +20,36 @@ export const useProducts = () => {
     searchTerm: '',
   });
 
+  const loadProducts = useCallback(async () => {
+    setIsLoading(true);
+    setError('');
+    
+    try {
+      const response = await fetch(API_ENDPOINTS.PRODUCTS);
+      
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+      
+      const data = await response.json();
+      
+      if (data.success) {
+        setProducts(data.products || []);
+      } else {
+        throw new Error(data.error || 'Failed to load products');
+      }
+    } catch (err) {
+      console.error('Error loading products:', err);
+      setError(err instanceof Error ? err.message : 'Failed to load products');
+    } finally {
+      setIsLoading(false);
+    }
+  }, []);
+
   // Load products on mount
   useEffect(() => {
     loadProducts();
-  }, []);
+  }, [loadProducts]);
 
   // Extract categories and packaging options when products change
   useEffect(() => {
@@ -36,26 +62,6 @@ export const useProducts = () => {
     }
   }, [products]);
 
-  const loadProducts = useCallback(async () => {
-    setIsLoading(true);
-    setError('');
-
-    try {
-      const response = await fetch(API_ENDPOINTS.PRODUCTS);
-      
-      if (!response.ok) {
-        throw new Error('Failed to fetch products');
-      }
-      
-      const data = await response.json();
-      setProducts(data.products || []);
-    } catch (error) {
-      console.error('Error loading products:', error);
-      setError('Failed to load products. Please try again.');
-    } finally {
-      setIsLoading(false);
-    }
-  }, []);
 
   // Filtered products
   const filteredProducts = useMemo(() => {

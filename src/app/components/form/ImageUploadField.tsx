@@ -45,7 +45,7 @@ export default function ImageUploadField({
           accept="image/*"
           onChange={onImageSelect}
           disabled={isLoading || isUploading}
-          className="w-full px-4 py-2 bg-white/10 border border-white/20 rounded-lg text-white file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-semibold file:bg-white/20 file:text-white hover:file:bg-white/30 transition-colors focus:outline-none focus:border-[#3a8fff]"
+          className="w-full px-4 py-2 bg-white/10 border border-white/20 rounded-lg text-white file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-semibold file:bg-white/20 file:text-white hover:file:bg-white/30 transition-colors focus:outline-hidden focus:border-[#3a8fff]"
         />
       </div>
 

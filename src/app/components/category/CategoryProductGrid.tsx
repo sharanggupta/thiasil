@@ -43,7 +43,7 @@ export default function CategoryProductGrid({ variants, activeCoupon }: Category
                 const { url: imageUrl, hasImage } = getProductImageInfo(variant);
                 return hasImage ? (
                   <div className="mb-4 relative">
-                    <div className="aspect-square w-full h-24 overflow-hidden rounded-xl border border-white/20 shadow-lg bg-gradient-to-br from-white/10 to-white/5">
+                    <div className="aspect-square w-full h-24 overflow-hidden rounded-xl border border-white/20 shadow-lg bg-linear-to-br from-white/10 to-white/5">
                       <Image
                         src={imageUrl}
                         alt={variant.name}
@@ -56,7 +56,7 @@ export default function CategoryProductGrid({ variants, activeCoupon }: Category
                         }}
                       />
                       {/* Light overlay */}
-                      <div className="absolute inset-0 bg-gradient-to-t from-black/20 via-transparent to-transparent"></div>
+                      <div className="absolute inset-0 bg-linear-to-t from-black/20 via-transparent to-transparent"></div>
                     </div>
                   </div>
                 ) : null;
@@ -149,7 +149,7 @@ export default function CategoryProductGrid({ variants, activeCoupon }: Category
               </div>
 
               {/* Features */}
-              <div className="mb-6 flex-grow">
+              <div className="mb-6 grow">
                 <h4 className="text-sm font-semibold text-white/90 mb-2">Features:</h4>
                 <div className="space-y-1">
                   {variant.features.map((feature: string, index: number) => (
@@ -175,7 +175,7 @@ export default function CategoryProductGrid({ variants, activeCoupon }: Category
               </div>
 
               <button
-                className="mt-4 px-4 py-2 rounded-lg text-white font-bold shadow transition-all"
+                className="mt-4 px-4 py-2 rounded-lg text-white font-bold shadow-sm transition-all"
                 style={{ background: 'var(--dark-primary-gradient)' }}
                 onClick={e => { e.stopPropagation(); setModalProduct(variant); setIsModalOpen(true); }}
               >
@@ -213,7 +213,7 @@ export default function CategoryProductGrid({ variants, activeCoupon }: Category
           <h2 className="text-xl font-bold mb-4">Terms & Conditions</h2>
           <p className="mb-6 text-sm text-gray-700">By proceeding, you agree to our terms and conditions for product inquiries and purchases.</p>
           <button
-            className="px-6 py-2 rounded-lg text-white font-bold shadow transition-all"
+            className="px-6 py-2 rounded-lg text-white font-bold shadow-sm transition-all"
             style={{ background: 'var(--dark-primary-gradient)' }}
             onClick={() => {
               setIsModalOpen(false);

@@ -1,5 +1,3 @@
-import React from 'react';
-
 interface HeadingProps {
   children: any;
   gradient?: string;
@@ -22,11 +20,8 @@ const Heading = ({
         backgroundImage: gradient,
         WebkitBackgroundClip: "text",
         color: "transparent",
-        letterSpacing: "0.2rem",
-        fontWeight: 700,
         margin: 0,
         display: "inline-block",
-        textTransform: "uppercase",
       }}
       {...props}
     >
@@ -35,4 +30,4 @@ const Heading = ({
   );
 };
 
-export default Heading; 
+export default Heading;

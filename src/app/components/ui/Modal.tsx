@@ -142,7 +142,7 @@ export default function Modal({
         ref={modalRef}
         className={`
           relative w-full ${getSizeClasses()}
-          bg-gradient-to-br from-gray-900/95 to-gray-800/95
+          bg-linear-to-br from-gray-900/95 to-gray-800/95
           backdrop-blur-xl border border-white/20
           rounded-xl shadow-2xl
           max-h-[90vh] overflow-hidden

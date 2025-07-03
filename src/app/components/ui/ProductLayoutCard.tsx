@@ -46,7 +46,7 @@ export default function ProductLayoutCard({
     <div className={`flex items-center gap-4 p-4 bg-white/5 border border-white/10 rounded-lg hover:bg-white/10 transition-colors ${className}`}>
       {/* Image */}
       {showImage && product.image && (
-        <div className="flex-shrink-0 w-16 h-16 overflow-hidden rounded-lg border border-white/20">
+        <div className="shrink-0 w-16 h-16 overflow-hidden rounded-lg border border-white/20">
           <Image
             src={product.image}
             alt={product.name}
@@ -78,7 +78,7 @@ export default function ProductLayoutCard({
       
       {/* Actions */}
       {showActions && (
-        <div className="flex-shrink-0 flex gap-2">
+        <div className="shrink-0 flex gap-2">
           {onViewClick && (
             <GlassButton
               onClick={() => onViewClick(product)}
@@ -112,7 +112,7 @@ export default function ProductLayoutCard({
         {/* Product Image */}
         {showImage && product.image && (
           <div className="mb-4 relative">
-            <div className="aspect-square w-full h-24 overflow-hidden rounded-xl border border-white/20 shadow-lg bg-gradient-to-br from-white/10 to-white/5">
+            <div className="aspect-square w-full h-24 overflow-hidden rounded-xl border border-white/20 shadow-lg bg-linear-to-br from-white/10 to-white/5">
               <Image
                 src={product.image}
                 alt={product.name}
@@ -120,7 +120,7 @@ export default function ProductLayoutCard({
                 height={200}
                 className="w-full h-full object-cover object-center"
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/20 via-transparent to-transparent"></div>
+              <div className="absolute inset-0 bg-linear-to-t from-black/20 via-transparent to-transparent"></div>
             </div>
           </div>
         )}
@@ -184,7 +184,7 @@ export default function ProductLayoutCard({
 
         {/* Features */}
         {showFeatures && product.features && product.features.length > 0 && (
-          <div className="mb-6 flex-grow">
+          <div className="mb-6 grow">
             <h4 className="text-sm font-semibold text-white/90 mb-2">Features:</h4>
             <div className="space-y-1">
               {product.features.slice(0, 3).map((feature: string, index: number) => (

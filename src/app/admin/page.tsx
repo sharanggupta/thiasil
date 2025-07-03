@@ -139,7 +139,7 @@ export default function AdminPage() {
       }, SESSION_TIMEOUT);
       return () => clearTimeout(timer);
     }
-  }, [isAuthenticated]);
+  }, [isAuthenticated, handleLogout, setMessage]);
 
   // Input sanitization
   const sanitizeInput = (input: string) => {
@@ -173,7 +173,9 @@ export default function AdminPage() {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           priceChangePercent: percent,
-          credentials
+          username: credentials.username,
+          password: credentials.password,
+          category: 'all'
         }),
       });
 
@@ -215,9 +217,10 @@ export default function AdminPage() {
         body: JSON.stringify({
           stockStatus,
           quantity: quantity || null,
-          selectedCategory: selectedCategory === "all" ? null : selectedCategory,
-          selectedProductId: selectedProductId === "all" ? null : selectedProductId,
-          credentials
+          username: credentials.username,
+          password: credentials.password,
+          category: selectedCategory === "all" ? "all" : selectedCategory,
+          selectedProductId: selectedProductId === "all" ? null : selectedProductId
         }),
       });
 
@@ -319,7 +322,7 @@ export default function AdminPage() {
     } else {
       setSelectedProductId("all");
     }
-  }, [selectedCategory, products]);
+  }, [selectedCategory, products, setSelectedProductId]);
 
   if (!isAuthenticated) {
     return (

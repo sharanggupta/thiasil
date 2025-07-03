@@ -5,7 +5,7 @@ export interface SkeletonLoaderProps {
   width?: string | number;
   height?: string | number;
   className?: string;
-  variant?: 'text' | 'circular' | 'rectangular' | 'rounded';
+  variant?: 'text' | 'circular' | 'rectangular' | 'rounded-sm';
   animation?: 'pulse' | 'wave' | 'none';
   lines?: number; // For text variant
 }
@@ -21,20 +21,20 @@ export default function SkeletonLoader({
   const getVariantClasses = () => {
     switch (variant) {
       case 'text':
-        return 'rounded';
+        return 'rounded-sm';
       case 'circular':
         return 'rounded-full';
-      case 'rounded':
+      case 'rounded-sm':
         return 'rounded-lg';
       default:
-        return 'rounded-sm';
+        return 'rounded-xs';
     }
   };
 
   const getAnimationClasses = () => {
     switch (animation) {
       case 'wave':
-        return 'animate-pulse bg-gradient-to-r from-gray-300 via-gray-200 to-gray-300 bg-[length:200%_100%] animate-wave';
+        return 'animate-pulse bg-linear-to-r from-gray-300 via-gray-200 to-gray-300 bg-size-[200%_100%] animate-wave';
       case 'none':
         return 'bg-gray-300';
       default:

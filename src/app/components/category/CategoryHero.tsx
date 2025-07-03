@@ -42,15 +42,15 @@ export default function CategoryHero({
         {categoryData.image && (
           <div className="mb-8">
             <div className="relative w-full max-w-lg mx-auto">
-              <div className="aspect-square w-64 h-64 mx-auto overflow-hidden rounded-2xl border border-white/20 shadow-2xl bg-gradient-to-br from-white/10 to-white/5">
+              <div className="aspect-square w-64 h-64 mx-auto overflow-hidden rounded-2xl border border-white/20 shadow-2xl bg-linear-to-br from-white/10 to-white/5">
                 <img
                   src={categoryData.image}
                   alt={categoryData.name || categoryData.title}
                   className="w-full h-full object-cover object-center"
                 />
                 {/* Enhanced overlay with gradient */}
-                <div className="absolute inset-0 bg-gradient-to-t from-black/30 via-transparent to-transparent rounded-2xl pointer-events-none"></div>
-                <div className="absolute inset-0 bg-gradient-to-br from-[#3a8fff]/10 to-[#a259ff]/10 rounded-2xl pointer-events-none"></div>
+                <div className="absolute inset-0 bg-linear-to-t from-black/30 via-transparent to-transparent rounded-2xl pointer-events-none"></div>
+                <div className="absolute inset-0 bg-linear-to-br from-[#3a8fff]/10 to-[#a259ff]/10 rounded-2xl pointer-events-none"></div>
                 {/* Subtle border glow */}
                 <div className="absolute inset-0 rounded-2xl border border-white/30 shadow-[0_0_20px_rgba(58,143,255,0.3)] pointer-events-none"></div>
               </div>
@@ -73,7 +73,7 @@ export default function CategoryHero({
                   value={couponCode}
                   onChange={(e) => setCouponCode(e.target.value.toUpperCase())}
                   placeholder="Enter coupon code"
-                  className="flex-1 px-4 py-2 bg-white/10 border border-white/20 rounded-lg text-white placeholder-white/50 focus:outline-none focus:border-[#3a8fff] transition-colors"
+                  className="flex-1 px-4 py-2 bg-white/10 border border-white/20 rounded-lg text-white placeholder-white/50 focus:outline-hidden focus:border-[#3a8fff] transition-colors"
                   maxLength={20}
                 />
                 <GlassButton

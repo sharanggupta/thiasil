@@ -21,7 +21,7 @@ export function useProductSearch(
   products: Product[] = [], 
   options: Partial<SearchOptions> = {}
 ) {
-  const searchConfig = { ...defaultSearchOptions, ...options };
+  const searchConfig = useMemo(() => ({ ...defaultSearchOptions, ...options }), [options]);
   const [searchTerm, setSearchTerm] = useState('');
   const [debouncedSearchTerm, setDebouncedSearchTerm] = useState('');
   const [isSearching, setIsSearching] = useState(false);

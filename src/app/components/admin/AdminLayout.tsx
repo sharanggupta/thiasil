@@ -27,8 +27,7 @@ export default function AdminLayout({ children, isAuthenticated, username, handl
                 <GlassIcon icon="⚙️" variant="primary" size="large" />
                 <Heading
                   as="h1"
-                  gradient="var(--text-gradient-white)"
-                  className="mb-4 drop-shadow-lg font-extrabold text-4xl md:text-5xl text-transparent bg-clip-text"
+                  className="mb-4 drop-shadow-lg font-extrabold text-4xl md:text-5xl text-white"
                   size="primary"
                 >
                   ADMIN PANEL
@@ -43,7 +42,7 @@ export default function AdminLayout({ children, isAuthenticated, username, handl
                 </div>
                 <button
                   onClick={handleLogout}
-                  className="bg-gradient-to-r from-[#3a8fff]/80 to-[#009ffd]/80 backdrop-blur-lg border border-white/30 text-white font-bold py-2 px-6 rounded-xl shadow-lg shadow-blue-400/30 hover:from-[#009ffd]/80 hover:to-[#3a8fff]/80 transition-all duration-200 hover:scale-105 flex items-center gap-2"
+                  className="bg-linear-to-r from-[#3a8fff]/80 to-[#009ffd]/80 backdrop-blur-lg border border-white/30 text-white font-bold py-2 px-6 rounded-xl shadow-lg shadow-blue-400/30 hover:from-[#009ffd]/80 hover:to-[#3a8fff]/80 transition-all duration-200 hover:scale-105 flex items-center gap-2"
                 >
                   <span>Logout</span>
                   <span>←</span>

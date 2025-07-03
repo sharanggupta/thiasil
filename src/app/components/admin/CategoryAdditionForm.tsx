@@ -63,7 +63,7 @@ export default function CategoryAdditionForm({
         <textarea
           value={categoryForm.description}
           onChange={(e) => setCategoryForm({...categoryForm, description: e.target.value})}
-          className="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-xl text-white placeholder-white/80 focus:outline-none focus:border-[#3a8fff] transition-colors"
+          className="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-xl text-white placeholder-white/80 focus:outline-hidden focus:border-[#3a8fff] transition-colors"
           placeholder="Category description..."
           rows={3}
           maxLength={200}

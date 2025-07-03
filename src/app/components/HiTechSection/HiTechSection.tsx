@@ -7,7 +7,7 @@ import "./HiTechSection.css"; // Hover effects and z-index styles
 
 const HiTechSection = () => {
   return (
-    <div className="mt-10 md:mt-28 mb-5 md:mb-10 px-7 md:px-10 flex flex-col items-center h-[40rem]">
+    <div className="mt-10 md:mt-28 mb-5 md:mb-10 px-7 md:px-10 flex flex-col items-center h-160">
       <Heading as="h2" className="text-center mb-10 md:mb-28" size="primary">
         HI-TECH RANGE FOR EVERY APPLICATION
       </Heading>
@@ -53,12 +53,12 @@ const HiTechSection = () => {
           <Image
             src={labEquipmentImage}
             alt="Lab Equipment"
-            className="absolute top-[-2.4rem] md:top-[1rem] md:right-[-0.3rem]  image-hover-effect"
+            className="absolute top-[-2.4rem] md:top-4 md:right-[-0.3rem]  image-hover-effect"
           />
           <Image
             src={industryWorkerImage}
             alt="Industry Worker"
-            className="absolute top-[-1.3rem] md:top-[6rem] right-0 md:left-[20%]   image-hover-effect"
+            className="absolute top-[-1.3rem] md:top-24 right-0 md:left-[20%]   image-hover-effect"
           />
         </div>
       </div>

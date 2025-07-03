@@ -83,7 +83,7 @@ ${formData.name}
                 value={formData.name}
                 onChange={handleChange}
                 required
-                className="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-xl text-white placeholder-white/50 backdrop-blur-sm focus:outline-none focus:ring-2 focus:ring-[#3a8fff]/50 focus:border-transparent transition-all"
+                className="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-xl text-white placeholder-white/50 backdrop-blur-sm focus:outline-hidden focus:ring-2 focus:ring-[#3a8fff]/50 focus:border-transparent transition-all"
                 placeholder="Enter your full name"
               />
               <div className="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
@@ -104,7 +104,7 @@ ${formData.name}
                 value={formData.email}
                 onChange={handleChange}
                 required
-                className="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-xl text-white placeholder-white/50 backdrop-blur-sm focus:outline-none focus:ring-2 focus:ring-[#3a8fff]/50 focus:border-transparent transition-all"
+                className="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-xl text-white placeholder-white/50 backdrop-blur-sm focus:outline-hidden focus:ring-2 focus:ring-[#3a8fff]/50 focus:border-transparent transition-all"
                 placeholder="Enter your email"
               />
               <div className="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
@@ -127,7 +127,7 @@ ${formData.name}
                 name="phone"
                 value={formData.phone}
                 onChange={handleChange}
-                className="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-xl text-white placeholder-white/50 backdrop-blur-sm focus:outline-none focus:ring-2 focus:ring-[#3a8fff]/50 focus:border-transparent transition-all"
+                className="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-xl text-white placeholder-white/50 backdrop-blur-sm focus:outline-hidden focus:ring-2 focus:ring-[#3a8fff]/50 focus:border-transparent transition-all"
                 placeholder="Enter your phone number"
               />
               <div className="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
@@ -148,7 +148,7 @@ ${formData.name}
                 value={formData.subject}
                 onChange={handleChange}
                 required
-                className="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-xl text-white placeholder-white/50 backdrop-blur-sm focus:outline-none focus:ring-2 focus:ring-[#3a8fff]/50 focus:border-transparent transition-all"
+                className="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-xl text-white placeholder-white/50 backdrop-blur-sm focus:outline-hidden focus:ring-2 focus:ring-[#3a8fff]/50 focus:border-transparent transition-all"
                 placeholder="What is this about?"
               />
               <div className="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
@@ -171,7 +171,7 @@ ${formData.name}
               onChange={handleChange}
               required
               rows={5}
-              className="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-xl text-white placeholder-white/50 backdrop-blur-sm focus:outline-none focus:ring-2 focus:ring-[#3a8fff]/50 focus:border-transparent transition-all resize-none"
+              className="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-xl text-white placeholder-white/50 backdrop-blur-sm focus:outline-hidden focus:ring-2 focus:ring-[#3a8fff]/50 focus:border-transparent transition-all resize-none"
               placeholder="Tell us about your inquiry, requirements, or any questions you have..."
             />
             <div className="absolute top-3 right-3 pointer-events-none">
