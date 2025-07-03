@@ -13,7 +13,7 @@ export default function NotFound() {
         <div className="text-6xl font-black text-gradient-primary mb-6">404</div>
         
         <p className="body-large text-white/80 mb-6">
-          The page you're looking for doesn't exist or has been moved.
+          The page you&apos;re looking for doesn&apos;t exist or has been moved.
         </p>
         
         <div className="bg-white/5 rounded-xl p-6 mb-6 text-left">

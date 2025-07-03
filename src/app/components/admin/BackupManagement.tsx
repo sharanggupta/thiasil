@@ -181,7 +181,7 @@ export default function BackupManagement({
         <h4 className="text-lg font-semibold text-white mb-3">Backup Information</h4>
         <div className="space-y-2 text-sm text-white/80">
           <p>• <strong>Auto-backup:</strong> Backups are automatically created before any changes</p>
-          <p>• <strong>Restore:</strong> Select a backup and click "Restore Backup" (includes automatic image cleanup)</p>
+          <p>• <strong>Restore:</strong> Select a backup and click &quot;Restore Backup&quot; (includes automatic image cleanup)</p>
           <p>• <strong>Reset:</strong> Reset to the original default product data</p>
           <p>• <strong>Cleanup:</strong> Automatically removes old backups, keeping only the last 10</p>
           <p>• <strong>Manual Delete:</strong> Click the trash icon to delete specific backups</p>

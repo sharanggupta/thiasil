@@ -40,7 +40,7 @@ export default function Reviews() {
             <h3>HIGH QUALITY OF CRUCIBLES</h3>
             <p>
               Top-notch craftsmanship and scientific technique involved,
-              crucibles are highly resistant to chemicals and heat. It's a
+              crucibles are highly resistant to chemicals and heat. It&apos;s a
               must-have for any experimental work.
             </p>
           </div>

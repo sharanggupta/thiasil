@@ -1,5 +1,5 @@
 "use client";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useTransition, useDeferredValue } from "react";
 import { GlassButton, GlassIcon } from "@/app/components/Glassmorphism";
 
 const ContactFormGlass = ({ initialName = "", initialEmail = "", initialPhone = "" }) => {
@@ -10,6 +10,10 @@ const ContactFormGlass = ({ initialName = "", initialEmail = "", initialPhone = 
     subject: "",
     message: ""
   });
+
+  // React 18 concurrent features
+  const [isPending, startTransition] = useTransition();
+  const deferredMessage = useDeferredValue(formData.message);
 
   // Update state if props change (e.g., on navigation)
   useEffect(() => {
@@ -32,8 +36,9 @@ const ContactFormGlass = ({ initialName = "", initialEmail = "", initialPhone = 
   const handleSubmit = (e) => {
     e.preventDefault();
     
-    // Create email content
-    const emailBody = `
+    startTransition(() => {
+      // Create email content using deferred values for better performance
+      const emailBody = `
 Dear Thiasil Team,
 
 I hope this message finds you well. I am reaching out regarding the following inquiry:
@@ -45,19 +50,20 @@ Phone: ${formData.phone || 'Not provided'}
 Subject: ${formData.subject}
 
 Message:
-${formData.message}
+${deferredMessage}
 
 I look forward to hearing from you.
 
 Best regards,
 ${formData.name}
-    `.trim();
+      `.trim();
 
-    // Create mailto link
-    const mailtoLink = `mailto:thiaglasswork@gmail.com?subject=${encodeURIComponent(formData.subject)}&body=${encodeURIComponent(emailBody)}`;
-    
-    // Open default mail app
-    window.open(mailtoLink, '_blank');
+      // Create mailto link
+      const mailtoLink = `mailto:thiaglasswork@gmail.com?subject=${encodeURIComponent(formData.subject)}&body=${encodeURIComponent(emailBody)}`;
+      
+      // Open default mail app
+      window.open(mailtoLink, '_blank');
+    });
   };
 
   return (
@@ -184,10 +190,11 @@ ${formData.name}
             variant="accent"
             size="large"
             className="min-w-[140px]"
+            disabled={isPending}
           >
             <div className="flex items-center gap-2">
-              <span>Send Email</span>
-              <span>→</span>
+              <span>{isPending ? 'Sending...' : 'Send Email'}</span>
+              <span>{isPending ? '⏳' : '→'}</span>
             </div>
           </GlassButton>
         </div>

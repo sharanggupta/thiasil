@@ -260,7 +260,7 @@ describe('Routing and Navigation Integration Testing Suite', () => {
               
               {filteredAndSortedProducts.length === 0 && (
                 <div data-testid="no-results">
-                  No products found matching "{searchTerm}"
+                  No products found matching &quot;{searchTerm}&quot;
                 </div>
               )}
 
