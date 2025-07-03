@@ -1,6 +1,6 @@
 "use client";
 import React from 'react';
-import { AdminTabContentV2 } from '@/app/components/admin/TabContent';
+import { AdminTabContent } from '@/app/components/admin/TabContent';
 import { adaptPropsToGrouped } from '@/app/components/admin/TabContent/propsAdapter';
 
 // Original interface for backward compatibility
@@ -94,7 +94,7 @@ export default function AdminTabContentAdapter(props: AdminTabContentProps) {
   const groupedProps = adaptPropsToGrouped(restProps as any);
 
   return (
-    <AdminTabContentV2
+    <AdminTabContent
       activeTab={activeTab}
       onTabChange={onTabChange}
       data={groupedProps.data}

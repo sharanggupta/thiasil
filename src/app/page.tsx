@@ -1,5 +1,5 @@
 import { Metadata } from "next";
-import ContactForm from "./components/ContactForm/ContactForm";
+import ContactForm from "./components/ContactForm/ContactFormBasic";
 import FeaturesSection from "./components/FeatureSection/FeatureSection";
 import Footer from "./components/Footer/Footer";
 import HeroSection from "./components/HeroSection/Hero";

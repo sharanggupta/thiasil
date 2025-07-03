@@ -1,4 +1,4 @@
-export { default as ContactFormV2 } from './ContactFormV2';
+export { default as ContactForm } from './ContactForm';
 export { default as ContactInfoSection } from './ContactInfoSection';
 export { default as MessageSection } from './MessageSection';
 export { default as FormActions } from './FormActions';
