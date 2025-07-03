@@ -1,14 +1,22 @@
 import DOMPurify from 'dompurify';
-import { JSDOM } from 'jsdom';
 
 /**
  * Comprehensive input sanitization utilities
  * Protects against XSS, SQL injection, and other security vulnerabilities
  */
 
-// Initialize DOMPurify for server-side use
-const window = new JSDOM('').window;
-const purify = DOMPurify(window as any);
+// Initialize DOMPurify - client-side or server-side
+let purify: any;
+
+if (typeof window !== 'undefined') {
+  // Client-side
+  purify = DOMPurify(window);
+} else {
+  // Server-side
+  const { JSDOM } = require('jsdom');
+  const window = new JSDOM('').window;
+  purify = DOMPurify(window as any);
+}
 
 export interface SanitizationOptions {
   allowHTML?: boolean;

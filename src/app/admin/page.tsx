@@ -17,7 +17,7 @@ const AdminTabNavigation = dynamic(() => import("@/app/components/admin/AdminTab
   loading: () => <div className="animate-pulse bg-gray-200 h-16 rounded-lg" style={{ height: '64px' }}></div>
 });
 
-const AdminTabContent = dynamic(() => import("@/app/components/admin/AdminTabContent"), {
+const AdminTabContent = dynamic(() => import("./AdminTabContentAdapter"), {
   loading: () => <div className="animate-pulse bg-gray-200 h-96 rounded-lg" style={{ aspectRatio: '16/9', minHeight: '400px' }}></div>
 });
 

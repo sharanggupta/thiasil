@@ -1,7 +1,8 @@
 "use client";
 import React from 'react';
-import DataTable, { DataTableColumn, DataTableAction } from '@/app/components/ui/DataTable';
-import { useDataTable } from '@/app/components/ui/useDataTable';
+import { DataTable } from '@/app/components/ui/DataTable';
+import { useDataTable } from '@/app/components/ui/DataTable/useDataTableAdmin';
+import type { DataTableColumn, DataTableAction } from '@/app/components/ui/DataTable/types';
 import { GlassButton, GlassInput } from "@/app/components/Glassmorphism";
 import StockStatusBadge from '@/app/components/common/StockStatusBadge';
 

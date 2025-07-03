@@ -53,16 +53,7 @@ export interface ProductFilters {
  * Utility functions for common operations
  */
 
-/**
- * @deprecated Use sanitizeInput from input-sanitization.ts for comprehensive security
- * Legacy sanitization function - kept for backward compatibility
- * This function only provides basic sanitization and should be replaced
- */
-export const sanitizeInput = (input: string | any): string | any => {
-  console.warn('Using deprecated sanitizeInput. Please migrate to input-sanitization.ts');
-  if (typeof input !== 'string') return input;
-  return input.replace(/[<>]/g, '').trim();
-};
+// Deprecated sanitizeInput function removed - use input-sanitization.ts instead
 
 /**
  * Extracts numeric price value from a price string
