@@ -5,7 +5,7 @@ export default function HamburgerIcon({ active, onClick, theme = "default" }) {
 
   return (
     <div
-      className={`fixed z-40 right-[1rem] md:right-[4rem] top-[1.1rem] md:top-[4rem] h-[60px] w-[60px] md:h-[70px] md:w-[70px] flex flex-col justify-center items-center cursor-pointer rounded-full shadow-2xl ${hamburgerBg} transition-all duration-300 ease-in-out`}
+      className={`fixed z-40 right-4 md:right-16 top-[1.1rem] md:top-16 h-[60px] w-[60px] md:h-[70px] md:w-[70px] flex flex-col justify-center items-center cursor-pointer rounded-full shadow-2xl ${hamburgerBg} transition-all duration-300 ease-in-out`}
       onClick={onClick}
     >
       <div

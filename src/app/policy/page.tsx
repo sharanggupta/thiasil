@@ -122,7 +122,7 @@ export default function Policy() {
                   <div className="space-y-4">
                     {section.content.map((item, itemIndex) => (
                       <div key={itemIndex} className="flex items-start gap-3 p-3 bg-white bg-opacity-10 rounded-lg backdrop-blur-sm">
-                        <div className="w-2 h-2 bg-white rounded-full mt-2 flex-shrink-0"></div>
+                        <div className="w-2 h-2 bg-white rounded-full mt-2 shrink-0"></div>
                         <p className="text-gray-200 leading-relaxed">{item}</p>
                       </div>
                     ))}

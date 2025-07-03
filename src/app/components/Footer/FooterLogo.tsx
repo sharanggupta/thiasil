@@ -7,7 +7,7 @@ export default function FooterLogo() {
       <Image
         src={logo}
         alt="Thiasil Logo"
-        className="w-20 md:w-[7rem]"
+        className="w-20 md:w-28"
       />
     </div>
   );

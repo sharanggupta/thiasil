@@ -88,7 +88,7 @@ export default function CouponInput({
                       <button
                         key={coupon.code}
                         onClick={() => handleSuggestionClick(coupon.code)}
-                        className="w-full text-left px-2 py-1 text-sm text-white/80 hover:bg-white/10 rounded transition-colors"
+                        className="w-full text-left px-2 py-1 text-sm text-white/80 hover:bg-white/10 rounded-sm transition-colors"
                       >
                         <span className="font-medium">{coupon.code}</span>
                         <span className="text-white/50 ml-2">({coupon.discountPercent}% off)</span>
@@ -131,7 +131,7 @@ export default function CouponInput({
       <div className="space-y-4">
         {/* Header */}
         <div className="flex items-center gap-3">
-          <div className="w-8 h-8 rounded-full bg-gradient-to-r from-green-400 to-blue-500 flex items-center justify-center">
+          <div className="w-8 h-8 rounded-full bg-linear-to-r from-green-400 to-blue-500 flex items-center justify-center">
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
               <path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
             </svg>
@@ -170,7 +170,7 @@ export default function CouponInput({
                         <button
                           key={coupon.code}
                           onClick={() => handleSuggestionClick(coupon.code)}
-                          className="w-full text-left px-3 py-2 hover:bg-white/10 rounded transition-colors group"
+                          className="w-full text-left px-3 py-2 hover:bg-white/10 rounded-sm transition-colors group"
                         >
                           <div className="flex items-center justify-between">
                             <div>

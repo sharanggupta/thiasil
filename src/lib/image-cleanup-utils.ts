@@ -137,7 +137,7 @@ export function analyzeUnusedImages(productsData) {
     const isTestFile = image.filename.includes('test') || 
                       image.filename.match(/\d{13,}/); // Timestamp pattern
     
-    const isShadowFile = image.filename.includes('shadow');
+    const isShadowFile = image.filename.includes('shadow-sm');
     
     return !isReferenced && !isShadowFile;
   });

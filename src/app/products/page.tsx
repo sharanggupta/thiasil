@@ -75,7 +75,7 @@ export default function Products() {
             {/* First row: main filters */}
             <div className="flex w-full gap-2 mb-2 sm:mb-0">
               <select
-                className="flex-1 px-2 py-1 sm:px-4 sm:py-2 text-xs sm:text-base text-gray-800 rounded-xl border border-blue-100 shadow-sm bg-white focus:outline-none"
+                className="flex-1 px-2 py-1 sm:px-4 sm:py-2 text-xs sm:text-base text-gray-800 rounded-xl border border-blue-100 shadow-xs bg-white focus:outline-hidden"
                 value={filters.filters.category}
                 onChange={e => filters.updateFilter('category', e.target.value)}
               >
@@ -86,13 +86,13 @@ export default function Products() {
               </select>
               <button
                 type="button"
-                className="flex-1 px-2 py-1 sm:px-4 sm:py-2 text-xs sm:text-base font-semibold text-gray-800 rounded-xl border border-blue-100 shadow-sm transition bg-white focus:outline-none hover:bg-blue-50"
+                className="flex-1 px-2 py-1 sm:px-4 sm:py-2 text-xs sm:text-base font-semibold text-gray-800 rounded-xl border border-blue-100 shadow-xs transition bg-white focus:outline-hidden hover:bg-blue-50"
                 onClick={handleStockStatusChange}
               >
                 Availability: {stockStatusFilters[stockStatusIndex].label}
               </button>
               <select
-                className="flex-1 px-2 py-1 sm:px-4 sm:py-2 text-xs sm:text-base text-gray-800 rounded-xl border border-blue-100 shadow-sm bg-white focus:outline-none"
+                className="flex-1 px-2 py-1 sm:px-4 sm:py-2 text-xs sm:text-base text-gray-800 rounded-xl border border-blue-100 shadow-xs bg-white focus:outline-hidden"
                 value={filters.filters.packaging}
                 onChange={e => filters.updateFilter('packaging', e.target.value)}
               >
@@ -106,7 +106,7 @@ export default function Products() {
             <div className="flex w-full gap-2 items-center flex-wrap">
               <input
                 type="number"
-                className="flex-1 px-2 py-1 sm:px-4 sm:py-2 text-xs sm:text-base text-gray-800 rounded-xl border border-blue-100 shadow-sm bg-white focus:outline-none"
+                className="flex-1 px-2 py-1 sm:px-4 sm:py-2 text-xs sm:text-base text-gray-800 rounded-xl border border-blue-100 shadow-xs bg-white focus:outline-hidden"
                 placeholder="Min Price"
                 value={filters.filters.minPrice}
                 onChange={e => filters.updateFilter('minPrice', e.target.value)}
@@ -114,7 +114,7 @@ export default function Products() {
               />
               <input
                 type="number"
-                className="flex-1 px-2 py-1 sm:px-4 sm:py-2 text-xs sm:text-base text-gray-800 rounded-xl border border-blue-100 shadow-sm bg-white focus:outline-none"
+                className="flex-1 px-2 py-1 sm:px-4 sm:py-2 text-xs sm:text-base text-gray-800 rounded-xl border border-blue-100 shadow-xs bg-white focus:outline-hidden"
                 placeholder="Max Price"
                 value={filters.filters.maxPrice}
                 onChange={e => filters.updateFilter('maxPrice', e.target.value)}
@@ -123,7 +123,7 @@ export default function Products() {
               <a
                 href="/pricelist.pdf"
                 download
-                className="flex-shrink-0 min-w-[90px] flex items-center gap-2 px-3 py-1 sm:px-5 sm:py-2 rounded-xl text-white font-semibold text-xs sm:text-sm shadow transition border border-blue-200 focus:outline-none focus:ring-2 focus:ring-blue-400 justify-center"
+                className="shrink-0 min-w-[90px] flex items-center gap-2 px-3 py-1 sm:px-5 sm:py-2 rounded-xl text-white font-semibold text-xs sm:text-sm shadow-sm transition border border-blue-200 focus:outline-hidden focus:ring-2 focus:ring-blue-400 justify-center"
                 style={{ background: 'var(--dark-primary-gradient)' }}
                 aria-label="Download Price List PDF"
                 title="Download Price List (PDF)"
@@ -135,7 +135,7 @@ export default function Products() {
                 <span className="inline sm:hidden">PDF</span>
               </a>
               {/* Coupon input */}
-              <div className="flex flex-shrink-0 w-full sm:w-auto ml-0 sm:ml-2 mt-2 sm:mt-0">
+              <div className="flex shrink-0 w-full sm:w-auto ml-0 sm:ml-2 mt-2 sm:mt-0">
                 <CouponInput 
                   compact={true}
                   placeholder="Enter coupon code"

@@ -30,7 +30,7 @@ const GlassInput = ({
   step,
   ...props
 }: GlassInputProps) => {
-  const baseClasses = "w-full px-4 py-3 bg-white/10 border border-white/20 rounded-xl text-white placeholder-white/80 focus:outline-none focus:border-[#3a8fff] transition-colors";
+  const baseClasses = "w-full px-4 py-3 bg-white/10 border border-white/20 rounded-xl text-white placeholder-white/80 focus:outline-hidden focus:border-[#3a8fff] transition-colors";
   
   return (
     <input

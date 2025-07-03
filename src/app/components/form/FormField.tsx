@@ -63,7 +63,7 @@ export default function FormField({
   };
 
   const renderInput = () => {
-    const baseClasses = `w-full ${getSizeClasses()} bg-white/10 border rounded-lg text-white placeholder-white/50 focus:outline-none transition-colors ${
+    const baseClasses = `w-full ${getSizeClasses()} bg-white/10 border rounded-lg text-white placeholder-white/50 focus:outline-hidden transition-colors ${
       hasError 
         ? 'border-red-400 focus:border-red-300' 
         : 'border-white/20 focus:border-[#3a8fff]'

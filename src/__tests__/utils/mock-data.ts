@@ -110,9 +110,11 @@ export const mockApiResponses = {
   }
 }
 
-export default {
+const mockData = {
   mockProducts,
   mockCoupon,
   mockInvalidCoupon,
   mockApiResponses
-}
+};
+
+export default mockData;

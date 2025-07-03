@@ -57,7 +57,7 @@ const Navbar = ({ theme = "default" }: NavbarProps) => {
 
   return (
     <div className="relative">
-      <NavbarErrorBoundary fallback={<div className="fixed z-40 right-[1rem] top-[1.1rem] text-red-500">Menu Error</div>}>
+      <NavbarErrorBoundary fallback={<div className="fixed z-40 right-4 top-[1.1rem] text-red-500">Menu Error</div>}>
         <HamburgerIcon
           active={active}
           onClick={handleClick}

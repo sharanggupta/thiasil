@@ -272,7 +272,7 @@ export function useAdminProducts(
     } finally {
       setLoadingStates(prev => ({ ...prev, loading: false }));
     }
-  }, [refetchProducts]);
+  }, [refetchProducts, setLoadingStates]);
 
   const addCategory = useCallback(async (): Promise<boolean> => {
     if (!categoryForm.name || !categoryForm.slug) {

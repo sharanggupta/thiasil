@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { NAVIGATION } from "@/lib/constants";
 
-const footerLinkClassName = "hover:rotate-6 hover:text-custom-blue hover:scale-125 hover:bg-[#333333] hover:shadow-md transition-transform duration-300 ease-in-out relative focus:outline-none focus:ring-2 focus:ring-[#3a8fff]";
+const footerLinkClassName = "hover:rotate-6 hover:text-custom-blue hover:scale-125 hover:bg-[#333333] hover:shadow-md transition-transform duration-300 ease-in-out relative focus:outline-hidden focus:ring-2 focus:ring-[#3a8fff]";
 
 export default function FooterNavigation({ onTermsClick }) {
   return (

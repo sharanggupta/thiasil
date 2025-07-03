@@ -200,7 +200,7 @@ export default function DataTable<T = any>({
                       if (el) el.indeterminate = isSomeSelected;
                     }}
                     onChange={(e) => handleSelectAll(e.target.checked)}
-                    className="w-4 h-4 text-blue-600 bg-white/10 border-white/20 rounded focus:ring-blue-500"
+                    className="w-4 h-4 text-blue-600 bg-white/10 border-white/20 rounded-sm focus:ring-blue-500"
                   />
                 </th>
               )}
@@ -274,7 +274,7 @@ export default function DataTable<T = any>({
                         type="checkbox"
                         checked={selectedRows.has(index)}
                         onChange={(e) => handleRowSelect(index, e.target.checked)}
-                        className="w-4 h-4 text-blue-600 bg-white/10 border-white/20 rounded focus:ring-blue-500"
+                        className="w-4 h-4 text-blue-600 bg-white/10 border-white/20 rounded-sm focus:ring-blue-500"
                       />
                     </td>
                   )}
@@ -336,7 +336,7 @@ export default function DataTable<T = any>({
             <select
               value={pagination.pageSize}
               onChange={(e) => pagination.onPageSizeChange(Number(e.target.value))}
-              className="px-2 py-1 bg-white/10 border border-white/20 rounded text-white focus:outline-none focus:border-blue-500"
+              className="px-2 py-1 bg-white/10 border border-white/20 rounded-sm text-white focus:outline-hidden focus:border-blue-500"
             >
               <option value={10}>10</option>
               <option value={25}>25</option>

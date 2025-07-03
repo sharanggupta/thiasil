@@ -19,7 +19,7 @@ const ProductCardSection = () => {
             {/* Front side */}
             <div className="absolute w-full h-full bg-white rounded-lg shadow-2xl backface-hidden">
               <div className="gradient-div-card1 card__picture"></div>
-              <div className="absolute text-right top-[7rem] right-0">
+              <div className="absolute text-right top-28 right-0">
                 <h3 className="text-[#ffffff] flex flex-col text-lg md:text-3xl mr-5">
                   <span className="self-end card-heading-1 w-fit">
                     CRUCIBLE
@@ -64,7 +64,7 @@ const ProductCardSection = () => {
             </div>
 
             {/* Back side */}
-            <div className="absolute w-full h-full rounded-sm shadow-2xl backface-hidden rotate-y-180 card1-backSide">
+            <div className="absolute w-full h-full rounded-xs shadow-2xl backface-hidden rotate-y-180 card1-backSide">
               <div className="flex flex-col justify-center items-center p-8 h-full">
                 <p className="mb-4 text-lg font-semibold text-white">
                   Starts From
@@ -92,7 +92,7 @@ const ProductCardSection = () => {
             {/* Front side */}
             <div className="absolute w-full h-full bg-white rounded-lg shadow-2xl backface-hidden">
               <div className="gradient-div-card2 card__picture"></div>
-              <div className="absolute text-right top-[7rem] right-0">
+              <div className="absolute text-right top-28 right-0">
                 <h3 className="text-[#ffffff] flex flex-col text-lg md:text-3xl mr-5">
                   <span className="card-heading-2">LIDS QUARTZ</span>
                   <span className="self-end card-heading-2_1 w-fit">
@@ -137,7 +137,7 @@ const ProductCardSection = () => {
             </div>
 
             {/* Back side */}
-            <div className="absolute w-full h-full rounded-sm shadow-2xl backface-hidden rotate-y-180 card2-backSide">
+            <div className="absolute w-full h-full rounded-xs shadow-2xl backface-hidden rotate-y-180 card2-backSide">
               <div className="flex flex-col justify-center items-center p-8 h-full">
                 <p className="mb-4 text-lg font-semibold text-white">
                   Starts From
@@ -165,7 +165,7 @@ const ProductCardSection = () => {
             {/* Front side */}
             <div className="absolute w-full h-full bg-white rounded-lg shadow-2xl backface-hidden">
               <div className="gradient-div-card3 card__picture"></div>
-              <div className="absolute text-right top-[7rem] right-0">
+              <div className="absolute text-right top-28 right-0">
                 <h3 className="text-[#ffffff] flex flex-col text-lg md:text-3xl mr-5">
                   <span className="card-heading-3">CRUCIBLE TALL</span>
                   <span className="self-end card-heading-3_1 w-fit">FORM</span>
@@ -208,7 +208,7 @@ const ProductCardSection = () => {
               </div>
             </div>
             {/* Back side */}
-            <div className="absolute w-full h-full rounded-sm shadow-2xl backface-hidden rotate-y-180 card3-backSide">
+            <div className="absolute w-full h-full rounded-xs shadow-2xl backface-hidden rotate-y-180 card3-backSide">
               <div className="flex flex-col justify-center items-center p-8 h-full">
                 <p className="mb-4 text-lg font-semibold text-white">
                   Starts From
